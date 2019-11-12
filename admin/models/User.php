@@ -198,7 +198,7 @@ class User extends ModelAdmin
         $_SESSION['user'] = $userinfo['user'];
         $_SESSION['group'] = $userinfo['group'];
         // adding permission object to session
-        $_SESSION['permissions'] = json_decode($userinfo['group']->permissions);
+        $_SESSION['permissions'] = json_decode(strtolower($userinfo['group']->permissions));
         // allow file manager
         $_SESSION['filemanager'] = true;
     }

@@ -75,26 +75,9 @@ class Pages extends ControllerAdmin {
         }
 
         //handling search
-        // if user make a search
-        if (isset($_POST['search'])) {
-            // return to first 
-            $current = 1;
-            $searches = $this->pageModel->handlingSearchCondition(['title', 'status']);
-            $cond .= $searches['cond'];
-            $bind = $searches['bind'];
-
-        } else {
-            // if user didn't search
-            // look for pagenation if not clear seassion
-            if (empty($current)) {
-                unset($_SESSION['search']);
-                // if there is pagenation and value stored into session get it and prepare Condition and bind
-            } else {
-                $searches = $this->pageModel->handlingSearchSessionCondition(['title', 'status']);
-                $cond .= $searches['cond'];
-                $bind = $searches['bind'];
-            }
-        }
+        $searches = $this->pageModel->searchHandling(['title', 'status']);
+        $cond .= $searches['cond'];
+        $bind = $searches['bind'];
 
         // get all records count after search and filtration 
         $recordsCount = $this->pageModel->allPagesCount($cond, $bind);

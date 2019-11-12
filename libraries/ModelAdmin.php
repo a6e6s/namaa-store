@@ -102,7 +102,32 @@ class ModelAdmin
         $row = $this->db->single();
         return $row;
     }
-    
+
+    /**
+     * searchHandling
+     *
+     * @param  array $searchColomns ['name','status']
+     * @return array $cond $bind
+     */
+    public function searchHandling($searchColomns)
+    {
+        // if user make a search
+        if (isset($_POST['search'])) {
+            // return to first
+            $current = 1;
+            return $this->handlingSearchCondition($searchColomns);
+        } else {
+            // if user didn't search
+            // look for pagenation if not clear seassion
+            if (empty($current)) {
+                unset($_SESSION['search']);
+                // if there is pagenation and value stored into session get it and prepare Condition and bind
+            } else {
+                return $this->handlingSearchSessionCondition($searchColomns);
+            }
+        }
+    }
+
     /**
      * handling Search Condition, creating bind array and handling search session
      *
@@ -185,6 +210,23 @@ class ModelAdmin
         }
         $this->db->excute();
         return $this->db->single();
+    }
+
+    /**
+     * clear HTML string with html purifier
+     * @param type $stringHTML
+     * @return string HTML
+     */
+    public function cleanHTML($stringHTML)
+    {
+        if (!empty($stringHTML)) {
+            require_once '../helpers/htmlpurifier/HTMLPurifier.auto.php';
+            $config = HTMLPurifier_Config::createDefault();
+            $purifier = new HTMLPurifier($config);
+            return $content = $purifier->purify($_POST['content']);
+        } else {
+            return null;
+        }
     }
 
 }

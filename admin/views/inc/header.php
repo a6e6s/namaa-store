@@ -29,7 +29,9 @@ For more information about the author , see <http://www.ahmedx.com/>.
         <!-- NProgress -->
         <link href="<?php echo ADMINURL; ?>/template/default/vendors/nprogress/nprogress.css" rel="stylesheet">
         <!-- iCheck -->
-        <link href="<?php echo ADMINURL; ?>/template/default/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+        <link href="<?php echo ADMINURL; ?>/template/default/vendors/iCheck/skins/flat/green.css" rel="stylesheet"
+        <!-- colorpicker -->
+        <link href="<?php echo ADMINURL; ?>/template/default/vendors/colorpicker/css/wheelcolorpicker.dark.css" rel="stylesheet">
         <!-- Custom Theme Style -->
         <link href="<?php echo ADMINURL; ?>/template/default/css/custom.min.css" rel="stylesheet">
         <?php echo $data['header']; ?>
@@ -38,6 +40,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
     <body class="nav-md">
         <div class="container body">
             <div class="main_container">
+
                 <?php
                 require ADMINROOT . '/views/inc/navbar.php';
                 

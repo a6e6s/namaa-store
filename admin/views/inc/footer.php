@@ -19,6 +19,8 @@
 <script src="<?php echo ADMINURL; ?>/template/default/vendors/nprogress/nprogress.js"></script>
 <!-- iCheck -->
 <script src="<?php echo ADMINURL; ?>/template/default/vendors/iCheck/icheck.min.js"></script>
+<!-- colorpicker -->
+<script src="<?php echo ADMINURL; ?>/template/default/vendors/colorpicker/js/wheelcolorpicker.min.js"></script>
 <!-- jQuery Smart Wizard -->
 <script src="<?php echo ADMINURL; ?>/template/default/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
 <?php echo $data['footer']; ?>

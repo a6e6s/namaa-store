@@ -36,11 +36,27 @@
                             <li><a href="<?php echo ADMINURL; ?>/pages">الصفحات</a></li>
                         </ul>
                     </li>
-                    <li><a><i class="fa fa-bar-chart-o"></i> التقارير <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="glyphicon glyphicon-grain "></i> المشاريع الخيرية <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="chartjs.html">تقارير المستخدمين</a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/projectcategories">اقسام المشروعات</a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/projects">المشروعات الخيرية </a></li>
                         </ul>
                     </li>
+                    <li><a><i class="fa fa-gears"></i> الإعدادات <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="<?php echo ADMINURL; ?>/paymentmethods">وسائل الدفع </a></li>
+                            <li><a href="#">اعدادات النظام </a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-bar-chart-o"></i> التقارير <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="#">تقارير </a></li>
+                            <li><a href="#">2تقارير </a></li>
+                            <li><a href="#">3تقارير </a></li>
+                        </ul>
+                    </li>
+
+
                 </ul>
             </div>
         </div>

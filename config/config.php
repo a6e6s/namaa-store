@@ -45,7 +45,7 @@ define('ADMINROOT', dirname(dirname(__FILE__)) . '/admin');
 // Admin url root
 define('ADMINURL', URLROOT . '/admin');
 // site name
-define('SITENAME', 'blank MVC');
+define('SITENAME', 'جمعية نماء الخيرية');
 
 //default language
 define('DEFAULT_LANGUAGE', 'ar');

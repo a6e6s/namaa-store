@@ -79,17 +79,20 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="a-center ">
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $paymentmethod->payment_id; ?>">
                                     </td>
-                                    <td class=" "><?php echo $paymentmethod->title; ?></td>
+                                    <td class=" ">
+                                    <img width="20px" src="<?php echo empty($paymentmethod->image) ? MEDIAURL . '/../thumbs/default.jpg' : MEDIAURL . '/' . $paymentmethod->image; ?>" />
+                                    <?php echo $paymentmethod->title; ?>
+                                    </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $paymentmethod->create_date); ?></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $paymentmethod->modified_date); ?></td>
                                     <td class="form-group">
                                         <?php
-if (!$paymentmethod->status) {
-    echo '<a href="' . ADMINURL . '/paymentmethods/publish/' . $paymentmethod->payment_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير منشور"><i class="fa fa-ban"></i></a>';
-} elseif ($paymentmethod->status == 1) {
-    echo '<a href="' . ADMINURL . '/paymentmethods/unpublish/' . $paymentmethod->payment_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور"><i class="fa fa-check"></i></a>';
-}
-?>
+                                            if (!$paymentmethod->status) {
+                                                echo '<a href="' . ADMINURL . '/paymentmethods/publish/' . $paymentmethod->payment_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير منشور"><i class="fa fa-ban"></i></a>';
+                                            } elseif ($paymentmethod->status == 1) {
+                                                echo '<a href="' . ADMINURL . '/paymentmethods/unpublish/' . $paymentmethod->payment_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور"><i class="fa fa-check"></i></a>';
+                                            }
+                                        ?>
                                         <a href="<?php echo ADMINURL . '/paymentmethods/show/' . $paymentmethod->payment_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
                                         <a href="<?php echo ADMINURL . '/paymentmethods/edit/' . $paymentmethod->payment_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
                                         <a href="<?php echo ADMINURL . '/paymentmethods/delete/' . $paymentmethod->payment_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>

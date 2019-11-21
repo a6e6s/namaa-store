@@ -111,21 +111,4 @@ class Page extends ModelAdmin
         return $this->getById($id, 'page_id');
     }
 
-    /**
-     * clear HTML string with html purifier
-     * @param type $stringHTML
-     * @return string HTML
-     */
-    public function cleanHTML($stringHTML)
-    {
-        if (!empty($stringHTML)) {
-            require_once '../helpers/htmlpurifier/HTMLPurifier.auto.php';
-            $config = HTMLPurifier_Config::createDefault();
-            $purifier = new HTMLPurifier($config);
-            return $content = $purifier->purify($_POST['content']);
-        } else {
-            return null;
-        }
-    }
-
 }

@@ -24,7 +24,7 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('paymentmethods_msg');?>
+    <?php flash('paymentmethod_msg');?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['page_title']; ?> <small>التعديل علي وسيلة الدفع </small></h3>

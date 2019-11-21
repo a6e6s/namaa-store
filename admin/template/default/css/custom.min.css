@@ -27,3 +27,4 @@ body,html{direction:rtl}.dropleft .dropdown-toggle::before,.dropright .dropdown-
 .options .card-header,.options .card-body{padding: 10px 20px}
 .options .card-header{background: #4B5F71; color: #E9EDEF;margin: 1px;border-radius: 3px;}
 .remove_field .fa{font-size: 2rem;padding: 5px;}
+.form-group label.control-label ,.radio label{padding-top: 20px;}

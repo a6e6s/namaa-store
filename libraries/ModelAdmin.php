@@ -90,8 +90,8 @@ class ModelAdmin
     /**
      * get By Id
      *
-     * @param  mixed $id
-     * @param  mixed $where
+     * @param  string $id
+     * @param  string $where
      *
      * @return void
      */
@@ -102,6 +102,34 @@ class ModelAdmin
         $row = $this->db->single();
         return $row;
     }
+
+    /**
+     * get WHERE In
+     *
+     * @param  array $in values
+     * @param  string $colomn
+     *
+     * @return void
+     */
+    public function getWhereIn($colomn, $in)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($in); $index++) {
+            $id_num[] = ":in" . $index;
+        }
+        //setting the query
+        $this->db->query('SELECT * FROM  ' . $this->table . '  WHERE ' . $colomn . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($in as $key => $value) {
+            $this->db->bind(':in' . ($key + 1), $value);
+        }
+        if ($this->db->excute()) {
+            return $this->db->resultSet();
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * searchHandling
@@ -191,8 +219,7 @@ class ModelAdmin
                 $this->db->bind($key, $value);
             }
         }
-        $results = $this->db->resultSet();
-        return $results;
+        return $this->db->resultSet();
     }
 
     /**
@@ -223,7 +250,7 @@ class ModelAdmin
             require_once '../helpers/htmlpurifier/HTMLPurifier.auto.php';
             $config = HTMLPurifier_Config::createDefault();
             $purifier = new HTMLPurifier($config);
-            return $content = $purifier->purify($_POST['content']);
+            return $purifier->purify($stringHTML);
         } else {
             return null;
         }

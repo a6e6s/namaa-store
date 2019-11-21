@@ -207,7 +207,7 @@ class Page {
             require_once '../helpers/htmlpurifier/HTMLPurifier.auto.php';
             $config = HTMLPurifier_Config::createDefault();
             $purifier = new HTMLPurifier($config);
-            return $content = $purifier->purify($_POST['content']);
+            return $purifier->purify($stringHTML);
         } else {
             return NULL;
         }

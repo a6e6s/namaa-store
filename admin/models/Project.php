@@ -1,0 +1,215 @@
+<?php
+
+/*
+ * Copyright (C) 2018 Easy CMS Framework Ahmed Elmahdy
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License
+ * @license    https://opensource.org/licenses/GPL-3.0
+ *
+ * @package    Easy CMS MVC framework
+ * @author     Ahmed Elmahdy
+ * @link       https://ahmedx.com
+ *
+ * For more information about the author , see <http://www.ahmedx.com/>.
+ */
+
+class Project extends ModelAdmin
+{
+
+    public function __construct()
+    {
+        parent::__construct('projects');
+    }
+
+    /**
+     * get all projects from datatbase
+     *
+     * @param  string $cond
+     * @param  array $bind
+     * @param  string $limit
+     * @param  mixed $bindLimit
+     *
+     * @return object projects data
+     */
+    public function getProjects($cond = '', $bind = '', $limit = '', $bindLimit)
+    {
+        $query = 'SELECT projects.*, project_categories.name as category, project_categories.category_id  FROM projects, project_categories ' . $cond . ' ORDER BY projects.create_date DESC ';
+
+        return $this->getAll($query, $bind, $limit, $bindLimit);
+    }
+
+    /**
+     * get count of all records
+     * @param type $cond
+     * @return type
+     */
+    public function allProjectsCount($cond = '', $bind = '')
+    {
+        return $this->countAll($cond, $bind);
+    }
+
+    /**
+     * insert new projects
+     * @param array $data
+     * @return boolean
+     */
+    public function addProject($data)
+    {
+        $this->db->query('INSERT INTO projects( name, alias, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, modified_date, create_date,enable_cart,
+         mobile_confirmation, donation_type, target_price, payment_methods, fake_target, hidden, thanks_message, advertising_code, header_code, whatsapp, mobile, end_date, start_date, category_id, secondary_image
+        )'
+            . ' VALUES (:name, :alias, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :modified_date, :create_date, :enable_cart,
+         :mobile_confirmation, :donation_type, :target_price, :payment_methods, :fake_target, :hidden, :thanks_message, :advertising_code, :header_code, :whatsapp, :mobile, :end_date, :start_date, :category_id, :secondary_image
+        )');
+
+        // binding values
+        $this->db->bind(':enable_cart', $data['enable_cart']);
+        $this->db->bind(':mobile_confirmation', $data['mobile_confirmation']);
+        $this->db->bind(':donation_type', json_encode($data['donation_type']));
+        $this->db->bind(':target_price', (int) $data['target_price']);
+        $this->db->bind(':payment_methods', json_encode($data['payment_methods']));
+        $this->db->bind(':fake_target', (int) $data['fake_target']);
+        $this->db->bind(':hidden', $data['hidden']);
+        $this->db->bind(':thanks_message', $data['thanks_message']);
+        $this->db->bind(':advertising_code', $data['advertising_code']);
+        $this->db->bind(':header_code', $data['header_code']);
+        $this->db->bind(':whatsapp', $data['whatsapp']);
+        $this->db->bind(':mobile', $data['mobile']);
+        $this->db->bind(':end_date', strtotime($data['end_date']));
+        $this->db->bind(':start_date', strtotime($data['start_date']));
+        $this->db->bind(':category_id', $data['category_id']);
+        $this->db->bind(':secondary_image', $data['secondary_image']);
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':alias', $data['alias']);
+        $this->db->bind(':description', $data['description']);
+        $this->db->bind(':image', $data['image']);
+        $this->db->bind(':arrangement', $data['arrangement']);
+        $this->db->bind(':background_image', $data['background_image']);
+        $this->db->bind(':background_color', $data['background_color']);
+        $this->db->bind(':featured', $data['featured']);
+        $this->db->bind(':back_home', $data['back_home']);
+        $this->db->bind(':meta_keywords', $data['meta_keywords']);
+        $this->db->bind(':meta_description', $data['meta_description']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':create_date', time());
+        $this->db->bind(':modified_date', time());
+
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updateProject($data)
+    {
+        $query = 'UPDATE projects SET name = :name, description = :description, arrangement = :arrangement, back_home = :back_home, meta_keywords = :meta_keywords,
+        alias = :alias, enable_cart = :enable_cart, mobile_confirmation = :mobile_confirmation, donation_type = :donation_type, target_price = :target_price,
+        payment_methods = :payment_methods, fake_target = :fake_target, hidden = :hidden, thanks_message = :thanks_message, advertising_code = :advertising_code,
+        header_code = :header_code, whatsapp = :whatsapp, mobile = :mobile, end_date = :end_date, start_date = :start_date, category_id = :category_id,
+         background_color =:background_color, featured=:featured, meta_description = :meta_description, status = :status, modified_date = :modified_date';
+
+        (empty($data['image'])) ? null : $query .= ', image = :image';
+        (empty($data['background_image'])) ? null : $query .= ', background_image = :background_image';
+        (empty($data['secondary_image'])) ? null : $query .= ', secondary_image = :secondary_image';
+
+        $query .= ' WHERE project_id = :project_id';
+        $this->db->query($query);
+        // binding values
+        $this->db->bind(':project_id', $data['project_id']);
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':alias', $data['alias']);
+        $this->db->bind(':description', $data['description']);
+        $this->db->bind(':arrangement', $data['arrangement']);
+        $this->db->bind(':back_home', $data['back_home']);
+        $this->db->bind(':background_color', $data['background_color']);
+        $this->db->bind(':featured', $data['featured']);
+        $this->db->bind(':meta_keywords', $data['meta_keywords']);
+        $this->db->bind(':meta_description', $data['meta_description']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':modified_date', time());    
+        $this->db->bind(':enable_cart', $data['enable_cart']);
+        $this->db->bind(':mobile_confirmation', $data['mobile_confirmation']);
+        $this->db->bind(':donation_type', json_encode($data['donation_type']));
+        $this->db->bind(':target_price', (int) $data['target_price']);
+        $this->db->bind(':payment_methods', json_encode($data['payment_methods']));
+        $this->db->bind(':fake_target', (int) $data['fake_target']);
+        $this->db->bind(':hidden', $data['hidden']);
+        $this->db->bind(':thanks_message', $data['thanks_message']);
+        $this->db->bind(':advertising_code', $data['advertising_code']);
+        $this->db->bind(':header_code', $data['header_code']);
+        $this->db->bind(':whatsapp', $data['whatsapp']);
+        $this->db->bind(':mobile', $data['mobile']);
+        $this->db->bind(':end_date', strtotime($data['end_date']));
+        $this->db->bind(':start_date', strtotime($data['start_date']));
+        $this->db->bind(':category_id', $data['category_id']);
+        empty($data['image']) ? null : $this->db->bind(':image', $data['image']);
+        empty($data['background_image']) ? null : $this->db->bind(':background_image', $data['background_image']);
+        empty($data['secondary_image']) ? null : $this->db->bind(':secondary_image', $data['secondary_image']);   
+
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * get project by id
+     * @param integer $id
+     * @return object project data
+     */
+    public function getProjectById($id)
+    {
+        return $this->getById($id, 'project_id');
+    }
+
+    /**
+     * get list of projects categories
+     * @param string $cond
+     * @return object categories list
+     */
+    public function categoriesList($cond = '')
+    {
+        $query = 'SELECT category_id, name FROM project_categories  ' . $cond . ' ORDER BY create_date DESC ';
+        $this->db->query($query);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+    /**
+     * get list of pamyment methods
+     * @param string $cond
+     * @return object categories list
+     */
+    public function paymentMethodsList($cond = '')
+    {
+        $query = 'SELECT payment_id, title FROM payment_methods  ' . $cond . ' ORDER BY create_date DESC ';
+        $this->db->query($query);
+        $results = $this->db->resultSet();
+        return $results;
+    }
+
+    /**
+     * validateImage
+     *
+     * @param  string $imageName
+     * @return array name or error
+     */
+    public function validateImage($imageName)
+    {
+        if (!empty($_FILES[$imageName])) {
+            $image = uploadImage($imageName, ADMINROOT . '/../media/images/', 5000000, true);
+            if (empty($image['error'])) {
+                return [true, $image['filename']];
+            } else {
+                if (!isset($image['error']['nofile'])) {
+                    return [false, implode(',', $image['error'])];
+                }
+            }
+        }
+    }
+
+}

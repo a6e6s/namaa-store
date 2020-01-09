@@ -130,7 +130,6 @@ class ModelAdmin
         }
     }
 
-
     /**
      * searchHandling
      *
@@ -253,6 +252,25 @@ class ModelAdmin
             return $purifier->purify($stringHTML);
         } else {
             return null;
+        }
+    }
+    /**
+     * validateImage
+     *
+     * @param  string $imageName
+     * @return array name or error
+     */
+    public function validateImage($imageName)
+    {
+        if ($_FILES[$imageName]['error'] == 0) {
+            $image = uploadImage($imageName, ADMINROOT . '/../media/images/', 5000000, true);
+            if (empty($image['error'])) {
+                return [true, $image['filename']];
+            } else {
+                if (!isset($image['error']['nofile'])) {
+                    return [false, implode(',', $image['error'])];
+                }
+            }
         }
     }
 

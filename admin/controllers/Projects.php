@@ -126,12 +126,14 @@ class Projects extends ControllerAdmin
             $description = $this->projectModel->cleanHTML($_POST['description']);
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // set post of tags to an array if its empty
+            isset($_POST['tags']) ? null : $_POST['tags'] = [];
             $data = [
                 'page_title' => ' المشروعات',
                 'name' => trim($_POST['name']),
                 'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['name']),
                 'description' => $description,
-                'image' => '',
+                'image' => trim($_POST['image']),
                 'secondary_image' => '',
                 'enable_cart' => trim($_POST['enable_cart']),
                 'mobile_confirmation' => trim($_POST['mobile_confirmation']),
@@ -143,6 +145,7 @@ class Projects extends ControllerAdmin
                 'fake_target' => trim($_POST['fake_target']),
                 'hidden' => trim($_POST['hidden']),
                 'thanks_message' => trim($_POST['thanks_message']),
+                'sms_msg' => trim($_POST['sms_msg']),
                 'advertising_code' => trim($_POST['advertising_code']),
                 'header_code' => trim($_POST['header_code']),
                 'whatsapp' => trim($_POST['whatsapp']),
@@ -151,6 +154,8 @@ class Projects extends ControllerAdmin
                 'start_date' => trim($_POST['start_date']),
                 'category_id' => trim($_POST['category_id']),
                 'categories' => $categories,
+                'tags' => $_POST['tags'],
+                'tagsList' => $this->projectModel->tagsList(),
                 'meta_keywords' => trim($_POST['meta_keywords']),
                 'meta_description' => trim($_POST['meta_description']),
                 'status' => '',
@@ -163,7 +168,6 @@ class Projects extends ControllerAdmin
                 'category_id_error' => '',
                 'donation_type_error' => '',
                 'payment_methods_error' => '',
-                'image_error' => '',
                 'secondary_image_error' => '',
                 'background_image_error' => '',
                 'status_error' => '',
@@ -185,10 +189,6 @@ class Projects extends ControllerAdmin
             // validate payment methods
             empty($_POST['payment_methods']) ? $data['payment_methods_error'] = 'يجب اختيار وسيلة دفع واحدة علي الأقل' : $data['payment_methods'] = $_POST['payment_methods'];
 
-            // validate image
-            $image = $this->projectModel->validateImage('image');
-            ($image[0]) ? $data['image'] = $image[1] : $data['image_error'] = $image[1];
-
             // validate secondary image
             $image = $this->projectModel->validateImage('secondary_image');
             ($image[0]) ? $data['secondary_image'] = $image[1] : $data['secondary_image_error'] = $image[1];
@@ -205,11 +205,13 @@ class Projects extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['image_error']) && empty($data['name_error']) && empty($data['background_image_error'])
-                && empty($data['donation_type_error']) && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
+            if (empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
+                && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
             ) {
                 //validated
                 if ($this->projectModel->addProject($data)) {
+                    $this->projectModel->insertTags($data['tags'], $this->projectModel->lastId());
+
                     flash('project_msg', 'تم الحفظ بنجاح');
                     redirect('projects');
                 } else {
@@ -236,6 +238,7 @@ class Projects extends ControllerAdmin
                 'target_price' => '',
                 'fake_target' => '',
                 'hidden' => '',
+                'sms_msg' => '',
                 'thanks_message' => '',
                 'advertising_code' => '',
                 'header_code' => '',
@@ -245,6 +248,8 @@ class Projects extends ControllerAdmin
                 'start_date' => 0,
                 'category_id' => '',
                 'categories' => $categories,
+                'tags' => [],
+                'tagsList' => $this->projectModel->tagsList(),
                 'meta_keywords' => '',
                 'meta_description' => '',
                 'status' => 1,
@@ -257,7 +262,6 @@ class Projects extends ControllerAdmin
                 'category_id_error' => '',
                 'name_error' => '',
                 'status_error' => '',
-                'image_error' => '',
                 'secondary_image_error' => '',
                 'payment_methods_error' => '',
                 'background_image_error' => '',
@@ -290,7 +294,7 @@ class Projects extends ControllerAdmin
                 'name' => trim($_POST['name']),
                 'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['name']),
                 'description' => $description,
-                'image' => '',
+                'image' => trim($_POST['image']),
                 'secondary_image' => '',
                 'enable_cart' => trim($_POST['enable_cart']),
                 'mobile_confirmation' => trim($_POST['mobile_confirmation']),
@@ -301,6 +305,7 @@ class Projects extends ControllerAdmin
                 'target_price' => trim($_POST['target_price']),
                 'fake_target' => trim($_POST['fake_target']),
                 'hidden' => trim($_POST['hidden']),
+                'sms_msg' => trim($_POST['sms_msg']),
                 'thanks_message' => trim($_POST['thanks_message']),
                 'advertising_code' => trim($_POST['advertising_code']),
                 'header_code' => trim($_POST['header_code']),
@@ -310,6 +315,9 @@ class Projects extends ControllerAdmin
                 'start_date' => trim($_POST['start_date']),
                 'category_id' => trim($_POST['category_id']),
                 'categories' => $categories,
+                // 'tags' => $this->projectModel->tagsListByProject($id),
+                'tagsList' => $this->projectModel->tagsList(),
+                'tags' => $_POST['tags'],
                 'meta_keywords' => trim($_POST['meta_keywords']),
                 'meta_description' => trim($_POST['meta_description']),
                 'status' => '',
@@ -322,7 +330,6 @@ class Projects extends ControllerAdmin
                 'category_id_error' => '',
                 'donation_type_error' => '',
                 'payment_methods_error' => '',
-                'image_error' => '',
                 'secondary_image_error' => '',
                 'background_image_error' => '',
                 'status_error' => '',
@@ -344,10 +351,6 @@ class Projects extends ControllerAdmin
             // validate payment methods
             empty($_POST['payment_methods']) ? $data['payment_methods_error'] = 'يجب اختيار وسيلة دفع واحدة علي الأقل' : $data['payment_methods'] = $_POST['payment_methods'];
 
-            // validate image
-            $image = $this->projectModel->validateImage('image');
-            ($image[0]) ? $data['image'] = $image[1] : $data['image_error'] = $image[1];
-
             // validate secondary image
             $image = $this->projectModel->validateImage('secondary_image');
             ($image[0]) ? $data['secondary_image'] = $image[1] : $data['secondary_image_error'] = $image[1];
@@ -364,11 +367,16 @@ class Projects extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['image_error']) && empty($data['name_error']) && empty($data['background_image_error'])
-                && empty($data['donation_type_error']) && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
+            if (empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
+                && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
             ) {
                 //validated
                 if ($this->projectModel->updateProject($data)) {
+                    //clear previous tags before inserting new values
+                    $this->projectModel->deleteTagsByProjectId($id);
+                    // insert new tags
+                    $this->projectModel->insertTags($data['tags'], $id);
+
                     flash('project_msg', 'تم التعديل بنجاح');
                     isset($_POST['save']) ? redirect('projects/edit/' . $id) : redirect('projects');
                 } else {
@@ -409,6 +417,7 @@ class Projects extends ControllerAdmin
                 'target_price' => $project->target_price,
                 'fake_target' => $project->fake_target,
                 'hidden' => $project->hidden,
+                'sms_msg' => $project->sms_msg,
                 'thanks_message' => $project->thanks_message,
                 'advertising_code' => $project->advertising_code,
                 'header_code' => $project->header_code,
@@ -418,6 +427,8 @@ class Projects extends ControllerAdmin
                 'start_date' => $project->start_date,
                 'category_id' => $project->category_id,
                 'categories' => $categories,
+                'tags' => $this->projectModel->tagsListByProject($id),
+                'tagsList' => $this->projectModel->tagsList(),
                 'donation_type_error' => '',
                 'category_id_error' => '',
                 'name_error' => '',
@@ -445,7 +456,7 @@ class Projects extends ControllerAdmin
             'page_title' => 'المشروعات',
             'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
             'project' => $project,
-            'paymentMethodsList' => $this->projectModel->paymentMethodsList(' WHERE payment_id IN (' .implode(',',json_decode($project->payment_methods, true)) . ') '),
+            'paymentMethodsList' => $this->projectModel->paymentMethodsList(' WHERE payment_id IN (' . implode(',', json_decode($project->payment_methods, true)) . ') '),
 
         ];
         $this->view('projects/show', $data);

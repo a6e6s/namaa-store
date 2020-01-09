@@ -45,7 +45,18 @@ require ADMINROOT . '/views/inc/header.php';
             </div>
             <div class="well img-thumbnail col-md-6 col-sm-6">
             <label class="control-label">الصورة الرئيسية : </label>
-                <img class="img-responsive img-rounded" src="<?php echo empty($data['project']->image) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['project']->image; ?>" />
+            <?php if (!empty($data['project']->image)):
+                $galery = explode(',', $data['project']->image);
+                foreach ($galery as $img) {
+
+                    $img = MEDIAURL . '/' . str_replace( '&#34;' ,'', trim(trim($img, ']'), '['));
+                    echo 
+                    ' <img src="' . $img . '" class="img-responsive img-rounded"> ';
+
+                }
+            endif;?>
+
+                <img  src="<?php echo empty($data['project']->image) ? MEDIAURL . '/default.jpg' : ''; ?>" />
             </div>
             <div class="well img-thumbnail col-md-6 col-sm-6">
                 <label class="control-label">الصورة الخارجية : </label>
@@ -74,18 +85,18 @@ require ADMINROOT . '/views/inc/header.php';
             <div class="form-group col-md-6 col-xs-6">
                 <label class="control-label">نوع التبرع : </label>
                 <p><?php
-                $donation_type = json_decode($data['project']->donation_type, true);
-                echo $data['donation_type_list'][$donation_type['type']];
-                ?></p>
+$donation_type = json_decode($data['project']->donation_type, true);
+echo $data['donation_type_list'][$donation_type['type']];
+?></p>
             </div>
             <div class="form-group col-md-6 col-xs-6">
                 <label class="control-label">وسائل الدفع المدعومة : </label>
                 <ul class="list-group">
                 <?php
-                foreach ($data['paymentMethodsList'] as $payMethod) {
-                    echo '<li class="list-group-item ">' . $payMethod->title . '</li>';
-                }
-                ?>
+foreach ($data['paymentMethodsList'] as $payMethod) {
+    echo '<li class="list-group-item ">' . $payMethod->title . '</li>';
+}
+?>
                 </ul>
             </div>
             <div class="form-group col-md-6 col-xs-6">

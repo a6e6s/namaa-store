@@ -35,7 +35,7 @@ function uploadImage($field_name = null, $path = 'media/', $max_size = 5000000, 
 
 //The Validation
     // Create an array to hold any output
-    $out = array('error' => null);
+    $out['error'] = [];
 
     if (!$field_name) {
         $out['error'][] = "Please specify a valid form field name";

@@ -99,9 +99,9 @@ class Database {
      * get result set as array of objects
      * @return array of objects
      */
-    public function resultSet() {
+    public function resultSet($return = PDO::FETCH_OBJ) {
         $this->excute();
-        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        return $this->stmt->fetchAll($return);
     }
 
     /**

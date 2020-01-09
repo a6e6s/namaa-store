@@ -44,7 +44,6 @@ require ADMINROOT . '/views/inc/header.php';
                         <thead>
                             <tr class=" form-group-sm">
                                 <th width="70px"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" /></th>
-                                <th width="36px"></th>
                                 <th class=""><input type="search" class="form-control" placeholder="بحث بالاسم" name="search[name]" value="" ></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[category_id]" >
@@ -77,7 +76,6 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th>
                                     <input type="checkbox" id="check-all" class="flat">
                                 </th>
-                                <th class=""> </th>
                                 <th class="column-title">اسم المشروع </th>
                                 <th class="column-title">القسم </th>
                                 <th class="column-title">المبلغ المستهدف </th>
@@ -103,7 +101,6 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="a-center ">
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $project->project_id; ?>">
                                     </td>
-                                    <td><img width="32" src="<?php echo empty($project->image) ? MEDIAURL . '/../thumbs/default.jpg':  MEDIAURL . '/../thumbs/' . $project->image ; ?>" /></td>
                                     <td><?php echo $project->name; ?></td>
                                     <td><?php echo $project->category; ?></td>
                                     <td><?php echo $project->target_price; ?></td>
@@ -129,7 +126,6 @@ require ADMINROOT . '/views/inc/header.php';
                             <?php endforeach;?>
 
                             <tr class="tab-selected">
-                                <th></th>
                                 <th></th>
                                 <th class="column-title"> العدد الكلي  :   <?php echo $data['recordsCount']; ?>  </th>
                                 <th class="column-title"  colspan= "6"> عرض

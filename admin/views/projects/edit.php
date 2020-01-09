@@ -14,7 +14,8 @@
  */
 
 // loading plugin style
-$data['header'] = '';
+$data['header'] = '<!-- Select2 -->
+<link rel="stylesheet" href="' . ADMINURL . '/template/default/vendors/select2/dist/css/select2.min.css">';
 header("Content-Type: text/html; charset=utf-8");
 
 require ADMINROOT . '/views/inc/header.php';
@@ -51,7 +52,7 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <div class="form-group <?php echo (!empty($data['category_id_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label">الاقسام</label>
-                    <div class="has-feedback select2-dropdown">
+                    <div class="has-feedback">
                         <select name="category_id" class="form-control">
                             <option value="">اختار قسم المشروع </option>
                             <?php foreach ($data['categories'] as $category): ?>
@@ -64,16 +65,37 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                     <span class="help-block"><?php echo $data['category_id_error']; ?></span>
                 </div>
-                <div class="form-group <?php echo (empty($data['image_error'])) ?: 'has-error'; ?>">
-                    <label class="control-label" for="imageUpload">صورة المشروع : </label>
-                    <div class="has-feedback input-group">
-                        <span class="input-group-btn">
-                            <span class="btn btn-dark" onclick="$(this).parent().find('input[type=file]').click();">اختار الملف</span>
-                            <input name="image" value="<?php echo ($data['image']); ?>" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file">
-                        </span>
-                        <span class="form-control"><small><?php echo empty($data['image']) ? 'قم بأختيار صورة مناسبة' : $data['image']; ?></small></span>
+                <div class="form-group">
+                    <label class="control-label">الوسوم</label>
+                    <select class="form-control select2" name="tags[]" multiple="multiple" data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
+                    <?php foreach ($data['tagsList'] as $tag): ?>
+                                <option value="<?php echo $tag->tag_id; ?>" <?php echo in_array($tag->tag_id, $data['tags']) ? " selected " : 'no'; ?>>
+                                    <?php echo $tag->name; ?>
+                                </option>
+                    <?php endforeach;?>
+                    </select>
+                </div>                
+                <div class="">
+                    <label class="control-label" for="imageUpload">صور المشروع : </label>
+                    <div class="glr-group row">
+                        <a data-toggle="modal"  href="javascript:;" data-target="#myModal" class="glr-btn col-xs-2" type="button">اختيار</a>
+                        <input  id="galery" readonly name="image" class="glr-control  col-xs-10" type="text" value="<?php echo $data['image']; ?>" >
                     </div>
-                    <div class="help-block"><?php echo $data['image_error']; ?></div>
+                    <!-- /.modal -->
+                    <div class="modal fade" id="myModal" style=" margin-left: 0px;">
+                        <div class="modal-dialog" style="width: 80%;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">اختيار الصور</h4>
+                                </div>
+                                <div class="modal-body" >
+                                <iframe width="100%" height="500" src="<?php echo ADMINURL; ?>/helpers/filemanager/dialog.php?type=2&field_id=galery&relative_url=1" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
                 </div>
                 <div class="form-group <?php echo (empty($data['secondary_image_error'])) ?: 'has-error'; ?>">
                     <label class="control-label" for="imageUpload"> صورة المشروع الخارجية : </label>
@@ -110,7 +132,7 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <div class="form-group">
                     <label class="control-label">وصف المشروع  : </label>
-                        <textarea rows="5" name="description" class="form-control ckeditor"><?php echo ($data['description']); ?></textarea>
+                        <textarea rows="5" name="description" id="ckeditor" class="form-control ckeditor"><?php echo ($data['description']); ?></textarea>
                 </div>
                 <div class="form-group col-xs-12 <?php echo (!empty($data['status_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label">حالة النشر :</label>
@@ -336,15 +358,19 @@ require ADMINROOT . '/views/inc/header.php';
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="control-label">الرسالة النصية القصيرة  : </label>
+                                <div class="text-warning ">رسالة ترسل للمستخدم عند تأكيد الطلب</div>
+                                <div class=" form-group">
+                                    <textarea name="sms_msg" class="form-control description" placeholder="تم استلام تبرعكم بنجاح"><?php echo $data['sms_msg']; ?></textarea>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
 
                 </div>
                 <br><br>
-
-
-
             </div>           
             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                     <button type="submit" name="save" class="btn btn-success">تعديل
@@ -363,9 +389,10 @@ require ADMINROOT . '/views/inc/header.php';
 <?php
 // loading plugin
 $data['footer'] = '<script src="' . ADMINURL . '/template/default/vendors/ckeditor/ckeditor.js"></script>
-
+<script src="' . ADMINURL . '/template/default/vendors/select2/dist/js/select2.full.min.js"></script>
 <script src="' . ADMINURL . '/template/default/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
 <script>
+$(".select2").select2({dir: "rtl"});
 //filemanagesr for ck editor
  CKEDITOR.replace("ckeditor", {
      filebrowserBrowseUrl: "' . ADMINURL . '/helpers/filemanager/dialog.php?type=2&editor=ckeditor&fldr=" ,

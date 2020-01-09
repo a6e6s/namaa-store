@@ -40,6 +40,7 @@
                         <ul class="nav child_menu">
                             <li><a href="<?php echo ADMINURL; ?>/projectcategories">اقسام المشروعات</a></li>
                             <li><a href="<?php echo ADMINURL; ?>/projects">المشروعات الخيرية </a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/projecttags">الوسوم </a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-gears"></i> الإعدادات <span class="fa fa-chevron-down"></span></a>

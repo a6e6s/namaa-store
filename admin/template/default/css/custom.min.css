@@ -28,7 +28,7 @@ body,html{direction:rtl}.dropleft .dropdown-toggle::before,.dropright .dropdown-
 .options .card-header{background: #4B5F71; color: #E9EDEF;margin: 1px;border-radius: 3px;}
 .remove_field .fa{font-size: 2rem;padding: 5px;}
 .form-group label.control-label ,.radio label{padding-top: 20px;}
-.glr-group{}
+.bold{font-weight: bold;}
 .glr-control{padding: 6px 12px;}
 .glr-btn{border-top-right-radius:3px;border-bottom-right-radius:3px;color: #E9EDEF;background-color: #4B5F71;border-color: #364B5F;padding: 8px 12px;text-align: center;}
 .glr-btn:active{color: #fff;}.glr-btn:hover{color: #fff;}

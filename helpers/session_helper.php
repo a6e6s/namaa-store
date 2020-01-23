@@ -24,7 +24,8 @@ session_start();
  * @example Store- flash('register_success','You are now registeres')
  * @example View- echo flash('register_success')
  */
-function flash($name = '', $message = '', $class = 'alert alert-success') {
+function flash($name = '', $message = '', $class = 'alert alert-success')
+{
     if (!empty($name)) {
         if (!empty($message) && empty($_SESSION[$name])) {
             if (!empty($_SESSION[$name])) {
@@ -37,17 +38,23 @@ function flash($name = '', $message = '', $class = 'alert alert-success') {
             $_SESSION[$name . '_class'] = $class;
         } elseif (empty($message) && !empty($_SESSION[$name])) {
             $class = !empty($_SESSION[$name . '_class']) ? $_SESSION[$name . '_class'] : '';
-            echo '<div class="' . $class . '" id="msg-flash" role="alert">' . $_SESSION[$name] . '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></div>';
+            echo '<div class="' . $class . ' text-center" id="msg-flash" role="alert">' . $_SESSION[$name] . '<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span></div>';
             unset($_SESSION[$name]);
             unset($_SESSION[$name . '_class']);
         }
     }
 }
 
+function flashRedirect($url, $name = 'msg', $message = '', $class = 'alert alert-success')
+{
+    flash($name, $message, $class);
+    redirect($url, true);
+}
 /**
  * logging user out and clean session data
  */
-function logout() {
+function logout()
+{
     unset($_SESSION['memberLogged']);
     unset($_SESSION['donorLogged']);
     unset($_SESSION['user']);
@@ -56,5 +63,3 @@ function logout() {
     session_destroy();
     session_start();
 }
-
-

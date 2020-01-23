@@ -1,29 +1,76 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <!-- Bootstrap core CSS -->
-        <link href="<?php echo URLROOT; ?>/templates/default/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom fonts for this template -->
-        <link href="<?php echo URLROOT; ?>/templates/default/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-        <link href="<?php echo URLROOT; ?>/templates/default/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-        <!-- iCheck -->
-        <link href="<?php echo ADMINURL; ?>/template/default/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-        <!-- Custom styles for this template -->
-        <link href="<?php echo URLROOT; ?>/templates/default/css/style.css" rel="stylesheet">
-        <title><?php echo SITENAME; ?></title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="logo col-lg-8 mb-2 mt-2">
-                    <a class="text-success" href="<?php echo URLROOT; ?>" title="<?php echo SITENAME; ?>">
-                        <img src="<?php echo URLROOT; ?>/templates/default/img/icon1.png" class="img-flud ml-3 img-responsive" alt="">
-                      
-                    </a>
+<html lang="ar" dir="rtl">
+<!--
+Copyright (C) 2020 Easy CMS Framework Ahmed Elmahdy
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License
+@license    https://opensource.org/licenses/GPL-3.0
+
+@package    Easy CMS MVC framework
+@author     Ahmed Elmahdy
+@link       https://ahmedx.com
+
+For more information about the author , see <http://www.ahmedx.com/>.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
+    <title><?php echo ($data['pageTitle'])?? SITENAME; ?></title>
+    <!--- Bootstrap 4  --->
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/bootstrap.min.css">
+    <!--- Icofont file --->
+    <link rel="stylesheet" type="text/css" href="<?php echo URLROOT; ?>/templates/default/css/icofont.min.css">
+
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/vendors/owlcarousel/assets/owl.carousel.min.css">
+    <!--- Google fonts -->
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/animate.css">
+    <link href="https://fonts.googleapis.com/css?family=Cairo&display=swap" rel="stylesheet">
+
+    <!--- CSS style --->
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/style.css">
+</head>
+
+<body>
+    <div class="preloader text-center">
+        <div class="text-center">
+            <img src="<?php echo URLROOT; ?>/templates/default/images/icon.gif" alt="">
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="row py-2"  id="top-bar">
+            <div class="col-2 col-md-1 pt-2">
+                <nav class="navbar navbar-light main-menu">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-toggler"
+                        aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
+            </div>
+            <div class="col-5 col-md-7">
+                <a href="<?php echo URLROOT; ?>" class="logo float-right">
+                    <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-logo.png" height="60" alt="Namaa logo" class="img-fluid">
+                </a>
+            </div>
+            <div class="col-5 col-md-4 pt-3">
+                <div class="user float-left">
+                    <div class="nav">
+                        <li class="nav-item">
+                            <a title="Profile" class="nav-link text-dark border-left border-dark" href="#"><i
+                                    class="icofont-user"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="#"> <i class="icofont-cart cart-icon "></i> <span
+                                    class="d-none d-sm-inline">السلة (2) منتج</span> </a>
+                        </li>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php require APPROOT . '/app/views/inc/navbar.php'; ?>
+            <?php require APPROOT . '/app/views/inc/navbar.php'; ?> 
+        </section>
+        <!--- carousel  Start --->

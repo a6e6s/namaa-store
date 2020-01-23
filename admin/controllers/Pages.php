@@ -122,6 +122,7 @@ class Pages extends ControllerAdmin {
             $data = [
                 'page_title' => 'الصفحات',
                 'title' => trim($_POST['title']),
+                'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['title']),
                 'content' => $content,
                 'image' => '',
                 'meta_keywords' => trim($_POST['meta_keywords']),

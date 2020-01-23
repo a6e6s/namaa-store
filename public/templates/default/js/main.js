@@ -1,16 +1,35 @@
-/* 
- * Copyright (C) 2018 Easy CMS Framework Ahmed Elmahdy
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License
- * @license    https://opensource.org/licenses/GPL-3.0
- *
- * @package    Easy CMS MVC framework
- * @author     Ahmed Elmahdy
- * @link       https://ahmedx.com
- *
- * For more information about the author , see <http://www.ahmedx.com/>.
- */
 
+$(window).on('load', function () {
+    setTimeout(function () {
+        $('.preloader').addClass('compleate');
 
-alert("1")
+    }, 200);
+
+});
+
+$(document).ready(function () {
+
+    $('.owl-carousel').owlCarousel({
+        margin: 10,
+        loop: true,
+        responsiveClass: true,
+        autoplay: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: true
+            },
+            500: {
+                items: 2,
+                nav: true
+            },
+            1000: {
+                items: 3,
+                nav: true,
+            }
+        }
+    });
+
+    new WOW().init();
+
+});

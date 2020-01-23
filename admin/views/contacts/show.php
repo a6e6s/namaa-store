@@ -43,10 +43,6 @@ require ADMINROOT . '/views/inc/header.php';
                     <?php echo $data['contact']->full_name; ?>
                 </h3>
             </div>
-            <div class="well img-thumbnail col-md-6 col-sm-12">
-                <img class="img-responsive img-rounded" src="<?php echo empty($data['contact']->image) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['contact']->image; ?>" />
-
-            </div>
             <div class="form-group col-md-6 col-sm-12">
                 <label class="control-label">عنوان الرسالة : </label>
                 <?php echo $data['contact']->subject ?: 'لا يوجد'; ?>
@@ -75,7 +71,7 @@ require ADMINROOT . '/views/inc/header.php';
                 <label class="control-label">وقت الإنشاء : </label>
                 <p><?php echo $data['contact']->create_date ? date('d/ M/ Y', $data['contact']->create_date) : 'لا'; ?></p>
             </div>
-            <div class="form-group">
+            <div class="form-group col-sm-12">
                 <a class="btn btn-info" href="<?php echo ADMINURL . '/contacts/edit/' . $data['contact']->contact_id; ?>" >تعديل</a>
             </div>
 

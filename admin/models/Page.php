@@ -57,10 +57,11 @@ class Page extends ModelAdmin
      */
     public function addPage($data)
     {
-        $this->db->query('INSERT INTO pages( title, content, image, meta_keywords, meta_description, status, modified_date, create_date)'
-            . ' VALUES (:title, :content, :image, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO pages( title, alias, content, image, meta_keywords, meta_description, status, modified_date, create_date)'
+            . ' VALUES (:title, :alias, :content, :image, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':title', $data['title']);
+        $this->db->bind(':alias', $data['alias']);
         $this->db->bind(':content', $data['content']);
         $this->db->bind(':image', $data['image']);
         $this->db->bind(':meta_keywords', $data['meta_keywords']);

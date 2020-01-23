@@ -34,6 +34,8 @@
                             <li><a href="<?php echo ADMINURL; ?>/groups">المجموعات والصلاحيات</a></li>
                             <li><a href="<?php echo ADMINURL; ?>/users">المستخدمين</a></li>
                             <li><a href="<?php echo ADMINURL; ?>/pages">الصفحات</a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/slides">الاسلايدر</a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/contacts">اتصل بنا</a></li>
                         </ul>
                     </li>
                     <li><a><i class="glyphicon glyphicon-grain "></i> المشاريع الخيرية <span class="fa fa-chevron-down"></span></a>

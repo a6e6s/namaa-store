@@ -75,8 +75,8 @@ require ADMINROOT . '/views/inc/header.php';
                                 </th>
                                 <th class="bulk-actions" colspan="8">
                                     <span> تنفيذ علي الكل     :</span>
-                                    <input type="submit" name="publish" value="Publish" class="btn btn-success btn-xs" />
-                                    <input type="submit" name="unpublish" value="Unpublish" class="btn btn-warning btn-xs" />
+                                    <input type="submit" name="publish" value="مقروءة" class="btn btn-success btn-xs" />
+                                    <input type="submit" name="unpublish" value="غير مقروءة" class="btn btn-warning btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
                                 </th>
                             </tr>

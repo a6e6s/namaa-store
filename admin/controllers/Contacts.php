@@ -276,6 +276,7 @@ class Contacts extends ControllerAdmin
             flash('contact_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
             redirect('contacts');
         }
+        $this->contactModel->publishById([$id], 'contact_id');
         $data = [
             'page_title' => 'رسائل التواصل',
             'contact' => $contact,

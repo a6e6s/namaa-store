@@ -1,0 +1,72 @@
+<?php
+
+class test extends Controller
+{
+
+    public function index()
+    {
+        echo 'test';
+
+        $requestParams = array(
+            'name' => '',
+            'email' => '',
+            'mobile' => '',
+
+        );
+        $redirectUrl = 'http://localhost/Blank-MVC/test/redirect';
+        echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
+        echo "<form action='$redirectUrl' method='post' name='frm'>\n";
+        foreach ($requestParams as $a => $b) {
+            echo "\t<input type='' name='" . htmlentities($a) . "' value='" . htmlentities($b) . "'>\n";
+        }
+
+        echo '<input type="submit" value="send">';
+        echo "</form>\n</body>\n</html>";
+    }
+    public function respond()
+    {
+        var_dump($_GET);
+        var_dump($_POST);
+    }
+
+    public function redirect()
+    {
+        $requestParams = array(
+            'command' => 'AUTHORIZATION',
+            'access_code' => 'zx0IPmPy5jp1vAz8Kpg7',
+            'merchant_identifier' => 'CycHZxVj',
+            'merchant_reference' => 'XYZ9239-yu898',
+            'amount' => '10000',
+            'currency' => 'AED',
+            'language' => 'en',
+            'customer_email' => 'test@payfort.com',
+            'signature' => '7cad05f0212ed933c9a5d5dffa31661acf2c827a',
+            'order_description' => 'iPhone 6-S',
+            'return_url' => 'http://localhost/Blank-MVC/test/respond',
+        );
+        $request = array_merge($_POST, $requestParams);
+
+        $redirectUrl = 'https://sbcheckout.payfort.com/FortAPI/paymentPage';
+        echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
+        echo "<form action='$redirectUrl' method='post' name='frm'>\n";
+        foreach ($request as $a => $b) {
+            echo "\t<input type='hidden' name='" . htmlentities($a) . "' value='" . htmlentities($b) . "'>\n";
+        }
+        echo "\t<script type='text/javascript'>\n";
+        echo "\t\tdocument.frm.submit();\n";
+        echo "\t</script>\n";
+        echo "</form>\n</body>\n</html>";
+
+    }
+    public function test2()
+    {
+        echo '<form name=‘fr’ action=‘redirect(.)php’ method=‘POST’>
+        <include type=‘hidden’ name=‘var1’ value=‘val1’>
+        <include type=‘hidden’ name=‘var2’ value=‘val2’>
+        </form>
+        <script type=‘text/javascript’>
+        document.fr.submit();
+        </script>';
+    }
+
+}

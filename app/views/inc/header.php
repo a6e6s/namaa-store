@@ -14,12 +14,33 @@ it under the terms of the GNU General Public License
 For more information about the author , see <http://www.ahmedx.com/>.
 -->
 <head>
+    <!-- Primary Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <meta name="keywords" content="<?php echo (isset($meta['keywords']))? $meta['keywords'] :''; ?>">
+    <meta name="title" content="<?php echo (isset($meta['title']))? $meta['title'] :'' ; ?>">
+    <meta name="description" content="<?php echo (isset($meta['description']))? $meta['description'] :'' ; ?>">
+    <meta name="author" content="Ahmed Elmahdy">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
+    <meta property="og:title" content="<?php echo (isset($meta['title']))? $meta['title'] :'' ; ?>">
+    <meta property="og:description" content="<?php echo (isset($meta['description']))? $meta['description']  :''; ?>">
+    <meta property="og:image" content="<?php echo (isset($meta['image']))? $meta['image']  :''; ?>">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
+    <meta property="twitter:title" content="<?php echo (isset($meta['title']))? $meta['title']  :''; ?>">
+    <meta property="twitter:description" content="<?php echo (isset($meta['description']))? $meta['description'] :'' ; ?>">
+    <meta property="twitter:image" content="<?php echo (isset($meta['image']))? $meta['image']  :''; ?>">
+
+
     <link rel="shortcut icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
-    <title><?php echo ($data['pageTitle'])?? SITENAME; ?></title>
+    <title><?php echo ($data['pageTitle']) ?? SITENAME; ?></title>
     <!--- Bootstrap 4  --->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/bootstrap.min.css">
     <!--- Icofont file --->
@@ -41,7 +62,6 @@ For more information about the author , see <http://www.ahmedx.com/>.
             <img src="<?php echo URLROOT; ?>/templates/default/images/icon.gif" alt="">
         </div>
     </div>
-
     <div class="container">
         <section class="row py-2"  id="top-bar">
             <div class="col-2 col-md-1 pt-2">
@@ -71,6 +91,6 @@ For more information about the author , see <http://www.ahmedx.com/>.
                     </div>
                 </div>
             </div>
-            <?php require APPROOT . '/app/views/inc/navbar.php'; ?> 
+            <?php require APPROOT . '/app/views/inc/navbar.php';?>
         </section>
         <!--- carousel  Start --->

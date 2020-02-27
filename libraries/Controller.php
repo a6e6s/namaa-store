@@ -2,7 +2,7 @@
 
 /*
  * Copyright (C) 2018 Easy CMS Framework Ahmed Elmahdy
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License
  * @license    https://opensource.org/licenses/GPL-3.0
@@ -18,18 +18,21 @@
  * this is the base controller
  * Loading models and views
  */
-class Controller {
+class Controller
+{
 
-    function __construct() {
-        
+    public function __construct()
+    {
+
     }
 
     /**
      * load model
      * @param string $model
-     * @return object 
+     * @return object
      */
-    public function model($model) {
+    public function model($model)
+    {
         // require model file
         require_once '../app/models/' . $model . '.php';
         //instatiate model
@@ -41,7 +44,8 @@ class Controller {
      * @param string $view
      * @param array $data
      */
-    public function view($view, $data = []) {
+    public function view($view, $data = [], $meta = [])
+    {
         // check for the view file
         if (file_exists('../app/views/' . $view . ".php")) {
             require_once '../app/views/' . $view . ".php";

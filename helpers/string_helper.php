@@ -14,13 +14,13 @@
  * For more information about the author , see <http://www.ahmedx.com/>.
  */
 
-
 /**
- * generate Random string 
+ * generate Random string
  * @param integer $length
  * @return string
  */
-function generateRandomString($length = 10) {
+function generateRandomString($length = 10)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';

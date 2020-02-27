@@ -60,9 +60,11 @@
                     </div>
                     <?php endif;?>
                     <div class="card-footer bg-primary mt-1">
-                        <div class="  ">
+                        <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                             <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->name; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
+                            <?php if ($project->enable_cart): ?>
                             <a href="<?php echo URLROOT . '/cart/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة
+                            <?php endif;?>
                             </a>
                         </div>
                     </div>

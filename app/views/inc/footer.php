@@ -17,10 +17,11 @@
 
     </div>
     <!-- javascript -->
-    <script src="<?php echo URLROOT; ?>/templates/default/vendors/jquery-3.3.1.slim.min.js"></script>
+    <script src="<?php echo URLROOT; ?>/templates/default/vendors/jquery.min.js"></script>
     <script src="<?php echo URLROOT; ?>/templates/default/js/bootstrap.min.js"></script>
     <script src="<?php echo URLROOT; ?>/templates/default/vendors/owlcarousel/owl.carousel.js"></script>
     <script src="<?php echo URLROOT; ?>/templates/default/js/wow.min.js"></script>
+    <?php echo isset($footer)? $footer: ''; ?>
     <script src="<?php echo URLROOT; ?>/templates/default/js/main.js"></script>
 </body>
 

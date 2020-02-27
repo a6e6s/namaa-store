@@ -49,3 +49,15 @@ define('SITENAME', 'جمعية نماء الخيرية');
 
 //default language
 define('DEFAULT_LANGUAGE', 'ar');
+
+/**
+ * print root url
+ *
+ * @param  mixed $path
+ *
+ * @return void
+ */
+function root($path = null)
+{
+    echo isset($path) ? URLROOT . "/" . $path : URLROOT;
+}

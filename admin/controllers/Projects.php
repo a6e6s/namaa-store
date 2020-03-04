@@ -77,11 +77,10 @@ class Projects extends ControllerAdmin
             }
         }
 
-        //handling search
+        //handling search 
         $searches = $this->projectModel->searchHandling(['name', 'category_id', 'hidden', 'target_price', 'status']);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
-
         // get all records count after search and filtration
         $recordsCount = $this->projectModel->allProjectsCount(",project_categories " . $cond, $bind);
         // make sure its integer value and its usable

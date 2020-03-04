@@ -153,6 +153,7 @@ class ModelAdmin
                 return $this->handlingSearchSessionCondition($searchColomns);
             }
         }
+        return ['cond' => '', 'bind' => ''];
     }
 
     /**
@@ -273,5 +274,4 @@ class ModelAdmin
             }
         }
     }
-
 }

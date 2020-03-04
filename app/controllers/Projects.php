@@ -43,7 +43,7 @@ class Projects extends Controller
         $this->meta->title = $project->name;
         $this->meta->description = $project->meta_description;
         $this->meta->image = $project->secondary_image;
-        $this->meta->background = $project->background_color . " url(' " . MEDIAURL .'/'.$project->background_image ."')";
+        $this->meta->background = $project->background_color . " url(' " . MEDIAURL . '/' . $project->background_image . "')";
         // dd($project);
         // var_dump($project);
         $this->view('projects/show', $data);
@@ -160,15 +160,15 @@ class Projects extends Controller
             echo "\t\tdocument.frm.submit();\n";
             echo "\t</script>\n";
             echo "</form>\n</body>\n</html>";
-
         } elseif ($_POST['payment_method'] == 1) { //bank transfere
             redirect('projects/banktransfer/' . $hash, true);
-        } elseif ($_POST['payment_method'] == 2) { //branches
-            redirect('projects/paymentdetails/' . $hash, true);
+            // } elseif ($_POST['payment_method'] == 2) { //branches
+            //     redirect('projects/paymentdetails/' . $hash, true);
         } else { //other
             //print payment data and finish
+            redirect('projects/paymentdetails/' . $_POST['payment_method'], true);
             //get supported payment methods
-            $payment_methouds = $this->projectsModel->getSupportedPaymentMethods($project->payment_methods);
+            // $payment_methouds = $this->projectsModel->getSupportedPaymentMethods($project->payment_methods);
         }
     }
 
@@ -208,7 +208,7 @@ class Projects extends Controller
             $data = [
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
                 'pagesLinks' => $this->projectsModel->getPagesTitle(),
-                'payment_method' => $this->projectsModel->getSingle('*', ['id', 1], 'payment_methods'),
+                'payment_method' => $this->projectsModel->getSingle('*', ['id' => 1], 'payment_methods'),
                 'image' => '',
                 'image_error' => '',
                 'hash' => $hash,
@@ -236,7 +236,6 @@ class Projects extends Controller
                     flash('msg', 'هناك خطأ ما حاول مرة اخري', 'alert alert-danger');
                 }
             }
-
         } else {
             $data = [
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
@@ -246,9 +245,22 @@ class Projects extends Controller
                 'image_error' => '',
                 'hash' => $hash,
             ];
-
         }
 
         $this->view('projects/bankform', $data);
+    }
+
+    public function paymentdetails($id)
+    {
+        if ($payment_methouds = $this->projectsModel->getSingle('*', ['payment_id' => $id], 'payment_methods')) {
+            $data = [
+                'pageTitle' => 'بيانات الدفع: ' . SITENAME,
+                'pagesLinks' => $this->projectsModel->getPagesTitle(),
+                'payment_method' => $payment_methouds,
+            ];
+        } else {
+            flashRedirect('', 'msg', 'هذه الصفحة غير موجودة ربما اتبعت رابط خاطئ', 'alert alert-danger');
+        }
+        $this->view('projects/paymentdetails', $data);
     }
 }

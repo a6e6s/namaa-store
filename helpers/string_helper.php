@@ -29,3 +29,8 @@ function generateRandomString($length = 10)
     }
     return $randomString;
 }
+function dd($var)
+{
+    var_dump($var);
+    die();
+}

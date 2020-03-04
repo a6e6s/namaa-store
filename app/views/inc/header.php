@@ -18,26 +18,26 @@ For more information about the author , see <http://www.ahmedx.com/>.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
-    <meta name="keywords" content="<?php echo (isset($meta['keywords']))? $meta['keywords'] :''; ?>">
-    <meta name="title" content="<?php echo (isset($meta['title']))? $meta['title'] :'' ; ?>">
-    <meta name="description" content="<?php echo (isset($meta['description']))? $meta['description'] :'' ; ?>">
+
+    <meta name="keywords" content="<?php echo $this->meta->keywords; ?>">
+    <meta name="title" content="<?php echo $this->meta->title; ?>">
+    <meta name="description" content="<?php echo $this->meta->description; ?>">
     <meta name="author" content="Ahmed Elmahdy">
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
-    <meta property="og:title" content="<?php echo (isset($meta['title']))? $meta['title'] :'' ; ?>">
-    <meta property="og:description" content="<?php echo (isset($meta['description']))? $meta['description']  :''; ?>">
-    <meta property="og:image" content="<?php echo (isset($meta['image']))? $meta['image']  :''; ?>">
+    <meta property="og:title" content="<?php echo $this->meta->title; ?>">
+    <meta property="og:description" content="<?php echo $this->meta->description; ?>">
+    <meta property="og:image" content="<?php echo $this->meta->image; ?>">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
-    <meta property="twitter:title" content="<?php echo (isset($meta['title']))? $meta['title']  :''; ?>">
-    <meta property="twitter:description" content="<?php echo (isset($meta['description']))? $meta['description'] :'' ; ?>">
-    <meta property="twitter:image" content="<?php echo (isset($meta['image']))? $meta['image']  :''; ?>">
+    <meta property="twitter:title" content="<?php echo $this->meta->title; ?>">
+    <meta property="twitter:description" content="<?php echo $this->meta->description; ?>">
+    <meta property="twitter:image" content="<?php echo $this->meta->image; ?>">
 
-
+    <?php echo $this->meta->headerCode; ?>
     <link rel="shortcut icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
     <title><?php echo ($data['pageTitle']) ?? SITENAME; ?></title>
@@ -56,7 +56,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/style.css">
 </head>
 
-<body>
+<body style="background:<?php echo $this->meta->background; ?>;">
     <div class="preloader text-center">
         <div class="text-center">
             <img src="<?php echo URLROOT; ?>/templates/default/images/icon.gif" alt="">

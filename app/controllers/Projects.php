@@ -2,12 +2,13 @@
 
 class Projects extends Controller
 {
-
+    public $meta;
     private $projectsModel;
-
+    public $donorModel;
     public function __construct()
     {
         $this->projectsModel = $this->model('Project');
+        $this->meta = new Meta;
     }
 
     public function index()
@@ -33,9 +34,18 @@ class Projects extends Controller
         $data = [
             'project' => $project,
             'pagesLinks' => $this->projectsModel->getPagesTitle(),
+            'payment_methods' => $this->projectsModel->getSupportedPaymentMethods($project->payment_methods),
         ];
         $data['pageTitle'] = $data['project']->name . "  " . SITENAME;
 
+        $this->meta->header_code = $project->header_code;
+        $this->meta->keywords = $project->meta_keywords;
+        $this->meta->title = $project->name;
+        $this->meta->description = $project->meta_description;
+        $this->meta->image = $project->secondary_image;
+        $this->meta->background = $project->background_color . " url(' " . MEDIAURL .'/'.$project->background_image ."')";
+        // dd($project);
+        // var_dump($project);
         $this->view('projects/show', $data);
     }
 
@@ -90,29 +100,76 @@ class Projects extends Controller
     {
         //filtter post data
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        
-        require_once APPROOT . '/helpers/PayfortIntegration.php';
-        $objFort = new PayfortIntegration();
-        $objFort->amount = 1000;
-        $objFort->projectUrlPath = SITEFOLDER . '/projects';
-        $objFort->itemName = 'test';
-        $objFort->customerEmail = 'namaa@namaa.sa';
-        $request = $objFort->processRequest('creditcard');
-        $_SESSION['TEST'] = $_POST;
 
-        $redirectUrl = 'https://checkout.payfort.com/FortAPI/paymentPage';
-        // $redirectUrl ='https://sbcheckout.payfort.com/FortAPI/paymentPage';
-        echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
-        echo '';
-        echo '<div style="position:fixed; top:40%;right:50%;text-align: center;font-weight: bold;color: yellowgreen;" ><img src="' . MEDIAURL . '/icon.gif"/><p> سيتم تحويلك خلال عدة ثواني</p></div>';
-        echo "<form action='$redirectUrl' method='post' name='frm'>\n";
-        foreach ($request as $a => $b) {
-            echo "\t<input type='hidden' name='" . htmlentities($a) . "' value='" . htmlentities($b) . "'>\n";
+        //get project details
+        $project = $this->projectsModel->getProjectById($_POST['project_id']);
+        //redirect if no project
+        (!$project) ? flashRedirect('', 'msg', 'حدث خطأ ما ربما اتبعت رابط خاطيء ', 'alert alert-danger') : null;
+
+        if (empty($_POST['project_id']) || empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['amount'])) {
+            flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
+        } else {
+            $_SESSION['payment'] = $_POST;
+            //saving donor data
+            //loading donor model
+            $this->donorModel = $this->model('donor');
+            //check if exist and return its id
+            if ($donor = $this->donorModel->getdonorByMobile($_POST['mobile'])) {
+                $donor = $donor->donor_id;
+            } else {
+                // if not exist save it and return its id
+                ($_POST['mobile_confirmed'] == 'yes') ? $_POST['status'] = 1 : $_POST['status'] = 0;
+                $this->donorModel->addDonor($_POST);
+                $donor = $this->donorModel->lastId();
+            }
+            $_SESSION['donor'] = $donor; // saving donor into session
+
         }
-        echo "\t<script type='text/javascript'>\n";
-        echo "\t\tdocument.frm.submit();\n";
-        echo "\t</script>\n";
-        echo "</form>\n</body>\n</html>";
+        //generat secrit hash
+        $hash = sha1(time() . rand(999, 999999));
+        //save donation data through saving method
+        $data = [
+            'payment_method_id' => $_POST['payment_method'],
+            'amount' => $_POST['amount'],
+            'hash' => $hash,
+            'project_id' => $project->project_id,
+            'donor_id' => $donor,
+            'status' => 0,
+        ];
+        if (!$this->projectsModel->addDonation($data)) {
+            flashRedirect('projects/show/' . $project->project_id, 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
+        }
+        if ($_POST['payment_method'] == 3) { //payment with payfort
+            require_once APPROOT . '/helpers/PayfortIntegration.php';
+            $objFort = new PayfortIntegration();
+            $objFort->amount = $_POST['amount'];
+            $objFort->projectUrlPath = SITEFOLDER . '/projects';
+            $objFort->itemName = $project->name;
+            $objFort->customerEmail = 'namaa@namaa.sa';
+            $request = $objFort->processRequest('creditcard');
+            $redirectUrl = 'https://checkout.payfort.com/FortAPI/paymentPage';
+            echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
+            echo '';
+            echo '<div style="position:fixed; top:40%;right:50%;text-align: center;font-weight: bold;color: yellowgreen;" ><img src="' . MEDIAURL . '/icon.gif"/>
+            <p> سيتم تحويلك خلال عدة ثواني</p></div>';
+            echo "<form action='$redirectUrl' method='post' name='frm'>\n";
+            foreach ($request as $a => $b) {
+                echo "\t<input type='hidden' name='" . htmlentities($a) . "' value='" . htmlentities($b) . "'>\n";
+            }
+            echo "\t<script type='text/javascript'>\n";
+            echo "\t\tdocument.frm.submit();\n";
+            echo "\t</script>\n";
+            echo "</form>\n</body>\n</html>";
+
+        } elseif ($_POST['payment_method'] == 1) { //bank transfere
+            redirect('projects/banktransfer/' . $hash, true);
+        } elseif ($_POST['payment_method'] == 2) { //branches
+            redirect('projects/paymentdetails/' . $hash, true);
+        } else { //other
+            //print payment data and finish
+            //get supported payment methods
+            $payment_methouds = $this->projectsModel->getSupportedPaymentMethods($project->payment_methods);
+        }
     }
 
     /**
@@ -129,6 +186,69 @@ class Projects extends Controller
         $fortParams = $objFort->processResponse();
 
         var_dump($fortParams);
-        var_dump($_SESSION['TEST']);
+        var_dump($_SESSION['payment']);
+    }
+
+    /**
+     * handling bank transfer
+     *
+     * @param  mixed $hash
+     *
+     * @return void
+     */
+    public function banktransfer($hash = null)
+    {
+        //check hash
+        $hash = $this->projectsModel->getDonationByHash($hash) ?: $hash = null;
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // sanitize POST array
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
+                'pagesLinks' => $this->projectsModel->getPagesTitle(),
+                'payment_method' => $this->projectsModel->getSingle('*', ['id', 1], 'payment_methods'),
+                'image' => '',
+                'image_error' => '',
+                'hash' => $hash,
+            ];
+
+            // validate image
+            if ($_FILES['image']['error'] == 0) {
+                $image = uploadImage('image', APPROOT . '/media/files/banktransfer/', 1000000, false);
+                if (empty($image['error'])) {
+                    $data['image'] = $image['filename'];
+                } else {
+                    if (!isset($image['error']['nofile'])) {
+                        $data['image_error'] = implode(',', $image['error']);
+                    }
+                }
+            } else {
+                $data['image_error'] = flash('msg', "لم تقم باختيار ملف ", 'alert alert-danger');
+            }
+            //save image to donation
+            if (empty($data['image_error'])) {
+                //validated
+                if ($this->projectsModel->updateDonationHash($data)) { //update donation proof file and hash
+                    flashRedirect('', 'msg', 'تم الحفظ بنجاح', 'alert alert-success');
+                } else {
+                    flash('msg', 'هناك خطأ ما حاول مرة اخري', 'alert alert-danger');
+                }
+            }
+
+        } else {
+            $data = [
+                'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
+                'pagesLinks' => $this->projectsModel->getPagesTitle(),
+                'payment_method' => $this->projectsModel->getSingle('*', ['id', 1], 'payment_methods'),
+                'image' => '',
+                'image_error' => '',
+                'hash' => $hash,
+            ];
+
+        }
+
+        $this->view('projects/bankform', $data);
     }
 }

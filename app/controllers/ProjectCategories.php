@@ -3,11 +3,13 @@
 class ProjectCategories extends Controller
 {
 
+    public $meta;
     private $categoriesModel;
 
     public function __construct()
     {
         $this->categoriesModel = $this->model('ProjectCategory');
+        $this->meta = new Meta;
     }
 
     public function index()
@@ -18,6 +20,9 @@ class ProjectCategories extends Controller
             'pagesLinks' => $this->categoriesModel->getPagesTitle(),
             'settings' => null,
         ];
+
+        $this->meta->title = 'الاقسام';
+        $this->meta->description = 'اقسام التبرع الخيري';
         $this->view('categories/index', $data);
     }
 
@@ -43,6 +48,10 @@ class ProjectCategories extends Controller
             'pagination' => generatePagination($this->categoriesModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/ProjectCategories/show/' . $id),
         ];
         $data['pageTitle'] = $data['category']->name . "  " . SITENAME;
+        $this->meta->title = $data['category']->name;
+        $this->meta->keywords = $data['category']->meta_keywords;
+        $this->meta->description = $data['category']->meta_description;
+        $this->meta->image = MEDIAURL . '/' . $data['category']->image;
 
         $this->view('categories/show', $data);
     }

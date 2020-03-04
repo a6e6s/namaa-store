@@ -2,12 +2,13 @@
 
 class Pages extends Controller
 {
-
+    public $meta;
     private $pagesModel;
 
     public function __construct()
     {
         $this->pagesModel = $this->model('Page');
+        $this->meta = new Meta;
     }
 
     public function index()

@@ -156,7 +156,7 @@ class PaymentMethods extends ControllerAdmin
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
-//             mack sue there is no errors
+            // mack sue there is no errors
             if (empty($data['status_error']) && empty($data['image_error'])) {
                 //validated
                 if ($this->paymentModel->addPaymentMethod($data)) {
@@ -198,7 +198,7 @@ class PaymentMethods extends ControllerAdmin
             $content = $this->paymentModel->cleanHTML($_POST['content']);
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-// var_dump(json_decode(json_encode($_POST['meta']),true)); die();
+        // var_dump(json_decode(json_encode($_POST['meta']),true)); die();
             $data = [
                 'payment_id' => $id,
                 'page_title' => 'وسائل الدفع',
@@ -229,7 +229,7 @@ class PaymentMethods extends ControllerAdmin
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
-//             mack sue there is no errors
+        //             mack sue there is no errors
             if (empty($data['status_error']) && empty($data['image_error'])) {
                 //validated
                 if ($this->paymentModel->updatePaymentMethod($data)) {

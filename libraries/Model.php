@@ -34,13 +34,26 @@ class Model
      */
     public function getWhereIn($colomn, $in)
     {
+        return $this->getWhereInTable($this->table, $colomn, $in);
+    }
+
+    /**
+     * get record with WHERE condation with In
+     *
+     * @param  array $in values
+     * @param  string $colomn
+     *
+     * @return void
+     */
+    public function getWhereInTable($table, $colomn, $in)
+    {
 
         //get the id in PDO form @Example :id1,id2
         for ($index = 1; $index <= count($in); $index++) {
             $id_num[] = ":in" . $index;
         }
         //setting the query
-        $this->db->query('SELECT * FROM  ' . $this->table . '  WHERE ' . $colomn . ' IN (' . implode(',', $id_num) . ')');
+        $this->db->query('SELECT * FROM  ' . $table . '  WHERE ' . $colomn . ' IN (' . implode(',', $id_num) . ')');
         //loop through the bind function to bind all the IDs
         foreach ($in as $key => $value) {
             $this->db->bind(':in' . ($key + 1), $value);
@@ -51,7 +64,6 @@ class Model
             return false;
         }
     }
-
     /**
      * get data From Table
      *
@@ -197,4 +209,8 @@ class Model
         }
     }
 
+    public function lastId()
+    {
+        return $this->db->lastId();
+    }
 }

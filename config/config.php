@@ -46,6 +46,9 @@ define('ADMINROOT', dirname(dirname(__FILE__)) . '/admin');
 define('ADMINURL', URLROOT . '/admin');
 // site name
 define('SITENAME', 'جمعية نماء الخيرية');
+// site name
+define('KEYWORDS', 'جمعية خيرية');
+
 
 //default language
 define('DEFAULT_LANGUAGE', 'ar');
@@ -61,3 +64,4 @@ function root($path = null)
 {
     echo isset($path) ? URLROOT . "/" . $path : URLROOT;
 }
+

@@ -44,7 +44,7 @@ class Controller
      * @param string $view
      * @param array $data
      */
-    public function view($view, $data = [], $meta = [])
+    public function view($view, $data = [])
     {
         // check for the view file
         if (file_exists('../app/views/' . $view . ".php")) {

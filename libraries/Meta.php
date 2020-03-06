@@ -26,4 +26,5 @@ class Meta
     public $image = MEDIAURL . '/default.jpg';
     public $background = '';
     public $headerCode = '';
+    public $advsCode = '';
 }

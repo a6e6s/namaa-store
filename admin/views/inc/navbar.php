@@ -45,6 +45,13 @@
                             <li><a href="<?php echo ADMINURL; ?>/projecttags">الوسوم </a></li>
                         </ul>
                     </li>
+                    <li><a><i class="glyphicon glyphicon-gift"></i> التبرعات <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="<?php echo ADMINURL; ?>/donations">سجل التبرعات</a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/donors">قائمة المتبرعين </a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/donationtags">الوسوم </a></li>
+                        </ul>
+                    </li>
                     <li><a><i class="fa fa-gears"></i> الإعدادات <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="<?php echo ADMINURL; ?>/paymentmethods">وسائل الدفع </a></li>

@@ -2,6 +2,7 @@
 </div>
 
 <div class="container">
+<div class="msg"><?php flash('msg');?></div>
 <!-- Categories -->
     <section id="categories">
         <div class="row m-3 justify-content-center ">

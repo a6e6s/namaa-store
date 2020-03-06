@@ -106,7 +106,22 @@ class Project extends Model
             return false;
         }
     }
-
+    public function updateDonationMeta($data)
+    {
+        $query = 'UPDATE Donations SET meta = :meta, hash = NULL, modified_date = :modified_date';
+        $query .= ' WHERE hash = :hash';
+        $this->db->query($query);
+        // binding values
+        $this->db->bind(':meta', $data['meta']);
+        $this->db->bind(':hash', $data['hash']);
+        $this->db->bind(':modified_date', time());
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * addDonation
      *

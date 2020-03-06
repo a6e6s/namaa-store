@@ -122,11 +122,12 @@ class Projects extends Controller
                 $this->donorModel->addDonor($_POST);
                 $donor = $this->donorModel->lastId();
             }
-            $_SESSION['donor'] = $donor; // saving donor into session
 
         }
         //generat secrit hash
         $hash = sha1(time() . rand(999, 999999));
+        $_SESSION['donation']['hash'] = $hash; // saving donation hash into session
+        $_SESSION['donation']['msg'] = $project->thanks_message;
         //save donation data through saving method
         $data = [
             'payment_method_id' => $_POST['payment_method'],
@@ -162,31 +163,38 @@ class Projects extends Controller
             echo "</form>\n</body>\n</html>";
         } elseif ($_POST['payment_method'] == 1) { //bank transfere
             redirect('projects/banktransfer/' . $hash, true);
-            // } elseif ($_POST['payment_method'] == 2) { //branches
-            //     redirect('projects/paymentdetails/' . $hash, true);
         } else { //other
-            //print payment data and finish
-            redirect('projects/paymentdetails/' . $_POST['payment_method'], true);
-            //get supported payment methods
-            // $payment_methouds = $this->projectsModel->getSupportedPaymentMethods($project->payment_methods);
+            //redirect to payment information
+            empty($project->thanks_message) ? $project->thanks_message = 'شكرا لتبرعك لدي متجر نماء الخيري' : null;
+            flashRedirect('projects/paymentdetails/' . $_POST['payment_method'], 'msg', $project->thanks_message, 'alert alert-success');
         }
     }
 
     /**
-     * recieve paymentrespond and store it on the database
+     * recieve paymentrespond and update donation meta data
      *
      * @return void
      */
     public function paymentrespond()
     { // filter get respond
         $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
-
         require_once APPROOT . '/helpers/PayfortIntegration.php';
         $objFort = new PayfortIntegration();
         $fortParams = $objFort->processResponse();
+        unset($fortParams['url'], $fortParams['r'], $fortParams['access_code'], $fortParams['return_url'], $fortParams['language'], $fortParams['merchant_identifier']);
+        $meta = json_encode($fortParams);
 
-        var_dump($fortParams);
-        var_dump($_SESSION['payment']);
+        $data = [
+            'payment_method_id' => 3,
+            'meta' => $meta,
+            'project_id' => $_SESSION['payment']['project_id'],
+            'hash' => $_SESSION['donation']['hash'],
+        ];
+        $this->projectsModel->updateDonationMeta($data);//update donation meta
+        
+        //redirect to project
+        empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = 'شكرا لتبرعك لدي متجر نماء الخيري' : null;
+        flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
     }
 
     /**
@@ -246,10 +254,15 @@ class Projects extends Controller
                 'hash' => $hash,
             ];
         }
-
         $this->view('projects/bankform', $data);
     }
 
+    /**
+     * display payment method details
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function paymentdetails($id)
     {
         if ($payment_methouds = $this->projectsModel->getSingle('*', ['payment_id' => $id], 'payment_methods')) {

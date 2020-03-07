@@ -216,7 +216,7 @@ class Projects extends Controller
             $data = [
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
                 'pagesLinks' => $this->projectsModel->getPagesTitle(),
-                'payment_method' => $this->projectsModel->getSingle('*', ['id' => 1], 'payment_methods'),
+                'payment_method' => $this->projectsModel->getSingle('*', ['payment_id' => 1], 'payment_methods'),
                 'image' => '',
                 'image_error' => '',
                 'hash' => $hash,
@@ -248,7 +248,7 @@ class Projects extends Controller
             $data = [
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
                 'pagesLinks' => $this->projectsModel->getPagesTitle(),
-                'payment_method' => $this->projectsModel->getSingle('*', ['id', 1], 'payment_methods'),
+                'payment_method' => $this->projectsModel->getSingle('*', ['payment_id', 1], 'payment_methods'),
                 'image' => '',
                 'image_error' => '',
                 'hash' => $hash,

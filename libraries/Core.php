@@ -56,7 +56,7 @@ class Core
 
         $url = $this->getUrl();
 
-        //look in controller fot the controller existing and instantiate it
+        //look in controller for the controller existing and instantiate it
 
         if (file_exists('../app/controllers/' . ucfirst($url[0]) . '.php')) {
 

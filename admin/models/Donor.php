@@ -61,16 +61,13 @@ class Donor extends ModelAdmin
      */
     public function addDonor($data)
     {
-        $this->db->query('INSERT INTO donors( name, email, password, mobile, image, bio, group_id, status, create_date, modified_date)'
-            . ' VALUES (:name, :email, :password, :mobile, :image, :bio, :group_id, :status, :create_date, :modified_date)');
+        $this->db->query('INSERT INTO donors( full_name, email, mobile_confirmed, mobile, status, create_date, modified_date)'
+            . ' VALUES (:full_name, :email, :mobile_confirmed, :mobile, :status, :create_date, :modified_date)');
         // binding values
-        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':full_name', $data['full_name']);
         $this->db->bind(':email', $data['email']);
-        $this->db->bind(':password', $data['password']);
+        $this->db->bind(':mobile_confirmed', $data['mobile_confirmed']);
         $this->db->bind(':mobile', $data['mobile']);
-        $this->db->bind(':image', $data['image']);
-        $this->db->bind(':bio', $data['bio']);
-        $this->db->bind(':group_id', $data['group_id']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':create_date', time());
         $this->db->bind(':modified_date', time());
@@ -85,21 +82,16 @@ class Donor extends ModelAdmin
 
     public function updateDonor($data)
     {
-        $query = 'UPDATE donors SET name = :name, email = :email, mobile = :mobile, bio = :bio, group_id = :group_id';
-        (!empty($data['password'])) ? $query .= ', password = :password ' : '';
-        (!empty($data['image'])) ? $query .= ', image = :image ' : '';
-        $query .= ', status = :status, modified_date = :modified_date  WHERE donor_id = :donor_id';
+        $query = 'UPDATE donors SET full_name = :full_name, email = :email, mobile = :mobile, mobile_confirmed = :mobile_confirmed,
+                     status = :status, modified_date = :modified_date  WHERE donor_id = :donor_id';
 
         $this->db->query($query);
         // binding values
-        (!empty($data['password'])) ? $this->db->bind(':password', $data['password']) : '';
-        (!empty($data['image'])) ? $this->db->bind(':image', $data['image']) : '';
         $this->db->bind(':donor_id', $data['donor_id']);
-        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':full_name', $data['full_name']);
         $this->db->bind(':email', $data['email']);
+        $this->db->bind(':mobile_confirmed', $data['mobile_confirmed']);
         $this->db->bind(':mobile', $data['mobile']);
-        $this->db->bind(':bio', $data['bio']);
-        $this->db->bind(':group_id', $data['group_id']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':modified_date', time());
         // excute
@@ -117,9 +109,7 @@ class Donor extends ModelAdmin
      */
     public function getDonorById($id)
     {
-        $this->db->query('SELECT *, groups.name AS donorgroup '
-            . 'FROM groups INNER JOIN donors ON donors.group_id = groups.group_id WHERE donor_id= :donor_id');
-
+        $this->db->query('SELECT * FROM donors WHERE donor_id= :donor_id');
         $this->db->bind(':donor_id', $id);
         $row = $this->db->single();
         return $row;
@@ -146,108 +136,6 @@ class Donor extends ModelAdmin
         }
     }
 
-    /**
-     * Login Donor
-     * @param string $email
-     * @param string $password
-     * @return boolean or array of donor and his group
-     */
-    public function login($email, $password)
-    {
-        $this->db->query('SELECT * FROM donors WHERE email = :email');
-        $this->db->bind(':email', $email);
-        $donor = $this->db->single();
 
-        $hashed_password = $donor->password;
-        if (password_verify($password, $hashed_password)) {
-            unset($donor->password);
-            // if donor exist get his group data
-            $this->db->query('SELECT * FROM groups WHERE group_id = :group_id');
-            $this->db->bind(':group_id', $donor->group_id);
-            $group = $this->db->single();
-            // update login date
-            $this->db->query('UPDATE donors SET login_date = ' . time() . ' WHERE donor_id = ' . $donor->donor_id);
-            $this->db->excute();
-
-            return ['donor' => $donor, 'group' => $group];
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * handling donor session
-     * @param array $donorinfo
-     */
-    public function createDonorSession($donorinfo)
-    {
-        // adding donor information to session
-        $_SESSION['donor'] = $donorinfo['donor'];
-        $_SESSION['group'] = $donorinfo['group'];
-        // adding permission object to session
-        $_SESSION['permissions'] = json_decode(strtolower($donorinfo['group']->permissions));
-        // allow file manager
-        $_SESSION['filemanager'] = true;
-    }
-
-    /**
-     * request new password for donor
-     * @param type $email
-     */
-    public function forget($email)
-    {
-        //generate random code and store it in database
-        $code = sha1(rand(99999, 999999));
-        $this->db->query('UPDATE donors SET activation_code = "' . $code . '",request_password_time ="' . time() . '" WHERE  email = :email ');
-        $this->db->bind(':email', $email);
-        $this->db->excute();
-        // send email url to donor
-        $message = 'لقد طلبت إستعادة كلمة المرور الخاصة بك .
-                    إذا كنت ترغب بتغيير كلمة المرور الخاصة بك يرجى الضغط على الرابط التالي:
-                    ' . ADMINURL . '/donors/reset/' . $code . '
-                    إن لم تكن تتوقع وصول هذه الرسالة وتظن أنها وصلتك بالخطأ يمكنك تجاهلها.
-                    أطيب التحيات، ';
-        mail($email, 'تعليمات إعادة تعيين كلمة المرور‎', $message);
-    }
-
-    /**
-     * check if code is valid and not expired
-     * @param string hash $code
-     * @return boolean
-     */
-    public function checkCodeValidation($code)
-    {
-        $this->db->query('SELECT * FROM donors WHERE activation_code = :activation_code');
-        $this->db->bind(':activation_code', $code);
-        $donor = $this->db->single();
-        // Check row
-        if ($this->db->rowCount() > 0) {
-            if (($donor->request_password_time + 86400) > time()) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * reset Validation Code
-     * reset password
-     * @param string $email
-     * @return boolean
-     */
-    public function updatePassword($password, $code)
-    {
-        $this->db->query('UPDATE donors SET password = :password, activation_code = "' . rand(1212, 121222) . '",request_password_time ="0" WHERE  activation_code = :activation_code ');
-        $this->db->bind(':password', $password);
-        $this->db->bind(':activation_code', $code);
-        if ($this->db->excute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
 }

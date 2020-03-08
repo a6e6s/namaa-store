@@ -78,7 +78,7 @@ class Donors extends ControllerAdmin
             }
         }
         //handling search
-        $searches = $this->donorModel->searchHandling(['name', 'email', 'mobile', 'status']);
+        $searches = $this->donorModel->searchHandling(['full_name', 'mobile', 'status']);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 
@@ -117,80 +117,35 @@ class Donors extends ControllerAdmin
      */
     public function add()
     {
-        if (!$groupList = $this->donorModel->groupList(' WHERE status <> 2 ')) {
-            flash('donor_msg', 'برجاء انشاء مجموعة اولا حتي تتمكن من انشاء متبرعين جدد ', 'alert alert-danger');
-            redirect('donors');
-        }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
                 'page_title' => 'المتبرعين',
-                'name' => trim($_POST['name']),
+                'full_name' => trim($_POST['full_name']),
                 'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'password_repeat' => trim($_POST['password_repeat']),
+                'mobile_confirmed' => trim($_POST['mobile_confirmed']),
                 'mobile' => trim($_POST['mobile']),
-                'image' => '',
-                'groupList' => $groupList,
-                'bio' => trim($_POST['bio']),
-                'group_id' => trim($_POST['group_id']),
                 'status' => trim($_POST['status']),
-                'name_error' => '',
-                'email_error' => '',
-                'password_error' => '',
-                'password_repeat_error' => '',
-                'image_error' => '',
-                'group_error' => '',
+                'full_name_error' => '',
+                'mobile_error' => '',
                 'status_error' => '',
             ];
             // validate name
-            if (empty($data['name'])) {
-                $data['name_error'] = 'من فضلك اختار اسم للمتبرع';
+            if (empty($data['full_name'])) {
+                $data['full_name_error'] = 'من فضلك اختار اسم للمتبرع';
             }
-            // validate email
-            if (empty($data['email'])) {
-                $data['email_error'] = 'من فضلك ادخل بريد الكتروني صحيح';
-            } elseif ($this->donorModel->findDonorByEmail($data['email'])) {
-                $data['email_error'] = 'هذا البريد مسجل بالفعل ';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $data['email_error'] = 'هذا البريد غير صالح ';
-            }
-            // Validate Password
-            if (empty($data['password'])) {
-                $data['password_error'] = 'من فضلك قم بأدخال كلمة مرور مناسبة';
-            } elseif (strlen($data['password']) < 6) {
-                $data['password_error'] = 'كلمة المرور لا يجب ان تكون اقل من 6 احرف';
-            }
-            if (empty($data['password_repeat'])) {
-                $data['password_repeat_error'] = 'من فضلك قم بأعادة كتابة كلمة المرور ';
-            } elseif ($data['password'] != $data['password_repeat']) {
-                $data['password_repeat_error'] = 'من فضلك اعد كتابة كلمة المرور بشكل صحيح';
-            }
-            // validate image
-            if (!empty($_FILES['image'])) {
-                $image = uploadImage('image', ADMINROOT . '/../media/images/', 5000000, true);
-                if (empty($image['error'])) {
-                    $data['image'] = $image['filename'];
-                } else {
-                    if (!isset($image['error']['nofile'])) {
-                        $data['image_error'] = implode(',', $image['error']);
-                    }
-                }
-            }
-            // validate group
-            if (empty($data['group_id'])) {
-                $data['group_error'] = 'من فضلك اختار مجموعة مناسبة';
+            // validate mobile
+            if (empty($data['mobile'])) {
+                $data['mobile_error'] = 'من فضلك اضف رقم جوال للمتبرع';
             }
             // validate status
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة المتبرع';
             }
             //make sure there is no errors
-            if (empty($data['email_error']) && empty($data['name_error']) && empty($data['password_error']) && empty($data['password_repeat_error']) && empty($data['image_error']) && empty($data['group_error']) && empty($data['status_error'])) {
-                // Hash Password
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            if (empty($data['full_name_error']) && empty($data['status_error']) && empty($data['mobile_error'])) {
                 //validated
                 if ($this->donorModel->addDonor($data)) {
                     flash('donor_msg', 'تم الحفظ بنجاح');
@@ -204,22 +159,13 @@ class Donors extends ControllerAdmin
         } else {
             $data = [
                 'page_title' => 'المتبرعين',
-                'name' => '',
+                'full_name' => '',
                 'email' => '',
-                'password' => '',
-                'password_repeat' => '',
                 'mobile' => '',
-                'image' => '',
-                'groupList' => $groupList,
-                'bio' => '',
-                'group_id' => '',
+                'mobile_confirmed' => 'no',
                 'status' => '0',
-                'name_error' => '',
-                'email_error' => '',
-                'password_error' => '',
-                'password_repeat_error' => '',
-                'image_error' => '',
-                'group_error' => '',
+                'mobile_error' => '',
+                'full_name_error' => '',
                 'status_error' => '',
             ];
         }
@@ -235,11 +181,6 @@ class Donors extends ControllerAdmin
     public function edit($id)
     {
         $id = (int) $id;
-        // get group for donor selection
-        if (!$groupList = $this->donorModel->groupList(' WHERE status <> 2 ')) {
-            flash('donor_msg', 'برجاء انشاء مجموعة اولا حتي تتمكن من انشاء متبرعين جدد ', 'alert alert-danger');
-            redirect('donors');
-        }
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // sanitize POST array
@@ -247,68 +188,30 @@ class Donors extends ControllerAdmin
             $data = [
                 'donor_id' => $id,
                 'page_title' => 'المتبرعين',
-                'name' => trim($_POST['name']),
+                'full_name' => trim($_POST['full_name']),
                 'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'password_repeat' => trim($_POST['password_repeat']),
+                'mobile_confirmed' => trim($_POST['mobile_confirmed']),
                 'mobile' => trim($_POST['mobile']),
-                'image' => '',
-                'groupList' => $groupList,
-                'bio' => trim($_POST['bio']),
-                'group_id' => trim($_POST['group_id']),
                 'status' => trim($_POST['status']),
-                'name_error' => '',
-                'email_error' => '',
-                'password_error' => '',
-                'password_repeat_error' => '',
-                'image_error' => '',
-                'group_error' => '',
+                'full_name_error' => '',
+                'mobile_error' => '',
                 'status_error' => '',
             ];
-            // validate name
-            if (empty($data['name'])) {
-                $data['name_error'] = 'من فضلك اختار اسم للمتبرع';
-            }
-            // validate email
-            if (empty($data['email'])) {
-                $data['email_error'] = 'من فضلك ادخل بريد الكتروني صحيح';
-            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $data['email_error'] = 'هذا البريد غير صالح ';
-            }
-            // Validate Password
-            if (!empty($data['password'])) {
-                if (strlen($data['password']) < 6) {
-                    $data['password_error'] = 'كلمة المرور لا يجب ان تكون اقل من 6 احرف';
-                }
-                if ($data['password'] != $data['password_repeat']) {
-                    $data['password_repeat_error'] = 'من فضلك اعد كتابة كلمة المرور بشكل صحيح';
-                }
-            }
 
-            // validate image
-            if (!empty($_FILES['image'])) {
-                $image = uploadImage('image', ADMINROOT . '/../media/images/', 5000000, true);
-                if (empty($image['error'])) {
-                    $data['image'] = $image['filename'];
-                } else {
-                    if (!isset($image['error']['nofile'])) {
-                        $data['image_error'] = implode(',', $image['error']);
-                    }
-                }
+            // validate name
+            if (empty($data['full_name'])) {
+                $data['full_name_error'] = 'من فضلك اختار اسم للمتبرع';
             }
-            // validate group
-            if (empty($data['group_id'])) {
-                $data['group_error'] = 'من فضلك اختار مجموعة مناسبة';
+            // validate mobile
+            if (empty($data['mobile'])) {
+                $data['mobile_error'] = 'من فضلك اضف رقم جوال للمتبرع';
             }
             // validate status
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة المتبرع';
             }
             //make sure there is no errors
-            if (empty($data['email_error']) && empty($data['name_error']) && empty($data['password_error']) && empty($data['password_repeat_error']) && empty($data['image_error']) && empty($data['group_error']) && empty($data['status_error'])) {
-                if (!empty($data['password'])) { // Hash Password
-                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-                }
+            if (empty($data['full_name_error']) && empty($data['mobile_error']) && empty($data['status_error'])) {
                 //validated
                 if ($this->donorModel->updateDonor($data)) {
                     flash('donor_msg', 'تم التعديل بنجاح');
@@ -330,22 +233,13 @@ class Donors extends ControllerAdmin
             $data = [
                 'donor_id' => $id,
                 'page_title' => 'المتبرعين',
-                'name' => $donor->name,
+                'full_name' => $donor->full_name,
                 'email' => $donor->email,
-                'password' => '',
-                'password_repeat' => '',
                 'mobile' => $donor->mobile,
-                'image' => $donor->image,
-                'groupList' => $groupList,
-                'bio' => $donor->bio,
-                'group_id' => $donor->group_id,
                 'status' => $donor->status,
-                'name_error' => '',
-                'email_error' => '',
-                'password_error' => '',
-                'password_repeat_error' => '',
-                'image_error' => '',
-                'group_error' => '',
+                'mobile_confirmed' => $donor->mobile_confirmed,
+                'full_name_error' => '',
+                'mobile_error' => '',
                 'status_error' => '',
             ];
             $this->view('donors/edit', $data);

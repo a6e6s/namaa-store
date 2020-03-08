@@ -44,9 +44,9 @@ require ADMINROOT . '/views/inc/header.php';
                         <thead>
                             <tr class=" form-group-sm">
                                 <th colspan="1"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary" /></th>
-                                <th class=""><input type="search" placeholder="بحث بالأسم " class="form-control" name="search[name]" value="" ></th>
-                                <th class=""><input type="search" placeholder="بحث بالبريد الالكتروني" class="form-control" name="search[email]" value="" ></th>
+                                <th class=""><input type="search" placeholder="بحث بالأسم " class="form-control" name="search[full_name]" value="" ></th>
                                 <th class=""><input type="search" placeholder="بحث برقم الجوال" class="form-control" name="search[mobile]" value="" ></th>
+                                <th class=""></th>
                                 <th class="" colspan="3"></th>
                                 <th width="145px">
                                     <select class="form-control" name="search[status]" >
@@ -61,9 +61,9 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="checkbox" id="check-all" class="flat">
                                 </th>
                                 <th class="column-title">اسم المتبرع </th>
-                                <th class="column-title">البريد الالكتروني </th>
                                 <th class="column-title">رقم الجوال </th>
                                 <th class="column-title">الجوال مؤكد </th>
+                                <th class="column-title">البريد الالكتروني </th>
                                 <th class="column-title">تاريخ الانشاء </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span>
@@ -83,9 +83,9 @@ require ADMINROOT . '/views/inc/header.php';
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $donor->donor_id; ?>">
                                     </td>
                                     <td class=" "><?php echo $donor->full_name; ?></td>
-                                    <td class=" "><?php echo $donor->email; ?></i></td>
                                     <td class="ltr "><?php echo $donor->mobile; ?></i></td>
                                     <td class=" "><?php echo $donor->mobile_confirmed; ?></i></td>
+                                    <td class=" "><?php echo $donor->email; ?></i></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donor->create_date); ?></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donor->modified_date); ?></td>
                                     <td class="form-donor">

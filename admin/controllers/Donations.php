@@ -30,7 +30,7 @@ class Donations extends ControllerAdmin
     public function index($current = '', $perpage = 50)
     {#SELECT donations.*, donors.full_name as donor, projects.name as project FROM `donations`,projects, donors WHEre donors.donor_id = donations.donor_id AND projects.project_id = donations.project_id
         // get donations
-        $cond = 'WHERE donations.status <> 2 AND donors.donor_id = donations.donor_id AND projects.project_id = donations.project_id';
+        $cond = 'WHERE donations.status <> 2 AND donors.donor_id = donations.donor_id AND projects.project_id = donations.project_id AND donations.payment_method_id = payment_methods.payment_id ';
         $bind = [];
 
         //check user action if the form has submitted
@@ -55,7 +55,7 @@ class Donations extends ControllerAdmin
             if (isset($_POST['publish'])) {
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->donationModel->publishById($_POST['record'], 'donation_id')) {
-                        flash('donation_msg', 'تم نشر ' . $row_num . ' بنجاح');
+                        flash('donation_msg', 'تم تأكيد  ' . $row_num . ' بنجاح');
                     } else {
                         flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                     }
@@ -68,7 +68,7 @@ class Donations extends ControllerAdmin
 
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->donationModel->unpublishById($_POST['record'], 'donation_id')) {
-                        flash('donation_msg', 'تم ايقاف نشر ' . $row_num . ' بنجاح');
+                        flash('donation_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
                     } else {
                         flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                     }
@@ -82,7 +82,7 @@ class Donations extends ControllerAdmin
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
         // get all records count after search and filtration
-        $recordsCount = $this->donationModel->allDonationsCount(", donors , projects " . $cond, $bind);
+        $recordsCount = $this->donationModel->allDonationsCount(", donors , projects, payment_methods " . $cond, $bind);
         // make sure its integer value and its usable
         $current = (int) $current;
         $perpage = (int) $perpage;

@@ -91,7 +91,7 @@ class Project extends Model
      */
     public function updateDonationHash($data)
     {
-        $query = 'UPDATE Donations SET banktransferproof = :banktransferproof, hash = NULL, modified_date = :modified_date';
+        $query = 'UPDATE donations SET banktransferproof = :banktransferproof, hash = NULL, modified_date = :modified_date';
 
         $query .= ' WHERE hash = :hash';
         $this->db->query($query);
@@ -108,7 +108,7 @@ class Project extends Model
     }
     public function updateDonationMeta($data)
     {
-        $query = 'UPDATE Donations SET meta = :meta, hash = NULL, modified_date = :modified_date';
+        $query = 'UPDATE donations SET meta = :meta, hash = NULL, modified_date = :modified_date';
         $query .= ' WHERE hash = :hash';
         $this->db->query($query);
         // binding values

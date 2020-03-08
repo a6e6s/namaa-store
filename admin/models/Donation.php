@@ -34,7 +34,7 @@ class Donation extends ModelAdmin
      */
     public function getDonations($cond = '', $bind = '', $limit = '', $bindLimit)
     {
-        $query = 'SELECT donations.*, donors.full_name as donor, projects.name as project FROM `donations`,projects, donors ' . $cond . ' ORDER BY donations.create_date DESC ';
+        $query = 'SELECT donations.*, payment_methods.title as payment_method, donors.full_name as donor, projects.name as project FROM `donations`,projects, donors,payment_methods ' . $cond . ' ORDER BY donations.create_date DESC ';
 
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }

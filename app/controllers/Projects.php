@@ -131,6 +131,7 @@ class Projects extends Controller
         //save donation data through saving method
         $data = [
             'payment_method_id' => $_POST['payment_method'],
+            'donation_identifier' => time() . rand(99000, 99999),
             'amount' => $_POST['amount'],
             'hash' => $hash,
             'project_id' => $project->project_id,
@@ -190,8 +191,8 @@ class Projects extends Controller
             'project_id' => $_SESSION['payment']['project_id'],
             'hash' => $_SESSION['donation']['hash'],
         ];
-        $this->projectsModel->updateDonationMeta($data);//update donation meta
-        
+        $this->projectsModel->updateDonationMeta($data); //update donation meta
+
         //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = 'شكرا لتبرعك لدي متجر نماء الخيري' : null;
         flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');

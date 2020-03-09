@@ -23,13 +23,13 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('donation_msg'); ?>
+    <?php flash('donation_msg');?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['title']; ?> <small>عرض كافة <?php echo $data['title']; ?> </small></h3>
         </div>
         <div class="title_left">
-            <a href="<?php echo ADMINURL; ?>/donations/add" class="btn btn-success pull-left">انشاء جديد <i class="fa fa-plus"></i></a>
+            <!-- <a href="<?php echo ADMINURL; ?>/donations/add" class="btn btn-success pull-left">انشاء جديد <i class="fa fa-plus"></i></a> -->
         </div>
     </div>
 
@@ -44,22 +44,17 @@ require ADMINROOT . '/views/inc/header.php';
                         <thead>
                             <tr class=" form-group-sm">
                                 <th width="70px"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" /></th>
-                                <th class=""><input type="search" class="form-control" placeholder="بحث بالمعرف" name="search[donation_identifier]" value=""></th>
-                                <th class=""><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount]" value=""></th>
-                                <th class=""><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor]" value=""></th>
-                                <th width="175px">
-                                    <select class="form-control" name="search[hidden]">
-                                        <option value=""></option>
-                                        <option value="1">مخفي </option>
-                                        <option value="0"> ظاهر </option>
-                                    </select>
-                                </th>
-                                <th class="" colspan="5"></th>
+                                <th><input type="search" class="form-control" placeholder="بحث بالمعرف" name="search[donation_identifier]" value=""></th>
+                                <th><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount]" value=""></th>
+                                <!-- <th><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor_id]" value=""></th>
+                                <th><input type="search" class="form-control" placeholder="بحث بالمشروع" name="search[project_id]" value=""></th>
+                                <th><input type="search" class="form-control" placeholder="بحث بوسيلة التبرع" name="search[payment_method_id]" value=""></th> -->
+                                <th colspan="7"></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[status]">
                                         <option value=""></option>
-                                        <option value="1">منشور </option>
-                                        <option value="0"> غير منشور </option>
+                                        <option value="1">مؤكد </option>
+                                        <option value="0"> غير مؤكد </option>
                                     </select>
                                 </th>
                             </tr>
@@ -73,8 +68,8 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">المشروع </th>
                                 <th class="column-title">وسيلة التبرع </th>
                                 <th class="column-title">تأكيد التحويل </th>
-                                <th class="column-title">تفاصيل اضافية </th>
-                                <th class="column-title">تاريخ الانشاء </th>
+                                <th class="column-title">تفاصيل Payfort </th>
+                                <th class="column-title">تاريخ التبرع </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span></th>
                                 <th class="bulk-actions" colspan="10">
@@ -86,7 +81,7 @@ require ADMINROOT . '/views/inc/header.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data['donations'] as $donation) : ?>
+                            <?php foreach ($data['donations'] as $donation): ?>
                                 <tr class="even pointer">
                                     <td class="a-center ">
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $donation->donation_id; ?>">
@@ -96,22 +91,25 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td><?php echo $donation->donor; ?></td>
                                     <td><?php echo $donation->project; ?></td>
                                     <td><?php echo $donation->payment_method; ?></td>
-                                    <td><?php echo $donation->banktransferproof; ?></td>
+                                    <td><?php if(!empty($donation->banktransferproof)): ?>
+                                        <a class="btn btn-success btn-sm" href="<?php echo URLROOT ."/media/files/banktransfer/". $donation->banktransferproof; ?>" target="blank">تحميل</a>
+                                    <?php endif; ?>
+                                    </td>
                                     <td>
-                                        <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#meta">تفاصيل</button>
-                                        <div class="modal fade" id="meta" role="dialog">
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#meta<?php echo $donation->donation_id; ?>">تفاصيل</button>
+                                        <div class="modal fade" id="meta<?php echo $donation->donation_id; ?>" role="dialog">
                                             <div class="modal-dialog">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-body text-right" dir="ltr">
-                                                        <p>
+                                                        <ul class="text-capitalize">
                                                             <?php
                                                             ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
                                                             foreach ($metas as $key => $value) {
-                                                                echo $key . " : " . $value. "<br>\n";
+                                                                echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
                                                             }
                                                             ?>
-                                                        </p>
+                                                        </ul>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -125,9 +123,9 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="form-group">
                                         <?php
                                         if (!$donation->status) {
-                                            echo '<a href="' . ADMINURL . '/donations/publish/' . $donation->donation_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير منشور"><i class="fa fa-ban"></i></a>';
+                                            echo '<a href="' . ADMINURL . '/donations/publish/' . $donation->donation_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
                                         } elseif ($donation->status == 1) {
-                                            echo '<a href="' . ADMINURL . '/donations/unpublish/' . $donation->donation_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور"><i class="fa fa-check"></i></a>';
+                                            echo '<a href="' . ADMINURL . '/donations/unpublish/' . $donation->donation_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="مؤكد"><i class="fa fa-check"></i></a>';
                                         }
                                         ?>
                                         <a href="<?php echo ADMINURL . '/donations/show/' . $donation->donation_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
@@ -135,7 +133,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <a href="<?php echo ADMINURL . '/donations/delete/' . $donation->donation_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php endforeach;?>
 
                             <tr class="tab-selected">
                                 <th></th>

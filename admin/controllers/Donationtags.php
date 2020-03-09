@@ -130,7 +130,7 @@ class DonationTags extends ControllerAdmin
                 'status_error' => '',
                 'name_error' => '',
             ];
-// validate name
+            // validate name
             if (empty($data['name'])) {
                 $data['name_error'] = 'هذا الحقل مطلوب';
             }
@@ -141,8 +141,8 @@ class DonationTags extends ControllerAdmin
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
-//             mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['name_error']) ) {
+            //mack sue there is no errors
+            if (empty($data['status_error']) && empty($data['name_error'])) {
                 //validated
                 if ($this->donationTagModel->addDonationTag($data)) {
                     flash('donationtag_msg', 'تم الحفظ بنجاح');
@@ -202,7 +202,7 @@ class DonationTags extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             // mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['name_error']) ) {
+            if (empty($data['status_error']) && empty($data['name_error'])) {
                 //validated
                 if ($this->donationTagModel->updateDonationTag($data)) {
                     flash('donationtag_msg', 'تم التعديل بنجاح');

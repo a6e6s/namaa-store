@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 06, 2020 at 08:51 AM
+-- Generation Time: Mar 09, 2020 at 02:58 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -63,6 +63,7 @@ INSERT INTO `contacts` (`contact_id`, `subject`, `message`, `full_name`, `email`
 DROP TABLE IF EXISTS `donations`;
 CREATE TABLE IF NOT EXISTS `donations` (
   `donation_id` int(11) NOT NULL AUTO_INCREMENT,
+  `donation_identifier` bigint(15) NOT NULL,
   `amount` int(11) NOT NULL,
   `payment_method_id` int(11) NOT NULL,
   `hash` varchar(100) DEFAULT NULL,
@@ -74,29 +75,35 @@ CREATE TABLE IF NOT EXISTS `donations` (
   `modified_date` int(10) DEFAULT NULL,
   `create_date` int(10) DEFAULT NULL,
   PRIMARY KEY (`donation_id`),
+  UNIQUE KEY `donation_identifier` (`donation_identifier`),
   KEY `donor_id` (`donor_id`),
   KEY `project_id` (`project_id`),
   KEY `payment_method_id` (`payment_method_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donations`
 --
 
-INSERT INTO `donations` (`donation_id`, `amount`, `payment_method_id`, `hash`, `banktransferproof`, `meta`, `project_id`, `donor_id`, `status`, `modified_date`, `create_date`) VALUES
-(2, 1, 1, NULL, 'خطاب إلغاء_18.pdf', NULL, 4, 1, 0, 1583315262, 1583315247),
-(3, 50, 1, NULL, '1413b43d-6c7d-4d71-aac5-b03783646302.jpg', NULL, 2, 1, 0, 1583320401, 1583320375),
-(4, 50, 4, '748a51d1b312aa689bd1dbf239d73c6879d67cef', NULL, NULL, 3, 1, 0, 1583399753, 1583399753),
-(5, 50, 4, '696204a4ab1e58b428aa58c7252f3be5c756baf0', NULL, NULL, 3, 1, 0, 1583408352, 1583408352),
-(6, 1, 2, 'f53e892aafe039fccb5e2b72a21aa83a13d320fb', NULL, NULL, 4, 1, 0, 1583408524, 1583408524),
-(7, 1, 4, 'ecdb6e8ba92601d8991fa761886288181db86e2a', NULL, NULL, 4, 1, 0, 1583408543, 1583408543),
-(8, 1, 4, 'c5ecb3ff60425067363f9c46b9a8d4fa7f3dc85b', NULL, NULL, 4, 1, 0, 1583408581, 1583408581),
-(9, 1, 2, 'ace9b96a312aad136c7ed20f34a183283ef3837c', NULL, NULL, 4, 1, 0, 1583408594, 1583408594),
-(10, 1, 2, '672fb9f4c096b80666a23bdca33be125256cd16b', NULL, NULL, 4, 1, 0, 1583408742, 1583408742),
-(11, 1, 2, '2ed541f561271db360f2d663a2359124566f6cc5', NULL, NULL, 4, 1, 0, 1583408795, 1583408795),
-(12, 1, 3, '222816124837c1831900bf9d937d2dad66022ec4', NULL, NULL, 4, 1, 0, 1583410255, 1583410255),
-(13, 1, 3, '097d88ae201049ce10a1b644bf13b1c02409644e', NULL, NULL, 4, 1, 0, 1583413306, 1583413306),
-(14, 50, 3, NULL, NULL, '', 3, 9, 0, 1583415740, 1583415420);
+INSERT INTO `donations` (`donation_id`, `donation_identifier`, `amount`, `payment_method_id`, `hash`, `banktransferproof`, `meta`, `project_id`, `donor_id`, `status`, `modified_date`, `create_date`) VALUES
+(2, 1, 1, 1, NULL, 'خطاب إلغاء_18.pdf', NULL, 4, 1, 0, 1583315262, 1583315247),
+(3, 3, 50, 1, NULL, '1413b43d-6c7d-4d71-aac5-b03783646302.jpg', NULL, 2, 1, 0, 1583320401, 1583320375),
+(4, 4, 50, 4, '748a51d1b312aa689bd1dbf239d73c6879d67cef', NULL, NULL, 3, 1, 0, 1583399753, 1583399753),
+(5, 6, 50, 4, '696204a4ab1e58b428aa58c7252f3be5c756baf0', NULL, NULL, 3, 1, 0, 1583408352, 1583408352),
+(6, 5465, 1, 2, 'f53e892aafe039fccb5e2b72a21aa83a13d320fb', NULL, NULL, 4, 1, 0, 1583408524, 1583408524),
+(7, 54654, 1, 4, 'ecdb6e8ba92601d8991fa761886288181db86e2a', NULL, NULL, 4, 1, 0, 1583408543, 1583408543),
+(8, 23423, 1, 4, 'c5ecb3ff60425067363f9c46b9a8d4fa7f3dc85b', NULL, NULL, 4, 1, 0, 1583408581, 1583408581),
+(9, 1123, 1, 2, 'ace9b96a312aad136c7ed20f34a183283ef3837c', NULL, NULL, 4, 1, 0, 1583408594, 1583408594),
+(10, 1785, 1, 2, '672fb9f4c096b80666a23bdca33be125256cd16b', NULL, NULL, 4, 1, 0, 1583408742, 1583408742),
+(11, 274, 1, 2, '2ed541f561271db360f2d663a2359124566f6cc5', NULL, NULL, 4, 1, 0, 1583408795, 1583408795),
+(12, 1234, 1, 3, '222816124837c1831900bf9d937d2dad66022ec4', NULL, NULL, 4, 1, 0, 1583410255, 1583410255),
+(13, 1111, 1, 3, '097d88ae201049ce10a1b644bf13b1c02409644e', NULL, NULL, 4, 1, 0, 1583413306, 1583413306),
+(14, 1222, 50, 3, NULL, NULL, '', 3, 9, 0, 1583415740, 1583415420),
+(15, 158373380099928, 1111, 4, '3945061b8ac0dbbf61a9ea98271b19e696546c20', NULL, NULL, 9, 1, 0, 1583733800, 1583733800),
+(16, 158374633499983, 50, 3, NULL, NULL, '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"c479ba970bc15530ed772ebee934af0068e7ccb401f6817958ff3cb5cc608c6e\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"535854337\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 3, 1, 1, 1583746341, 1583746334),
+(17, 158375530099131, 222, 3, 'add7c0431c2ce7414dbaa98f7143c9791fa82dd1', NULL, NULL, 6, 1, 0, 1583755300, 1583755300),
+(18, 158375533799877, 222, 3, NULL, NULL, '{\"amount\":\"22200\",\"response_code\":\"13666\",\"card_number\":\"405433******5085\",\"card_holder_name\":\"Ahmed Elmahdy\",\"signature\":\"f44da9ee92bdc9a621bdbe188dde20e8b155b418aa219ee6761160275558ba15\",\"payment_option\":\"VISA\",\"expiry_date\":\"2501\",\"customer_ip\":\"188.55.208.27\",\"eci\":\"ECOMMERCE\",\"fort_id\":\"158375535200074771\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062d\\u0631\\u0643\\u0629 \\u0645\\u0631\\u0641\\u0648\\u0636\\u0629\",\"merchant_reference\":\"1672706624\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"13\"}', 6, 1, 0, 1583765569, 1583755337),
+(19, 158375899499187, 50, 1, NULL, 'منصة خدمات التأشيرات.pdf', NULL, 3, 1, 0, 1583765198, 1583758994);
 
 -- --------------------------------------------------------
 
@@ -148,22 +155,24 @@ CREATE TABLE IF NOT EXISTS `donors` (
   `modified_date` int(10) DEFAULT NULL,
   `create_date` int(10) DEFAULT NULL,
   PRIMARY KEY (`donor_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donors`
 --
 
 INSERT INTO `donors` (`donor_id`, `mobile`, `full_name`, `email`, `mobile_confirmed`, `status`, `modified_date`, `create_date`) VALUES
-(1, '+966 05 9776775', 'Ahmed Elmahdy', NULL, 'no', 0, 1583237268, 1583237268),
+(1, '+966 05 9776775', 'Ahmed Elmahdy', '', 'no', 1, 1583676783, 1583237268),
 (2, '+966 53 9776775', 'Ahmed Elmahdy', NULL, 'no', 0, 1583237404, 1583237404),
-(3, '+966 54 9776775', 'Ahmed Elmahdy', NULL, 'no', 0, 1583237678, 1583237678),
+(3, '+966 54 9776775', 'Ahmed Elmahdy', NULL, 'no', 1, 1583237678, 1583237678),
 (4, '+966 05 9776776', 'Ahmed Elmahdy', NULL, 'no', 0, 1583237822, 1583237822),
 (5, '+966 55 5555555', 'Ahmed Elmahdy', NULL, 'no', 0, 1583237995, 1583237995),
 (6, '+966 05 9776771', 'Ahmed Elmahdy', NULL, 'no', 0, 1583238085, 1583238085),
 (7, '+966 05 9776772', 'Ahmed Elmahdy', NULL, 'no', 0, 1583238276, 1583238276),
 (8, '+966 05 9776755', 'Ahmed Elmahdy', NULL, 'no', 0, 1583238315, 1583238315),
-(9, '+966 05 9776779', 'Ahmed Elmahdy', NULL, 'yes', 0, 1583415420, 1583415420);
+(9, '+966 05 9776779', 'Ahmed Elmahdy', NULL, 'yes', 0, 1583415420, 1583415420),
+(10, '0597767751', 'Ahmed Elmahdy', NULL, 'yes', 2, 1583675359, 1583673484),
+(11, '0597767751', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'no', 2, 1583677328, 1583677328);
 
 -- --------------------------------------------------------
 
@@ -188,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`group_id`, `name`, `description`, `permissions`, `status`, `create_date`, `modified_date`) VALUES
-(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"DonationTags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"PaymentMethods\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"ProjectCategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"ProjectTags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1583417477),
+(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donations\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donationtags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Paymentmethods\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projectcategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projecttags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1583678886),
 (2, 'الاشراف', 'مجموعة تملك صلاحيات التعديل والاضافة والعرض', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"add\":\"1\"},\"Users\":{\"index\":\"1\",\"add\":\"1\"}}', 1, 1543746264, 1544079169),
 (3, 'المراقبين', '', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"}}', 1, 1549259804, 1572870120);
 
@@ -453,15 +462,23 @@ INSERT INTO `slides` (`slide_id`, `name`, `alias`, `url`, `description`, `arrang
 
 DROP TABLE IF EXISTS `tags_donations`;
 CREATE TABLE IF NOT EXISTS `tags_donations` (
-  `tags_projects_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tags_donations_id` int(11) NOT NULL AUTO_INCREMENT,
   `tag_id` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL,
+  `donation_id` int(11) NOT NULL,
   `create_date` int(11) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tags_projects_id`),
+  PRIMARY KEY (`tags_donations_id`),
   KEY `tag_id` (`tag_id`),
-  KEY `project_id` (`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `project_id` (`donation_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tags_donations`
+--
+
+INSERT INTO `tags_donations` (`tags_donations_id`, `tag_id`, `donation_id`, `create_date`, `modified_date`) VALUES
+(3, 1, 19, 1583765198, 1583765198),
+(5, 1, 18, 1583765569, 1583765569);
 
 -- --------------------------------------------------------
 
@@ -526,7 +543,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `mobile`, `image`, `bio`, `activation_code`, `request_password_time`, `group_id`, `login_date`, `status`, `modified_date`, `create_date`) VALUES
-(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583417482, 1, 1574344167, 1543831099),
+(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583678891, 1, 1574344167, 1543831099),
 (23, 'Monyb Younos', 'munybe@gmail.com', '$2y$10$Raf3iUVZJPQr4//YEBuypO.fWDuSWTRZPDmCa7.Ta84v21ZFWl056', '0597767751', 'logo-xl.png', '', NULL, NULL, 3, NULL, 1, 1572786141, 1572786123);
 
 --

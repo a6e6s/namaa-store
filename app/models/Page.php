@@ -74,6 +74,28 @@ class Page extends Model
     public function getPageById($id)
     {
         return $this->getBy(['page_id' => $id, 'status' => 1]);
+    }
 
+    public function addContacts($data)
+    {
+        $this->db->query('INSERT INTO contacts( subject, message, full_name, email, phone, type, status, modified_date, create_date)'
+            . ' VALUES (:subject, :message, :full_name, :email, :phone, :type, :status, :modified_date, :create_date)');
+        // binding values
+        $this->db->bind(':subject', $data['subject']);
+        $this->db->bind(':message', $data['message']);
+        $this->db->bind(':full_name', $data['full_name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone', $data['phone']);
+        $this->db->bind(':type', $data['type']);
+        $this->db->bind(':status', 0);
+        $this->db->bind(':create_date', time());
+        $this->db->bind(':modified_date', time());
+
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -5,5 +5,5 @@ foreach ($data['pagesLinks'] as $page):
     echo '<a class="nav-link" href="' . URLROOT . '/pages/show/' . $page->page_id . '/' . $page->alias . '">' . $page->title . '</a>';
 endforeach;
 ?>
-    <a class="nav-link" href="#">إتصل بنا</a>
+    <a class="nav-link" href="<?php echo URLROOT . '/pages/contact/' ?>">إتصل بنا</a>
 </nav>

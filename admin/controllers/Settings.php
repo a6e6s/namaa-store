@@ -103,10 +103,10 @@ class Settings extends ControllerAdmin
                 $this->view('settings/social', $data);
                 break;
             case '5':
-                $this->view('settings/sms', $data);
+                $this->view('settings/email', $data);
                 break;
             case '6':
-                $this->view('settings/email', $data);
+                $this->view('settings/sms', $data);
                 break;
             // case '7':
             //     $this->view('settings/contact', $data);
@@ -116,5 +116,4 @@ class Settings extends ControllerAdmin
                 break;
         }
     }
-
 }

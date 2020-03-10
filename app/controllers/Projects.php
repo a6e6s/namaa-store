@@ -105,16 +105,20 @@ class Projects extends Controller
         $project = $this->projectsModel->getProjectById($_POST['project_id']);
         //redirect if no project
         (!$project) ? flashRedirect('', 'msg', 'حدث خطأ ما ربما اتبعت رابط خاطيء ', 'alert alert-danger') : null;
-
+        //saving donor data
         if (empty($_POST['project_id']) || empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['amount'])) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
         } else {
             $_SESSION['payment'] = $_POST;
-            //saving donor data
+
             //loading donor model
             $this->donorModel = $this->model('donor');
             //check if exist and return its id
             if ($donor = $this->donorModel->getdonorByMobile($_POST['mobile'])) {
+                if ($donor->mobile_confirmed == 'no') {
+                    $data = ['mobile_confirmed' => $_POST['mobile_confirmed'], 'donor_id' => $donor->donor_id];
+                    $this->donorModel->updateMobileConfirmation($data);
+                }
                 $donor = $donor->donor_id;
             } else {
                 // if not exist save it and return its id
@@ -196,6 +200,7 @@ class Projects extends Controller
         //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = 'شكرا لتبرعك لدي متجر نماء الخيري' : null;
         flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
+        // dd('/projects/show/' . $_SESSION['payment']['project_id']);
     }
 
     /**

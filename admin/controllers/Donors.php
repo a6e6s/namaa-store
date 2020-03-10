@@ -260,6 +260,7 @@ class Donors extends ControllerAdmin
             'donor_id' => $id,
             'page_title' => 'المتبرعين',
             'donor' => $donor,
+            'donations'=> $this->donorModel->getDonerDonations($id),
         ];
         $this->view('donors/show', $data);
     }

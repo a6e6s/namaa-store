@@ -10,23 +10,33 @@
                         class="ml-2">الأقسام</h2>
             </div>
         </div>
-        <div class="row mt-2">
-            <div class="col-12 wow zoomIn owl-carousel">
-                <?php foreach ($data['project_categories'] as $category): ?>
-                <div class="category">
-                    <a class="">
-                        <img class="card-img-top rounded" src="<?php echo (empty($category->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $category->image; ?>" alt="<?php echo $category->name; ?>">
-                        <div class="content p-1">
-                            <h3 class="category-title"><?php echo $category->name; ?></h3>
-                            <p class="card-text"><?php echo mb_substr(strip_tags($category->description), 0, 120); ?></p>
-                            <div class="text-center mt-2">
-                                <a href="<?php echo URLROOT . '/ProjectCategories/show/' . $category->category_id . '-' . $category->name; ?>" class="btn btn-section mb-4"> <i class="icofont-paper"></i> التفاصيل</a>
-                            </div>
+        <div class="row">
+            <?php
+                echo (count($data['categories']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذا القسم</p>' : '';
+                foreach ($data['categories'] as $category):
+            ?>
+            <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
+                <div class="card">
+                    <img class="card-img-top" src="<?php echo (empty($category->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $category->image; ?>" alt="<?php echo $category->alias; ?>">
+                    <div class="body-card m-2">
+                        <p class="card-text"><?php echo mb_substr(strip_tags($category->description), 0, 100); ?></p>
+                    </div>
+                    <div class="card-footer bg-primary mt-1">
+                        <div class=" text-center ">
+                            <a href="<?php echo URLROOT . '/projectCategories/show/' . $category->category_id . '-' . $category->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
+                            </a>
                         </div>
-                    </a>
+                    </div>
                 </div>
-                <?php endforeach;?>
-            </div>
+            </div> <!-- end product -->
+            <?php endforeach;?>
+        </div>
+        <div class="row ">
+            <nav class="col-md-6 col-12 offset-md-3 mt-5">
+                <ul class="pagination nav nav-bar ">
+                    <?php echo $data['pagination']; ?>
+                </ul>
+            </nav>
         </div>
 
     </section>

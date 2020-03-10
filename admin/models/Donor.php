@@ -135,7 +135,19 @@ class Donor extends ModelAdmin
             return false;
         }
     }
-
+    
+    /**
+     * get Doner Donations
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function getDonerDonations($id)
+    {
+        $this->db->query('SELECT donations.*, projects.name as project FROM donations,projects WHERE donations.project_id = projects.project_id AND  donor_id= :donor_id');
+        $this->db->bind(':donor_id', $id);
+        return $this->db->resultSet();
+    }
 
 
 }

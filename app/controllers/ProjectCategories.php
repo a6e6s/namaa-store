@@ -12,13 +12,19 @@ class ProjectCategories extends Controller
         $this->meta = new Meta;
     }
 
-    public function index()
+    public function index($start = 1, $perpage = 9)
     {
-
+        $start = (int) $start;
+        $perpage = (int) $perpage;
+        empty($start) ? $start = 1 : '';
+        empty($perpage) ? $perpage = 9 : '';
+        $categories = $this->categoriesModel->getCategories( $start, $perpage);
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
             'pagesLinks' => $this->categoriesModel->getPagesTitle(),
             'settings' => null,
+            'pagination' => generatePagination($this->categoriesModel->categoriesCount()->count, $start, $perpage, 4, URLROOT, '/ProjectCategories/index'),
+            'categories' => $categories,
         ];
 
         $this->meta->title = 'الاقسام';

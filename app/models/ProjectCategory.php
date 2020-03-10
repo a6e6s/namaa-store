@@ -55,8 +55,37 @@ class ProjectCategory extends Model
         return $this->getFromTable('projects', 'project_id, alias, description, secondary_image as img, enable_cart, target_price, collected_traget, fake_target', ['category_id' => $id, 'status' => 1], $start, $perpage);
     }
 
+    /**
+     * projects Count
+     *
+     * @param  mixed $id
+     * @return void
+     */
     public function projectsCount($id)
     {
         return $this->countAll(['category_id' => $id, 'status' => 1], 'projects');
+    }
+
+    /**
+     * categoriesCount
+     *
+     * @return void
+     */
+    public function categoriesCount()
+    {
+        return $this->countAll(['status' => 1]);
+    }
+
+    /**
+     * get all Categories
+     *
+     * @param  mixed $cond
+     * @param  mixed $start
+     * @param  mixed $perpage
+     * @return void
+     */
+    public function getCategories($start, $perpage)
+    {
+        return $this->get('*', ['status' => 1], $start, $perpage);
     }
 }

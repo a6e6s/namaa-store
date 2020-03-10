@@ -25,9 +25,9 @@
         </div>
         <div class="row">
             <?php
-echo (count($data['projects']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذا القسم</p>' : '';
-foreach ($data['projects'] as $project):
-?>
+                echo (count($data['projects']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذا القسم</p>' : '';
+                foreach ($data['projects'] as $project):
+            ?>
             <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
                 <div class="card">
                     <img class="card-img-top" src="<?php echo (empty($project->img)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->img; ?>" alt="<?php echo $project->alias; ?>">

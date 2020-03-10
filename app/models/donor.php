@@ -25,9 +25,6 @@ class Donor extends Model
         parent::__construct('donors');
     }
 
-
-
-
     /**
      * get count of all records
      * @param type $cond
@@ -97,15 +94,19 @@ class Donor extends Model
         }
     }
 
-    // /**
-    //  * get donor by id
-    //  * @param integer $id
-    //  * @return object donor data
-    //  */
-    // public function lastId($id)
-    // {
-    //     return $this->db->lastId();
-    // }
+    public function updateMobileConfirmation($data)
+    {
+        $query = 'UPDATE donors SET mobile_confirmed = :mobile_confirmed WHERE donor_id = :donor_id';
+        $this->db->query($query);
+        $this->db->bind(':donor_id', $data['donor_id']);
+        $this->db->bind(':mobile_confirmed', $data['mobile_confirmed']);
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Find donor by email
@@ -114,11 +115,7 @@ class Donor extends Model
      */
     public function getdonorByMobile($mobile)
     {
-        return $this->getSingle('*',['mobile'=>$mobile]);
+        return $this->getSingle('*', ['mobile' => $mobile]);
     }
-
-
-
-
 
 }

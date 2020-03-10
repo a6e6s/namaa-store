@@ -169,6 +169,7 @@ class Model
      */
     public function countAll($bind = '', $table = null)
     {
+        $table ?? $this->table;
         return $this->getSingle(' count(*) as count ', $bind, $table);
     }
 

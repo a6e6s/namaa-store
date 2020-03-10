@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 09, 2020 at 02:58 PM
+-- Generation Time: Mar 10, 2020 at 05:10 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `donations` (
   KEY `donor_id` (`donor_id`),
   KEY `project_id` (`project_id`),
   KEY `payment_method_id` (`payment_method_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donations`
@@ -103,7 +103,11 @@ INSERT INTO `donations` (`donation_id`, `donation_identifier`, `amount`, `paymen
 (16, 158374633499983, 50, 3, NULL, NULL, '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"c479ba970bc15530ed772ebee934af0068e7ccb401f6817958ff3cb5cc608c6e\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"535854337\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 3, 1, 1, 1583746341, 1583746334),
 (17, 158375530099131, 222, 3, 'add7c0431c2ce7414dbaa98f7143c9791fa82dd1', NULL, NULL, 6, 1, 0, 1583755300, 1583755300),
 (18, 158375533799877, 222, 3, NULL, NULL, '{\"amount\":\"22200\",\"response_code\":\"13666\",\"card_number\":\"405433******5085\",\"card_holder_name\":\"Ahmed Elmahdy\",\"signature\":\"f44da9ee92bdc9a621bdbe188dde20e8b155b418aa219ee6761160275558ba15\",\"payment_option\":\"VISA\",\"expiry_date\":\"2501\",\"customer_ip\":\"188.55.208.27\",\"eci\":\"ECOMMERCE\",\"fort_id\":\"158375535200074771\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062d\\u0631\\u0643\\u0629 \\u0645\\u0631\\u0641\\u0648\\u0636\\u0629\",\"merchant_reference\":\"1672706624\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"13\"}', 6, 1, 0, 1583765569, 1583755337),
-(19, 158375899499187, 50, 1, NULL, 'منصة خدمات التأشيرات.pdf', NULL, 3, 1, 0, 1583765198, 1583758994);
+(19, 158375899499187, 50, 1, NULL, 'منصة خدمات التأشيرات.pdf', NULL, 3, 1, 0, 1583765198, 1583758994),
+(20, 158382176199277, 50, 1, NULL, 'receipt (8).pdf', NULL, 3, 1, 0, 1583821789, 1583821761),
+(21, 158382182999195, 50, 3, NULL, NULL, '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"95cefdcff045ac4e01b80cae9ce742b846d3ab03086373498e593d59ec1b1d47\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1546377473\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 3, 1, 0, 1583821851, 1583821829),
+(22, 158382217799913, 1, 3, NULL, NULL, '{\"amount\":\"100\",\"response_code\":\"00072\",\"signature\":\"49769b4ee0bac3273d160305f5f93a51db3b673e0c71705b8d22164a5aad83f8\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1988473144\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 4, 1, 0, 1583822186, 1583822177),
+(23, 158382301599111, 50, 1, '1266541a5da27cec7a362043cce8255256ad0c28', NULL, NULL, 3, 1, 0, 1583823015, 1583823015);
 
 -- --------------------------------------------------------
 
@@ -162,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `donors` (
 --
 
 INSERT INTO `donors` (`donor_id`, `mobile`, `full_name`, `email`, `mobile_confirmed`, `status`, `modified_date`, `create_date`) VALUES
-(1, '+966 05 9776775', 'Ahmed Elmahdy', '', 'no', 1, 1583676783, 1583237268),
+(1, '+966 05 9776775', 'Ahmed Elmahdy', '', 'yes', 1, 1583676783, 1583237268),
 (2, '+966 53 9776775', 'Ahmed Elmahdy', NULL, 'no', 0, 1583237404, 1583237404),
 (3, '+966 54 9776775', 'Ahmed Elmahdy', NULL, 'no', 1, 1583237678, 1583237678),
 (4, '+966 05 9776776', 'Ahmed Elmahdy', NULL, 'no', 0, 1583237822, 1583237822),
@@ -170,7 +174,7 @@ INSERT INTO `donors` (`donor_id`, `mobile`, `full_name`, `email`, `mobile_confir
 (6, '+966 05 9776771', 'Ahmed Elmahdy', NULL, 'no', 0, 1583238085, 1583238085),
 (7, '+966 05 9776772', 'Ahmed Elmahdy', NULL, 'no', 0, 1583238276, 1583238276),
 (8, '+966 05 9776755', 'Ahmed Elmahdy', NULL, 'no', 0, 1583238315, 1583238315),
-(9, '+966 05 9776779', 'Ahmed Elmahdy', NULL, 'yes', 0, 1583415420, 1583415420),
+(9, '+966 05 9776779', 'Ahmed Elmahdy', NULL, 'yes', 1, 1583415420, 1583415420),
 (10, '0597767751', 'Ahmed Elmahdy', NULL, 'yes', 2, 1583675359, 1583673484),
 (11, '0597767751', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'no', 2, 1583677328, 1583677328);
 
@@ -197,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`group_id`, `name`, `description`, `permissions`, `status`, `create_date`, `modified_date`) VALUES
-(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donations\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donationtags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Paymentmethods\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projectcategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projecttags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1583678886),
+(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donations\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donationtags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projectcategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projecttags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1583844931),
 (2, 'الاشراف', 'مجموعة تملك صلاحيات التعديل والاضافة والعرض', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"add\":\"1\"},\"Users\":{\"index\":\"1\",\"add\":\"1\"}}', 1, 1543746264, 1544079169),
 (3, 'المراقبين', '', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"}}', 1, 1549259804, 1572870120);
 
@@ -406,22 +410,23 @@ DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `setting_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
-  `alias` varchar(55) DEFAULT NULL,
-  `section` varchar(55) DEFAULT NULL,
   `value` mediumtext,
-  `status` tinyint(1) NOT NULL,
   `create_date` int(11) NOT NULL,
   `modified_date` int(11) NOT NULL,
   PRIMARY KEY (`setting_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`setting_id`, `title`, `alias`, `section`, `value`, `status`, `create_date`, `modified_date`) VALUES
-(3, 'Products Count', 'products_count', 'site', '9', 1, 2136548759, 2136548759),
-(4, 'Product Visibility', 'product_visibility', 'site', '1', 1, 2136548759, 2136548759);
+INSERT INTO `settings` (`setting_id`, `title`, `value`, `create_date`, `modified_date`) VALUES
+(1, 'الاعدادات العامة', '{\"title\":\"\\u062c\\u0645\\u0639\\u064a\\u0629 \\u0646\\u0645\\u0627\\u0621 \",\"logo\":\"pic1521704669.png\",\"header_code\":\"\",\"footer_code\":\"\",\"show_banner\":\"0\",\"show_projects\":\"0\",\"show_categories\":\"0\",\"show_bottom\":\"0\",\"show_footer\":\"0\"}', 1583845973, 1583850876),
+(2, 'اعدادات بيانات التواصل', NULL, 1583845973, 1583845973),
+(3, 'اعدادات الارشفة', NULL, 1583845973, 1583845973),
+(4, 'اعدادات بيانات التواصل', NULL, 1583845973, 1583845973),
+(5, 'اعدادات البريد الالكتروني', ' ', 1583845973, 1583845973),
+(6, 'اعدادات رسائل SMS', ' ', 1583845973, 1583845973);
 
 -- --------------------------------------------------------
 
@@ -543,7 +548,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `mobile`, `image`, `bio`, `activation_code`, `request_password_time`, `group_id`, `login_date`, `status`, `modified_date`, `create_date`) VALUES
-(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583678891, 1, 1574344167, 1543831099),
+(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583844937, 1, 1574344167, 1543831099),
 (23, 'Monyb Younos', 'munybe@gmail.com', '$2y$10$Raf3iUVZJPQr4//YEBuypO.fWDuSWTRZPDmCa7.Ta84v21ZFWl056', '0597767751', 'logo-xl.png', '', NULL, NULL, 3, NULL, 1, 1572786141, 1572786123);
 
 --

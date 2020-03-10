@@ -75,7 +75,7 @@ class Settings extends ControllerAdmin
         } else {
             // featch setting
             if (!$setting = $this->settingModel->getSettingById($id)) {
-                flash('setting_msg', 'هناك خطأ ما هذه الأعدادة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
+                flash('setting_msg', 'هناك خطأ ما هذه الأعدادات غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
                 redirect('settings');
             }
 
@@ -108,9 +108,6 @@ class Settings extends ControllerAdmin
             case '6':
                 $this->view('settings/sms', $data);
                 break;
-            // case '7':
-            //     $this->view('settings/contact', $data);
-            //     break;
             default:
                 redirect('settings');
                 break;

@@ -1,4 +1,4 @@
-<?php require APPROOT . '/app/views/inc/header.php';?>
+<?php require APPROOT . '/app/views/inc/header.php'; ?>
 
 <div class="container page">
     <div class="row  mt-5 mb-5 card flex-row">
@@ -22,7 +22,7 @@
         </div>
         <div class="col-12 border-top pt-3 mt-5">
             <div class="">
-                <?php flash('msg');?>
+                <?php flash('msg'); ?>
                 <form action="<?php echo URLROOT . '/pages/contact'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
                     <div class="col-sm-12 col-xs-12">
                         <div class="form-group  <?php echo (empty($data['subject_error'])) ?: 'has-error'; ?>">
@@ -46,11 +46,11 @@
                             <div class="has-feedback">
                                 <select name="type" class="form-control">
                                     <option value="">اختار الغرض من الرسالة </option>
-                                    <?php foreach ($data['types'] as $type): ?>
+                                    <?php foreach ($data['types'] as $type) : ?>
                                         <option value="<?php echo $type; ?>" <?php echo ($type == $data['type']) ? " selected " : ''; ?>>
                                             <?php echo $type; ?>
                                         </option>
-                                    <?php endforeach;?>
+                                    <?php endforeach; ?>
                                 </select>
                                 <span class="fa fa-folder form-control-feedback" aria-hidden="true"></span>
                             </div>
@@ -85,4 +85,4 @@
         </div>
     </div>
 </div>
-<?php require APPROOT . '/app/views/inc/footer.php';?>
+<?php require APPROOT . '/app/views/inc/footer.php'; ?>

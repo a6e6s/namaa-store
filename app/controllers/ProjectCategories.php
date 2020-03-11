@@ -18,10 +18,10 @@ class ProjectCategories extends Controller
         $perpage = (int) $perpage;
         empty($start) ? $start = 1 : '';
         empty($perpage) ? $perpage = 9 : '';
-        $categories = $this->categoriesModel->getCategories( $start, $perpage);
+        $categories = $this->categoriesModel->getCategories($start, $perpage);
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
-            'pagesLinks' => $this->categoriesModel->getPagesTitle(),
+            'pagesLinks' => $this->categoriesModel->getMenu(),
             'settings' => null,
             'pagination' => generatePagination($this->categoriesModel->categoriesCount()->count, $start, $perpage, 4, URLROOT, '/ProjectCategories/index'),
             'categories' => $categories,
@@ -49,7 +49,7 @@ class ProjectCategories extends Controller
         ($category = $this->categoriesModel->getCategoryById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
         $data = [
             'category' => $category,
-            'pagesLinks' => $this->categoriesModel->getPagesTitle(),
+            'pagesLinks' => $this->categoriesModel->getMenu(),
             'projects' => $this->categoriesModel->getProductsByCategory($id, $start, $perpage),
             'pagination' => generatePagination($this->categoriesModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/ProjectCategories/show/' . $id),
         ];
@@ -61,5 +61,4 @@ class ProjectCategories extends Controller
 
         $this->view('categories/show', $data);
     }
-
 }

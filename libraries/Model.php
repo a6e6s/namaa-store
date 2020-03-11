@@ -83,7 +83,6 @@ class Model
         //check for pagination
         if (!empty($perPage)) {
             $limit = ' LIMIT :start, :perpage';
-
         } else {
             $limit = '';
         }
@@ -209,9 +208,21 @@ class Model
             }
         }
     }
-
+    /**
+     * get the latest id
+     * @return int id
+     */
     public function lastId()
     {
         return $this->db->lastId();
+    }
+
+    /**
+     * get all menu links from datatbase
+     * @return object links data
+     */
+    public function getMenu()
+    {
+        return $this->getFromTable('menus', '*', ['status' => 1], '', '', 'arrangement', 'ASC');
     }
 }

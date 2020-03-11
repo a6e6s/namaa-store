@@ -1,26 +1,25 @@
-<?php require APPROOT . '/app/views/inc/header.php';?>
+<?php require APPROOT . '/app/views/inc/header.php'; ?>
 </div>
 
 <div class="container">
-<!-- Categories -->
+    <!-- Categories -->
     <section id="categories">
         <div class="row m-3 justify-content-center ">
-            <h2 class="text-center col-12"> <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="Smiley face"
-                        class="ml-2">الحسابات البنكية</h2>
+            <h2 class="text-center col-12"> <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="Smiley face" class="ml-2">الحسابات البنكية</h2>
             <div class="col-12 card">
                 <div class="form-group">
-                    <label class="control-label h4 pt-2">الحسابات البنكية   : </label>
+                    <label class="control-label h4 pt-2">الحسابات البنكية : </label>
                     <table class="table table-striped jambo_table text-center">
                         <thead>
                             <tr class="headings  text-center">
-                                <th class="">اسم البنك  </th>
+                                <th class="">اسم البنك </th>
                                 <th class="">نوع الحساب </th>
                                 <th class="">IBAN </th>
                                 <th class="">رابط البنك </th>
                             </tr>
                         </thead>
                         <tbody id="items">
-                        <?php
+                            <?php
                             $meta = json_decode($data['payment_method']->meta, true);
                             if (!empty($meta)) {
                                 $x = 1;
@@ -38,31 +37,28 @@
                         </tbody>
                     </table>
                 </div>
-
-                <?php if ($data['hash']): flash('msg')?>
-                <h1 class="h3 text-center">ارفاق صورة التحويل</h1>
-                <form action="<?php echo URLROOT . '/projects/banktransfer/' . $data['hash']->hash; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
-                    <div class="form-group <?php echo (!empty($data['image_error'])) ? 'has-error' : ''; ?>">
-                        <label class="control-label" for="imageUpload">صورة الصفحة : </label>
-                        <div class="has-feedback input-group">
-                            <span class="input-group-btn">
-                                <span class="btn btn-dark" onclick="$(this).parent().find('input[type=file]').click();">اختار الملف</span>
-                                <input name="image" value="<?php echo ($data['image']); ?>" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file">
-                            </span>
-                            <span class="form-control"><small><?php echo empty($data['image']) ? ' قم بأختيار صورة مناسبةاو ملف PDF' : $data['image']; ?></small></span>
+                <?php if ($data['hash']) : flash('msg') ?>
+                    <h1 class="h3 text-center">ارفاق صورة التحويل</h1>
+                    <form action="<?php echo URLROOT . '/projects/banktransfer/' . $data['hash']->hash; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+                        <div class="form-group <?php echo (!empty($data['image_error'])) ? 'has-error' : ''; ?>">
+                            <label class="control-label" for="imageUpload">صورة الصفحة : </label>
+                            <div class="has-feedback input-group">
+                                <span class="input-group-btn">
+                                    <span class="btn btn-dark" onclick="$(this).parent().find('input[type=file]').click();">اختار الملف</span>
+                                    <input name="image" value="<?php echo ($data['image']); ?>" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file">
+                                </span>
+                                <span class="form-control"><small><?php echo empty($data['image']) ? ' قم بأختيار صورة مناسبةاو ملف PDF' : $data['image']; ?></small></span>
+                            </div>
+                            <div class="text- worning"><?php echo $data['image_error']; ?></div>
                         </div>
-                        <div class="text- worning"><?php echo $data['image_error']; ?></div>
-                    </div>
 
-                    <div class="text-center m-5">
-                        <button type="submit" name="submit" class="btn btn-success">أضف
-                            <i class="fa fa-save"> </i></button>
-                    </div>
-
-                </form>
-                <?php endif;?>
+                        <div class="text-center m-5">
+                            <button type="submit" name="submit" class="btn btn-success">أضف <i class="fa fa-save"> </i></button>
+                        </div>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     </section>
     <!-- end Categories -->
-<?php require APPROOT . '/app/views/inc/footer.php';?>
+    <?php require APPROOT . '/app/views/inc/footer.php'; ?>

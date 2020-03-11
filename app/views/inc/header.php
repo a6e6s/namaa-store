@@ -13,6 +13,7 @@ it under the terms of the GNU General Public License
 
 For more information about the author , see <http://www.ahmedx.com/>.
 -->
+
 <head>
     <!-- Primary Meta Tags -->
     <meta charset="UTF-8">
@@ -63,11 +64,10 @@ For more information about the author , see <http://www.ahmedx.com/>.
         </div>
     </div>
     <div class="container">
-        <section class="row py-2"  id="top-bar">
+        <section class="row py-2" id="top-bar">
             <div class="col-2 col-md-1 pt-2">
                 <nav class="navbar navbar-light main-menu">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-toggler"
-                        aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-toggler" aria-controls="navbar-toggler" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </nav>
@@ -81,16 +81,14 @@ For more information about the author , see <http://www.ahmedx.com/>.
                 <div class="user float-left">
                     <div class="nav">
                         <li class="nav-item">
-                            <a title="Profile" class="nav-link text-dark border-left border-dark" href="#"><i
-                                    class="icofont-user"></i></a>
+                            <a title="Profile" class="nav-link text-dark border-left border-dark" href="#"><i class="icofont-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="#"> <i class="icofont-cart cart-icon "></i> <span
-                                    class="d-none d-sm-inline">السلة (2) منتج</span> </a>
+                            <a class="nav-link text-dark" href="#"> <i class="icofont-cart cart-icon "></i> <span class="d-none d-sm-inline">السلة (2) منتج</span> </a>
                         </li>
                     </div>
                 </div>
             </div>
-            <?php require APPROOT . '/app/views/inc/navbar.php';?>
+            <?php require APPROOT . '/app/views/inc/navbar.php'; ?>
         </section>
         <!--- carousel  Start --->

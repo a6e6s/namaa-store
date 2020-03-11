@@ -17,9 +17,10 @@ class Pages extends Controller
     {
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
-            'pagesLinks' => $this->pagesModel->getPagesTitle(),
+            'pagesLinks' => $this->pagesModel->getMenu(),
             'slides' => $this->pagesModel->getSlides(),
-            'projects' => $this->pagesModel->getProjects('project_id, name, alias, description, secondary_image as img, enable_cart, target_price, collected_traget, fake_target, start_date, end_date',
+            'projects' => $this->pagesModel->getProjects(
+                'project_id, name, alias, description, secondary_image as img, enable_cart, target_price, collected_traget, fake_target, start_date, end_date',
                 ['status' => 1, 'hidden' => 0, 'featured' => 1]
             ),
             'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
@@ -39,7 +40,7 @@ class Pages extends Controller
     {
         empty($id) ? redirect('pages', true) : null;
         $data = [
-            'pagesLinks' => $this->pagesModel->getPagesTitle(),
+            'pagesLinks' => $this->pagesModel->getMenu(),
             'page' => $this->pagesModel->getPageById($id),
         ];
         $this->meta->keywords = $data['page']->meta_keywords;
@@ -54,7 +55,7 @@ class Pages extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $data = [
                 'pageTitle' => 'اتصل بنا: ' . SITENAME,
-                'pagesLinks' => $this->pagesModel->getPagesTitle(),
+                'pagesLinks' => $this->pagesModel->getMenu(),
                 'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
                 'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
                 'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
@@ -100,7 +101,7 @@ class Pages extends Controller
         } else {
             $data = [
                 'pageTitle' => 'اتصل بنا: ' . SITENAME,
-                'pagesLinks' => $this->pagesModel->getPagesTitle(),
+                'pagesLinks' => $this->pagesModel->getMenu(),
                 'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
                 'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
                 'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),

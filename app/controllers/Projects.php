@@ -33,7 +33,7 @@ class Projects extends Controller
         ($project = $this->projectsModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
         $data = [
             'project' => $project,
-            'pagesLinks' => $this->projectsModel->getPagesTitle(),
+            'pagesLinks' => $this->projectsModel->getMenu(),
             'payment_methods' => $this->projectsModel->getSupportedPaymentMethods($project->payment_methods),
         ];
         $data['pageTitle'] = $data['project']->name . "  " . SITENAME;
@@ -126,7 +126,6 @@ class Projects extends Controller
                 $this->donorModel->addDonor($_POST);
                 $donor = $this->donorModel->lastId();
             }
-
         }
         //generat secrit hash
         $hash = sha1(time() . rand(999, 999999));
@@ -221,7 +220,7 @@ class Projects extends Controller
 
             $data = [
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
-                'pagesLinks' => $this->projectsModel->getPagesTitle(),
+                'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $this->projectsModel->getSingle('*', ['payment_id' => 1], 'payment_methods'),
                 'image' => '',
                 'image_error' => '',
@@ -253,7 +252,7 @@ class Projects extends Controller
         } else {
             $data = [
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
-                'pagesLinks' => $this->projectsModel->getPagesTitle(),
+                'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $this->projectsModel->getSingle('*', ['payment_id', 1], 'payment_methods'),
                 'image' => '',
                 'image_error' => '',
@@ -274,7 +273,7 @@ class Projects extends Controller
         if ($payment_methouds = $this->projectsModel->getSingle('*', ['payment_id' => $id], 'payment_methods')) {
             $data = [
                 'pageTitle' => 'بيانات الدفع: ' . SITENAME,
-                'pagesLinks' => $this->projectsModel->getPagesTitle(),
+                'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $payment_methouds,
             ];
         } else {

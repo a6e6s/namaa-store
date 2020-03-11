@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2020 at 05:10 PM
+-- Generation Time: Mar 11, 2020 at 02:27 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -201,9 +201,37 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`group_id`, `name`, `description`, `permissions`, `status`, `create_date`, `modified_date`) VALUES
-(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donations\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donationtags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projectcategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projecttags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1583844931),
+(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donations\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donationtags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Menus\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Paymentmethods\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projectcategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projecttags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1583934772),
 (2, 'الاشراف', 'مجموعة تملك صلاحيات التعديل والاضافة والعرض', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"add\":\"1\"},\"Users\":{\"index\":\"1\",\"add\":\"1\"}}', 1, 1543746264, 1544079169),
 (3, 'المراقبين', '', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"}}', 1, 1549259804, 1572870120);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menus`
+--
+
+DROP TABLE IF EXISTS `menus`;
+CREATE TABLE IF NOT EXISTS `menus` (
+  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `alias` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `type` enum('static','dynamic') DEFAULT 'static',
+  `arrangement` int(11) DEFAULT NULL,
+  `position` enum('main','footer') DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `modified_date` int(11) DEFAULT NULL,
+  `create_date` int(11) DEFAULT NULL,
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `menus`
+--
+
+INSERT INTO `menus` (`menu_id`, `name`, `alias`, `url`, `type`, `arrangement`, `position`, `status`, `modified_date`, `create_date`) VALUES
+(1, 'الاقسام', 'الاقسام', '/categories', 'static', 100, NULL, 1, 1583936653, 1583936128);
 
 -- --------------------------------------------------------
 
@@ -233,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `pages` (
 
 INSERT INTO `pages` (`page_id`, `title`, `alias`, `content`, `image`, `meta_keywords`, `meta_description`, `hits`, `status`, `create_date`, `modified_date`) VALUES
 (1, 'عنا', 'عنا', '<p>Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… Read More Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… Read More</p>\r\n\r\n<p>Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… Read MoreFilm festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… Read More Film festivals used to be do-or-die moments for movie makers. They were where you met the producers that could fund your project, and if the buyers liked your flick, they’d pay to Fast-forward and… Read More</p>\r\n\r\n<ul><li>\r\n	<p>Film festivals used to be do-or-die moments for movie makers</p>\r\n	</li>\r\n	<li>\r\n	<p>. They were where you met the producers that could fund your project,</p>\r\n	</li>\r\n	<li>\r\n	<p>and if the buyers liked your flick, they’d pay to Fast-forward and… Read More</p>\r\n	</li>\r\n</ul><p>123,456,789,</p>\r\n', 'unnamed2.gif', 'Film festivals,to be do-or-die,movie makers', 'Film festivals used to be do-or-die moments for movie makers', NULL, 1, 1543733978, 1548933384),
-(2, 'سياسة الاستخدام', NULL, '<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p> </p>\r\n', '', '', '', NULL, 1, 1548935358, 1548935358),
+(2, 'سياسة الاستخدام', NULL, '<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p>سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام </p>\r\n\r\n<p> </p>\r\n', '', 'سياسة الاستخدام,سياسة الاستخدام,سياسة الاستخدام,سياسة الاستخدام', 'سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام سياسة الاستخدام', NULL, 1, 1548935358, 1583933060),
 (3, 'قرطاسية', NULL, '<p><img alt=\"\" src=\"http://localhost/BerTraif/media/images/4853.jpg\" style=\"height:520px;width:449px;\" /></p>\r\n', 'thuma6e_13.png', '', '', NULL, 2, 1572266239, 1572266239),
 (4, '', NULL, NULL, '', '', '', NULL, 2, 1572266245, 1572266245),
 (5, 'rrtrt', NULL, NULL, '0025.jpg', '', '', NULL, 2, 1572351131, 1572356316),
@@ -410,23 +438,26 @@ DROP TABLE IF EXISTS `settings`;
 CREATE TABLE IF NOT EXISTS `settings` (
   `setting_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
+  `alias` varchar(50) DEFAULT NULL,
   `value` mediumtext,
   `create_date` int(11) NOT NULL,
   `modified_date` int(11) NOT NULL,
-  PRIMARY KEY (`setting_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`setting_id`),
+  UNIQUE KEY `alias` (`alias`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`setting_id`, `title`, `value`, `create_date`, `modified_date`) VALUES
-(1, 'الاعدادات العامة', '{\"title\":\"\\u062c\\u0645\\u0639\\u064a\\u0629 \\u0646\\u0645\\u0627\\u0621 \",\"logo\":\"pic1521704669.png\",\"header_code\":\"\",\"footer_code\":\"\",\"show_banner\":\"0\",\"show_projects\":\"0\",\"show_categories\":\"0\",\"show_bottom\":\"0\",\"show_footer\":\"0\"}', 1583845973, 1583850876),
-(2, 'اعدادات بيانات التواصل', NULL, 1583845973, 1583845973),
-(3, 'اعدادات الارشفة', NULL, 1583845973, 1583845973),
-(4, 'اعدادات بيانات التواصل', NULL, 1583845973, 1583845973),
-(5, 'اعدادات البريد الالكتروني', ' ', 1583845973, 1583845973),
-(6, 'اعدادات رسائل SMS', ' ', 1583845973, 1583845973);
+INSERT INTO `settings` (`setting_id`, `title`, `alias`, `value`, `create_date`, `modified_date`) VALUES
+(1, 'الاعدادات العامة', 'site', '{\"title\":\"\\u062c\\u0645\\u0639\\u064a\\u0629 \\u0646\\u0645\\u0627\\u0621 \",\"logo\":\"pic1521704669.png\",\"header_code\":\"\",\"footer_code\":\"\",\"show_banner\":\"0\",\"show_projects\":\"0\",\"show_categories\":\"0\",\"show_bottom\":\"0\",\"show_footer\":\"0\"}', 1583845973, 1583850876),
+(2, 'اعدادات بيانات التواصل', 'contact', '{\"phone\":\"0597767751\",\"phone2\":\"0597767751\",\"mobile\":\"0597767751\",\"mobile2\":\"0597767751\",\"fax\":\"0597767751\",\"address\":\"\\u062c\\u062f\\u0629 \\u062d\\u064a \\u0627\\u0644\\u0646\\u0639\\u064a\\u0645\",\"map\":\"https:\\/\\/www.google.com\\/maps\\/embed?pb=!1m13!1m8!1m3!1d3710.8054150744156!2d39.1637415!3d21.5544626!3m2!1i1024!2i768!4f13.1!3m2!1m1!2sNamaa!5e0!3m2!1sar!2ssa!4v1583928833064!5m2!1sar!2ssa\"}', 1583845973, 1583928866),
+(3, 'اعدادات الارشفة', 'seo', '{\"meta_keywords\":\"\",\"meta_description\":\"\"}', 1583845973, 1583916715),
+(4, 'اعدادات بيانات التواصل', 'social', '{\"facebook\":\"\",\"twitter\":\"\",\"instagram\":\"\",\"linkedin\":\"\",\"youtube\":\"\"}', 1583845973, 1583916702),
+(5, 'اعدادات البريد الالكتروني', 'email', '{\"contacts_email\":\"\",\"donation_email\":\"\"}', 1583845973, 1583916692),
+(6, 'اعدادات رسائل SMS', 'sms', '{\"gateurl\":\"\",\"sms_username\":\"\",\"sms_password\":\"\",\"smsenabled\":\"0\"}', 1583845973, 1583916683),
+(7, 'اعدادات التصميم', 'theme', '{\"background_color\":\"\",\"background_image\":\"\",\"banner_image\":\"\",\"projects_image\":\"\",\"categories_image\":\"\"}', 1583845973, 1583932736);
 
 -- --------------------------------------------------------
 
@@ -548,7 +579,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `mobile`, `image`, `bio`, `activation_code`, `request_password_time`, `group_id`, `login_date`, `status`, `modified_date`, `create_date`) VALUES
-(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583844937, 1, 1574344167, 1543831099),
+(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583934776, 1, 1574344167, 1543831099),
 (23, 'Monyb Younos', 'munybe@gmail.com', '$2y$10$Raf3iUVZJPQr4//YEBuypO.fWDuSWTRZPDmCa7.Ta84v21ZFWl056', '0597767751', 'logo-xl.png', '', NULL, NULL, 3, NULL, 1, 1572786141, 1572786123);
 
 --

@@ -33,6 +33,7 @@
                         <ul class="nav child_menu">
                             <li><a href="<?php echo ADMINURL; ?>/groups">المجموعات والصلاحيات</a></li>
                             <li><a href="<?php echo ADMINURL; ?>/users">المستخدمين</a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/menus">القوائم</a></li>
                             <li><a href="<?php echo ADMINURL; ?>/pages">الصفحات</a></li>
                             <li><a href="<?php echo ADMINURL; ?>/slides">الاسلايدر</a></li>
                             <li><a href="<?php echo ADMINURL; ?>/contacts">اتصل بنا</a></li>

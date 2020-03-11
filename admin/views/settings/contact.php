@@ -79,6 +79,12 @@ require ADMINROOT . '/views/inc/header.php';
                         <textarea name="value[address]" class="form-control"><?php echo ($data['value']->address); ?></textarea>
                     </div>
                 </div>
+                <div class="form-group col-md-12">
+                    <label class="control-label">الخريطة  : </label>
+                    <div class="row">
+                        <textarea name="value[map]" class="form-control"><?php echo ($data['value']->map); ?></textarea>
+                    </div>
+                </div>
                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                     <button type="submit" name="save" class="btn btn-success">تعديل
                         <i class="fa fa-save"> </i></button>

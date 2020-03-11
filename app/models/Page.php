@@ -76,6 +76,12 @@ class Page extends Model
         return $this->getBy(['page_id' => $id, 'status' => 1]);
     }
 
+    /**
+     * add Contacts
+     *
+     * @param  mixed $data
+     * @return void
+     */
     public function addContacts($data)
     {
         $this->db->query('INSERT INTO contacts( subject, message, full_name, email, phone, type, status, modified_date, create_date)'
@@ -96,6 +102,21 @@ class Page extends Model
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * get Settings
+     *
+     * @param  mixed $type
+     * @return void
+     */
+    public function getSettings($type = null)
+    {
+        if ($type) {
+            return $this->getSingle('*', ['alias' => $type], 'settings');
+        } else {
+            return $this->getFromTable('settings');
         }
     }
 }

@@ -15,19 +15,23 @@ class Pages extends Controller
      */
     public function index()
     {
-
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
             'pagesLinks' => $this->pagesModel->getPagesTitle(),
             'slides' => $this->pagesModel->getSlides(),
-            'projects' => $this->pagesModel->getProjects(
-                'project_id, name, alias, description, secondary_image as img, enable_cart, target_price, collected_traget, fake_target, start_date, end_date',
+            'projects' => $this->pagesModel->getProjects('project_id, name, alias, description, secondary_image as img, enable_cart, target_price, collected_traget, fake_target, start_date, end_date',
                 ['status' => 1, 'hidden' => 0, 'featured' => 1]
             ),
-            'settings' => null,
+            'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
+            'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
+            'theme_settings' => json_decode($this->pagesModel->getSettings('theme')->value),
             'project_categories' => $this->pagesModel->getProjectCategories('category_id, name, description, image', ['status' => 1, 'featured' => 1]),
         ];
-        // var_dump($data['projects']);
+        $this->meta->header_code = $data['site_settings']->header_code;
+        $this->meta->keywords = $data['seo_settings']->meta_keywords;
+        $data['pageTitle'] = $data['site_settings']->title;
+        $this->meta->description = $data['seo_settings']->meta_description;
+        //loading the view
         $this->view('pages/index', $data);
     }
 
@@ -38,7 +42,10 @@ class Pages extends Controller
             'pagesLinks' => $this->pagesModel->getPagesTitle(),
             'page' => $this->pagesModel->getPageById($id),
         ];
-
+        $this->meta->keywords = $data['page']->meta_keywords;
+        $data['pageTitle'] = $data['page']->title;
+        $this->meta->description = $data['page']->meta_description;
+        //loading view
         $this->view('pages/show', $data);
     }
     public function contact()
@@ -48,7 +55,9 @@ class Pages extends Controller
             $data = [
                 'pageTitle' => 'اتصل بنا: ' . SITENAME,
                 'pagesLinks' => $this->pagesModel->getPagesTitle(),
-                // 'setting' => $this->pagesModel->getContactsSettings(),
+                'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
+                'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
+                'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
                 'subject' => trim($_POST['subject']),
                 'full_name' => trim($_POST['full_name']),
                 'message' => trim($_POST['message']),
@@ -80,7 +89,7 @@ class Pages extends Controller
             }
             //mack sue there is no errors
             if (empty($data['type_error']) && empty($data['message_error']) && empty($data['subject_error']) && empty($data['full_name_error'])) {
-                //validated 
+                //validated
                 if ($this->pagesModel->addContacts($data)) {
                     flash('msg', 'تم الارسال بنجاح');
                     redirect('pages/contact', true);
@@ -92,7 +101,9 @@ class Pages extends Controller
             $data = [
                 'pageTitle' => 'اتصل بنا: ' . SITENAME,
                 'pagesLinks' => $this->pagesModel->getPagesTitle(),
-                // 'setting' => $this->pagesModel->getContactsSettings(),
+                'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
+                'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
+                'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
                 'subject' => '',
                 'full_name' => '',
                 'message' => '',
@@ -106,6 +117,11 @@ class Pages extends Controller
                 'type_error' => '',
             ];
         }
+
+        $this->meta->header_code = $data['site_settings']->header_code;
+        $this->meta->keywords = $data['seo_settings']->meta_keywords;
+        $this->meta->description = $data['seo_settings']->meta_description;
+        //loading view
         $this->view('pages/contacts', $data);
     }
 }

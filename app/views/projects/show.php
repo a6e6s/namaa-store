@@ -45,7 +45,7 @@
                                 ريال سعودي
                             </p>
                             <div class="progress">
-                                <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $data['project']->target_price); ?>%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $data['project']->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
                                     <?php echo ceil($target * 100 / $data['project']->target_price); ?> %
                                 </h6>
                             </div>

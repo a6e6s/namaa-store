@@ -16,6 +16,26 @@
             <?php echo empty($data['contact_settings']->mobile2) ? '' : '<p class="m-4"><i class="text-primary p-1 btn-lg icofont-phone"></i><strong>رقم الجوال </strong>: ' . $data['contact_settings']->mobile2 . '</p>'; ?>
             <?php echo empty($data['contact_settings']->fax) ? '' : '<p class="m-4"><i class="text-primary p-1 btn-lg icofont-phone"></i><strong>رقم الفاكس </strong>: ' . $data['contact_settings']->fax . '</p>'; ?>
             <?php echo empty($data['contact_settings']->address) ? '' : '<p class="m-4"><i class="text-primary p-1 btn-lg icofont-phone"></i><strong>العنوان  </strong>: ' . $data['contact_settings']->address . '</p>'; ?>
+
+            <div class="navbar navbar-expand-lg ">
+                <ul class="navbar-nav ">
+                    <li class="nav-item p-1">
+                        <?php echo empty($data['social_settings']->facebook) ? '' : '<a class="nav-link btn btn-lg btn-primary" href="' . $data['social_settings']->facebook . '"><i class="h3 icofont-facebook"></i></a>'; ?>
+                    </li>
+                    <li class="nav-item p-1">
+                        <?php echo empty($data['social_settings']->twitter) ? '' : '<a class="nav-link btn btn-lg btn-primary" href="' . $data['social_settings']->twitter . '"><i class="h3 icofont-twitter"></i></a>'; ?>
+                    </li>
+                    <li class="nav-item p-1">
+                        <?php echo empty($data['social_settings']->youtube) ? '' : '<a class="nav-link btn btn-lg btn-primary" href="' . $data['social_settings']->youtube . '"><i class="h3 icofont-youtube"></i></a>'; ?>
+                    </li>
+                    <li class="nav-item p-1">
+                        <?php echo empty($data['social_settings']->instagram) ? '' : '<a class="nav-link btn btn-lg btn-primary" href="' . $data['social_settings']->instagram . '"><i class="h3 icofont-instagram"></i></a>'; ?>
+                    </li>
+                    <li class="nav-item p-1">
+                        <?php echo empty($data['social_settings']->linkedin ) ? '' : '<a class="nav-link btn btn-lg btn-primary" href="' . $data['social_settings']->linkedin     . '"><i class="h3 icofont-linkedin"></i></a>'; ?>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="col-md-6">
             <?php echo empty($data['contact_settings']->map) ? '' : '<iframe class="rounded-circle" width="100%" src="' . $data['contact_settings']->map . '" height="450px" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>'; ?>

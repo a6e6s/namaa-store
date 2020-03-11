@@ -29,7 +29,7 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<div class="row" style="background:#<?php echo $data['theme_settings']->background_color . " url(" . MEDIAURL . "/" . $data['theme_settings']->background_image; ?>)">
+<div class="row" style="background:<?php echo "#" . $data['theme_settings']->background_color . " url(" . MEDIAURL . "/" . $data['theme_settings']->background_image; ?>")>
     <div class="container">
         <div class="col-12 text-center"><?php echo empty($data['theme_settings']->banner_image) ? '' : '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->banner_image . '" >'; ?></div>
         <!--- carousel  end --->

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Mar 11, 2020 at 02:27 PM
--- Server version: 5.7.26
--- PHP Version: 7.2.18
+-- Host: localhost
+-- Generation Time: Mar 11, 2020 at 10:03 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,9 +28,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `contacts`
 --
 
-DROP TABLE IF EXISTS `contacts`;
-CREATE TABLE IF NOT EXISTS `contacts` (
-  `contact_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `contacts` (
+  `contact_id` int(11) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `message` text NOT NULL,
   `full_name` varchar(255) NOT NULL,
@@ -39,9 +38,8 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `type` varchar(200) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `create_date` int(11) NOT NULL,
-  `modified_date` int(11) NOT NULL,
-  PRIMARY KEY (`contact_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  `modified_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `contacts`
@@ -60,26 +58,20 @@ INSERT INTO `contacts` (`contact_id`, `subject`, `message`, `full_name`, `email`
 -- Table structure for table `donations`
 --
 
-DROP TABLE IF EXISTS `donations`;
-CREATE TABLE IF NOT EXISTS `donations` (
-  `donation_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `donations` (
+  `donation_id` int(11) NOT NULL,
   `donation_identifier` bigint(15) NOT NULL,
   `amount` int(11) NOT NULL,
   `payment_method_id` int(11) NOT NULL,
   `hash` varchar(100) DEFAULT NULL,
   `banktransferproof` varchar(255) DEFAULT NULL,
-  `meta` text,
+  `meta` text DEFAULT NULL,
   `project_id` int(11) NOT NULL,
   `donor_id` int(11) NOT NULL,
   `status` tinyint(1) DEFAULT NULL,
   `modified_date` int(10) DEFAULT NULL,
-  `create_date` int(10) DEFAULT NULL,
-  PRIMARY KEY (`donation_id`),
-  UNIQUE KEY `donation_identifier` (`donation_identifier`),
-  KEY `donor_id` (`donor_id`),
-  KEY `project_id` (`project_id`),
-  KEY `payment_method_id` (`payment_method_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+  `create_date` int(10) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donations`
@@ -115,12 +107,11 @@ INSERT INTO `donations` (`donation_id`, `donation_identifier`, `amount`, `paymen
 -- Table structure for table `donation_tags`
 --
 
-DROP TABLE IF EXISTS `donation_tags`;
-CREATE TABLE IF NOT EXISTS `donation_tags` (
-  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `donation_tags` (
+  `tag_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `arrangement` int(11) DEFAULT NULL,
   `back_home` tinyint(1) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
@@ -131,9 +122,8 @@ CREATE TABLE IF NOT EXISTS `donation_tags` (
   `featured` tinyint(1) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  `create_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `create_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donation_tags`
@@ -148,18 +138,16 @@ INSERT INTO `donation_tags` (`tag_id`, `name`, `alias`, `description`, `arrangem
 -- Table structure for table `donors`
 --
 
-DROP TABLE IF EXISTS `donors`;
-CREATE TABLE IF NOT EXISTS `donors` (
-  `donor_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `donors` (
+  `donor_id` int(11) NOT NULL,
   `mobile` varchar(15) NOT NULL,
   `full_name` varchar(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `mobile_confirmed` enum('yes','no') DEFAULT 'no',
   `status` tinyint(1) DEFAULT NULL,
   `modified_date` int(10) DEFAULT NULL,
-  `create_date` int(10) DEFAULT NULL,
-  PRIMARY KEY (`donor_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+  `create_date` int(10) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donors`
@@ -184,17 +172,15 @@ INSERT INTO `donors` (`donor_id`, `mobile`, `full_name`, `email`, `mobile_confir
 -- Table structure for table `groups`
 --
 
-DROP TABLE IF EXISTS `groups`;
-CREATE TABLE IF NOT EXISTS `groups` (
-  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `groups` (
+  `group_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `permissions` text NOT NULL,
   `status` tinyint(1) NOT NULL,
   `create_date` int(11) NOT NULL,
-  `modified_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `modified_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `groups`
@@ -211,9 +197,8 @@ INSERT INTO `groups` (`group_id`, `name`, `description`, `permissions`, `status`
 -- Table structure for table `menus`
 --
 
-DROP TABLE IF EXISTS `menus`;
-CREATE TABLE IF NOT EXISTS `menus` (
-  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `menus` (
+  `menu_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
@@ -222,16 +207,18 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `position` enum('main','footer') DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  `create_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `create_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menus`
 --
 
 INSERT INTO `menus` (`menu_id`, `name`, `alias`, `url`, `type`, `arrangement`, `position`, `status`, `modified_date`, `create_date`) VALUES
-(1, 'الاقسام', 'الاقسام', '/categories', 'static', 100, NULL, 1, 1583936653, 1583936128);
+(1, 'الاقسام', 'الاقسام', '/projectCategories', 'dynamic', 100, NULL, 1, 1583956364, 1583936128),
+(3, 'الرئيسية', 'الرئيسية', '/', 'dynamic', 10, NULL, 1, 1583956325, 1583956291),
+(4, 'اتصل بنا', 'اتصل-بنا', '/pages/contact', 'dynamic', 1000, NULL, 1, 1583960140, 1583956672),
+(5, 'عنا', 'عنا', '/pages/show/6/', 'dynamic', 120, NULL, 1, 1583960009, 1583959913);
 
 -- --------------------------------------------------------
 
@@ -239,21 +226,19 @@ INSERT INTO `menus` (`menu_id`, `name`, `alias`, `url`, `type`, `arrangement`, `
 -- Table structure for table `pages`
 --
 
-DROP TABLE IF EXISTS `pages`;
-CREATE TABLE IF NOT EXISTS `pages` (
-  `page_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `pages` (
+  `page_id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `content` mediumtext,
+  `content` mediumtext DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `meta_keywords` text,
-  `meta_description` text,
+  `meta_keywords` text DEFAULT NULL,
+  `meta_description` text DEFAULT NULL,
   `hits` int(11) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `create_date` int(11) NOT NULL,
-  `modified_date` int(11) NOT NULL,
-  PRIMARY KEY (`page_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `modified_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `pages`
@@ -274,18 +259,16 @@ INSERT INTO `pages` (`page_id`, `title`, `alias`, `content`, `image`, `meta_keyw
 -- Table structure for table `payment_methods`
 --
 
-DROP TABLE IF EXISTS `payment_methods`;
-CREATE TABLE IF NOT EXISTS `payment_methods` (
-  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payment_methods` (
+  `payment_id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `content` mediumtext,
-  `meta` text,
+  `content` mediumtext DEFAULT NULL,
+  `meta` text DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `create_date` int(11) DEFAULT NULL,
-  `modified_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`payment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `modified_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `payment_methods`
@@ -303,20 +286,19 @@ INSERT INTO `payment_methods` (`payment_id`, `title`, `content`, `meta`, `image`
 -- Table structure for table `projects`
 --
 
-DROP TABLE IF EXISTS `projects`;
-CREATE TABLE IF NOT EXISTS `projects` (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `projects` (
+  `project_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `category_id` int(11) NOT NULL,
   `arrangement` int(11) DEFAULT NULL,
   `back_home` tinyint(1) DEFAULT NULL,
-  `image` text,
+  `image` text DEFAULT NULL,
   `secondary_image` varchar(255) DEFAULT NULL,
   `enable_cart` tinyint(1) DEFAULT NULL,
   `mobile_confirmation` tinyint(1) DEFAULT NULL,
-  `donation_type` text,
+  `donation_type` text DEFAULT NULL,
   `payment_methods` varchar(255) DEFAULT NULL,
   `target_price` int(11) DEFAULT NULL,
   `fake_target` int(11) DEFAULT NULL,
@@ -325,12 +307,12 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `end_date` int(11) DEFAULT NULL,
   `hidden` tinyint(1) DEFAULT NULL,
   `hits` int(11) DEFAULT NULL,
-  `thanks_message` text,
+  `thanks_message` text DEFAULT NULL,
   `sms_msg` varchar(255) DEFAULT NULL,
   `mobile` varchar(15) DEFAULT NULL,
   `whatsapp` varchar(15) DEFAULT NULL,
-  `advertising_code` text,
-  `header_code` text,
+  `advertising_code` text DEFAULT NULL,
+  `header_code` text DEFAULT NULL,
   `background_color` varchar(20) DEFAULT NULL,
   `background_image` varchar(255) DEFAULT NULL,
   `meta_keywords` varchar(255) DEFAULT NULL,
@@ -338,10 +320,8 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `featured` tinyint(1) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  `create_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`project_id`),
-  KEY `category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  `create_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `projects`
@@ -365,12 +345,11 @@ INSERT INTO `projects` (`project_id`, `name`, `alias`, `description`, `category_
 -- Table structure for table `project_categories`
 --
 
-DROP TABLE IF EXISTS `project_categories`;
-CREATE TABLE IF NOT EXISTS `project_categories` (
-  `category_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `project_categories` (
+  `category_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `arrangement` int(11) DEFAULT NULL,
   `back_home` tinyint(1) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
@@ -381,9 +360,8 @@ CREATE TABLE IF NOT EXISTS `project_categories` (
   `featured` tinyint(1) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  `create_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `create_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `project_categories`
@@ -400,12 +378,11 @@ INSERT INTO `project_categories` (`category_id`, `name`, `alias`, `description`,
 -- Table structure for table `project_tags`
 --
 
-DROP TABLE IF EXISTS `project_tags`;
-CREATE TABLE IF NOT EXISTS `project_tags` (
-  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `project_tags` (
+  `tag_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `alias` varchar(255) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `arrangement` int(11) DEFAULT NULL,
   `back_home` tinyint(1) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
@@ -416,9 +393,8 @@ CREATE TABLE IF NOT EXISTS `project_tags` (
   `featured` tinyint(1) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  `create_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `create_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `project_tags`
@@ -434,17 +410,14 @@ INSERT INTO `project_tags` (`tag_id`, `name`, `alias`, `description`, `arrangeme
 -- Table structure for table `settings`
 --
 
-DROP TABLE IF EXISTS `settings`;
-CREATE TABLE IF NOT EXISTS `settings` (
-  `setting_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `settings` (
+  `setting_id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `alias` varchar(50) DEFAULT NULL,
-  `value` mediumtext,
+  `value` mediumtext DEFAULT NULL,
   `create_date` int(11) NOT NULL,
-  `modified_date` int(11) NOT NULL,
-  PRIMARY KEY (`setting_id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `modified_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `settings`
@@ -457,7 +430,7 @@ INSERT INTO `settings` (`setting_id`, `title`, `alias`, `value`, `create_date`, 
 (4, 'اعدادات بيانات التواصل', 'social', '{\"facebook\":\"\",\"twitter\":\"\",\"instagram\":\"\",\"linkedin\":\"\",\"youtube\":\"\"}', 1583845973, 1583916702),
 (5, 'اعدادات البريد الالكتروني', 'email', '{\"contacts_email\":\"\",\"donation_email\":\"\"}', 1583845973, 1583916692),
 (6, 'اعدادات رسائل SMS', 'sms', '{\"gateurl\":\"\",\"sms_username\":\"\",\"sms_password\":\"\",\"smsenabled\":\"0\"}', 1583845973, 1583916683),
-(7, 'اعدادات التصميم', 'theme', '{\"background_color\":\"\",\"background_image\":\"\",\"banner_image\":\"\",\"projects_image\":\"\",\"categories_image\":\"\"}', 1583845973, 1583932736);
+(7, 'اعدادات التصميم', 'theme', '{\"background_color\":\"\",\"background_image\":\"\",\"banner_image\":\"\",\"projects_image\":\"\",\"categories_image\":\"\"}', 1583845973, 1583955257);
 
 -- --------------------------------------------------------
 
@@ -465,20 +438,18 @@ INSERT INTO `settings` (`setting_id`, `title`, `alias`, `value`, `create_date`, 
 -- Table structure for table `slides`
 --
 
-DROP TABLE IF EXISTS `slides`;
-CREATE TABLE IF NOT EXISTS `slides` (
-  `slide_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `slides` (
+  `slide_id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
-  `description` text,
+  `description` text DEFAULT NULL,
   `arrangement` int(11) DEFAULT NULL,
   `image` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  `create_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`slide_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `create_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `slides`
@@ -496,17 +467,13 @@ INSERT INTO `slides` (`slide_id`, `name`, `alias`, `url`, `description`, `arrang
 -- Table structure for table `tags_donations`
 --
 
-DROP TABLE IF EXISTS `tags_donations`;
-CREATE TABLE IF NOT EXISTS `tags_donations` (
-  `tags_donations_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tags_donations` (
+  `tags_donations_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   `donation_id` int(11) NOT NULL,
   `create_date` int(11) NOT NULL,
-  `modified_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tags_donations_id`),
-  KEY `tag_id` (`tag_id`),
-  KEY `project_id` (`donation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  `modified_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tags_donations`
@@ -522,17 +489,13 @@ INSERT INTO `tags_donations` (`tags_donations_id`, `tag_id`, `donation_id`, `cre
 -- Table structure for table `tags_projects`
 --
 
-DROP TABLE IF EXISTS `tags_projects`;
-CREATE TABLE IF NOT EXISTS `tags_projects` (
-  `tags_projects_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tags_projects` (
+  `tags_projects_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   `create_date` int(11) NOT NULL,
-  `modified_date` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tags_projects_id`),
-  KEY `tag_id` (`tag_id`),
-  KEY `project_id` (`project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+  `modified_date` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tags_projects`
@@ -553,34 +516,242 @@ INSERT INTO `tags_projects` (`tags_projects_id`, `tag_id`, `project_id`, `create
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `mobile` varchar(20) DEFAULT NULL,
-  `image` tinytext,
-  `bio` text,
+  `image` tinytext DEFAULT NULL,
+  `bio` text DEFAULT NULL,
   `activation_code` varchar(100) DEFAULT NULL,
   `request_password_time` int(11) DEFAULT NULL,
   `group_id` int(11) NOT NULL,
   `login_date` int(11) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   `modified_date` int(11) DEFAULT NULL,
-  `create_date` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `email` (`email`),
-  KEY `groups` (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+  `create_date` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `mobile`, `image`, `bio`, `activation_code`, `request_password_time`, `group_id`, `login_date`, `status`, `modified_date`, `create_date`) VALUES
-(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583934776, 1, 1574344167, 1543831099),
+(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583955315, 1, 1574344167, 1543831099),
 (23, 'Monyb Younos', 'munybe@gmail.com', '$2y$10$Raf3iUVZJPQr4//YEBuypO.fWDuSWTRZPDmCa7.Ta84v21ZFWl056', '0597767751', 'logo-xl.png', '', NULL, NULL, 3, NULL, 1, 1572786141, 1572786123);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`contact_id`);
+
+--
+-- Indexes for table `donations`
+--
+ALTER TABLE `donations`
+  ADD PRIMARY KEY (`donation_id`),
+  ADD UNIQUE KEY `donation_identifier` (`donation_identifier`),
+  ADD KEY `donor_id` (`donor_id`),
+  ADD KEY `project_id` (`project_id`),
+  ADD KEY `payment_method_id` (`payment_method_id`);
+
+--
+-- Indexes for table `donation_tags`
+--
+ALTER TABLE `donation_tags`
+  ADD PRIMARY KEY (`tag_id`);
+
+--
+-- Indexes for table `donors`
+--
+ALTER TABLE `donors`
+  ADD PRIMARY KEY (`donor_id`);
+
+--
+-- Indexes for table `groups`
+--
+ALTER TABLE `groups`
+  ADD PRIMARY KEY (`group_id`);
+
+--
+-- Indexes for table `menus`
+--
+ALTER TABLE `menus`
+  ADD PRIMARY KEY (`menu_id`);
+
+--
+-- Indexes for table `pages`
+--
+ALTER TABLE `pages`
+  ADD PRIMARY KEY (`page_id`);
+
+--
+-- Indexes for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
+-- Indexes for table `projects`
+--
+ALTER TABLE `projects`
+  ADD PRIMARY KEY (`project_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Indexes for table `project_categories`
+--
+ALTER TABLE `project_categories`
+  ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `project_tags`
+--
+ALTER TABLE `project_tags`
+  ADD PRIMARY KEY (`tag_id`);
+
+--
+-- Indexes for table `settings`
+--
+ALTER TABLE `settings`
+  ADD PRIMARY KEY (`setting_id`),
+  ADD UNIQUE KEY `alias` (`alias`);
+
+--
+-- Indexes for table `slides`
+--
+ALTER TABLE `slides`
+  ADD PRIMARY KEY (`slide_id`);
+
+--
+-- Indexes for table `tags_donations`
+--
+ALTER TABLE `tags_donations`
+  ADD PRIMARY KEY (`tags_donations_id`),
+  ADD KEY `tag_id` (`tag_id`),
+  ADD KEY `project_id` (`donation_id`);
+
+--
+-- Indexes for table `tags_projects`
+--
+ALTER TABLE `tags_projects`
+  ADD PRIMARY KEY (`tags_projects_id`),
+  ADD KEY `tag_id` (`tag_id`),
+  ADD KEY `project_id` (`project_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `groups` (`group_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `contact_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `donations`
+--
+ALTER TABLE `donations`
+  MODIFY `donation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `donation_tags`
+--
+ALTER TABLE `donation_tags`
+  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `donors`
+--
+ALTER TABLE `donors`
+  MODIFY `donor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `groups`
+--
+ALTER TABLE `groups`
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pages`
+--
+ALTER TABLE `pages`
+  MODIFY `page_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `payment_methods`
+--
+ALTER TABLE `payment_methods`
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `projects`
+--
+ALTER TABLE `projects`
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `project_categories`
+--
+ALTER TABLE `project_categories`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `project_tags`
+--
+ALTER TABLE `project_tags`
+  MODIFY `tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `settings`
+--
+ALTER TABLE `settings`
+  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `slides`
+--
+ALTER TABLE `slides`
+  MODIFY `slide_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tags_donations`
+--
+ALTER TABLE `tags_donations`
+  MODIFY `tags_donations_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tags_projects`
+--
+ALTER TABLE `tags_projects`
+  MODIFY `tags_projects_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables

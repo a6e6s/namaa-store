@@ -77,6 +77,12 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="submit" name="publish" value="Publish" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="Unpublish" class="btn btn-warning btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
+                                    <?php
+                                    foreach ($data['tags'] as $tag ) {
+                                        echo ' <button type="submit" name="tag_id"  value="'.$tag->tag_id.'" class="btn btn-primary btn-xs">'.$tag->name.'</button> ';
+                                    }
+                                    ?>
+                                    
                                 </th>
                             </tr>
                         </thead>
@@ -88,12 +94,12 @@ require ADMINROOT . '/views/inc/header.php';
                                     </td>
                                     <td><?php echo $donation->donation_identifier; ?></td>
                                     <td><?php echo $donation->amount; ?></td>
-                                    <td><?php echo $donation->donor; ?></td>
+                                    <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $donation->donor_id . '">' . $donation->donor . '</a>'; ?></td>
                                     <td><?php echo $donation->project; ?></td>
                                     <td><?php echo $donation->payment_method; ?></td>
-                                    <td><?php if(!empty($donation->banktransferproof)): ?>
-                                        <a class="btn btn-success btn-sm" href="<?php echo URLROOT ."/media/files/banktransfer/". $donation->banktransferproof; ?>" target="blank">تحميل</a>
-                                    <?php endif; ?>
+                                    <td><?php if (!empty($donation->banktransferproof)): ?>
+                                        <a class="btn btn-success btn-sm" href="<?php echo URLROOT . "/media/files/banktransfer/" . $donation->banktransferproof; ?>" target="blank">تحميل</a>
+                                    <?php endif;?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#meta<?php echo $donation->donation_id; ?>">تفاصيل</button>
@@ -104,11 +110,11 @@ require ADMINROOT . '/views/inc/header.php';
                                                     <div class="modal-body text-right" dir="ltr">
                                                         <ul class="text-capitalize">
                                                             <?php
-                                                            ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
-                                                            foreach ($metas as $key => $value) {
-                                                                echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
-                                                            }
-                                                            ?>
+                                                        ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
+                                                        foreach ($metas as $key => $value) {
+                                                            echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
+                                                        }
+                                                        ?>
                                                         </ul>
                                                     </div>
                                                     <div class="modal-footer">
@@ -122,12 +128,12 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
                                     <td class="form-group">
                                         <?php
-                                        if (!$donation->status) {
-                                            echo '<a href="' . ADMINURL . '/donations/publish/' . $donation->donation_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
-                                        } elseif ($donation->status == 1) {
-                                            echo '<a href="' . ADMINURL . '/donations/unpublish/' . $donation->donation_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="مؤكد"><i class="fa fa-check"></i></a>';
-                                        }
-                                        ?>
+if (!$donation->status) {
+    echo '<a href="' . ADMINURL . '/donations/publish/' . $donation->donation_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
+} elseif ($donation->status == 1) {
+    echo '<a href="' . ADMINURL . '/donations/unpublish/' . $donation->donation_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="مؤكد"><i class="fa fa-check"></i></a>';
+}
+?>
                                         <a href="<?php echo ADMINURL . '/donations/show/' . $donation->donation_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
                                         <a href="<?php echo ADMINURL . '/donations/edit/' . $donation->donation_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
                                         <a href="<?php echo ADMINURL . '/donations/delete/' . $donation->donation_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
@@ -159,8 +165,8 @@ require ADMINROOT . '/views/inc/header.php';
 
                 <ul class="pagination text-center">
                     <?php
-                    pagination($data['recordsCount'], $data['current'], $data['perpage'], 4, ADMINURL . '/donations');
-                    ?>
+pagination($data['recordsCount'], $data['current'], $data['perpage'], 4, ADMINURL . '/donations');
+?>
                 </ul>
 
 

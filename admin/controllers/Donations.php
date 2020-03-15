@@ -75,6 +75,18 @@ class Donations extends ControllerAdmin
                 }
                 redirect('donations');
             }
+
+            //handling Unpublish
+            if (isset($_POST['tag_id'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->donationModel->setDonationTages($_POST['record'], $_POST['tag_id'])) {
+                        flash('donation_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
+                    } else {
+                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    }
+                }
+                redirect('donations');
+            }
         }
 
         //handling search
@@ -104,6 +116,7 @@ class Donations extends ControllerAdmin
             'perpage' => $perpage,
             'header' => '',
             'title' => 'التبرعات',
+            'tags' => $this->donationModel->tagsList(' WHERE status = 1'),
             'donations' => $donations,
             'recordsCount' => $recordsCount->count,
             'footer' => '',
@@ -186,7 +199,7 @@ class Donations extends ControllerAdmin
                 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => $donation->banktransferproof,
                 'tagsList' => $this->donationModel->tagsList(),
-                'tags' =>  $this->donationModel->tagsListByDonation($id),
+                'tags' => $this->donationModel->tagsListByDonation($id),
                 'status' => '',
                 'payment_method_id_error' => '',
                 'banktransferproof_error' => '',

@@ -193,8 +193,6 @@ class Donation extends ModelAdmin
         return $results;
     }
 
-
-
     /**
      * insertTags
      *
@@ -247,5 +245,31 @@ class Donation extends ModelAdmin
     public function lastId()
     {
         return $this->db->lastId();
+    }
+
+    /**
+     * set Donation Tages
+     *
+     * @param  mixed $donation_ids
+     * @param  mixed $tag_id
+     * @return void
+     */
+    public function setDonationTages($donation_ids, $tag_id)
+    {
+        $count = 0;
+        foreach ($donation_ids as $id) {
+            $this->db->query('INSERT INTO tags_donations( tag_id, donation_id, modified_date, create_date) VALUES (:tag_id, :donation_id, :modified_date, :create_date)');
+
+            // binding values
+            $this->db->bind(':tag_id', $tag_id);
+            $this->db->bind(':donation_id', $id);
+            $this->db->bind(':create_date', time());
+            $this->db->bind(':modified_date', time());
+
+            // excute
+            $this->db->excute();
+            $count++;
+        }
+        return $count;
     }
 }

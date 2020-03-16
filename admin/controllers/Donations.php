@@ -101,7 +101,7 @@ class Donations extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->donationModel->searchHandling(['donation_identifier', 'amount', 'status']);
+        $searches = $this->donationModel->searchHandling(['donation_identifier', 'amount', 'status', 'donor']);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
         // get all records count after search and filtration

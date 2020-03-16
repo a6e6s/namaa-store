@@ -37,6 +37,7 @@ class Donation extends ModelAdmin
         $query = 'SELECT ds.*, payment_methods.title as payment_method, donors.full_name as donor, projects.name as project ,
         (select GROUP_CONCAT(  DISTINCT  donation_tags.name    SEPARATOR " , ") from donation_tags, tags_donations where ds.donation_id = tags_donations.donation_id  AND donation_tags.tag_id = tags_donations.tag_id) as tags
         FROM donations ds ,projects, donors,payment_methods ' . $cond . ' ORDER BY ds.create_date DESC ';
+        // dd($query);
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }
 
@@ -262,7 +263,7 @@ class Donation extends ModelAdmin
         }
         return $count;
     }
-    
+
     /**
      * get last Id
      * @return integr
@@ -312,7 +313,11 @@ class Donation extends ModelAdmin
         $bind = [];
         if (!empty($searches)) {
             foreach ($searches as $keyword) {
-                $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
+                if ($keyword == 'donor') {
+                    $cond .= ' AND donors.full_name LIKE :' . $keyword . ' ';
+                } else {
+                    $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
+                }
                 $bind[':' . $keyword] = $_POST['search'][$keyword];
                 $_SESSION['search'][$keyword] = $_POST['search'][$keyword];
             }
@@ -332,7 +337,11 @@ class Donation extends ModelAdmin
         $bind = [];
         foreach ($searches as $keyword) {
             if (isset($_SESSION['search'][$keyword])) {
-                $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword;
+                if ($keyword == 'donor') {
+                    $cond .= ' AND donors.full_name LIKE :' . $keyword . ' ';
+                } else {
+                    $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
+                }
                 $bind[':' . $keyword] = $_SESSION['search'][$keyword];
             }
         }

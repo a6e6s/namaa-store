@@ -23,7 +23,7 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('donation_msg');?>
+    <?php flash('donation_msg'); ?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['title']; ?> <small>عرض كافة <?php echo $data['title']; ?> </small></h3>
@@ -46,10 +46,11 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th width="70px"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" /></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالمعرف" name="search[donation_identifier]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount]" value=""></th>
-                                <!-- <th><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor_id]" value=""></th>
-                                <th><input type="search" class="form-control" placeholder="بحث بالمشروع" name="search[project_id]" value=""></th>
+                                <th colspan=""></th>
+                                <th><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor]" value=""></th>
+                                <!--  <th><input type="search" class="form-control" placeholder="بحث بالمشروع" name="search[project_id]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بوسيلة التبرع" name="search[payment_method_id]" value=""></th> -->
-                                <th colspan="8"></th>
+                                <th colspan="6"></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[status]">
                                         <option value=""></option>
@@ -80,18 +81,18 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
                                     <span class="control-label">الوسوم :</span>
                                     <?php
-                                    foreach ($data['tags'] as $tag ) {
-                                        echo ' <button type="submit" name="tag_id"  value="'.$tag->tag_id.'" class="btn btn-primary btn-xs">'.$tag->name.'</button> ';
+                                    foreach ($data['tags'] as $tag) {
+                                        echo ' <button type="submit" name="tag_id"  value="' . $tag->tag_id . '" class="btn btn-primary btn-xs">' . $tag->name . '</button> ';
                                     }
                                     ?>
                                     <span class="control-label"> حذف الوسوم :</span>
                                     <input type="submit" name="clear" value="Clear" class="btn btn-warning btn-xs" />
-                                    
+
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data['donations'] as $donation): ?>
+                            <?php foreach ($data['donations'] as $donation) : ?>
                                 <tr class="even pointer">
                                     <td class="a-center ">
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $donation->donation_id; ?>">
@@ -102,9 +103,9 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $donation->donor_id . '">' . $donation->donor . '</a>'; ?></td>
                                     <td><?php echo $donation->project; ?></td>
                                     <td><?php echo $donation->payment_method; ?></td>
-                                    <td><?php if (!empty($donation->banktransferproof)): ?>
-                                        <a class="btn btn-success btn-sm" href="<?php echo URLROOT . "/media/files/banktransfer/" . $donation->banktransferproof; ?>" target="blank">تحميل</a>
-                                    <?php endif;?>
+                                    <td><?php if (!empty($donation->banktransferproof)) : ?>
+                                            <a class="btn btn-success btn-sm" href="<?php echo URLROOT . "/media/files/banktransfer/" . $donation->banktransferproof; ?>" target="blank">تحميل</a>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#meta<?php echo $donation->donation_id; ?>">تفاصيل</button>
@@ -115,11 +116,11 @@ require ADMINROOT . '/views/inc/header.php';
                                                     <div class="modal-body text-right" dir="ltr">
                                                         <ul class="text-capitalize">
                                                             <?php
-                                                        ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
-                                                        foreach ($metas as $key => $value) {
-                                                            echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
-                                                        }
-                                                        ?>
+                                                            ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
+                                                            foreach ($metas as $key => $value) {
+                                                                echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
+                                                            }
+                                                            ?>
                                                         </ul>
                                                     </div>
                                                     <div class="modal-footer">
@@ -133,24 +134,23 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
                                     <td class="form-group">
                                         <?php
-if (!$donation->status) {
-    echo '<a href="' . ADMINURL . '/donations/publish/' . $donation->donation_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
-} elseif ($donation->status == 1) {
-    echo '<a href="' . ADMINURL . '/donations/unpublish/' . $donation->donation_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="مؤكد"><i class="fa fa-check"></i></a>';
-}
-?>
+                                        if (!$donation->status) {
+                                            echo '<a href="' . ADMINURL . '/donations/publish/' . $donation->donation_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
+                                        } elseif ($donation->status == 1) {
+                                            echo '<a href="' . ADMINURL . '/donations/unpublish/' . $donation->donation_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="مؤكد"><i class="fa fa-check"></i></a>';
+                                        }
+                                        ?>
                                         <a href="<?php echo ADMINURL . '/donations/show/' . $donation->donation_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
                                         <a href="<?php echo ADMINURL . '/donations/edit/' . $donation->donation_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
                                         <a href="<?php echo ADMINURL . '/donations/delete/' . $donation->donation_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
-                            <?php endforeach;?>
+                            <?php endforeach; ?>
 
                             <tr class="tab-selected">
                                 <th></th>
-                                <th class="column-title"> </th>
-                                <th class="column-title"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
-                                <th class="column-title" colspan="7"> عرض
+                                <th class="column-title" colspan="3"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
+                                <th class="column-title" colspan="6"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/donations/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>
@@ -170,8 +170,8 @@ if (!$donation->status) {
 
                 <ul class="pagination text-center">
                     <?php
-pagination($data['recordsCount'], $data['current'], $data['perpage'], 4, ADMINURL . '/donations');
-?>
+                    pagination($data['recordsCount'], $data['current'], $data['perpage'], 4, ADMINURL . '/donations');
+                    ?>
                 </ul>
 
 

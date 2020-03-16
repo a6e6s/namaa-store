@@ -225,4 +225,19 @@ class Model
     {
         return $this->getFromTable('menus', '*', ['status' => 1], '', '', 'arrangement', 'ASC');
     }
+
+    /**
+     * get Settings
+     *
+     * @param  mixed $type
+     * @return void
+     */
+    public function getSettings($type = null)
+    {
+        if ($type) {
+            return $this->getSingle('*', ['alias' => $type], 'settings');
+        } else {
+            return $this->getFromTable('settings');
+        }
+    }
 }

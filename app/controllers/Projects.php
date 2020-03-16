@@ -15,6 +15,7 @@ class Projects extends Controller
     {
 
         $data = [
+            'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'pageTitle' => 'الرئيسية: ' . SITENAME,
         ];
         $this->view('projects/index', $data);
@@ -33,6 +34,7 @@ class Projects extends Controller
         ($project = $this->projectsModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
         $data = [
             'project' => $project,
+            'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'pagesLinks' => $this->projectsModel->getMenu(),
             'payment_methods' => $this->projectsModel->getSupportedPaymentMethods($project->payment_methods),
         ];
@@ -190,6 +192,7 @@ class Projects extends Controller
 
         $data = [
             'payment_method_id' => 3,
+            'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'meta' => $meta,
             'project_id' => $_SESSION['payment']['project_id'],
             'hash' => $_SESSION['donation']['hash'],
@@ -222,6 +225,7 @@ class Projects extends Controller
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
                 'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $this->projectsModel->getSingle('*', ['payment_id' => 1], 'payment_methods'),
+                'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
                 'image' => '',
                 'image_error' => '',
                 'hash' => $hash,
@@ -254,6 +258,7 @@ class Projects extends Controller
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
                 'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $this->projectsModel->getSingle('*', ['payment_id', 1], 'payment_methods'),
+                'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
                 'image' => '',
                 'image_error' => '',
                 'hash' => $hash,
@@ -273,6 +278,7 @@ class Projects extends Controller
         if ($payment_methouds = $this->projectsModel->getSingle('*', ['payment_id' => $id], 'payment_methods')) {
             $data = [
                 'pageTitle' => 'بيانات الدفع: ' . SITENAME,
+                'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
                 'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $payment_methouds,
             ];

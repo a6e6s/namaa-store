@@ -22,7 +22,7 @@ class ProjectCategories extends Controller
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
             'pagesLinks' => $this->categoriesModel->getMenu(),
-            'settings' => null,
+            'site_settings' => json_decode($this->categoriesModel->getSettings('site')->value),
             'pagination' => generatePagination($this->categoriesModel->categoriesCount()->count, $start, $perpage, 4, URLROOT, '/ProjectCategories/index'),
             'categories' => $categories,
         ];
@@ -50,6 +50,7 @@ class ProjectCategories extends Controller
         $data = [
             'category' => $category,
             'pagesLinks' => $this->categoriesModel->getMenu(),
+            'site_settings' => json_decode($this->categoriesModel->getSettings('site')->value),
             'projects' => $this->categoriesModel->getProductsByCategory($id, $start, $perpage),
             'pagination' => generatePagination($this->categoriesModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/ProjectCategories/show/' . $id),
         ];

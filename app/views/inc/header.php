@@ -55,6 +55,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
 
     <!--- CSS style --->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/style.css">
+    <?php echo isset($data['site_settings']->header_code)? $data['site_settings']->header_code : ''; ?>
 </head>
 
 <body style="background:<?php echo $this->meta->background; ?>;">
@@ -74,7 +75,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
             </div>
             <div class="col-5 col-md-7">
                 <a href="<?php echo URLROOT; ?>" class="logo float-right">
-                    <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-logo.png" height="60" alt="Namaa logo" class="img-fluid">
+                    <img src="<?php echo empty($data['site_settings']->logo) ? '/': MEDIAURL.'/'.$data['site_settings']->logo ;?>" height="60" alt="Namaa logo" class="img-fluid">
                 </a>
             </div>
             <div class="col-5 col-md-4 pt-3">

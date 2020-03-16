@@ -1,3 +1,5 @@
+<?php if ($data['site_settings']->show_categories): ?>
+
 <div class="container">
     <section class="footer px-2">
         <div class="footer-top">
@@ -14,6 +16,8 @@
         </div>
     </section>
 </div>
+<?php endif;?>
+
 <!-- javascript -->
 <script src="<?php echo URLROOT; ?>/templates/default/vendors/jquery.min.js"></script>
 <script src="<?php echo URLROOT; ?>/templates/default/js/bootstrap.min.js"></script>
@@ -21,6 +25,8 @@
 <script src="<?php echo URLROOT; ?>/templates/default/js/wow.min.js"></script>
 <?php echo isset($footer) ? $footer : ''; ?>
 <script src="<?php echo URLROOT; ?>/templates/default/js/main.js"></script>
+<?php echo isset($data['site_settings']->footer_code) ? $data['site_settings']->footer_code : ''; ?>
+
 </body>
 
 </html>

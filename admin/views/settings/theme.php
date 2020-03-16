@@ -48,7 +48,7 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
             </div>
             <div class="form-group col-xs-12">
-                <label class="control-label" for="background_image">صورة الفاصل اسفل البنر :
+                <label class="control-label" for="background_image">صورة الخلفية :
                 </label>
                 <div class="glr-group ">
                     <a data-toggle="modal"  href="javascript:;" data-target="#myModal" class="glr-btn col-xs-2" type="button">اختيار</a>
@@ -71,7 +71,7 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <!-- /.modal -->
             </div>
-            <div class="form-group col-xs-12">
+            <div class="form-group col-xs-6">
                 <label class="control-label" for="banner_image">صورة الفاصل اسفل البنر :
                 </label>
                 <div class="glr-group ">
@@ -95,8 +95,14 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <!-- /.modal -->
             </div>
-            <div class="form-group col-xs-12">
-                <label class="control-label" for="projects_image">صورة الفاصل اسفل البنر :
+            <div class="form-group col-xs-6">
+                <label class="control-label">رابط الفاصل اسفل البنر : </label>
+                <div class="has-feedback">
+                    <input type="text" class="form-control" name="value[banner_image_url]" placeholder="رابط الفاصل اسفل البنر" value="<?php echo $data['value']->banner_image_url; ?>">
+                </div>
+            </div><br class="clear">
+            <div class="form-group col-xs-6">
+                <label class="control-label" for="projects_image">صورة الفاصل اسفل المشروعات :
                 </label>
                 <div class="glr-group ">
                     <a data-toggle="modal"  href="javascript:;" data-target="#myModal2" class="glr-btn col-xs-2" type="button">اختيار</a>
@@ -119,8 +125,13 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <!-- /.modal -->
             </div>
-
-            <div class="form-group col-xs-12">
+            <div class="form-group col-xs-6">
+                <label class="control-label">رابط الفاصل اسفل المشروعات : </label>
+                <div class="has-feedback">
+                    <input type="text" class="form-control" name="value[projects_image_url]" placeholder="رابط الفاصل اسفل المشروعات" value="<?php echo $data['value']->projects_image_url; ?>">
+                </div>
+            </div><br class="clear">
+            <div class="form-group col-xs-6">
                 <label class="control-label" for="categories_image">صورة الفاصل اسفل الاقسام :
                 </label>
                 <div class="glr-group ">
@@ -144,7 +155,71 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <!-- /.modal -->
             </div>
-            <div class="col-xs-12"><br><br>
+            <div class="form-group col-xs-6">
+                <label class="control-label">رابط الفاصل اسفل الاقسام : </label>
+                <div class="has-feedback">
+                    <input type="text" class="form-control" name="value[categories_image_url]" placeholder="رابط الفاصل اسفل الاقسام" value="<?php echo $data['value']->categories_image_url; ?>">
+                </div>
+            </div><br class="clear">
+            <div class="form-group col-xs-6">
+                <label class="control-label" for="categories_image2"> صورة الفاصل اسفل الاقسام :</label> 2
+                <div class="glr-group ">
+                    <a data-toggle="modal"  href="javascript:;" data-target="#myModal4" class="glr-btn col-xs-2" type="button">اختيار</a>
+                    <input  id="categories_image2" readonly name="value[categories_image2]" class="glr-control  col-xs-9" type="text" value="<?php echo $data['value']->categories_image2; ?>" >
+                    <a class="text-danger fa-lg" onclick="$('#categories_image2').val('');">&nbsp<i class="fa fa-close fa-lg  "></i></a>
+                </div>
+                <!-- /.modal -->
+                <div class="modal fade" id="myModal4" style=" margin-left: 0px;">
+                    <div class="modal-dialog" style="width: 80%;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">اختيار الصور</h4>
+                            </div>
+                            <div class="modal-body" >
+                            <iframe width="100%" height="500" src="<?php echo ADMINURL; ?>/helpers/filemanager/dialog.php?type=2&field_id=categories_image2&relative_url=1" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+            </div>
+            <div class="form-group col-xs-6">
+                <label class="control-label">رابط الفاصل اسفل  الاقسام 2  : </label>
+                <div class="has-feedback">
+                    <input type="text" class="form-control" name="value[projects_image2_url]" placeholder="رابط الفاصل اسفل  الاقسام 2 " value="<?php echo $data['value']->projects_image2_url; ?>">
+                </div>
+            </div><br class="clear">
+            <div class="form-group col-xs-6">
+                <label class="control-label" for="categories_image3">صورة الفاصل اسفل الاقسام :</label> 3 
+                <div class="glr-group ">
+                    <a data-toggle="modal"  href="javascript:;" data-target="#myModal5" class="glr-btn col-xs-2" type="button">اختيار</a>
+                    <input  id="categories_image3" readonly name="value[categories_image3]" class="glr-control  col-xs-9" type="text" value="<?php echo $data['value']->categories_image3; ?>" >
+                    <a class="text-danger fa-lg" onclick="$('#categories_image3').val('');">&nbsp<i class="fa fa-close fa-lg  "></i></a>
+                </div>
+                <!-- /.modal -->
+                <div class="modal fade" id="myModal5" style=" margin-left: 0px;">
+                    <div class="modal-dialog" style="width: 80%;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">اختيار الصور</h4>
+                            </div>
+                            <div class="modal-body" >
+                            <iframe width="100%" height="500" src="<?php echo ADMINURL; ?>/helpers/filemanager/dialog.php?type=2&field_id=categories_image3&relative_url=1" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+            </div>
+            <div class="form-group col-xs-6">
+                <label class="control-label">رابط الفاصل اسفل  الاقسام 3  : </label>
+                <div class="has-feedback">
+                    <input type="text" class="form-control" name="value[categories_image3_url]" placeholder="رابط الفاصل اسفل  الاقسام 3 " value="<?php echo $data['value']->categories_image3_url; ?>">
+                </div>
+            </div><br class="clear">
+            <div class="col-xs-6"><br><br>
                 <button type="submit" name="save" class="btn btn-success">تعديل
                     <i class="fa fa-save"> </i></button>
                 <button type="submit" name="submit" class="btn btn-success">تعديل وعودة

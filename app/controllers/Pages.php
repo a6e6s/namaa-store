@@ -40,6 +40,7 @@ class Pages extends Controller
     {
         empty($id) ? redirect('pages', true) : null;
         $data = [
+            'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
             'pagesLinks' => $this->pagesModel->getMenu(),
             'page' => $this->pagesModel->getPageById($id),
         ];

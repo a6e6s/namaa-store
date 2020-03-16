@@ -49,7 +49,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <!-- <th><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor_id]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالمشروع" name="search[project_id]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بوسيلة التبرع" name="search[payment_method_id]" value=""></th> -->
-                                <th colspan="7"></th>
+                                <th colspan="8"></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[status]">
                                         <option value=""></option>
@@ -64,6 +64,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 </th>
                                 <th class="column-title">معرف التبرع </th>
                                 <th class="column-title">القيمة </th>
+                                <th class="column-title">الحالات </th>
                                 <th class="column-title">اسم المتبرع </th>
                                 <th class="column-title">المشروع </th>
                                 <th class="column-title">وسيلة التبرع </th>
@@ -72,7 +73,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">تاريخ التبرع </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span></th>
-                                <th class="bulk-actions" colspan="10">
+                                <th class="bulk-actions" colspan="11">
                                     <span> تنفيذ علي الكل :</span>
                                     <input type="submit" name="publish" value="Publish" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="Unpublish" class="btn btn-warning btn-xs" />
@@ -82,6 +83,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         echo ' <button type="submit" name="tag_id"  value="'.$tag->tag_id.'" class="btn btn-primary btn-xs">'.$tag->name.'</button> ';
                                     }
                                     ?>
+                                    <input type="submit" name="clear" value="Clear" class="btn btn-warning btn-xs" />
                                     
                                 </th>
                             </tr>
@@ -94,6 +96,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     </td>
                                     <td><?php echo $donation->donation_identifier; ?></td>
                                     <td><?php echo $donation->amount; ?></td>
+                                    <td><?php echo $donation->tags; ?></td>
                                     <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $donation->donor_id . '">' . $donation->donor . '</a>'; ?></td>
                                     <td><?php echo $donation->project; ?></td>
                                     <td><?php echo $donation->payment_method; ?></td>
@@ -145,7 +148,7 @@ if (!$donation->status) {
                                 <th></th>
                                 <th class="column-title"> </th>
                                 <th class="column-title"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
-                                <th class="column-title" colspan="6"> عرض
+                                <th class="column-title" colspan="7"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/donations/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>

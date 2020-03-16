@@ -30,7 +30,7 @@ class Donations extends ControllerAdmin
     public function index($current = '', $perpage = 50)
     { #SELECT donations.*, donors.full_name as donor, projects.name as project FROM `donations`,projects, donors WHEre donors.donor_id = donations.donor_id AND projects.project_id = donations.project_id
     // get donations
-        $cond = 'WHERE donations.status <> 2 AND donors.donor_id = donations.donor_id AND projects.project_id = donations.project_id AND donations.payment_method_id = payment_methods.payment_id ';
+        $cond = 'WHERE ds.status <> 2 AND donors.donor_id = ds.donor_id AND projects.project_id = ds.project_id AND ds.payment_method_id = payment_methods.payment_id ';
         $bind = [];
 
         //check user action if the form has submitted
@@ -76,11 +76,21 @@ class Donations extends ControllerAdmin
                 redirect('donations');
             }
 
-            //handling Unpublish
+            //handling tags
             if (isset($_POST['tag_id'])) {
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->donationModel->setDonationTages($_POST['record'], $_POST['tag_id'])) {
-                        flash('donation_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
+                        flash('donation_msg', 'تم اضافة ' . $row_num . ' بنجاح');
+                    } else {
+                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    }
+                }
+                redirect('donations');
+            }
+            if (isset($_POST['clear'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->donationModel->clearAllTagsByDonationsId($_POST['record'])) {
+                        flash('donation_msg', 'تم الغاء   ' . $row_num . ' بنجاح');
                     } else {
                         flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                     }

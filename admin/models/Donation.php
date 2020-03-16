@@ -34,8 +34,9 @@ class Donation extends ModelAdmin
      */
     public function getDonations($cond = '', $bind = '', $limit = '', $bindLimit)
     {
-        $query = 'SELECT donations.*, payment_methods.title as payment_method, donors.full_name as donor, projects.name as project FROM `donations`,projects, donors,payment_methods ' . $cond . ' ORDER BY donations.create_date DESC ';
-
+        $query = 'SELECT ds.*, payment_methods.title as payment_method, donors.full_name as donor, projects.name as project ,
+        (select GROUP_CONCAT(  DISTINCT  donation_tags.name    SEPARATOR " , ") from donation_tags, tags_donations where ds.donation_id = tags_donations.donation_id  AND donation_tags.tag_id = tags_donations.tag_id) as tags
+        FROM donations ds ,projects, donors,payment_methods ' . $cond . ' ORDER BY ds.create_date DESC ';
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }
 
@@ -46,7 +47,14 @@ class Donation extends ModelAdmin
      */
     public function allDonationsCount($cond = '', $bind = '')
     {
-        return $this->countAll($cond, $bind);
+        $this->db->query('SELECT count(*) as count FROM ' . $this->table . ' ds ' . $cond);
+        if (!empty($bind)) {
+            foreach ($bind as $key => $value) {
+                $this->db->bind($key, '%' . $value . '%');
+            }
+        }
+        $this->db->excute();
+        return $this->db->single();
     }
 
     /**
@@ -239,6 +247,22 @@ class Donation extends ModelAdmin
     }
 
     /**
+     * clear multable Tags By Donations Id
+     *
+     * @param  mixed $donation_ids
+     * @return void
+     */
+    public function clearAllTagsByDonationsId($donation_ids)
+    {
+        $count = 0;
+        foreach ($donation_ids as $id) {
+            $this->deleteTagsByDonationId($id);
+            $count++;
+        }
+        return $count;
+    }
+    
+    /**
      * get last Id
      * @return integr
      */
@@ -271,5 +295,46 @@ class Donation extends ModelAdmin
             $count++;
         }
         return $count;
+    }
+
+    /**
+     * handling Search Condition, creating bind array and handling search session
+     *
+     * @param  array $searches
+     * @return array of condation and bind array
+     */
+    public function handlingSearchCondition($searches)
+    {
+        //reset search session
+        unset($_SESSION['search']);
+        $cond = '';
+        $bind = [];
+        if (!empty($searches)) {
+            foreach ($searches as $keyword) {
+                $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
+                $bind[':' . $keyword] = $_POST['search'][$keyword];
+                $_SESSION['search'][$keyword] = $_POST['search'][$keyword];
+            }
+        }
+        return $data = ['cond' => $cond, 'bind' => $bind];
+    }
+
+    /**
+     * handling Search Condition on the stored session, creating bind array and handling search session
+     *
+     * @param  array $searches
+     * @return array of condation and bind array
+     */
+    public function handlingSearchSessionCondition($searches)
+    {
+        $cond = '';
+        $bind = [];
+        foreach ($searches as $keyword) {
+            if (isset($_SESSION['search'][$keyword])) {
+                $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword;
+                $bind[':' . $keyword] = $_SESSION['search'][$keyword];
+            }
+        }
+        return $data = ['cond' => $cond, 'bind' => $bind];
     }
 }

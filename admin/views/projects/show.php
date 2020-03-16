@@ -71,6 +71,10 @@ require ADMINROOT . '/views/inc/header.php';
                 <p class="ltr"><a href="http://<?php echo URLROOT . $data['project']->alias; ?>" target="_blank" rel="noopener noreferrer"><?php echo URLROOT . $data['project']->alias; ?></a></p>
             </div>
             <div class="form-group col-md-6 col-xs-6">
+                <label class="control-label">رقم المشروع : </label>
+                <p class="ltr"><?php echo $data['project']->project_number; ?></p>
+            </div>
+            <div class="form-group col-md-6 col-xs-6">
                 <label class="control-label">الترتيب : </label>
                 <p><?php echo $data['project']->arrangement; ?></p>
             </div>

@@ -87,6 +87,7 @@ class Donations extends ControllerAdmin
                 }
                 redirect('donations');
             }
+            //clear tags
             if (isset($_POST['clear'])) {
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->donationModel->clearAllTagsByDonationsId($_POST['record'])) {
@@ -154,15 +155,21 @@ class Donations extends ControllerAdmin
                 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => '',
                 'tagsList' => $this->donationModel->tagsList(),
+                'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
+                'project_id' => $_POST['project_id'],
                 'tags' => '',
                 'status' => '',
                 'payment_method_id_error' => '',
+                'project_id_error' => '',
                 'banktransferproof_error' => '',
                 'status_error' => '',
             ];
             isset($_POST['tags']) ? $data['tags'] = $_POST['tags'] : '';
             // validate payment methods
             !(empty($data['payment_method_id'])) ?: $data['payment_method_id_error'] = 'هذا الحقل مطلوب';
+
+            // validate payment methods
+            !(empty($data['project_id'])) ? null : $data['project_id_error'] = 'هذا الحقل مطلوب';
 
             // validate banktransferproof
             $image = $this->donationModel->validateImage('banktransferproof');
@@ -176,8 +183,7 @@ class Donations extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error'])) {
-                // dd($data);
+            if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error']) && empty($data['project_id_error'])) {
                 //validated
                 if ($this->donationModel->updateDonation($data)) {
                     //clear previous tags before inserting new values
@@ -208,10 +214,13 @@ class Donations extends ControllerAdmin
                 'payment_method_id' => $donation->payment_method_id,
                 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => $donation->banktransferproof,
+                'project_id' => $donation->project_id,
+                'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
                 'tagsList' => $this->donationModel->tagsList(),
                 'tags' => $this->donationModel->tagsListByDonation($id),
                 'status' => '',
                 'payment_method_id_error' => '',
+                'project_id_error' => '',
                 'banktransferproof_error' => '',
                 'status_error' => '',
             ];

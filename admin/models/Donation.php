@@ -119,7 +119,7 @@ class Donation extends ModelAdmin
      */
     public function updateDonation($data)
     {
-        $query = 'UPDATE donations SET amount = :amount, payment_method_id = :payment_method_id, status = :status, modified_date = :modified_date';
+        $query = 'UPDATE donations SET amount = :amount, payment_method_id = :payment_method_id, project_id =:project_id, status = :status, modified_date = :modified_date';
 
         (empty($data['banktransferproof'])) ? null : $query .= ', banktransferproof = :banktransferproof';
 
@@ -127,6 +127,7 @@ class Donation extends ModelAdmin
         $this->db->query($query);
         // binding values
         $this->db->bind(':donation_id', $data['donation_id']);
+        $this->db->bind(':project_id', $data['project_id']);
         $this->db->bind(':amount', $data['amount']);
         $this->db->bind(':payment_method_id', $data['payment_method_id']);
         $this->db->bind(':status', $data['status']);

@@ -40,14 +40,19 @@ require ADMINROOT . '/views/inc/header.php';
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
         <form action="<?php echo ADMINURL . '/projects/edit/' . $data['project_id']; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
-
-        <div class="col-lg-8 col-sm-12 col-xs-12">
+            <div class="col-lg-8 col-sm-12 col-xs-12">
                 <div class="form-group  <?php echo (empty($data['name_error'])) ?: 'has-error'; ?>">
                     <label class="control-label" for="pageTitle">عنوان المشروع : </label>
                     <div class="has-feedback">
                         <input type="text" class="form-control" name="name" placeholder="عنوان المشروع" value="<?php echo $data['name']; ?>">
                         <span class="fa fa-edit form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block"><?php echo $data['name_error']; ?></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="pageTitle">رقم المشروع : </label>
+                    <div class="has-feedback">
+                        <input type="text" class="form-control" name="project_number" placeholder="رقم المشروع" value="<?php echo $data['project_number']; ?>">
                     </div>
                 </div>
                 <div class="form-group <?php echo (!empty($data['category_id_error'])) ? 'has-error' : ''; ?>">

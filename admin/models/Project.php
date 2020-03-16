@@ -56,15 +56,16 @@ class Project extends ModelAdmin
      */
     public function addProject($data)
     {
-        $this->db->query('INSERT INTO projects( name, alias, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, modified_date, create_date,enable_cart,
+        $this->db->query('INSERT INTO projects( name, alias, project_number, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, modified_date, create_date,enable_cart,
          mobile_confirmation, donation_type, target_price, payment_methods, fake_target, hidden, thanks_message, advertising_code, header_code, whatsapp, mobile, end_date, start_date, category_id, secondary_image, sms_msg
         )'
-            . ' VALUES (:name, :alias, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :modified_date, :create_date, :enable_cart,
+            . ' VALUES (:name, :alias, :project_number, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :modified_date, :create_date, :enable_cart,
          :mobile_confirmation, :donation_type, :target_price, :payment_methods, :fake_target, :hidden, :thanks_message, :advertising_code, :header_code, :whatsapp, :mobile, :end_date, :start_date, :category_id, :secondary_image, :sms_msg
         )');
 
         // binding values
         $this->db->bind(':enable_cart', $data['enable_cart']);
+        $this->db->bind(':project_number', $data['project_number']);
         $this->db->bind(':mobile_confirmation', $data['mobile_confirmation']);
         $this->db->bind(':donation_type', json_encode($data['donation_type']));
         $this->db->bind(':target_price', (int) $data['target_price']);
@@ -111,7 +112,7 @@ class Project extends ModelAdmin
      */
     public function updateProject($data)
     {
-        $query = 'UPDATE projects SET name = :name, description = :description, arrangement = :arrangement, back_home = :back_home, meta_keywords = :meta_keywords,
+        $query = 'UPDATE projects SET name = :name, project_number= :project_number, description = :description, arrangement = :arrangement, back_home = :back_home, meta_keywords = :meta_keywords,
         alias = :alias, enable_cart = :enable_cart, mobile_confirmation = :mobile_confirmation, donation_type = :donation_type, target_price = :target_price,
         payment_methods = :payment_methods, fake_target = :fake_target, hidden = :hidden, thanks_message = :thanks_message, advertising_code = :advertising_code,
         header_code = :header_code, whatsapp = :whatsapp, mobile = :mobile, end_date = :end_date, start_date = :start_date, category_id = :category_id, sms_msg = :sms_msg,
@@ -126,6 +127,7 @@ class Project extends ModelAdmin
         // binding values
         $this->db->bind(':project_id', $data['project_id']);
         $this->db->bind(':name', $data['name']);
+        $this->db->bind(':project_number', $data['project_number']);
         $this->db->bind(':alias', $data['alias']);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':arrangement', $data['arrangement']);

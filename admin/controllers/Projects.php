@@ -78,7 +78,7 @@ class Projects extends ControllerAdmin
         }
 
         //handling search 
-        $searches = $this->projectModel->searchHandling(['name', 'category_id', 'hidden', 'target_price', 'status']);
+        $searches = $this->projectModel->searchHandling(['name', 'project_number', 'category_id', 'hidden', 'target_price', 'status']);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
         // get all records count after search and filtration
@@ -130,6 +130,7 @@ class Projects extends ControllerAdmin
             $data = [
                 'page_title' => ' المشروعات',
                 'name' => trim($_POST['name']),
+                'project_number' => trim($_POST['project_number']),
                 'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['name']),
                 'description' => $description,
                 'image' => trim($_POST['image']),
@@ -224,6 +225,7 @@ class Projects extends ControllerAdmin
 
             $data = [
                 'page_title' => ' المشروعات',
+                'project_number' => '',
                 'name' => '',
                 'description' => '',
                 'image' => '',
@@ -291,6 +293,7 @@ class Projects extends ControllerAdmin
                 'project_id' => $id,
                 'page_title' => ' المشروعات',
                 'name' => trim($_POST['name']),
+                'project_number' => trim($_POST['project_number']),
                 'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['name']),
                 'description' => $description,
                 'image' => trim($_POST['image']),
@@ -396,6 +399,7 @@ class Projects extends ControllerAdmin
                 'page_title' => 'المشروعات',
                 'project_id' => $id,
                 'name' => $project->name,
+                'project_number' => $project->project_number,
                 'description' => $project->description,
                 'image' => $project->image,
                 'meta_keywords' => $project->meta_keywords,

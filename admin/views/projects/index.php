@@ -45,6 +45,7 @@ require ADMINROOT . '/views/inc/header.php';
                             <tr class=" form-group-sm">
                                 <th width="70px"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" /></th>
                                 <th class=""><input type="search" class="form-control" placeholder="بحث بالاسم" name="search[name]" value="" ></th>
+                                <th class=""><input type="search" class="form-control" placeholder="بحث بالرقم" name="search[project_number]" value="" ></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[category_id]" >
                                         <option value=""></option>
@@ -77,6 +78,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="checkbox" id="check-all" class="flat">
                                 </th>
                                 <th class="column-title">اسم المشروع </th>
+                                <th class="column-title">رقم المشروع </th>
                                 <th class="column-title">القسم </th>
                                 <th class="column-title">المبلغ المستهدف </th>
                                 <th class="column-title">الظهور </th>
@@ -86,10 +88,10 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span>
                                 </th>
-                                <th class="bulk-actions" colspan="9">
+                                <th class="bulk-actions" colspan="10">
                                     <span> تنفيذ علي الكل     :</span>
-                                    <input type="submit" name="publish" value="Publish" class="btn btn-success btn-xs" />
-                                    <input type="submit" name="unpublish" value="Unpublish" class="btn btn-warning btn-xs" />
+                                    <input type="submit" name="publish" value="نشر" class="btn btn-success btn-xs" />
+                                    <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
                                 </th>
                             </tr>
@@ -102,6 +104,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $project->project_id; ?>">
                                     </td>
                                     <td><?php echo $project->name; ?></td>
+                                    <td><?php echo $project->project_number; ?></td>
                                     <td><?php echo $project->category; ?></td>
                                     <td><?php echo $project->target_price; ?></td>
                                     <td><?php echo ($project->hidden) ? 'مخفي' : 'ظاهر'; ?></td>
@@ -128,7 +131,8 @@ require ADMINROOT . '/views/inc/header.php';
                             <tr class="tab-selected">
                                 <th></th>
                                 <th class="column-title"> العدد الكلي  :   <?php echo $data['recordsCount']; ?>  </th>
-                                <th class="column-title"  colspan= "6"> عرض
+                                <th class="column-title"  colspan= "2"> </th>
+                                <th class="column-title" colspan= "5"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/projects/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>

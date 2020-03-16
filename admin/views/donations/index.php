@@ -75,14 +75,16 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span></th>
                                 <th class="bulk-actions" colspan="11">
                                     <span> تنفيذ علي الكل :</span>
-                                    <input type="submit" name="publish" value="Publish" class="btn btn-success btn-xs" />
-                                    <input type="submit" name="unpublish" value="Unpublish" class="btn btn-warning btn-xs" />
+                                    <input type="submit" name="publish" value="تأكيد" class="btn btn-success btn-xs" />
+                                    <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
+                                    <span class="control-label">الوسوم :</span>
                                     <?php
                                     foreach ($data['tags'] as $tag ) {
                                         echo ' <button type="submit" name="tag_id"  value="'.$tag->tag_id.'" class="btn btn-primary btn-xs">'.$tag->name.'</button> ';
                                     }
                                     ?>
+                                    <span class="control-label"> حذف الوسوم :</span>
                                     <input type="submit" name="clear" value="Clear" class="btn btn-warning btn-xs" />
                                     
                                 </th>

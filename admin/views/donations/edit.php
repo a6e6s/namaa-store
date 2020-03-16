@@ -54,6 +54,21 @@ require ADMINROOT . '/views/inc/header.php';
                         <input type="number" class="form-control" name="amount" required value="<?php echo $data['amount']; ?>">
                     </div>
                 </div>
+                <div class="form-group <?php echo (!empty($data['project_id_error'])) ? 'has-error' : ''; ?>">
+                    <label class="control-label">المشروع</label>
+                    <div class="has-feedback">
+                        <select name="project_id" class="form-control">
+                            <option value="">اختار المشروع </option>
+                            <?php foreach ($data['projectList'] as $project): ?>
+                                <option value="<?php echo $project->project_id; ?>" <?php echo ($project->project_id == $data['project_id']) ? " selected " : ''; ?>>
+                                    <?php echo $project->name; ?>
+                                </option>
+                            <?php endforeach;?>
+                        </select>
+                        <span class="fa fa-folder form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <span class="help-block"><?php echo $data['project_id_error']; ?></span>
+                </div>
                 <div class="form-group <?php echo (!empty($data['payment_method_id_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label">وسيلة التبرع</label>
                     <div class="has-feedback">

@@ -62,7 +62,6 @@ class Projects extends ControllerAdmin
                 }
                 redirect('projects');
             }
-
             //handling Unpublish
             if (isset($_POST['unpublish'])) {
 
@@ -76,7 +75,6 @@ class Projects extends ControllerAdmin
                 redirect('projects');
             }
         }
-
         //handling search 
         $searches = $this->projectModel->searchHandling(['name', 'project_number', 'category_id', 'hidden', 'target_price', 'status']);
         $cond .= $searches['cond'];
@@ -136,6 +134,7 @@ class Projects extends ControllerAdmin
                 'image' => trim($_POST['image']),
                 'secondary_image' => '',
                 'enable_cart' => trim($_POST['enable_cart']),
+                'gift' => trim($_POST['gift']),
                 'mobile_confirmation' => trim($_POST['mobile_confirmation']),
                 'donation_type' => $_POST['donation_type'],
                 'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
@@ -231,6 +230,7 @@ class Projects extends ControllerAdmin
                 'image' => '',
                 'secondary_image' => '',
                 'enable_cart' => '',
+                'gift' => '',
                 'mobile_confirmation' => '',
                 'donation_type' => ['type' => ''],
                 'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
@@ -299,6 +299,7 @@ class Projects extends ControllerAdmin
                 'image' => trim($_POST['image']),
                 'secondary_image' => '',
                 'enable_cart' => trim($_POST['enable_cart']),
+                'gift' => trim($_POST['gift']),
                 'mobile_confirmation' => trim($_POST['mobile_confirmation']),
                 'donation_type' => $_POST['donation_type'],
                 'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
@@ -378,7 +379,6 @@ class Projects extends ControllerAdmin
                     $this->projectModel->deleteTagsByProjectId($id);
                     // insert new tags
                     $this->projectModel->insertTags($data['tags'], $id);
-
                     flash('project_msg', 'تم التعديل بنجاح');
                     isset($_POST['save']) ? redirect('projects/edit/' . $id) : redirect('projects');
                 } else {
@@ -412,6 +412,7 @@ class Projects extends ControllerAdmin
                 'featured' => $project->featured,
                 'secondary_image' => $project->secondary_image,
                 'enable_cart' => $project->enable_cart,
+                'gift' => $project->gift,
                 'mobile_confirmation' => $project->mobile_confirmation,
                 'donation_type' => json_decode($project->donation_type, true),
                 'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],

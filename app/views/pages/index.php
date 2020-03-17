@@ -55,7 +55,9 @@
                 <?php foreach ($data['projects'] as $project): ?>
                     <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
                         <div class="card">
-                            <img class="card-img-top" src="<?php echo (empty($project->img)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->img; ?>" alt="<?php echo $project->name; ?>">
+                            <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="">
+                                <img class="card-img-top" src="<?php echo (empty($project->img)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->img; ?>" alt="<?php echo $project->name; ?>">
+                            </a>
                             <div class="body-card m-2">
                                 <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 100); ?>. </p>
                             </div>

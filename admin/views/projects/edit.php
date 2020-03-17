@@ -116,23 +116,22 @@ require ADMINROOT . '/views/inc/header.php';
                 <div class="form-group">
                     <label class="control-label">الإضافة الي السلة :</label>
                     <div class="radio">
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['enable_cart'] == 1) ? 'checked' : ''; ?> value="1" name="enable_cart"> يقبل الاضافة للسلة
-                        </label>
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['enable_cart'] == 0) ? 'checked' : ''; ?> value="0" name="enable_cart"> لا يقبل الاضافة للسلة
-                        </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['enable_cart'] == 1) ? 'checked' : ''; ?> value="1" name="enable_cart"> يقبل الاضافة للسلة </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['enable_cart'] == 0) ? 'checked' : ''; ?> value="0" name="enable_cart"> لا يقبل الاضافة للسلة </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">الاهداء الخيري :</label>
+                    <div class="radio">
+                        <label><input type="radio" class="flat" <?php echo ($data['gift'] == 1) ? 'checked' : ''; ?> value="1" name="gift"> يقبل الاهداء الخيري </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['gift'] == 0) ? 'checked' : ''; ?> value="0" name="gift"> لا يقبل الاهداء الخيري </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label"> تأكيد الجوال :</label>
                     <div class="radio">
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 1) ? 'checked' : ''; ?> value="1" name="mobile_confirmation"> يجب تأكيد الجوال
-                        </label>
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 0) ? 'checked' : ''; ?> value="0" name="mobile_confirmation"> تجاهل تأكيد الجوال
-                        </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 1) ? 'checked' : ''; ?> value="1" name="mobile_confirmation"> يجب تأكيد الجوال </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 0) ? 'checked' : ''; ?> value="0" name="mobile_confirmation"> تجاهل تأكيد الجوال </label>
                     </div>
                 </div>
                 <div class="form-group">

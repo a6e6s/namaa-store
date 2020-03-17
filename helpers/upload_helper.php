@@ -23,7 +23,7 @@
  * @param boolen $random_name
  * @return array @example $out['filepath'], $out['error'], $out['filename']
  */
-function uploadImage($field_name = null, $path = 'media/', $max_size = 5000000, $check_image = true, $random_name = false)
+function uploadImage($field_name = null, $path = 'media/', $max_size = 5000000, $check_image = true, $random_name = true)
 {
 
 //Config Section
@@ -87,7 +87,7 @@ function uploadImage($field_name = null, $path = 'media/', $max_size = 5000000, 
             if (!$tmp || $tmp == '') {
                 $out['error'][] = "File must have a name";
             }
-            $newname = $name . $tmp . '.' . $ext;
+            $newname = 'image' . $tmp . '.' . $ext;
             $storename = iconv('utf-8', 'windows-1256', str_replace('ی', 'ي', $newname));
         } else {
             if (file_exists($path . $name . '.' . $ext)) {

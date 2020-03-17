@@ -117,7 +117,7 @@
                                     switch ($donation_type->type) {
                                         case 'share':
                                             foreach ($donation_type->value as $value) {
-                                                echo '<label class="btn btn-secondary  mx-1">
+                                                echo '<label class="btn btn-secondary  m-1">
                                                         <input type="radio" value ="' . $value->value . '" name="donation_type" required class="donation-value"> ' . $value->name . '
                                                     </label>';
                                             }
@@ -127,13 +127,13 @@
                                             break;
                                         case 'unit':
                                             foreach ($donation_type->value as $value) {
-                                                echo '<label class="btn btn-secondary  mx-1">
+                                                echo '<label class="btn btn-secondary  m-1">
                                                         <input type="radio" value ="' . $value->value . '" name="donation_type" class="donation-value"> ' . $value->name . '
                                                     </label>';
                                             }
                                             break;
                                         case 'fixed':
-                                            echo '<label class="btn btn-secondary  mx-1">
+                                            echo '<label class="btn btn-secondary  m-1">
                                                     <input type="radio" value ="' . $donation_type->value . '" name="donation_type" class="donation-value"> ' . $donation_type->value . ' ريال
                                                 </label>';
                                             break;

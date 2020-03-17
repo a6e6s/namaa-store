@@ -20,9 +20,7 @@ header("Content-Type: text/html; charset=utf-8");
 
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
     <?php flash('projectcategory_msg');?>
@@ -34,11 +32,8 @@ require ADMINROOT . '/views/inc/header.php';
             <a href="<?php echo ADMINURL; ?>/projects" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
         </div>
     </div>
-
     <div class="clearfix"></div>
-
     <div class="row">
-
         <form action="<?php echo ADMINURL . '/projects/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
             <div class="col-lg-8 col-sm-12 col-xs-12">
                 <div class="form-group  <?php echo (empty($data['name_error'])) ?: 'has-error'; ?>">
@@ -70,8 +65,6 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                     <span class="help-block"><?php echo $data['category_id_error']; ?></span>
                 </div>
-
-               
                 <div class="form-group">
                     <label class="control-label">الوسوم</label>
                     <select class="form-control select2" name="tags[]"  multiple="multiple" data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
@@ -82,8 +75,6 @@ require ADMINROOT . '/views/inc/header.php';
                     <?php endforeach;?>
                     </select>
                 </div> 
-
-
                 <div class="">
                     <label class="control-label" for="imageUpload">صور المشروع : </label>
                     <div class="glr-group row">
@@ -120,23 +111,22 @@ require ADMINROOT . '/views/inc/header.php';
                 <div class="form-group">
                     <label class="control-label">الإضافة الي السلة :</label>
                     <div class="radio">
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['enable_cart'] == 1) ? 'checked' : ''; ?> value="1" name="enable_cart"> يقبل الاضافة للسلة
-                        </label>
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['enable_cart'] == 0) ? 'checked' : ''; ?> value="0" name="enable_cart"> لا يقبل الاضافة للسلة
-                        </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['enable_cart'] == 1) ? 'checked' : ''; ?> value="1" name="enable_cart"> يقبل الاضافة للسلة</label>
+                        <label><input type="radio" class="flat" <?php echo ($data['enable_cart'] == 0) ? 'checked' : ''; ?> value="0" name="enable_cart"> لا يقبل الاضافة للسلة</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">الاهداء الخيري :</label>
+                    <div class="radio">
+                        <label><input type="radio" class="flat" <?php echo ($data['gift'] == 1) ? 'checked' : ''; ?> value="1" name="gift"> يقبل الاهداء الخيري </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['gift'] == 0) ? 'checked' : ''; ?> value="0" name="gift"> لا يقبل الاهداء الخيري </label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label"> تأكيد الجوال :</label>
                     <div class="radio">
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 1) ? 'checked' : ''; ?> value="1" name="mobile_confirmation"> يجب تأكيد الجوال
-                        </label>
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 0) ? 'checked' : ''; ?> value="0" name="mobile_confirmation"> تجاهل تأكيد الجوال
-                        </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 1) ? 'checked' : ''; ?> value="1" name="mobile_confirmation"> يجب تأكيد الجوال </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['mobile_confirmation'] == 0) ? 'checked' : ''; ?> value="0" name="mobile_confirmation"> تجاهل تأكيد الجوال </label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -146,12 +136,8 @@ require ADMINROOT . '/views/inc/header.php';
                 <div class="form-group col-xs-12 <?php echo (!empty($data['status_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label">حالة النشر :</label>
                     <div class="radio">
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['status'] == 1) ? 'checked' : ''; ?> value="1" name="status"> منشور
-                        </label>
-                        <label>
-                            <input type="radio" class="flat" <?php echo ($data['status'] == 0) ? 'checked' : ''; ?> value="0" name="status"> غير منشور
-                        </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['status'] == 1) ? 'checked' : ''; ?> value="1" name="status"> منشور </label>
+                        <label><input type="radio" class="flat" <?php echo ($data['status'] == 0) ? 'checked' : ''; ?> value="0" name="status"> غير منشور </label>
                         <span class="help-block"><?php echo $data['status_error']; ?></span>
                     </div>
                 </div>
@@ -204,7 +190,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         // var_dump($data['donation_type']);
                                         if ($data['donation_type']['type'] == "fixed") {
                                             echo '<label class="control-label">القيم الثابتة</label>
-                                                                                <input value="' . $data['donation_type']['value'] . '" required class="form-control" type="number" name="donation_type[value]">';
+                                             <input value="' . $data['donation_type']['value'] . '" required class="form-control" type="number" name="donation_type[value]">';
                                         }
                                         ?>
                                     </div>
@@ -381,14 +367,12 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <br><br>
             </div>
-
             <div class="col-xs-12">
                     <button type="submit" name="submit" class="btn btn-success">أضف
                         <i class="fa fa-save"> </i></button>
                     <button type="reset" class="btn btn-danger">مسح
                         <i class="fa fa-trash "> </i></button>
                 </div>
-
         </form>
     </div>
 </div>

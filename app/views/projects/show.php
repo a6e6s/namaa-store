@@ -53,7 +53,7 @@
                     </div>
                     <div class="col-2 border-right p-2">
                         المستهدف
-                        <h4> <span><?php echo $data['project']->target_price; ?></span> SAR</h4>
+                        <h5><i class="icofont-riyal"></i> <span><?php echo $data['project']->target_price; ?></span></h5>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                         <div class="input-group col-sm-10 mobile-validate">
                             <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '+\\966 99 9999999'">
                             <?php if ($data['project']->mobile_confirmation == 1) : ?>
-                                <div class="input-group-append">
+                                <div class="">
                                     <a class="input-group-text activate" data-toggle="modal" data-target="#addcode-x">ارسال </a>
                                 </div>
                             <?php endif; ?>
@@ -92,9 +92,6 @@
                         <label for="" class="col-sm-2 col-form-label">وسيلة الدفع </label>
                         <div class="input-group col-sm-8 ">
                             <div class=" btn-group-toggle" data-toggle="buttons">
-                                <!-- <label class="btn btn-secondary  mx-1">
-                                        <input type="radio" value ="11" name="payment_method" class="payment_method">
-                                    </label> -->
                                 <?php
                                 foreach ($data['payment_methods'] as $payment_method) {
                                     echo '<label class="btn btn-primary  mt-2  mx-1">
@@ -142,16 +139,79 @@
                                 </div>
                             </div>
                         <?php endif; ?>
-                        <label class="col-sm-2"><input placeholder="القيمة" min="1" type="number" class="form-control amount" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount"></label>
+                        <label class="col-sm-2 my-2"><input placeholder="القيمة" min="1" type="number" class="form-control amount" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount"></label>
                     </div>
+                    <?php if ($data['project']->gift) : ?>
+                        <div class="gift-options form-group row">
+                            <label for="" class="col-7 col-sm-2 col-form-label"> الاهداء الخيري </label>
+                            <div class="input-group col-5 col-sm-10">
+                                <div class=" btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-primary  mt-2  mx-1">
+                                        <input type="radio" value="1" name="gift" class="gift"> اهداء هذا التبرع
+                                    </label>
+                                    <label class="btn btn-danger  mt-2  mx-1">
+                                        <input type="radio" value="0" name="gift" class="gift"> الغاء
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gift-values form-group row">
+                            <label for="" class="col-sm-2 col-form-label"> اسم المهدي الية </label>
+                            <div class="input-group col-sm-10">
+                                <input type="text" class="form-control" name="giver_name" id="giver_name" data-inputmask-regex="^[\u0621-\u064Aa-zA-Z\-_\s]+$" placeholder="اسم المهدي اليه">
+                            </div>
+                        </div>
+                        <div class="gift-values form-group row">
+                            <label for="" class="col-sm-2 col-form-label"> رقم المهدي الية </label>
+                            <div class="input-group col-sm-10">
+                                <input type="text" class="form-control ltr" name="giver_number" id="giver_number" data-inputmask="'mask': '+\\966 99 9999999'" placeholder="رقم المهدي اليه">
+                            </div>
+                        </div>
+                        <div class="gift-values form-group row">
+                            <label for="" class="col-sm-2 col-form-label"> فئات الاهداء </label>
+                            <div class="input-group col-sm-10">
+                                <select name="giver_group" id="giver_group" class="custom-select">
+                                    <?php
+                                    foreach ($data['gift_settings'] as $key => $value) {
+                                        echo !strpos($key, 'name') ?: '<option value="' . $value . '">' . $value . '</option>';
+                                    }
+                                    ?>
+                                    <!-- <option value=""></option> -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="gift-options form-group row">
+                            <label for="" class="col-7 col-sm-2 col-form-label"> كارت الاهداء </label>
+                            <div class="input-group col-5 col-sm-10">
+                                <div class=" btn-group-toggle" data-toggle="buttons">
+                                    <?php
+                                    foreach ($data['gift_settings'] as $key => $value) {
+                                        if (!strpos($key, 'name')) {
+                                            $values = explode(',', $value);
+                                            foreach ($values as $val) {
+                                                $val = str_replace('&#34;', '', trim(trim($val, ']'), '['));
+                                                echo '<label class="btn btn-light">
+                                                    <input type="radio" value="' . $val . '" name="gift" class="gift"> 
+                                                    <img width="100" src="' . MEDIAURL . "/" . $val . '" class="h-100 img-thumbnail">
+                                                </label>';
+                                            }
+                                        }
+                                    }
+                                    ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group text-center">
-                        <button class="btn btn-primary px-5" name="pay" type="submit">دفع <i class="icofont-riyal"></i> </button>
+                        <button class="btn btn-primary btn-lg m-2 px-5" name="pay" type="submit">دفع <i class="icofont-riyal"></i> </button>
                         <?php if ($data['project']->enable_cart) : ?>
-                            <a href="<?php echo URLROOT . '/cart/' . $data['project']->project_id; ?>" class="btn btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a>
+                            <a href="<?php echo URLROOT . '/cart/' . $data['project']->project_id; ?>" class="btn btn-lg p-2 btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a>
                         <?php endif; ?>
                     </div>
                 </form>
             </div>
+            <h3 class="my-4 text-center h5"><i class="icofont-stylish-right"></i> تصدق بالنشر ولك الأجر فالدال على الخير كفاعله<i class="icofont-stylish-left"></i></h3>
             <!-- code activation modal -->
             <div id="addcode" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addcode-title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -193,3 +253,12 @@ $footer .= ' <script>
                 $(":input").inputmask();
             </script>' . "\n\t";
 require APPROOT . '/app/views/inc/footer.php'; ?>
+<script>
+    $('.gift').change(function() {
+        var gift = $(this).val();
+        if (gift === '1') {
+
+            // alert(gift)
+        }
+    })
+</script>

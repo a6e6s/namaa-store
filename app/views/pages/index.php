@@ -31,7 +31,7 @@
     </a>
 </div>
 
-<div class="row" style="background:<?php echo "#" . $data['theme_settings']->background_color . " url(" . MEDIAURL . "/" . $data['theme_settings']->background_image; ?>")>
+<div class="row m-0" style="background:<?php echo "#" . $data['theme_settings']->background_color . " url(" . MEDIAURL . "/" . $data['theme_settings']->background_image; ?>")>
     <div class="container">
         <div class="col-12 text-center"><?php
         if (!empty($data['theme_settings']->banner_image)) {

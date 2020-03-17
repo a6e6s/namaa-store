@@ -35,6 +35,7 @@ class Projects extends Controller
         $data = [
             'project' => $project,
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
+            'gift_settings' => json_decode($this->projectsModel->getSettings('gift')->value),
             'pagesLinks' => $this->projectsModel->getMenu(),
             'payment_methods' => $this->projectsModel->getSupportedPaymentMethods($project->payment_methods),
         ];

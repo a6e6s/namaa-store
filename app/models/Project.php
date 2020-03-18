@@ -131,10 +131,12 @@ class Project extends Model
      */
     public function addDonation($data)
     {
-        $this->db->query('INSERT INTO donations (donation_identifier, amount, payment_method_id, hash, project_id, donor_id, status, modified_date, create_date)'
-            . ' VALUES (:donation_identifier, :amount, :payment_method_id, :hash, :project_id, :donor_id, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO donations (donation_identifier, amount, gift, gift_data, payment_method_id, hash, project_id, donor_id, status, modified_date, create_date)'
+            . ' VALUES (:donation_identifier, :amount, :gift, :gift_data, :payment_method_id, :hash, :project_id, :donor_id, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':donation_identifier', $data['donation_identifier']);
+        $this->db->bind(':gift', $data['gift']);
+        $this->db->bind(':gift_data', $data['gift_data']);
         $this->db->bind(':amount', $data['amount']);
         $this->db->bind(':hash', $data['hash']);
         $this->db->bind(':payment_method_id', $data['payment_method_id']);

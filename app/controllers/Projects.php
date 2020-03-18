@@ -108,6 +108,12 @@ class Projects extends Controller
         $project = $this->projectsModel->getProjectById($_POST['project_id']);
         //redirect if no project
         (!$project) ? flashRedirect('', 'msg', 'حدث خطأ ما ربما اتبعت رابط خاطيء ', 'alert alert-danger') : null;
+        //validating gift options
+        if (!empty($_POST['gift']['enable']) &&
+         (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
+         ) {
+            flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
+        }
         //saving donor data
         if (empty($_POST['project_id']) || empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['amount'])) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
@@ -140,6 +146,8 @@ class Projects extends Controller
             'donation_identifier' => time() . rand(99000, 99999),
             'amount' => $_POST['amount'],
             'hash' => $hash,
+            'gift' => $_POST['gift']['enable'],
+            'gift_data' => json_encode($_POST['gift']),
             'project_id' => $project->project_id,
             'donor_id' => $donor,
             'status' => 0,

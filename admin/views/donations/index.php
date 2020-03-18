@@ -50,7 +50,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor]" value=""></th>
                                 <!--  <th><input type="search" class="form-control" placeholder="بحث بالمشروع" name="search[project_id]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بوسيلة التبرع" name="search[payment_method_id]" value=""></th> -->
-                                <th colspan="6"></th>
+                                <th colspan="7"></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[status]">
                                         <option value=""></option>
@@ -69,12 +69,13 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">اسم المتبرع </th>
                                 <th class="column-title">المشروع </th>
                                 <th class="column-title">وسيلة التبرع </th>
+                                <th class="column-title">بيانات الإهداء </th>
                                 <th class="column-title">تأكيد التحويل </th>
                                 <th class="column-title">تفاصيل Payfort </th>
                                 <th class="column-title">تاريخ التبرع </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span></th>
-                                <th class="bulk-actions" colspan="11">
+                                <th class="bulk-actions" colspan="12">
                                     <span> تنفيذ علي الكل :</span>
                                     <input type="submit" name="publish" value="تأكيد" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
@@ -103,11 +104,43 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $donation->donor_id . '">' . $donation->donor . '</a>'; ?></td>
                                     <td><?php echo $donation->project; ?></td>
                                     <td><?php echo $donation->payment_method; ?></td>
+                                    <td>
+                                    <?php if ($donation->gift) { ?>
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#gift<?php echo $donation->donation_id; ?>">تفاصيل</button>
+                                        <div class="modal fade" id="gift<?php echo $donation->donation_id; ?>" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-body text-right" dir="ltr">
+                                                        <ul class="text-capitalize">
+                                                            <?php
+                                                            ($donation->gift) ? $gifts = json_decode($donation->gift_data) : $gifts = [];
+                                                            foreach ($gifts as $key => $value) {
+                                                                if($key == 'enable') continue;
+                                                                if($key =='card'){
+                                                                    echo '<li class="h5">' . $key . " : <img width='200' src= '" . MEDIAURL .'/'. $value . "'></li>\n";
+                                                                }else{
+                                                                    echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
+                                                                }
+                                                                
+                                                            }
+                                                            ?>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php } ?>
+                                    </td>
                                     <td><?php if (!empty($donation->banktransferproof)) : ?>
                                             <a class="btn btn-success btn-sm" href="<?php echo URLROOT . "/media/files/banktransfer/" . $donation->banktransferproof; ?>" target="blank">تحميل</a>
                                         <?php endif; ?>
                                     </td>
                                     <td>
+                                    <?php if ($donation->meta) { ?>
                                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#meta<?php echo $donation->donation_id; ?>">تفاصيل</button>
                                         <div class="modal fade" id="meta<?php echo $donation->donation_id; ?>" role="dialog">
                                             <div class="modal-dialog">
@@ -129,6 +162,7 @@ require ADMINROOT . '/views/inc/header.php';
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php } ?>
                                     </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->create_date); ?></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
@@ -150,7 +184,7 @@ require ADMINROOT . '/views/inc/header.php';
                             <tr class="tab-selected">
                                 <th></th>
                                 <th class="column-title" colspan="3"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
-                                <th class="column-title" colspan="6"> عرض
+                                <th class="column-title" colspan="7"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/donations/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>

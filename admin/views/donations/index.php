@@ -18,9 +18,7 @@ $data['header'] = '';
 
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
     <?php flash('donation_msg'); ?>
@@ -32,12 +30,9 @@ require ADMINROOT . '/views/inc/header.php';
             <!-- <a href="<?php echo ADMINURL; ?>/donations/add" class="btn btn-success pull-left">انشاء جديد <i class="fa fa-plus"></i></a> -->
         </div>
     </div>
-
     <div class="clearfix"></div>
-
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-
             <form action="" method="post">
                 <div class="table-responsive">
                     <table class="table table-striped jambo_table bulk_action">
@@ -201,21 +196,25 @@ require ADMINROOT . '/views/inc/header.php';
                         </tbody>
                     </table>
                 </div>
-
                 <ul class="pagination text-center">
                     <?php
                     pagination($data['recordsCount'], $data['current'], $data['perpage'], 4, ADMINURL . '/donations');
                     ?>
                 </ul>
-
-
             </form>
-
         </div>
+        <button id="cmd">generate PDF</button>
     </div>
 </div>
 <?php
 // loading  plugin
+
 $data['footer'] = '';
 
 require ADMINROOT . '/views/inc/footer.php';
+?>
+<script>
+
+// window.open('data:application/vnd.ms-excel,' +  encodeURIComponent($('.table-responsive').html()));
+
+</script>

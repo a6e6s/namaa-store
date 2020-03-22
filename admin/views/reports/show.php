@@ -12,110 +12,76 @@
  *
  * For more information about the author , see <http://www.ahmedx.com/>.
  */
-
 // loading plugin style
 $data['header'] = '';
 header("Content-Type: text/html; charset=utf-8");
-
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
     <?php flash('donation_msg');?>
     <div class="page-title">
         <div class="title_right">
-            <h3><?php echo $data['page_title']; ?> <small>عرض محتوي التبرع </small></h3>
+            <h3><?php echo $data['page_title']; ?> <small>عرض محتوي التقرير </small></h3>
         </div>
         <div class="title_left">
-            <a href="<?php echo ADMINURL; ?>/donations" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
+            <a href="<?php echo ADMINURL; ?>/reports" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
         </div>
     </div>
-
     <div class="clearfix"></div>
-
     <div class="row">
-        <div class="col-md-12 col-sm-12">
-            <div class="form-group">
-                <h3 class="prod_title">
-                    <?php echo $data['donation']->donation_identifier; ?>
-                </h3>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">قيمة التبرع : </label>
-                <p><?php echo $data['donation']->amount; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">وسيلة التبرع : </label>
-                <p class="ltr"><?php echo $data['donation']->payment_method_id; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">اثبات التحويل : </label>
-                <p><?php echo $data['donation']->banktransferproof; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">مهدي خيريا :</label>
-                <p><?php echo $data['donation']->gift ? 'نعم' : 'لا'; ?></p>
-                <p class="btn-default">
-                <h3 class="control-label">بيانات الاهداء  :</h3>
-                <?php if ($data['donation']->gift) {
-    $gift_data = json_decode($data['donation']->gift_data);
-    foreach ($gift_data as $key => $value) {
-        if ($key == 'enable') {
-            continue;
-        }
+    <div class="table-responsive">
+                    <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                            <tr class="headings">
+                                <th>اسم المشروع</th>
+                                <th>معرف التبرع </th>
+                                <th> اسم المتبرع </th>
+                                <th>القيمة</th>
+                                <th>وسيلة الدفع</th>
+                                <th>تأكيد الدفع</th>
+                                <th>رد بايفورت</th>
+                                <th>رد بايفورت</th>
+                                <th>اهداء</th>
+                                <th>الوسوم</th>
+                                <th>حالة التبرع</th>
+                                <th>تاريخ التبرع </th>
+                                <th>آخر تحديث </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data['donation'] as $donation): ?>
+                                <tr class="even pointer">
+                                    <td><?php echo $donation->name; ?></td>
+                                    <td><?php echo $donation->donation_identifier; ?></td>
+                                    <td><?php echo $donation->full_name; ?></td>
+                                    <td><?php echo $donation->amount; ?></td>
+                                    <td><?php echo $donation->title; ?></td>
+                                    <td><?php echo $donation->banktransferproof; ?></td>
+                                    <?php
+                                        if (!empty($donation->meta)) {
+                                            $meta = json_decode($donation->meta);
+                                            echo '<td>' . $meta->response_message . '</td>';
+                                            echo '<td>' . $meta->response_message . '</td>';
+                                        }else{
+                                            echo "<td></td><td></td>";
+                                        }
+                                    ?>
+                                    <td><?php echo $donation->gift; ?></td>
+                                    <td><?php echo $donation->tags; ?></td>
+                                    <td><?php echo $donation->status; ?></td>
+                                    <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->create_date); ?></td>
+                                    <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
 
-        echo "<label>" . $key . " :</label> " . $value . "<br>\n";
-    }
-
-}?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <h3 class="control-label">بيانات الدفع من خلال بايفورت : </h3>
-                <p class=" btn-default"><?php
-if (!empty($data['donation']->meta)) {
-    $meta = json_decode($data['donation']->meta);
-    foreach ($meta as $key => $value) {
-        echo "<label>" . $key . " :</label> " . $value . "<br>\n";
-    }
-
-}
-?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">اسم المشروع : </label>
-                <p><?php echo $data['donation']->project_id; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">اسم المتبرع : </label>
-                <p><?php echo $data['donation']->donor_id; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">حالة التبرع : </label>
-                <p><?php echo $data['donation']->status ? 'مؤكد' : 'غير مؤكد'; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">اخر تحديث : </label>
-                <p><?php echo $data['donation']->modified_date ? date('d/ M/ Y', $data['donation']->modified_date) : 'لا'; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">وقت الإنشاء : </label>
-                <p><?php echo $data['donation']->create_date ? date('d/ M/ Y', $data['donation']->create_date) : 'لا'; ?></p>
-            </div>
-
-            <div class="form-group col-xs-12">
-                <a class="btn btn-info" href="<?php echo ADMINURL . '/donations/edit/' . $data['donation']->donation_id; ?>" >تعديل</a>
-            </div>
-
-
-        </div>
+                                </tr>
+                            <?php endforeach;?>
+                        </tbody>
+                    </table>
+                </div>
     </div>
 </div>
-
 <?php
 // loading plugin
 $data['footer'] = '';
-
 require ADMINROOT . '/views/inc/footer.php';

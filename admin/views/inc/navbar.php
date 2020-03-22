@@ -61,9 +61,9 @@
                     </li>
                     <li><a><i class="fa fa-bar-chart-o"></i> التقارير <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">تقارير </a></li>
-                            <li><a href="#">2تقارير </a></li>
-                            <li><a href="#">3تقارير </a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/reports">عرض واستخراج التقارير </a></li>
+                            <!-- <li><a href="#">2تقارير </a></li>
+                            <li><a href="#">3تقارير </a></li> -->
                         </ul>
                     </li>
 

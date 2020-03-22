@@ -32,14 +32,13 @@ class Reports extends ControllerAdmin
      * loading index view with latest donations
      */
     public function index()
-    { 
+    {
         $data = [
             'header' => '',
             'title' => ' التقارير',
             'tags' => $this->donationModel->tagsList(),
             'projects' => $this->donationModel->projectsList(),
             'paymentMethods' => $this->donationModel->paymentMethodsList(),
-
             'footer' => '',
         ];
         $this->view('reports/index', $data);
@@ -101,10 +100,10 @@ class Reports extends ControllerAdmin
                     // insert new tags
                     $this->donationModel->insertTags($data['tags'], $id);
 
-                    flash('donation_msg', 'تم التعديل بنجاح');
+                    flash('report_msg', 'تم التعديل بنجاح');
                     isset($_POST['save']) ? redirect('donations/edit/' . $id) : redirect('donations');
                 } else {
-                    flash('donation_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
+                    flash('report_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
                 }
             } else {
                 //load the view with error
@@ -113,7 +112,7 @@ class Reports extends ControllerAdmin
         } else {
             // featch donation
             if (!$donation = $this->donationModel->getDonationById($id)) {
-                flash('donation_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
+                flash('report_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
                 redirect('donations');
             }
             $data = [
@@ -144,60 +143,74 @@ class Reports extends ControllerAdmin
      */
     public function show($id)
     {
-        if (!$donation = $this->donationModel->getDonationById($id)) {
-            flash('donation_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
-            redirect('donations');
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        if (!in_array($id, ['donations', 'donors', 'contacts']) || !isset($_POST)) {
+            flash('report_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
+            redirect('reports');
         }
+        // build query
+        $project_exp = '';
+        $tags_exp = '';
+        $payment_exp = '';
+        $status_exp = '';
+        $gift_exp = '';
+        $amount_exp_from = '';
+        $amount_exp_to = '';
+        $donors_exp = '';
+        $date_exp_from = '';
+        $date_exp_to = '';
+        if (isset($_POST['projects'])) {
+            $project_exp = ' AND ds.project_id IN (' . implode(',', $_POST['projects']) . ') ';
+        }
+        if (isset($_POST['tags'])) {
+            $tags_exp = ' AND tags_donations.tag_id IN (' . implode(',', $_POST['tags']) . ') ';
+            // will return NULL and I will escape it on the loop
+        }
+        if (!empty($_POST['payment_methods'])) {
+            $payment_exp = ' AND ds.payment_method_id =' . $_POST['payment_methods'] . ' ';
+        }
+        if ($_POST['status'] !== '') {
+            $status_exp = ' AND ds.status =' . $_POST['status'] . ' ';
+        }
+        if ($_POST['gift'] !== '') {
+            $gift_exp = ' AND ds.gift =' . $_POST['gift'] . ' ';
+        }
+        if ($_POST['donor'] !== '') {
+            $donors_exp = ' AND dr.full_name LIKE "%' . $_POST['donor'] . '%" ';
+        }
+        if ($_POST['amount_from'] !== '') {
+            $amount_exp_from = ' AND ds.amount >= ' . $_POST['amount_from'] . ' ';
+        }
+        if ($_POST['amount_to'] !== '') {
+            $amount_exp_to = ' AND ds.amount <= ' . $_POST['amount_to'] . ' ';
+        }
+        if ($_POST['date_from'] !== '') {
+            $amount_exp_from = ' AND ds.create_date >= ' . strtotime($_POST['date_from']) . ' ';
+        }
+        if ($_POST['date_to'] !== '') {
+            $amount_exp_to = ' AND ds.create_date <= ' . strtotime($_POST['date_to']) . ' ';
+        }
+
+        $query = 'SELECT ds.*, dr.full_name, pm.title, pj.name,
+            (SELECT GROUP_CONCAT( DISTINCT donation_tags.name SEPARATOR " , ")
+                FROM donation_tags, tags_donations
+                WHERE ds.donation_id = tags_donations.donation_id
+                AND donation_tags.tag_id = tags_donations.tag_id ' . $tags_exp . ') AS tags
+         FROM donations ds,projects pj,donors dr,payment_methods pm
+         WHERE ds.donor_id= dr.donor_id
+         AND ds.payment_method_id = pm.payment_id
+         AND ds.project_id = pj.project_id' . $project_exp . $payment_exp . $status_exp . $gift_exp . $amount_exp_from . $amount_exp_to . $donors_exp . $date_exp_from . $date_exp_to;
+
+        
+        $donation = $this->donationModel->getAll($query);
         $data = [
-            'page_title' => 'التبرعات',
-            'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
+            'page_title' => 'التقارير',
             'donation' => $donation,
-            // 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE payment_id IN (' . implode(',', json_decode($donation->payment_methods, true)) . ') '),
-
         ];
-        $this->view('donations/show', $data);
+        $this->view('reports/show', $data);
     }
 
-    /**
-     * delete record by id
-     * @param integer $id
-     */
-    public function delete($id)
-    {
-        if ($row_num = $this->donationModel->deleteById([$id], 'donation_id')) {
-            flash('donation_msg', 'تم حذف ' . $row_num . ' بنجاح');
-        } else {
-            flash('donation_msg', 'لم يتم الحذف', 'alert alert-danger');
-        }
-        redirect('donations');
-    }
 
-    /**
-     * publish record by id
-     * @param integer $id
-     */
-    public function publish($id)
-    {
-        if ($row_num = $this->donationModel->publishById([$id], 'donation_id')) {
-            flash('donation_msg', 'تم نشر ' . $row_num . ' بنجاح');
-        } else {
-            flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-        }
-        redirect('donations');
-    }
-
-    /**
-     * publish record by id
-     * @param integer $id
-     */
-    public function unpublish($id)
-    {
-        if ($row_num = $this->donationModel->unpublishById([$id], 'donation_id')) {
-            flash('donation_msg', 'تم ايقاف نشر ' . $row_num . ' بنجاح');
-        } else {
-            flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-        }
-        redirect('donations');
-    }
 
 }

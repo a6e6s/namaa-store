@@ -29,7 +29,6 @@ require ADMINROOT . '/views/inc/header.php';
             <h3><?php echo $data['title']; ?> <small> استخراج <?php echo $data['title']; ?> </small></h3>
         </div>
         <div class="title_left">
-            <!-- <a href="<?php echo ADMINURL; ?>/donations/add" class="btn btn-success pull-left">انشاء جديد <i class="fa fa-plus"></i></a> -->
         </div>
     </div>
     <div class="clearfix"></div>

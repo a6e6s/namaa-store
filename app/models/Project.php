@@ -79,7 +79,6 @@ class Project extends Model
     public function getDonationByHash($hash)
     {
         return $this->getSingle('*', ['hash' => $hash], 'donations');
-
     }
 
     /**

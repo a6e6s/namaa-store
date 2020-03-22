@@ -52,7 +52,7 @@ class Settings extends ControllerAdmin
                 'setting_id' => $id,
                 'page_title' => 'الأعدادات',
                 'title' => trim($_POST['title']),
-                'value' => trim($_POST['value']),
+                'value' => $_POST['value'],
                 'title_error' => '',
                 'value_error' => '',
             ];

@@ -213,8 +213,3 @@ $data['footer'] = '';
 
 require ADMINROOT . '/views/inc/footer.php';
 ?>
-<script>
-
-// window.open('data:application/vnd.ms-excel,' +  encodeURIComponent($('.table-responsive').html()));
-
-</script>

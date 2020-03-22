@@ -45,7 +45,7 @@ class Page extends Model
      * get projects from datatbase
      * @return object projects data
      */
-    public function getProjects($cols = '*', $bind = ['status' => 1], $start = 1, $count = 9, $orderBy = 'arrangement', $order = 'ASC')
+    public function getProjects($cols = '*', $bind = ['status' => 1], $start = 1, $count = 1000, $orderBy = 'arrangement', $order = 'ASC')
     {
         $results = $this->getFromTable('projects', $cols, $bind, $start, $count, $orderBy, $order);
         return $results;

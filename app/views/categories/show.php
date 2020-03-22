@@ -1,4 +1,4 @@
-<?php require APPROOT . '/app/views/inc/header.php';?>
+<?php require APPROOT . '/app/views/inc/header.php'; ?>
 
 <div class="container page">
     <div class="card" style="">
@@ -14,8 +14,8 @@
             </div>
         </div>
     </div>
-       <!--- Products Start --->
-       <section id="products">
+    <!--- Products Start --->
+    <section id="products">
         <div class="row mt-4 ">
             <div class="col">
                 <h3 class="text-center">
@@ -25,36 +25,39 @@
         </div>
         <div class="row">
             <?php
-                echo (count($data['projects']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذا القسم</p>' : '';
-                foreach ($data['projects'] as $project):
+            echo (count($data['projects']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذا القسم</p>' : '';
+            foreach ($data['projects'] as $project) :
             ?>
-            <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
-                <div class="card">
-                    <img class="card-img-top" src="<?php echo (empty($project->img)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->img; ?>" alt="<?php echo $project->alias; ?>">
-                    <div class="body-card m-2">
-                        <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 100); ?></p>
-                    </div>
-                    <?php if (!empty($project->target_price)): ?>
-                    <div class=" px-2">
-                        <div class="small text-left">
-                            المستهدف <?php echo $project->target_price ?> ريال
+                <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
+                    <div class="card">
+                        <img class="card-img-top" src="<?php echo (empty($project->img)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->img; ?>" alt="<?php echo $project->alias; ?>">
+                        <div class="body-card m-2">
+                            <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 100); ?></p>
                         </div>
-                        <div class="progress ">
-                            <div class="progress-bar  progress-bar-striped" role="progressbar" style="width: 50%;"
-                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                        <div class="p-2">
+                                    <p class="m-0 pb-2">
+                                        <?php
+                                        empty($project->fake_target) ? $target = $project->collected_traget : $target = $project->fake_target;
+                                        ($project->target_price) ?: $project->target_price = 1;
+                                        ?>
+                                    </p>
+                                    <p class="m-0 p-0 text-left"><span>المستهدف : </span><i class="icofont-riyal"></i> <span><?php echo $project->target_price; ?></span></p>
+                                    <div class="progress">
+                                        <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $project->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                            <?php echo ceil($target * 100 / $project->target_price); ?> %
+                                        </h6>
+                                    </div>
+                                </div>
+                        <div class="card-footer bg-primary mt-1">
+                            <div class="  ">
+                                <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '/' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
+                                <a href="<?php echo URLROOT . '/cart/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <?php endif;?>
-                    <div class="card-footer bg-primary mt-1">
-                        <div class="  ">
-                            <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '/' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
-                            <a href="<?php echo URLROOT . '/cart/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- end product -->
-            <?php endforeach;?>
+                </div> <!-- end product -->
+            <?php endforeach; ?>
 
         </div>
         <div class="row ">
@@ -64,11 +67,13 @@
                 </ul>
             </nav>
         </div>
+        <div class="row ">
+            <?php echo ($data['category']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '"> العودة الي الرئيسية</a></div>' : ''; ?>
+        </div>
 
-            
 
 
     </section>
     <!-- end products -->
 </div>
-<?php require APPROOT . '/app/views/inc/footer.php';?>
+<?php require APPROOT . '/app/views/inc/footer.php'; ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 17, 2020 at 02:31 PM
+-- Generation Time: Mar 22, 2020 at 06:48 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.2.18
 
@@ -68,6 +68,8 @@ CREATE TABLE IF NOT EXISTS `donations` (
   `payment_method_id` int(11) NOT NULL,
   `hash` varchar(100) DEFAULT NULL,
   `banktransferproof` varchar(255) DEFAULT NULL,
+  `gift` tinyint(1) DEFAULT '0',
+  `gift_data` mediumtext,
   `meta` text,
   `project_id` int(11) NOT NULL,
   `donor_id` int(11) NOT NULL,
@@ -79,35 +81,37 @@ CREATE TABLE IF NOT EXISTS `donations` (
   KEY `donor_id` (`donor_id`),
   KEY `project_id` (`project_id`),
   KEY `payment_method_id` (`payment_method_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donations`
 --
 
-INSERT INTO `donations` (`donation_id`, `donation_identifier`, `amount`, `payment_method_id`, `hash`, `banktransferproof`, `meta`, `project_id`, `donor_id`, `status`, `modified_date`, `create_date`) VALUES
-(2, 1, 1, 1, NULL, 'خطاب إلغاء_18.pdf', NULL, 4, 1, 1, 1583315262, 1583315247),
-(3, 3, 50, 1, NULL, '1413b43d-6c7d-4d71-aac5-b03783646302.jpg', NULL, 2, 1, 1, 1583320401, 1583320375),
-(4, 4, 50, 4, '748a51d1b312aa689bd1dbf239d73c6879d67cef', NULL, NULL, 3, 1, 1, 1583399753, 1583399753),
-(5, 6, 50, 4, '696204a4ab1e58b428aa58c7252f3be5c756baf0', NULL, NULL, 3, 1, 1, 1583408352, 1583408352),
-(6, 5465, 1, 2, 'f53e892aafe039fccb5e2b72a21aa83a13d320fb', NULL, NULL, 4, 1, 1, 1583408524, 1583408524),
-(7, 54654, 1, 4, 'ecdb6e8ba92601d8991fa761886288181db86e2a', NULL, NULL, 4, 1, 1, 1583408543, 1583408543),
-(8, 23423, 1, 4, 'c5ecb3ff60425067363f9c46b9a8d4fa7f3dc85b', NULL, NULL, 4, 1, 1, 1583408581, 1583408581),
-(9, 1123, 1, 2, 'ace9b96a312aad136c7ed20f34a183283ef3837c', NULL, NULL, 4, 1, 1, 1583408594, 1583408594),
-(10, 1785, 1, 2, '672fb9f4c096b80666a23bdca33be125256cd16b', NULL, NULL, 4, 1, 1, 1583408742, 1583408742),
-(11, 274, 1, 2, '2ed541f561271db360f2d663a2359124566f6cc5', NULL, NULL, 4, 1, 1, 1583408795, 1583408795),
-(12, 1234, 1, 3, '222816124837c1831900bf9d937d2dad66022ec4', NULL, NULL, 4, 1, 1, 1583410255, 1583410255),
-(13, 1111, 1, 3, '097d88ae201049ce10a1b644bf13b1c02409644e', NULL, NULL, 4, 1, 1, 1583413306, 1583413306),
-(14, 1222, 50, 3, NULL, NULL, '', 3, 9, 1, 1583415740, 1583415420),
-(15, 158373380099928, 1111, 4, '3945061b8ac0dbbf61a9ea98271b19e696546c20', NULL, NULL, 9, 1, 1, 1583733800, 1583733800),
-(16, 158374633499983, 50, 3, NULL, NULL, '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"c479ba970bc15530ed772ebee934af0068e7ccb401f6817958ff3cb5cc608c6e\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"535854337\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 3, 1, 1, 1583746341, 1583746334),
-(17, 158375530099131, 222, 3, 'add7c0431c2ce7414dbaa98f7143c9791fa82dd1', NULL, NULL, 6, 1, 1, 1583755300, 1583755300),
-(18, 158375533799877, 222, 3, NULL, NULL, '{\"amount\":\"22200\",\"response_code\":\"13666\",\"card_number\":\"405433******5085\",\"card_holder_name\":\"Ahmed Elmahdy\",\"signature\":\"f44da9ee92bdc9a621bdbe188dde20e8b155b418aa219ee6761160275558ba15\",\"payment_option\":\"VISA\",\"expiry_date\":\"2501\",\"customer_ip\":\"188.55.208.27\",\"eci\":\"ECOMMERCE\",\"fort_id\":\"158375535200074771\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062d\\u0631\\u0643\\u0629 \\u0645\\u0631\\u0641\\u0648\\u0636\\u0629\",\"merchant_reference\":\"1672706624\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"13\"}', 6, 1, 1, 1583765569, 1583755337),
-(19, 158375899499187, 50, 1, NULL, 'منصة خدمات التأشيرات.pdf', NULL, 3, 1, 1, 1583765198, 1583758994),
-(20, 158382176199277, 50, 1, NULL, 'receipt (8).pdf', NULL, 3, 1, 1, 1583821789, 1583821761),
-(21, 158382182999195, 50, 3, NULL, NULL, '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"95cefdcff045ac4e01b80cae9ce742b846d3ab03086373498e593d59ec1b1d47\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1546377473\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 1, 1, 0, 1584440018, 1583821829),
-(22, 158382217799913, 1, 4, NULL, NULL, '{\"amount\":\"100\",\"response_code\":\"00072\",\"signature\":\"49769b4ee0bac3273d160305f5f93a51db3b673e0c71705b8d22164a5aad83f8\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1988473144\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 10, 1, 0, 1584356204, 1583822177),
-(23, 158382301599111, 50, 1, '1266541a5da27cec7a362043cce8255256ad0c28', NULL, NULL, 8, 1, 0, 1584440046, 1583823015);
+INSERT INTO `donations` (`donation_id`, `donation_identifier`, `amount`, `payment_method_id`, `hash`, `banktransferproof`, `gift`, `gift_data`, `meta`, `project_id`, `donor_id`, `status`, `modified_date`, `create_date`) VALUES
+(2, 1, 1, 1, NULL, 'خطاب إلغاء_18.pdf', 0, NULL, NULL, 4, 1, 1, 1583315262, 1583315247),
+(3, 3, 50, 1, NULL, '1413b43d-6c7d-4d71-aac5-b03783646302.jpg', 0, NULL, NULL, 2, 1, 1, 1583320401, 1583320375),
+(4, 4, 50, 4, '748a51d1b312aa689bd1dbf239d73c6879d67cef', NULL, 0, NULL, NULL, 3, 1, 1, 1583399753, 1583399753),
+(5, 6, 50, 4, '696204a4ab1e58b428aa58c7252f3be5c756baf0', NULL, 0, NULL, NULL, 3, 1, 1, 1583408352, 1583408352),
+(6, 5465, 1, 2, 'f53e892aafe039fccb5e2b72a21aa83a13d320fb', NULL, 0, NULL, NULL, 4, 1, 1, 1583408524, 1583408524),
+(7, 54654, 1, 4, 'ecdb6e8ba92601d8991fa761886288181db86e2a', NULL, 0, NULL, NULL, 4, 1, 1, 1583408543, 1583408543),
+(8, 23423, 1, 4, 'c5ecb3ff60425067363f9c46b9a8d4fa7f3dc85b', NULL, 0, NULL, NULL, 4, 1, 1, 1583408581, 1583408581),
+(9, 1123, 1, 2, 'ace9b96a312aad136c7ed20f34a183283ef3837c', NULL, 0, NULL, NULL, 4, 1, 1, 1583408594, 1583408594),
+(10, 1785, 1, 2, '672fb9f4c096b80666a23bdca33be125256cd16b', NULL, 0, NULL, NULL, 4, 1, 1, 1583408742, 1583408742),
+(11, 274, 1, 2, '2ed541f561271db360f2d663a2359124566f6cc5', NULL, 0, NULL, NULL, 4, 1, 1, 1583408795, 1583408795),
+(12, 1234, 1, 3, '222816124837c1831900bf9d937d2dad66022ec4', NULL, 0, NULL, NULL, 4, 1, 1, 1583410255, 1583410255),
+(13, 1111, 1, 3, '097d88ae201049ce10a1b644bf13b1c02409644e', NULL, 0, NULL, NULL, 4, 1, 1, 1583413306, 1583413306),
+(14, 1222, 50, 3, NULL, NULL, 0, NULL, '', 3, 9, 1, 1583415740, 1583415420),
+(15, 158373380099928, 1111, 4, '3945061b8ac0dbbf61a9ea98271b19e696546c20', NULL, 0, NULL, NULL, 9, 1, 1, 1583733800, 1583733800),
+(16, 158374633499983, 50, 3, NULL, NULL, 0, NULL, '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"c479ba970bc15530ed772ebee934af0068e7ccb401f6817958ff3cb5cc608c6e\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"535854337\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 3, 1, 1, 1583746341, 1583746334),
+(17, 158375530099131, 222, 3, 'add7c0431c2ce7414dbaa98f7143c9791fa82dd1', NULL, 0, NULL, NULL, 6, 1, 1, 1583755300, 1583755300),
+(18, 158375533799877, 222, 3, NULL, NULL, 0, NULL, '{\"amount\":\"22200\",\"response_code\":\"13666\",\"card_number\":\"405433******5085\",\"card_holder_name\":\"Ahmed Elmahdy\",\"signature\":\"f44da9ee92bdc9a621bdbe188dde20e8b155b418aa219ee6761160275558ba15\",\"payment_option\":\"VISA\",\"expiry_date\":\"2501\",\"customer_ip\":\"188.55.208.27\",\"eci\":\"ECOMMERCE\",\"fort_id\":\"158375535200074771\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062d\\u0631\\u0643\\u0629 \\u0645\\u0631\\u0641\\u0648\\u0636\\u0629\",\"merchant_reference\":\"1672706624\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"13\"}', 6, 1, 1, 1583765569, 1583755337),
+(19, 158375899499187, 50, 1, NULL, 'منصة خدمات التأشيرات.pdf', 0, NULL, NULL, 3, 1, 1, 1583765198, 1583758994),
+(20, 158382176199277, 50, 1, NULL, 'receipt (8).pdf', 0, NULL, NULL, 3, 1, 1, 1583821789, 1583821761),
+(21, 158382182999195, 50, 3, NULL, NULL, 0, NULL, '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"95cefdcff045ac4e01b80cae9ce742b846d3ab03086373498e593d59ec1b1d47\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1546377473\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 1, 1, 0, 1584440018, 1583821829),
+(22, 158382217799913, 1, 4, NULL, NULL, 0, NULL, '{\"amount\":\"100\",\"response_code\":\"00072\",\"signature\":\"49769b4ee0bac3273d160305f5f93a51db3b673e0c71705b8d22164a5aad83f8\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1988473144\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 10, 1, 0, 1584356204, 1583822177),
+(23, 158382301599111, 50, 1, '1266541a5da27cec7a362043cce8255256ad0c28', NULL, 0, NULL, NULL, 8, 1, 0, 1584440046, 1583823015),
+(24, 158453576299274, 11, 1, NULL, 'image_1807c.png', 0, NULL, NULL, 11, 1, 0, 1584535783, 1584535762),
+(25, 158453688199589, 11, 1, NULL, 'image_6ae51.jpg', 1, '{\"enable\":\"1\",\"giver_name\":\"\\u0627\\u062d\\u0645\\u062f \\u0627\\u0644\\u0645\\u0647\\u062f\\u064a\",\"giver_number\":\"+966 55 5555555\",\"giver_group\":\"\\u0627\\u0644\\u064a \\u0632\\u0648\\u062c\\u062a\\u064a\",\"card\":\"inside- 3_10.jpg\"}', NULL, 11, 1, 0, 1584536893, 1584536881);
 
 -- --------------------------------------------------------
 
@@ -204,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`group_id`, `name`, `description`, `permissions`, `status`, `create_date`, `modified_date`) VALUES
-(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donations\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donationtags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Menus\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Paymentmethods\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projectcategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projecttags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1583934772),
+(1, 'الإدارة', 'مجموعه تملك كافة الصلاحيات', '{\"admin_login\":{\"view\":\"1\"},\"Contacts\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donations\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donationtags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Donors\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Menus\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Paymentmethods\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projectcategories\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projects\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Projecttags\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Reports\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Slides\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\",\"delete\":\"1\"}}', 1, 1543493061, 1584621423),
 (2, 'الاشراف', 'مجموعة تملك صلاحيات التعديل والاضافة والعرض', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"add\":\"1\"},\"Users\":{\"index\":\"1\",\"add\":\"1\"}}', 1, 1543746264, 1544079169),
 (3, 'المراقبين', '', '{\"admin_login\":{\"view\":\"1\"},\"Groups\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Pages\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Settings\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"},\"Users\":{\"index\":\"1\",\"search\":\"1\",\"show\":\"1\",\"status\":\"1\",\"add\":\"1\",\"edit\":\"1\"}}', 1, 1549259804, 1572870120);
 
@@ -355,7 +359,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
 INSERT INTO `projects` (`project_id`, `name`, `alias`, `project_number`, `description`, `category_id`, `arrangement`, `back_home`, `image`, `secondary_image`, `enable_cart`, `gift`, `mobile_confirmation`, `donation_type`, `payment_methods`, `target_price`, `fake_target`, `collected_traget`, `start_date`, `end_date`, `hidden`, `hits`, `thanks_message`, `sms_msg`, `mobile`, `whatsapp`, `advertising_code`, `header_code`, `background_color`, `background_image`, `meta_keywords`, `meta_description`, `featured`, `status`, `modified_date`, `create_date`) VALUES
 (1, 'حالة طارئة SOS   13644', 'حالة-طارئة-SOS---13644', ' ', 'أرملة  ومصدر دخلها من الضمان الاجتماعي وخدماتها موقوفة بسبب دين ومهددة بالسجن وبحاجة للمساعدة لسداد دينها المبلغ الإجمالي المطلوب 37,500 ريال  بحمد الله تعالى تم تقفيل الحالة .. جزاكم الله خيراً وجعله الله في ميزان حسناتكم\r\n', 1, 1, 0, '345_2.png', NULL, 1, 0, 0, '{\"type\":\"unit\",\"value\":{\"item1\":{\"name\":\"\\u0627\\u0636\\u062d\\u064a\\u0629\",\"value\":\"450\"},\"item2\":{\"name\":\"\\u0641\\u062f\\u064a\\u0629\",\"value\":\"400\"}}}', '[\"2\",\"1\"]', 1000000, 0, NULL, 1574812800, 1587686400, 1, NULL, 'تم الارسال .. وطلبكم الآن قيد المراجعة .. وسوف يتم ارسال رسالة نصية فور تأكيد الطلب .. \r\nشكرا جزيلاً لكم ..  بارك الله فيكم ونفعنا وأياكم وجعله في ميزان حسناتكم \r\nجمعية نماء بمنطقة مكة المكرمة ..', NULL, '1111111111', '1111111111', '', '', '', NULL, '', '', 1, 1, 1574256143, NULL),
 (2, 'كسوة الشتاء', 'كسوة-الشتاء', ' ', '<p><strong>فكرة المشروع :</strong></p>\r\n\r\n<p>تأمين مستلزمات الشتاء الأساسية من بطانيات ودفايات التي لا يستغنى عنـها في أي منزل نتيجة لبرودة الجو .</p>\r\n\r\n<p><strong>أهمية المشروع :</strong></p>\r\n\r\n<p>تكمن أهمية المشروع في :</p>\r\n\r\n<ul>\r\n	<li>- عدم استطاعة الفقراء دفع تكاليف مستلزمات الشتاء .</li>\r\n	<li>- تخفيف معاناة برودة الجو القارس على الفقراء .</li>\r\n</ul>\r\n\r\n<p><strong>أهداف المشروع :</strong></p>\r\n\r\n<ul>\r\n	<li>- رفع معاناة الأسر الفقيرة المسجلة لدى الفرع وسد احتياجاتها .</li>\r\n	<li>- إيجاد طرق سهلة للمحسن للتبرع الدائم .</li>\r\n	<li>- إيجاد حلول عملية واقعية لرفع معاناة الفقير والمحتاج والعاطل .</li>\r\n	<li>- تحقيق التكافل الاجتماعي بين أفراد المجتمع .</li>\r\n	<li>- فتح باب المشاركة للمؤسسات التجارية المتخصصة وفاعلي الخير .</li>\r\n</ul>\r\n', 1, 100, 1, '345_18.png', '91ddb8751920595dfde2515820730482.gif', 1, 0, 1, '{\"type\":\"unit\",\"value\":{\"item1\":{\"name\":\"\\u0643\\u0633\\u0648\\u0629 \\u0641\\u0631\\u062f\",\"value\":\"50\"},\"item2\":{\"name\":\"\\u0643\\u0633\\u0648\\u0629 \\u0641\\u0631\\u062f\\u064a\\u0646\",\"value\":\"100\"},\"item3\":{\"name\":\"\\u0643\\u0633\\u0648\\u0629 \\u0627\\u0633\\u0631\\u0629\",\"value\":\"200\"}}}', '[\"3\",\"2\",\"1\"]', 150000, 0, NULL, 1574208000, 1580428800, 0, NULL, 'شكرا لدعمكم', '', '597767751', '597767751', 'كود التتبع الاعلاني :', 'كود الهيدر :', 'rgba(255,33,17,1)', 'pic1521704669_11.png', 'مستلزمات الشتاء الأساسية,كسوة الشتاء', 'وصف مختصر لمحرك البحث', 1, 1, 1579693842, 1574238278),
-(3, 'كفارة اليمين..', 'كفارة-اليمين--', ' ', '<p>( وَيُقِيمُونَ الصَّلَاةَ وَيُؤْتُونَ الزَّكَاةَ وَيُطِيعُونَ اللَّهَ وَرَسُولَهُ ۚ أُولَٰئِكَ سَيَرْحَمُهُمُ اللَّهُ ۗ إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ )<br />\r\nزكـاتـك ... عطاء ونماء<br />\r\nالزكاة عطاء للمحتاج ونماء للمال وحفظ للأهل والأولاد<br />\r\nوهي حق واجب علي من أنعم الله عليه ورحمة بالمحروم<br />\r\nيستفيد من زكاتك أكثر من عشرة آلاف أسرة محتاجة و1200 يتيم<br />\r\nفضلا ادخل مبلغ الزكاة في خانة الكمية.<br />\r\nبارك الله فيكم ونفعنا واياكم وجعله في ميزان حسناتكم..</p>\r\n\r\n<p> </p>\r\n', 2, 0, 1, '[&#34;skyscraper-scaled.jpg&#34;,&#34;345.png&#34;]', 'inside- 3_14.jpg', 1, 0, 1, '{\"type\":\"fixed\",\"value\":\"50\"}', '[\"4\",\"3\",\"2\",\"1\"]', 100, 0, 2000, 0, 0, 0, NULL, 'رسالة الشكر التلقائية :', 'الرسالة النصية القصيرة :', '0597767751', '0597767751', '', '', '', '', '', '', 1, 1, 1583334094, 1574249492),
+(3, 'كفارة اليمين..', 'كفارة-اليمين--', '', '<p>( وَيُقِيمُونَ الصَّلَاةَ وَيُؤْتُونَ الزَّكَاةَ وَيُطِيعُونَ اللَّهَ وَرَسُولَهُ ۚ أُولَٰئِكَ سَيَرْحَمُهُمُ اللَّهُ ۗ إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ )<br />\r\nزكـاتـك ... عطاء ونماء<br />\r\nالزكاة عطاء للمحتاج ونماء للمال وحفظ للأهل والأولاد<br />\r\nوهي حق واجب علي من أنعم الله عليه ورحمة بالمحروم<br />\r\nيستفيد من زكاتك أكثر من عشرة آلاف أسرة محتاجة و1200 يتيم<br />\r\nفضلا ادخل مبلغ الزكاة في خانة الكمية.<br />\r\nبارك الله فيكم ونفعنا واياكم وجعله في ميزان حسناتكم..</p>\r\n\r\n<p> </p>\r\n', 2, 0, 1, '[&#34;skyscraper-scaled.jpg&#34;,&#34;345.png&#34;]', 'inside- 3_14.jpg', 1, 1, 1, '{\"type\":\"fixed\",\"value\":\"50\"}', '[\"4\",\"3\",\"2\",\"1\"]', 100, 0, 2000, 0, 0, 0, NULL, 'رسالة الشكر التلقائية :', 'الرسالة النصية القصيرة :', '0597767751', '0597767751', '', '', '', '', '', '', 1, 1, 1584512679, 1574249492),
 (4, 'الحالات الطارئة4', 'الحالات-الطارئة4', ' ', '<p style=\"text-align:center;\">الحالات الطارئة4</p>\r\n', 1, 0, 0, '[&#34;pic1521704669.png&#34;,&#34;default.jpg&#34;,&#34;345.png&#34;]', '', 0, 0, 0, '{\"type\":\"fixed\",\"value\":\"1\"}', '[\"4\",\"3\",\"2\",\"1\"]', 10, 0, NULL, 0, 0, 0, NULL, 'شكرا لتبرعك للحاللت الطارئة', '', '0597767751', '0597767751', '', '', '', '', '', '', 1, 1, 1583410241, 1574249556),
 (5, 'qqqqqq', 'qqqqqq', ' ', NULL, 2, 0, 0, '', '', 0, 0, 0, '{\"type\":\"open\"}', '[\"4\"]', 0, 0, NULL, 0, 0, 0, NULL, '', '', '', '', '', '', '', '', '', '', 1, 1, 1576492983, 1576492983),
 (6, 'qqqqqq', 'qqqqqq', ' ', NULL, 2, 0, 0, '', '', 0, 0, 0, '{\"type\":\"open\"}', '[\"4\"]', 0, 0, NULL, 0, 0, 0, NULL, '', '', '', '', '', '', '', '', '', '', 1, 1, 1576493017, 1576493017),
@@ -465,7 +469,7 @@ INSERT INTO `settings` (`setting_id`, `title`, `alias`, `value`, `create_date`, 
 (5, 'اعدادات البريد الالكتروني', 'email', '{\"contacts_email\":\"\",\"donation_email\":\"\"}', 1583845973, 1583916692),
 (6, 'اعدادات رسائل SMS', 'sms', '{\"gateurl\":\"\",\"sms_username\":\"\",\"sms_password\":\"\",\"smsenabled\":\"0\"}', 1583845973, 1583916683),
 (7, 'اعدادات التصميم', 'theme', '{\"background_color\":\"\",\"background_image\":\"\",\"banner_image\":\"\",\"banner_image_url\":\"\",\"projects_image\":\"\",\"projects_image_url\":\"\",\"categories_image\":\"\",\"categories_image_url\":\"\",\"categories_image2\":\"\",\"projects_image2_url\":\"\",\"categories_image3\":\"\",\"categories_image3_url\":\"\"}', 1583845973, 1584367122),
-(8, 'الاهداء الخيري', 'gift', '{\"group_name\":\"\\u0627\\u0644\\u064a \\u0627\\u0628\\u064a\",\"group\":\"unnamed1.gif\",\"group_name2\":\"\\u0627\\u0644\\u064a \\u0627\\u0645\\u064a\",\"group2\":\"thuma6e_9.png\",\"group_name4\":\"\\u0627\\u0644\\u064a \\u0632\\u0648\\u062c\\u062a\\u064a\",\"group4\":\"[&#34;unnamed1.gif&#34;,&#34;thuma6e_6.png&#34;,&#34;inside- 3_10.jpg&#34;,&#34;inside- 3.jpg&#34;]\",\"group_name5\":\"\\u0627\\u0644\\u064a \\u0635\\u062f\\u064a\\u0642\\u064a\",\"group5\":\"\",\"group_name6\":\"\",\"group6\":\"\"}', 1583845971, 1584455395);
+(8, 'الاهداء الخيري', 'gift', '{\"group_name\":\"\\u0627\\u0644\\u064a \\u0627\\u0628\\u064a\",\"group\":\"unnamed1.gif\",\"group_name2\":\"\\u0627\\u0644\\u064a \\u0627\\u0645\\u064a\",\"group2\":\"thuma6e_9.png\",\"group_name4\":\"\\u0627\\u0644\\u064a \\u0632\\u0648\\u062c\\u062a\\u064a\",\"group4\":\"[&#34;unnamed1.gif&#34;,&#34;thuma6e_6.png&#34;,&#34;inside- 3_10.jpg&#34;,&#34;inside- 3.jpg&#34;]\",\"group_name5\":\"\\u0627\\u0644\\u064a \\u0635\\u062f\\u064a\\u0642\\u064a\",\"group5\":\"111.png\"}', 1583845971, 1584512662);
 
 -- --------------------------------------------------------
 
@@ -514,7 +518,7 @@ CREATE TABLE IF NOT EXISTS `tags_donations` (
   PRIMARY KEY (`tags_donations_id`),
   KEY `tag_id` (`tag_id`),
   KEY `project_id` (`donation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tags_donations`
@@ -525,7 +529,31 @@ INSERT INTO `tags_donations` (`tags_donations_id`, `tag_id`, `donation_id`, `cre
 (123, 4, 23, 1584440068, 1584440068),
 (124, 4, 20, 1584440068, 1584440068),
 (125, 4, 19, 1584440068, 1584440068),
-(126, 4, 17, 1584440068, 1584440068);
+(126, 4, 17, 1584440068, 1584440068),
+(127, 2, 25, 1584881351, 1584881351),
+(128, 2, 24, 1584881351, 1584881351),
+(129, 2, 23, 1584881351, 1584881351),
+(130, 2, 22, 1584881351, 1584881351),
+(131, 2, 21, 1584881351, 1584881351),
+(132, 2, 20, 1584881351, 1584881351),
+(133, 2, 19, 1584881351, 1584881351),
+(134, 2, 18, 1584881351, 1584881351),
+(135, 2, 17, 1584881351, 1584881351),
+(136, 2, 16, 1584881351, 1584881351),
+(137, 2, 15, 1584881351, 1584881351),
+(138, 2, 14, 1584881351, 1584881351),
+(139, 2, 13, 1584881351, 1584881351),
+(140, 2, 12, 1584881352, 1584881352),
+(141, 2, 11, 1584881352, 1584881352),
+(142, 2, 10, 1584881352, 1584881352),
+(143, 2, 9, 1584881352, 1584881352),
+(144, 2, 8, 1584881352, 1584881352),
+(145, 2, 7, 1584881352, 1584881352),
+(146, 2, 6, 1584881352, 1584881352),
+(147, 2, 5, 1584881352, 1584881352),
+(148, 2, 4, 1584881352, 1584881352),
+(149, 2, 3, 1584881352, 1584881352),
+(150, 2, 2, 1584881352, 1584881352);
 
 -- --------------------------------------------------------
 
@@ -543,7 +571,7 @@ CREATE TABLE IF NOT EXISTS `tags_projects` (
   PRIMARY KEY (`tags_projects_id`),
   KEY `tag_id` (`tag_id`),
   KEY `project_id` (`project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tags_projects`
@@ -555,9 +583,9 @@ INSERT INTO `tags_projects` (`tags_projects_id`, `tag_id`, `project_id`, `create
 (4, 2, 9, 1576496602, 1576496602),
 (5, 1, 9, 1576496602, 1576496602),
 (15, 1, 2, 1579693842, 1579693842),
-(82, 2, 3, 1583334094, 1583334094),
-(83, 1, 3, 1583334094, 1583334094),
-(91, 2, 11, 1584448600, 1584448600);
+(91, 2, 11, 1584448600, 1584448600),
+(92, 2, 3, 1584512679, 1584512679),
+(93, 1, 3, 1584512679, 1584512679);
 
 -- --------------------------------------------------------
 
@@ -591,7 +619,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `mobile`, `image`, `bio`, `activation_code`, `request_password_time`, `group_id`, `login_date`, `status`, `modified_date`, `create_date`) VALUES
-(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1583934776, 1, 1574344167, 1543831099),
+(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1584621430, 1, 1574344167, 1543831099),
 (23, 'Monyb Younos', 'munybe@gmail.com', '$2y$10$Raf3iUVZJPQr4//YEBuypO.fWDuSWTRZPDmCa7.Ta84v21ZFWl056', '0597767751', 'سيسش شسيشسي سيسش ضصث  غعغف عفغ.png', '', NULL, NULL, 3, NULL, 1, 1584428774, 1572786123);
 
 --

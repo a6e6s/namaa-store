@@ -13,7 +13,6 @@ class Projects extends Controller
 
     public function index()
     {
-
         $data = [
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'pageTitle' => 'الرئيسية: ' . SITENAME,
@@ -110,16 +109,20 @@ class Projects extends Controller
         (!$project) ? flashRedirect('', 'msg', 'حدث خطأ ما ربما اتبعت رابط خاطيء ', 'alert alert-danger') : null;
         //validating gift options
         if (!empty($_POST['gift']['enable']) &&
-         (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
-         ) {
+            (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
+        ) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
         }
+        // if gift are not enabled
+        if (!isset($_POST['gift']['enable'])) {
+            $_POST['gift']['enable'] = 0;
+        }
+
         //saving donor data
-        if (empty($_POST['project_id']) || empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['amount'])) {
+        if (empty($_POST['project_id']) || empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['amount']) || empty($_POST['total']) || empty($_POST['quantity'])) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
         } else {
             $_SESSION['payment'] = $_POST;
-
             //loading donor model
             $this->donorModel = $this->model('donor');
             //check if exist and return its id
@@ -145,6 +148,9 @@ class Projects extends Controller
             'payment_method_id' => $_POST['payment_method'],
             'donation_identifier' => time() . rand(99000, 99999),
             'amount' => $_POST['amount'],
+            'total' => $_POST['total'],
+            'quantity' => $_POST['quantity'],
+            'donation_type' => $_POST['donation_type'],
             'hash' => $hash,
             'gift' => $_POST['gift']['enable'],
             'gift_data' => json_encode($_POST['gift']),
@@ -158,7 +164,7 @@ class Projects extends Controller
         if ($_POST['payment_method'] == 3) { //payment with payfort
             require_once APPROOT . '/helpers/PayfortIntegration.php';
             $objFort = new PayfortIntegration();
-            $objFort->amount = $_POST['amount'];
+            $objFort->amount = $_POST['total'];
             $objFort->projectUrlPath = SITEFOLDER . '/projects';
             $objFort->itemName = $project->name;
             $objFort->customerEmail = 'namaa@namaa.sa';

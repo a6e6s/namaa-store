@@ -49,9 +49,21 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="pageTitle">قيمة التبرع : </label>
+                    <label class="control-label" for="amount">قيمة التبرع : </label>
                     <div class="has-feedback">
                         <input type="number" class="form-control" name="amount" required value="<?php echo $data['amount']; ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="quantity"> الكمية : </label>
+                    <div class="has-feedback">
+                        <input type="number" class="form-control" name="quantity" required value="<?php echo $data['quantity']; ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="total"> الاجمالي : </label>
+                    <div class="has-feedback">
+                        <input type="number" class="form-control" name="total" required value="<?php echo $data['total']; ?>">
                     </div>
                 </div>
                 <div class="form-group <?php echo (!empty($data['project_id_error'])) ? 'has-error' : ''; ?>">

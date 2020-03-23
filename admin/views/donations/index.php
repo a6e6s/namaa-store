@@ -42,9 +42,10 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th><input type="search" class="form-control" placeholder="بحث بالمعرف" name="search[donation_identifier]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount]" value=""></th>
                                 <th colspan=""></th>
+                                <th><input type="search" class="form-control" placeholder="بحث الاجمالي" name="search[total]" value=""></th>
+                                <th><input type="search" class="form-control" placeholder="بحث بالنوع" name="search[donation_type]" value=""></th>
+                                <th colspan=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor]" value=""></th>
-                                <!--  <th><input type="search" class="form-control" placeholder="بحث بالمشروع" name="search[project_id]" value=""></th>
-                                <th><input type="search" class="form-control" placeholder="بحث بوسيلة التبرع" name="search[payment_method_id]" value=""></th> -->
                                 <th colspan="7"></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[status]">
@@ -60,6 +61,9 @@ require ADMINROOT . '/views/inc/header.php';
                                 </th>
                                 <th class="column-title">معرف التبرع </th>
                                 <th class="column-title">القيمة </th>
+                                <th class="column-title">العدد </th>
+                                <th class="column-title">الاجمالي </th>
+                                <th class="column-title">النوع </th>
                                 <th class="column-title">الحالات </th>
                                 <th class="column-title">اسم المتبرع </th>
                                 <th class="column-title">المشروع </th>
@@ -70,7 +74,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">تاريخ التبرع </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span></th>
-                                <th class="bulk-actions" colspan="12">
+                                <th class="bulk-actions" colspan="15">
                                     <span> تنفيذ علي الكل :</span>
                                     <input type="submit" name="publish" value="تأكيد" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
@@ -95,6 +99,9 @@ require ADMINROOT . '/views/inc/header.php';
                                     </td>
                                     <td><?php echo $donation->donation_identifier; ?></td>
                                     <td><?php echo $donation->amount; ?></td>
+                                    <td><?php echo $donation->quantity; ?></td>
+                                    <td><?php echo $donation->total; ?></td>
+                                    <td><?php echo $donation->donation_type; ?></td>
                                     <td><?php echo $donation->tags; ?></td>
                                     <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $donation->donor_id . '">' . $donation->donor . '</a>'; ?></td>
                                     <td><?php echo $donation->project; ?></td>

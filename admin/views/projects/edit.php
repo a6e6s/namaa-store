@@ -81,7 +81,10 @@ require ADMINROOT . '/views/inc/header.php';
                     </select>
                 </div>                
                 <div class="">
-                    <label class="control-label" for="imageUpload">صور المشروع : </label>
+                    <a class="btn-danger btn-sm btn pull-left" onclick="$('#galery').val('');">حذف الصور &nbsp<i class="fa fa-close"></i></a>
+                    <label class="control-label clearfix" for="imageUpload">صور المشروع :  
+                    </label>
+                   
                     <div class="glr-group row">
                         <a data-toggle="modal"  href="javascript:;" data-target="#myModal" class="glr-btn col-xs-2" type="button">اختيار</a>
                         <input  id="galery" readonly name="image" class="glr-control  col-xs-10" type="text" value="<?php echo $data['image']; ?>" >
@@ -108,6 +111,7 @@ require ADMINROOT . '/views/inc/header.php';
                         <span class="input-group-btn">
                             <span class="btn btn-dark" onclick="$(this).parent().find('input[type=file]').click();">اختار الملف</span>
                             <input name="secondary_image" value="<?php echo ($data['secondary_image']); ?>" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" style="display: none;" type="file">
+                            <input type="hidden" name="s_image" value="<?php echo ($data['secondary_image']); ?>">
                         </span>
                         <span class="form-control"><small><?php echo empty($data['secondary_image']) ? 'قم بأختيار صورة مناسبة' : $data['secondary_image']; ?></small></span>
                     </div>
@@ -186,9 +190,7 @@ require ADMINROOT . '/views/inc/header.php';
                                                     '<td><a href="#" class="remove_field"><i class="fa fa-times"></a></td>' .
                                                     '</tr>';
                                                     }
-                                                    
                                                 }
-
                                                 ?>
                                             </tbody>
                                         </table>
@@ -378,11 +380,13 @@ require ADMINROOT . '/views/inc/header.php';
             </div>           
             <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                     <button type="submit" name="save" class="btn btn-success">تعديل
-                        <i class="fa fa-save"> </i></button>
+                        <i class="fa fa-edit"> </i></button>
                     <button type="submit" name="submit" class="btn btn-success">تعديل وعودة
-                        <i class="fa fa-save"> </i></button>
+                        <i class="fa fa-edit"> </i></button>
                     <button type="reset" class="btn btn-danger">مسح
                         <i class="fa fa-trash "> </i></button>
+                    <button type="submit" name="save_new" class="btn btn-primary"> حفظ كا مشروع جديد 
+                        <i class="fa fa-save "> </i></button>
                 </div>
 
         </form>

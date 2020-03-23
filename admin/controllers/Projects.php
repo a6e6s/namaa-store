@@ -75,7 +75,7 @@ class Projects extends ControllerAdmin
                 redirect('projects');
             }
         }
-        //handling search 
+        //handling search
         $searches = $this->projectModel->searchHandling(['name', 'project_number', 'category_id', 'hidden', 'target_price', 'status']);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
@@ -374,16 +374,28 @@ class Projects extends ControllerAdmin
                 && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
             ) {
                 //validated
-                if ($this->projectModel->updateProject($data)) {
-                    //clear previous tags before inserting new values
-                    $this->projectModel->deleteTagsByProjectId($id);
-                    // insert new tags
-                    $this->projectModel->insertTags($data['tags'], $id);
-                    flash('project_msg', 'تم التعديل بنجاح');
-                    isset($_POST['save']) ? redirect('projects/edit/' . $id) : redirect('projects');
+                if (isset($_POST['save_new'])) {
+                    $data['secondary_image'] = $_POST['s_image'];
+                    if ($this->projectModel->addProject($data)) {
+                        $this->projectModel->insertTags($data['tags'], $this->projectModel->lastId());
+                        flash('project_msg', 'تم الحفظ بنجاح');
+                        redirect('projects');
+                    } else {
+                        flash('project_msg', 'هناك خطأ ما حاول مرة اخري', 'alert alert-danger');
+                    }
                 } else {
-                    flash('project_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
+                    if ($this->projectModel->updateProject($data)) {
+                        //clear previous tags before inserting new values
+                        $this->projectModel->deleteTagsByProjectId($id);
+                        // insert new tags
+                        $this->projectModel->insertTags($data['tags'], $id);
+                        flash('project_msg', 'تم التعديل بنجاح');
+                        isset($_POST['save']) ? redirect('projects/edit/' . $id) : redirect('projects');
+                    } else {
+                        flash('project_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
+                    }
                 }
+
             } else {
                 //load the view with error
                 $this->view('projects/edit', $data);

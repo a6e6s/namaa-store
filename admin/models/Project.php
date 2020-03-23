@@ -113,13 +113,12 @@ class Project extends ModelAdmin
      */
     public function updateProject($data)
     {
-        $query = 'UPDATE projects SET name = :name, project_number= :project_number, description = :description, arrangement = :arrangement, back_home = :back_home, meta_keywords = :meta_keywords,
+        $query = 'UPDATE projects SET name = :name, project_number= :project_number, image = :image, description = :description, arrangement = :arrangement, back_home = :back_home, meta_keywords = :meta_keywords,
         alias = :alias, enable_cart = :enable_cart, gift = :gift, mobile_confirmation = :mobile_confirmation, donation_type = :donation_type, target_price = :target_price,
         payment_methods = :payment_methods, fake_target = :fake_target, hidden = :hidden, thanks_message = :thanks_message, advertising_code = :advertising_code,
         header_code = :header_code, whatsapp = :whatsapp, mobile = :mobile, end_date = :end_date, start_date = :start_date, category_id = :category_id, sms_msg = :sms_msg,
          background_color =:background_color, featured=:featured, meta_description = :meta_description, status = :status, modified_date = :modified_date';
 
-        (empty($data['image'])) ? null : $query .= ', image = :image';
         (empty($data['background_image'])) ? null : $query .= ', background_image = :background_image';
         (empty($data['secondary_image'])) ? null : $query .= ', secondary_image = :secondary_image';
 
@@ -129,6 +128,7 @@ class Project extends ModelAdmin
         $this->db->bind(':project_id', $data['project_id']);
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':project_number', $data['project_number']);
+        $this->db->bind(':image', $data['image']);
         $this->db->bind(':alias', $data['alias']);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':arrangement', $data['arrangement']);
@@ -156,7 +156,6 @@ class Project extends ModelAdmin
         $this->db->bind(':end_date', strtotime($data['end_date']));
         $this->db->bind(':start_date', strtotime($data['start_date']));
         $this->db->bind(':category_id', $data['category_id']);
-        empty($data['image']) ? null : $this->db->bind(':image', $data['image']);
         empty($data['background_image']) ? null : $this->db->bind(':background_image', $data['background_image']);
         empty($data['secondary_image']) ? null : $this->db->bind(':secondary_image', $data['secondary_image']);
 

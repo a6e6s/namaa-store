@@ -126,8 +126,26 @@ $("#pay").submit(function (event) {
 });
 
 //submitting amount value 
+// if user change the quantity
+$('#quantity').change(function () {
+    if ($('.amount').val() > 0) {
+        var total = $('.amount').val() * $('#quantity').val();
+        $('#total').val(total)
+    }
+})
+// if user write custom open donation
+$('.amount').change(function () {
+    if ($('.amount').val() > 0) {
+        var total = $('.amount').val() * $('#quantity').val();
+        $('#total').val(total)
+    }
+})
+// if user select from units or fixed or share donation
 $('.donation-value').change(function () {
     $('.amount').val(this.value)
+    var total = this.value * $('#quantity').val();
+    $('#total').val(total)
+
 });
 
 //make amount read and write 

@@ -101,7 +101,7 @@ class Donations extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->donationModel->searchHandling(['donation_identifier', 'amount', 'status', 'donor']);
+        $searches = $this->donationModel->searchHandling(['donation_identifier', 'amount', 'total', 'donation_type', 'status', 'donor']);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
         // get all records count after search and filtration
@@ -151,6 +151,8 @@ class Donations extends ControllerAdmin
                 'page_title' => ' التبرعات',
                 'donation_identifier' => trim($_POST['donation_identifier']),
                 'amount' => $_POST['amount'],
+                'total' => $_POST['total'],
+                'quantity' => $_POST['quantity'],
                 'payment_method_id' => trim($_POST['payment_method_id']),
                 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => '',
@@ -211,6 +213,8 @@ class Donations extends ControllerAdmin
                 'donation_id' => $id,
                 'donation_identifier' => $donation->donation_identifier,
                 'amount' => $donation->amount,
+                'total' => $donation->total,
+                'quantity' => $donation->quantity,
                 'payment_method_id' => $donation->payment_method_id,
                 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => $donation->banktransferproof,

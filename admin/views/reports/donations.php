@@ -40,6 +40,8 @@ require ADMINROOT . '/views/inc/header.php';
                         <th>معرف التبرع </th>
                         <th> اسم المتبرع </th>
                         <th>القيمة</th>
+                        <th>الكمية</th>
+                        <th>الاجمالي</th>
                         <th>وسيلة الدفع</th>
                         <th>تأكيد الدفع</th>
                         <th>رد بايفورت</th>
@@ -58,6 +60,8 @@ require ADMINROOT . '/views/inc/header.php';
                             <td><?php echo $donation->donation_identifier; ?></td>
                             <td><?php echo $donation->full_name; ?></td>
                             <td><?php echo $donation->amount; ?></td>
+                            <td><?php echo $donation->quantity; ?></td>
+                            <td><?php echo $donation->total; ?></td>
                             <td><?php echo $donation->title; ?></td>
                             <td><?php echo $donation->banktransferproof; ?></td>
                             <?php
@@ -69,9 +73,9 @@ require ADMINROOT . '/views/inc/header.php';
                                 echo "<td></td><td></td>";
                             }
                             ?>
-                            <td><?php echo $donation->gift; ?></td>
+                            <td><?php echo ($donation->gift) ? "نعم" : "لا"; ?></td>
                             <td><?php echo $donation->tags; ?></td>
-                            <td><?php echo $donation->status; ?></td>
+                            <td><?php echo ($donation->status) ? "مؤكد" : "غير مؤكد";; ?></td>
                             <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->create_date); ?></td>
                             <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
 

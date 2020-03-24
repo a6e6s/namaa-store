@@ -18,12 +18,12 @@ class Reports extends ControllerAdmin
 {
 
     private $donationModel;
-    private $contactModel;
+    // private $donationModel;
 
     public function __construct()
     {
         $this->donationModel = $this->model('Donation');
-        $this->contactModel = $this->model('Contact');
+        // $this->donationModel = $this->model('Contact');
     }
 
     /**
@@ -42,98 +42,7 @@ class Reports extends ControllerAdmin
         $this->view('reports/index', $data);
     }
 
-    /**
-     * update donation
-     * @param integer $id
-     */
-    public function edit($id)
-    {
-        $id = (int) $id;
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // sanitize POST array
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            $data = [
-                'donation_id' => $id,
-                'page_title' => ' التبرعات',
-                'donation_identifier' => trim($_POST['donation_identifier']),
-                'amount' => $_POST['amount'],
-                'payment_method_id' => trim($_POST['payment_method_id']),
-                'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
-                'banktransferproof' => '',
-                'tagsList' => $this->donationModel->tagsList(),
-                'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
-                'project_id' => $_POST['project_id'],
-                'tags' => '',
-                'status' => '',
-                'payment_method_id_error' => '',
-                'project_id_error' => '',
-                'banktransferproof_error' => '',
-                'status_error' => '',
-            ];
-            isset($_POST['tags']) ? $data['tags'] = $_POST['tags'] : '';
-            // validate payment methods
-            !(empty($data['payment_method_id'])) ?: $data['payment_method_id_error'] = 'هذا الحقل مطلوب';
-
-            // validate payment methods
-            !(empty($data['project_id'])) ? null : $data['project_id_error'] = 'هذا الحقل مطلوب';
-
-            // validate banktransferproof
-            $image = $this->donationModel->validateImage('banktransferproof');
-            ($image[0]) ? $data['banktransferproof'] = $image[1] : $data['banktransferproof_error'] = $image[1];
-
-            // validate status
-            if (isset($_POST['status'])) {
-                $data['status'] = trim($_POST['status']);
-            }
-            if ($data['status'] == '') {
-                $data['status_error'] = 'من فضلك اختار حالة النشر';
-            }
-            //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error']) && empty($data['project_id_error'])) {
-                //validated
-                if ($this->donationModel->updateDonation($data)) {
-                    //clear previous tags before inserting new values
-                    $this->donationModel->deleteTagsByDonationId($id);
-                    // insert new tags
-                    $this->donationModel->insertTags($data['tags'], $id);
-
-                    flash('report_msg', 'تم التعديل بنجاح');
-                    isset($_POST['save']) ? redirect('donations/edit/' . $id) : redirect('donations');
-                } else {
-                    flash('report_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
-                }
-            } else {
-                //load the view with error
-                $this->view('donations/edit', $data);
-            }
-        } else {
-            // featch donation
-            if (!$donation = $this->donationModel->getDonationById($id)) {
-                flash('report_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
-                redirect('donations');
-            }
-            $data = [
-                'page_title' => 'التبرعات',
-                'donation_id' => $id,
-                'donation_identifier' => $donation->donation_identifier,
-                'amount' => $donation->amount,
-                'payment_method_id' => $donation->payment_method_id,
-                'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
-                'banktransferproof' => $donation->banktransferproof,
-                'project_id' => $donation->project_id,
-                'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
-                'tagsList' => $this->donationModel->tagsList(),
-                'tags' => $this->donationModel->tagsListByDonation($id),
-                'status' => '',
-                'payment_method_id_error' => '',
-                'project_id_error' => '',
-                'banktransferproof_error' => '',
-                'status_error' => '',
-            ];
-            $this->view('donations/edit', $data);
-        }
-    }
+  
 
     /**
      * showing donation details
@@ -242,7 +151,7 @@ class Reports extends ControllerAdmin
             $query = 'SELECT * FROM donors dr WHERE donor_id >0 '
                 .  $status_exp . $mobile_exp . $mobile_confirmed_exp . $email_exp . $donors_exp . $date_exp_from . $date_exp_to;
             // dd($query);
-            $donor = $this->donorModel->getAll($query);
+            $donor = $this->donationModel->getAll($query);
             $data = [
                 'page_title' => 'التقارير',
                 'donor' => $donor,
@@ -260,37 +169,37 @@ class Reports extends ControllerAdmin
             $date_exp_from = '';
             $date_exp_to = '';
             if ($_POST['status'] !== '') {
-                $status_exp = ' AND dr.status =' . $_POST['status'] . ' ';
+                $status_exp = ' AND status =' . $_POST['status'] . ' ';
             }
             if ($_POST['full_name'] !== '') {
-                $full_name_exp = ' AND dr.full_name LIKE "%' . $_POST['full_name'] . '%" ';
+                $full_name_exp = ' AND full_name LIKE "%' . $_POST['full_name'] . '%" ';
             }
             if ($_POST['email'] !== '') {
-                $email_exp = ' AND dr.email LIKE "%' . $_POST['email'] . '%" ';
+                $email_exp = ' AND email LIKE "%' . $_POST['email'] . '%" ';
             }
             if ($_POST['type'] !== '') {
-                $type_exp = ' AND dr.type LIKE "%' . $_POST['type'] . '%" ';
+                $type_exp = ' AND type LIKE "%' . $_POST['type'] . '%" ';
             }
             if ($_POST['subject'] !== '') {
-                $subject_exp = ' AND dr.subject LIKE "%' . $_POST['subject'] . '%" ';
+                $subject_exp = ' AND subject LIKE "%' . $_POST['subject'] . '%" ';
             }
             if ($_POST['phone'] !== '') {
-                $phone_exp = ' AND dr.phone LIKE "%' . $_POST['phone'] . '%" ';
+                $phone_exp = ' AND phone LIKE "%' . $_POST['phone'] . '%" ';
             }
             if ($_POST['message'] !== '') {
-                $message_exp = ' AND dr.message LIKE "%' . $_POST['message'] . '%" ';
+                $message_exp = ' AND message LIKE "%' . $_POST['message'] . '%" ';
             }
             if ($_POST['date_from'] !== '') {
-                $amount_exp_from = ' AND dr.create_date >= ' . strtotime($_POST['date_from']) . ' ';
+                $amount_exp_from = ' AND create_date >= ' . strtotime($_POST['date_from']) . ' ';
             }
             if ($_POST['date_to'] !== '') {
-                $amount_exp_to = ' AND dr.create_date <= ' . strtotime($_POST['date_to']) . ' ';
+                $amount_exp_to = ' AND create_date <= ' . strtotime($_POST['date_to']) . ' ';
             }
             // excute
-            $query = 'SELECT * FROM contacts dr WHERE contact_id > 0 '
+            $query = 'SELECT * FROM contacts WHERE contact_id > 0 '
                 .  $status_exp . $phone_exp . $message_exp . $subject_exp . $type_exp . $email_exp . $full_name_exp . $date_exp_from . $date_exp_to;
             // dd($query);
-            $contact = $this->contactModel->getAll($query);
+            $contact = $this->donationModel->getAll($query);
             $data = [
                 'page_title' => 'التقارير',
                 'contact' => $contact,

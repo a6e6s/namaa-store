@@ -226,7 +226,7 @@
                     <div class="form-group text-center">
                         <button class="btn btn-primary btn-lg m-2 px-5" name="pay" type="submit">دفع <i class="icofont-riyal"></i> </button>
                         <?php if ($data['project']->enable_cart) : ?>
-                            <a href="<?php echo URLROOT . '/cart/' . $data['project']->project_id; ?>" class="btn btn-lg p-2 btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a>
+                            <a href="<?php echo URLROOT . '/carts/add/' . $data['project']->project_id; ?>" class="btn btn-lg p-2 btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a>
                         <?php endif; ?>
                     </div>
                 </form>

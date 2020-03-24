@@ -55,7 +55,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
 
     <!--- CSS style --->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/style.css">
-    <?php echo isset($data['site_settings']->header_code)? $data['site_settings']->header_code : ''; ?>
+    <?php echo isset($data['site_settings']->header_code) ? $data['site_settings']->header_code : ''; ?>
 </head>
 
 <body style="background:<?php echo $this->meta->background; ?>;">
@@ -75,7 +75,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
             </div>
             <div class="col-5 col-md-7">
                 <a href="<?php echo URLROOT; ?>" class="logo float-right">
-                    <img src="<?php echo empty($data['site_settings']->logo) ? '/': MEDIAURL.'/'.$data['site_settings']->logo ;?>" height="60" alt="Namaa logo" class="img-fluid">
+                    <img src="<?php echo empty($data['site_settings']->logo) ? '/' : MEDIAURL . '/' . $data['site_settings']->logo; ?>" height="60" alt="Namaa logo" class="img-fluid">
                 </a>
             </div>
             <div class="col-5 col-md-4 pt-3">
@@ -85,11 +85,13 @@ For more information about the author , see <http://www.ahmedx.com/>.
                             <a title="Profile" class="nav-link text-dark border-left border-dark" href="#"><i class="icofont-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="#"> <i class="icofont-cart cart-icon "></i> <span class="d-none d-sm-inline">السلة (2) منتج</span> </a>
+                            <a class="nav-link text-dark" href="#"> <i class="icofont-cart cart-icon "></i> <span class="d-none d-sm-inline">السلة (
+                                <?php echo isset($_SESSION['cart']) ? $_SESSION['cart']->totalQty : 0; ?>
+                            ) منتج</span> </a>
                         </li>
                     </div>
                 </div>
             </div>
-            <?php require APPROOT . '/app/views/inc/navbar.php'; ?>
+            <?php require APPROOT . '/app/views/inc/navbar.php';?>
         </section>
         <!--- carousel  Start --->

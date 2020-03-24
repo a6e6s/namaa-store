@@ -81,7 +81,7 @@
                                     <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                                         <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
                                         <?php if ($project->enable_cart) : ?>
-                                            <a href="<?php echo URLROOT . '/cart/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة</a>
+                                            <a href="<?php echo URLROOT . '/carts/add/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة</a>
                                         <?php endif; ?>
 
                                     </div>

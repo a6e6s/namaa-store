@@ -191,11 +191,11 @@ require ADMINROOT . '/views/inc/header.php';
                             </select>
                         </div>
                         <div class="form-group col-lg-6 col-xs-12">
-                            <label for="status">حالة المتبرع</label>
+                            <label for="status">حالة القراءة</label>
                             <select id="status" class="form-control " name="status">
-                                <option value="">اختار حالة المتبرع</option>
-                                <option value="1">مفعل</option>
-                                <option value="0">غير مفعل</option>
+                                <option value="">اختار حالة القراءة</option>
+                                <option value="1">مقروءة</option>
+                                <option value="0">غير مقروءة</option>
                                 <option value="2">محذوف</option>
                             </select>
                         </div>

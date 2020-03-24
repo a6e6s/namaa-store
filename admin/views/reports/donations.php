@@ -63,7 +63,8 @@ require ADMINROOT . '/views/inc/header.php';
                             <td><?php echo $donation->quantity; ?></td>
                             <td><?php echo $donation->total; ?></td>
                             <td><?php echo $donation->title; ?></td>
-                            <td><?php echo $donation->banktransferproof; ?></td>
+                            <td><?php if (!empty($donation->banktransferproof)) { ?>
+                            <a class="btn btn-success" target="blank" href="<?php echo URLROOT . "/media/files/banktransfer/".$donation->banktransferproof; ?>">تحميل</a><?php } ?></td>
                             <?php
                             if (!empty($donation->meta)) {
                                 $meta = json_decode($donation->meta);

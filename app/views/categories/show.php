@@ -51,7 +51,7 @@
                         <div class="card-footer bg-primary mt-1">
                             <div class="  ">
                                 <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '/' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
-                                <a href="<?php echo URLROOT . '/cart/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة
+                                <a href="<?php echo URLROOT . '/carts/add/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة
                                 </a>
                             </div>
                         </div>

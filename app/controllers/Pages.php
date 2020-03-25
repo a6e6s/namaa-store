@@ -19,10 +19,7 @@ class Pages extends Controller
             'pageTitle' => 'الرئيسية: ' . SITENAME,
             'pagesLinks' => $this->pagesModel->getMenu(),
             'slides' => $this->pagesModel->getSlides(),
-            'projects' => $this->pagesModel->getProjects(
-                'project_id, name, alias, description, secondary_image as img, enable_cart, target_price, collected_traget, fake_target, start_date, end_date',
-                ['status' => 1, 'hidden' => 0, 'featured' => 1]
-            ),
+            'projects' => $this->pagesModel->getProjects('*',['status' => 1, 'hidden' => 0, 'featured' => 1]),
             'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
             'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
             'theme_settings' => json_decode($this->pagesModel->getSettings('theme')->value),

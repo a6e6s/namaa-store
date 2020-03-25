@@ -1,6 +1,6 @@
 <?php
 
-class Cart
+class Cart extends Model
 {
     public $items = [];
     public $totalQty;
@@ -8,6 +8,8 @@ class Cart
 
     public function __Construct($cart = null)
     {
+        parent::__construct('cart');
+        
         if ($cart) {
 
             $this->items = $cart->items;

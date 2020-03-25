@@ -21,19 +21,21 @@
     /**
      * add project to the cart
      *
-     * @param  mixed $product
+     * @param  mixed $project
      * @return void
      */
-    public function add($product)
+    public function add($project)
     {
-        $product = $this->cartModel->getSingle('name, project_id', ['project_id' => $product], 'projects');
+        //get data from post request [project_id , amount, qty]
+        
+        $project = $this->cartModel->getSingle('name, project_id', ['project_id' => $project], 'projects');
         if (isset($_SESSION['cart'])) {
-            //if there is a session load it to store new product
+            //if there is a session load it to store new project
            
             
         } else {
-            //if no cart on the session create clean cart object to store product
-            
+            //if no cart on the session create clean cart object to store project
+           
             
         }
 

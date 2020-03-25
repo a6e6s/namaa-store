@@ -70,6 +70,53 @@
                                         ($project->target_price) ?: $project->target_price = 1;
                                         ?>
                                     </p>
+                                    <div class="form-group">
+                                        <?php
+                                        $donation_type = json_decode($project->donation_type);
+                                        // if ($donation_type->type != 'open') :
+                                        ?>
+                                        <div class="input-group">
+                                            <div class=" btn-group-toggle" data-toggle="buttons">
+                                                <?php
+                                                switch ($donation_type->type) {
+                                                    case 'share':
+                                                        foreach ($donation_type->value as $value) {
+                                                            echo '<label class="btn btn-secondary  m-1">
+                                                                    <input type="radio" value ="' . $value->value . '" name="donation_type" required class="d-value"> ' . $value->name . '
+                                                                    <input type="hidden" name="donation_type" value="' . $value->name . '" id="donation_type">
+                                                                </label>';
+                                                        }
+                                                        break;
+                                                    case 'open':
+                                                        echo 'قم بكتابة المبلغ المراد التبرع به 
+                                                         <input type="hidden" name="donation_type" value="مفتوح" id="donation_type">';
+                                                        break;
+                                                    case 'unit':
+                                                        foreach ($donation_type->value as $value) {
+                                                            echo '<label class="btn btn-secondary  m-1">
+                                                                    <input type="radio" value ="' . $value->value . '" name="donation_type" class="d-value"> ' . $value->name . '
+                                                                    <input type="hidden" name="donation_type" value="' . $value->name . '" id="donation_type">
+                                                                </label>';
+                                                        }
+                                                        break;
+                                                    case 'fixed':
+                                                        echo '<label class="btn btn-secondary  m-1">
+                                                                <input type="radio" value ="' . $donation_type->value . '" name="donation_type" class="d-value"> ' . $donation_type->value . ' ريال
+                                                                    <input type="hidden" name="donation_type" value="قيمة ثابته" id="donation_type">
+                                                            </label>';
+                                                        break;
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <?php #endif; 
+                                        ?>
+                                    </div>
+                                    <div class="form-row m-0">
+                                        <input placeholder="القيمة" min="1" type="number" class="form-control amt col-4" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
+                                        <label class="col-4 text-left"> الكمية: </label>
+                                        <input type="number" name="quantity" min="1" value="1" required class="form-control d-inline col-4 qty">
+                                    </div>
                                     <p class="m-0 p-0 text-left"><span>المستهدف : </span><i class="icofont-riyal"></i> <span><?php echo $project->target_price; ?></span></p>
                                     <div class="progress">
                                         <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $project->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
@@ -83,7 +130,6 @@
                                         <?php if ($project->enable_cart) : ?>
                                             <a href="<?php echo URLROOT . '/carts/add/' . $project->project_id; ?>" class="card-text float-left"><i class="icofont-cart-alt"></i> اضف الي السلة</a>
                                         <?php endif; ?>
-
                                     </div>
                                 </div>
                             </div>
@@ -156,3 +202,27 @@
         <!-- end Categories -->
         </div>
         <?php require APPROOT . '/app/views/inc/footer.php'; ?>
+        <script>
+            //submitting amount value 
+            // if user change the quantity
+            $('.qty').change(function() {
+                if ($('.amt').val() > 0) {
+                    var total = $('.amt').val() * $('.qty').val();
+                    $('.ttl').val(total)
+                }
+            })
+            // if user write custom open donation
+            $('.amt').change(function() {
+                if ($('.amt').val() > 0) {
+                    var total = $('.amt').val() * $('.qty').val();
+                    $('.ttl').val(total)
+                }
+            })
+            // if user select from units or fixed or share donation
+            $('.d-value').change(function() {
+                $('.amt').val(this.value)
+                var total = this.value * $('#.ty').val();
+                $('.ttl').val(total)
+
+            });
+        </script>

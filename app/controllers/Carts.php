@@ -1,5 +1,5 @@
 <?php
-    class Carts extends Controller
+class Carts extends Controller
 {
     private $cartModel;
 
@@ -24,22 +24,22 @@
      * @param  mixed $project
      * @return void
      */
-    public function add($project)
+    public function add()
     {
-        //get data from post request [project_id , amount, qty]
-        
-        $project = $this->cartModel->getSingle('name, project_id', ['project_id' => $project], 'projects');
-        if (isset($_SESSION['cart'])) {
-            //if there is a session load it to store new project
-           
-            
-        } else {
-            //if no cart on the session create clean cart object to store project
-           
-            
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        if (!$_POST) {
+            flashRedirect('', 'msg', 'هناك خطأ ما : ربما اتبعت رابط خاطئ', 'alert alert-danger');
         }
 
+        // var_dump($_POST);
 
+        //get data from post request [project_id , amount, qty]
+
+        $project = $this->cartModel->getSingle('name, project_id', ['project_id' => $_POST['project_id']], 'projects');
+        // var_dump($project);
+        $this->cartModel->add($project);
+
+        pr($_SESSION);
     }
 
 }

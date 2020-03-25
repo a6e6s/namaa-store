@@ -9,7 +9,7 @@ class Cart extends Model
     public function __Construct($cart = null)
     {
         parent::__construct('cart');
-        
+
         if ($cart) {
 
             $this->items = $cart->items;
@@ -23,28 +23,57 @@ class Cart extends Model
         }
     }
 
-    public function add($project,$price)
+    public function add($project)
     {
-        $item = [
-            'project_id' => $project->project_id,
-            'name' => $project->name,
-            'price' => $project->price,
-            'qty' => 0,
-            'image' => $project->image,
-        ];
+        // dd($_SESSION);
 
-        if (!array_key_exists($project->project_id, $this->items)) {
-            $this->items[$project->project_id] = $item;
-            $this->totalQty += 1;
-            $this->totalPrice += $project->price;
+        if (isset($_SESSION['cart'])) {
+            // if there is a session update it
+            if (array_key_exists($project->project_id, $_SESSION['cart']['items'])) {
+                dd($_SESSION['cart']['items'][$project->project_id]['donation_type']);
+                // if the same project with same type is added
+                if (!in_array($_POST['donation_type'], $_SESSION['cart']['items'][$project->project_id]['donation_type'])) {
+                    // if the same project with different type is added add new type
+                    $item[$project->project_id] = [
+                        'name' => $project->name,
+                        'amount' => $_POST['amount'],
+                        'quantity' => $_SESSION['cart']['items'][$project->project_id]['quantity'] +1 ,
+                        'donation_type'=> [ $_SESSION['cart']['items'][$project->project_id]['donation_type'],$_POST['donation_type']]
+                    ];
+                }else{
+                    $item[$project->project_id] = [
+                        'name' => $project->name,
+                        'amount' => $_POST['amount'],
+                        'quantity' => $_SESSION['cart']['items'][$project->project_id]['quantity'] +1 ,
+                        'donation_type'=> [ $_SESSION['cart']['items'][$project->project_id]['donation_type']]
+                    ];
+                }
+                $_SESSION['cart']['items'] = $item;
+                $_SESSION['cart']['total'] += 1;
+
+            } else {
+                $item[$project->project_id] = [
+                    'name' => $project->name,
+                    'amount' => $_POST['amount'],
+                    'quantity' => 1,
+                    'donation_type'=>[ $_POST['donation_type']]
+                ];
+                $_SESSION['cart']['items'] = $item;
+                $_SESSION['cart']['total'] += 1;
+            }
 
         } else {
+            $item[$project->project_id] = [
+                'name' => $project->name,
+                'amount' => $_POST['amount'],
+                'quantity' => 1,
+                'donation_type'=>[ $_POST['donation_type']]
+            ];
+            //if no cart on the session create clean cart object to store project
+            $_SESSION['cart']['items'] = $item;
+            $_SESSION['cart']['total'] = 1;
 
-            $this->totalQty += 1;
-            $this->totalPrice += $project->price;
         }
-
-        $this->items[$project->id]['qty'] += 1;
 
     }
 

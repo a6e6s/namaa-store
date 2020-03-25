@@ -34,3 +34,10 @@ function dd($var)
     var_dump($var);
     die();
 }
+
+function pr($var)
+{
+    echo "<pre class='text-left ltr'>";
+    print_r($var);
+    echo "</pre>";
+}

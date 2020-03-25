@@ -13,6 +13,7 @@ class test extends Controller
             'mobile' => '',
 
         );
+        session_destroy();
         $redirectUrl = 'http://localhost/Blank-MVC/test/redirect';
         echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
         echo "<form action='$redirectUrl' method='post' name='frm'>\n";

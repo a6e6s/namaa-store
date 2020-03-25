@@ -31,12 +31,12 @@ class Controller
      * @param string $model
      * @return object
      */
-    public function model($model)
+    public function model($model , $vars = '')
     {
         // require model file
         require_once '../app/models/' . $model . '.php';
         //instatiate model
-        return new $model();
+        return new $model($vars);
     }
 
     /**

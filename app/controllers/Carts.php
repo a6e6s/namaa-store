@@ -13,6 +13,8 @@ class Carts extends Controller
     {
         $data = [
             'site_settings' => json_decode($this->cartModel->getSettings('site')->value),
+            'pagesLinks' => $this->cartModel->getMenu(),
+            'payment_methods' => $this->cartModel->getFromTable('payment_methods', '*', ['status' => 1]),
             'pageTitle' => 'الرئيسية: ' . SITENAME,
         ];
         $this->view('cart/index', $data);
@@ -30,16 +32,22 @@ class Carts extends Controller
         if (!$_POST) {
             flashRedirect('', 'msg', 'هناك خطأ ما : ربما اتبعت رابط خاطئ', 'alert alert-danger');
         }
-
-        // var_dump($_POST);
-
-        //get data from post request [project_id , amount, qty]
-
+        // load project data
         $project = $this->cartModel->getSingle('name, project_id', ['project_id' => $_POST['project_id']], 'projects');
         // var_dump($project);
         $this->cartModel->add($project);
-
-        pr($_SESSION);
+        flashRedirect('', 'msg', 'تم اضافة المشروع بنجاح ');
     }
 
+    public function remove($id)
+    {
+        $this->cartModel->remove($id);
+        flashRedirect('carts', 'msg', 'تم الحذف بنجاح ');
+    }
+
+    public function removeAll()
+    {
+        unset($_SESSION['cart']);
+        flashRedirect('', 'msg', 'تم افراغ محتويات السلة بنجاح ');
+    }
 }

@@ -76,7 +76,7 @@
                                             case 'share':
                                                 foreach ($donation_type->value as $value) {
                                                     echo '<label class="btn btn-secondary btn-sm m-1">
-                                                            <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->name . '
+                                                            <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
                                                         </label>';
                                                 }
                                                 break;
@@ -87,13 +87,13 @@
                                             case 'unit':
                                                 foreach ($donation_type->value as $value) {
                                                     echo '<label class="btn btn-secondary btn-sm m-1">
-                                                            <input type="radio" value ="' . $value->name . '" name="donation_type" class="d-value" id="' . $value->value . '"> ' . $value->name . '
+                                                            <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
                                                         </label>';
                                                 }
                                                 break;
                                             case 'fixed':
                                                 echo '<label class="btn btn-secondary btn-sm m-1">
-                                                        <input type="radio" value ="قيمة ثابته" name="donation_type" class="d-value" id="' . $donation_type->value . '"> ' . $donation_type->value . ' ريال
+                                                        <input type="radio" value ="قيمة ثابته" name="donation_type" required class="d-value" id="' . $donation_type->value . '"> ' . $donation_type->value . ' ريال
                                                     </label>';
                                                 break;
                                             }

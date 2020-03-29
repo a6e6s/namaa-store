@@ -17,7 +17,7 @@ class ProjectCategories extends Controller
         $start = (int) $start;
         $perpage = (int) $perpage;
         empty($start) ? $start = 1 : '';
-        empty($perpage) ? $perpage = 9 : '';
+        empty($perpage) ? $perpage = 1000 : '';
         $categories = $this->categoriesModel->getCategories($start, $perpage);
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,

@@ -52,7 +52,7 @@ class ProjectCategory extends Model
      */
     public function getProductsByCategory($id, $start, $perpage)
     {
-        return $this->getFromTable('projects', 'project_id, alias, description, secondary_image as img, enable_cart, target_price, collected_traget, fake_target', ['category_id' => $id, 'status' => 1], $start, $perpage);
+        return $this->getFromTable('projects', '*', ['category_id' => $id, 'status' => 1], $start, $perpage);
     }
 
     /**

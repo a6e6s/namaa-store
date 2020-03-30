@@ -36,7 +36,10 @@ class Carts extends Controller
         $project = $this->cartModel->getSingle('name, project_id', ['project_id' => $_POST['project_id']], 'projects');
         // var_dump($project);
         $this->cartModel->add($project);
-        flashRedirect('', 'msg', ' تم اضافة المشروع بنجاح <a href="'.URLROOT.'/carts"> عرص السلة </a> ');
+        if (isset($_POST['projectCategories'])) {
+            flashRedirect('projectCategories/show/' . $_POST['projectCategories'], 'msg', ' تم اضافة المشروع بنجاح <a href="' . URLROOT . '/carts"> عرص السلة </a> ');
+        }
+        flashRedirect('', 'msg', ' تم اضافة المشروع بنجاح <a href="' . URLROOT . '/carts"> عرص السلة </a> ');
     }
 
     public function remove($id)
@@ -57,11 +60,11 @@ class Carts extends Controller
         if (!$_POST) {
             flashRedirect('', 'msg', 'هناك خطأ ما : ربما اتبعت رابط خاطئ', 'alert alert-danger');
         }
-        if($_POST['quantity'] <1) $this->cartModel->remove($_POST['index']);
+        if ($_POST['quantity'] < 1) $this->cartModel->remove($_POST['index']);
 
-        $data=[
-            'quantity'=> trim($_POST['quantity']),
-            'index'=> trim($_POST['index']),
+        $data = [
+            'quantity' => trim($_POST['quantity']),
+            'index' => trim($_POST['index']),
         ];
         $this->cartModel->updateQuantity($data);
         flashRedirect('carts', 'msg', 'تم تحديث الكمية بنجاح ');

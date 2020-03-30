@@ -35,7 +35,6 @@ class Project extends ModelAdmin
     public function getProjects($cond = '', $bind = '', $limit = '', $bindLimit)
     {
         $query = 'SELECT projects.*, project_categories.name as category, project_categories.category_id  FROM projects, project_categories ' . $cond . ' ORDER BY projects.create_date DESC ';
-
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }
 
@@ -281,5 +280,96 @@ class Project extends ModelAdmin
     public function lastId()
     {
         return $this->db->lastId();
+    }
+
+    /**
+     * handling Search Condition, creating bind array and handling search session
+     *
+     * @param  array $searches
+     * @return array of condation and bind array
+     */
+    public function handlingSearchCondition($searches)
+    {
+        //reset search session
+        unset($_SESSION['search']);
+        $cond = '';
+        $bind = [];
+        if (!empty($searches)) {
+            foreach ($searches as $keyword) {
+                if ($keyword == 'category_id' && !empty($_SESSION['search'][$keyword])) {
+                    $cond .= ' AND ' . $this->table . '.' . $keyword . ' = :' . $keyword . ' ';
+                } else {
+                    $cond .= ' AND ' . $this->table . '.' . $keyword . ' LIKE :' . $keyword . ' ';
+                }
+                $bind[':' . $keyword] = $_POST['search'][$keyword];
+                $_SESSION['search'][$keyword] = $_POST['search'][$keyword];
+            }
+        }
+        return $data = ['cond' => $cond, 'bind' => $bind];
+    }
+
+    /**
+     * handling Search Condition on the stored session, creating bind array and handling search session
+     *
+     * @param  array $searches
+     * @return array of condation and bind array
+     */
+    public function handlingSearchSessionCondition($searches)
+    {
+        $cond = '';
+        $bind = [];
+        foreach ($searches as $keyword) {
+            if (isset($_SESSION['search'][$keyword])) {
+                if ($keyword == 'category_id' && !empty($_SESSION['search'][$keyword])) {
+                    $cond .= ' AND ' . $this->table . '.' . $keyword . ' = :' . $keyword . ' ';
+                } else {
+                    $cond .= ' AND ' . $this->table . '.' . $keyword . ' LIKE :' . $keyword . ' ';
+                }
+                $bind[':' . $keyword] = $_SESSION['search'][$keyword];
+            }
+        }
+        return $data = ['cond' => $cond, 'bind' => $bind];
+    }
+    /**
+     * getAll data from database
+     *
+     * @param  string $cond
+     * @param  array $bind
+     * @param  string $limit
+     * @param  array $bindLimit
+     *
+     * @return Object
+     */
+    public function getAll($query, $bind = '', $limit = '', $bindLimit = '')
+    {
+        $this->db->query($query . $limit);
+        if (!empty($bind)) {
+            foreach ($bind as $key => $value) {
+                if ($key == ':category_id' && !empty($value)) {
+                    $this->db->bind($key, '' . $value . '');
+                } else {
+                    $this->db->bind($key, '%' . $value . '%');
+                }
+            }
+        }
+        if (!empty($bindLimit)) {
+            foreach ($bindLimit as $key => $value) {
+                $this->db->bind($key, $value);
+            }
+        }
+        return $this->db->resultSet();
+    }
+
+    public function arrangeProject($data)
+    {
+        $this->db->query('UPDATE projects SET arrangement = :arrangement WHERE project_id = :project_id');
+        $this->db->bind(':project_id', $data['project_id']);
+        $this->db->bind(':arrangement', $data['arrangement']);
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

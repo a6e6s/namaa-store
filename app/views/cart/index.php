@@ -23,17 +23,17 @@
                     if (isset($_SESSION['cart'])) {
                         foreach ($_SESSION['cart']['items'] as $key => $value) {
                             echo "<tr>
-                                        <td>" . $key . "</td>
-                                        <td><a href='" . URLROOT . "/projects/show/ " . $value['project_id'] . "' >" . $value['name'] . "</a></td>
-                                        <td>" . $value['amount'] . "</td>
-                                        <td><form class='form-row' action='" . URLROOT . "/carts/setQuantity' method='post'>
-                                            <input class='form-control col-2' type='number' value='" . $value['quantity'] . "' name='quantity' >
-                                            <button class='btn btn-sm  btn-primary mx-1' name='index' type='submit' value='" . $key . "'>Set</button></form>
-                                        </td>
-                                        <td>" . $value['donation_type'] . "</td>
-                                        <td><a href='" . URLROOT . "/carts/remove/$key'>حذف</a></td>
-                                    </tr>";
-                            $total += $value['amount'];
+                                    <td>" . $key . "</td>
+                                    <td><a href='" . URLROOT . "/projects/show/ " . $value['project_id'] . "' >" . $value['name'] . "</a></td>
+                                    <td>" . $value['amount'] . "</td>
+                                    <td><form class='form-row' action='" . URLROOT . "/carts/setQuantity' method='post'>
+                                        <input class='form-control col-2' type='number' value='" . $value['quantity'] . "' name='quantity' >
+                                        <button class='btn btn-sm  btn-primary mx-1' name='index' type='submit' value='" . $key . "'>Set</button></form>
+                                    </td>
+                                    <td>" . $value['donation_type'] . "</td>
+                                    <td><a href='" . URLROOT . "/carts/remove/$key'>حذف</a></td>
+                                </tr>";
+                            $total += ($value['amount'] * $value['quantity']);
                         }
                     } else {
                         echo '<div class="alert alert-primary text-center" role="alert"> لا يوجد منتجات في السلة  </div>';

@@ -114,7 +114,7 @@
                                     <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                                         <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
                                         <?php if ($project->enable_cart) : ?>
-                                            <button class="card-text float-left btn btn-sm " type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                            <button class="card-text float-left btn btn-sm " name="index" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -130,7 +130,8 @@
                     if (!empty($data['theme_settings']->projects_image_url)) $img = '<a href="' . $data['theme_settings']->projects_image_url . ' ">' . $img . '</a>';
                     echo $img;
                 }
-                ?></div>
+                ?>
+            </div>
             <!-- end products -->
         <?php endif;
     if ($data['site_settings']->show_categories) : ?>

@@ -29,7 +29,7 @@ class Donations extends ControllerAdmin
      */
     public function index($current = '', $perpage = 50)
     { #SELECT donations.*, donors.full_name as donor, projects.name as project FROM `donations`,projects, donors WHEre donors.donor_id = donations.donor_id AND projects.project_id = donations.project_id
-    // get donations
+        // get donations
         $cond = 'WHERE ds.status <> 2 AND donors.donor_id = ds.donor_id AND projects.project_id = ds.project_id AND ds.payment_method_id = payment_methods.payment_id ';
         $bind = [];
 
@@ -293,5 +293,4 @@ class Donations extends ControllerAdmin
         }
         redirect('donations');
     }
-
 }

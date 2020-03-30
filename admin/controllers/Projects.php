@@ -132,7 +132,7 @@ class Projects extends ControllerAdmin
         ];
         $this->view('projects/index', $data);
     }
- 
+
     /**
      * adding new project
      */
@@ -202,7 +202,6 @@ class Projects extends ControllerAdmin
             } else {
                 if (empty($data['donation_type']['value']) && $data['donation_type']['type'] != 'open') {
                     $data['donation_type_error'] = 'برجاء اختيار قيمة التبرع';
-
                 }
             }
             //validate category
@@ -227,7 +226,8 @@ class Projects extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
+            if (
+                empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
                 && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
             ) {
                 //validated
@@ -393,7 +393,8 @@ class Projects extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
+            if (
+                empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
                 && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
             ) {
                 //validated
@@ -418,7 +419,6 @@ class Projects extends ControllerAdmin
                         flash('project_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
                     }
                 }
-
             } else {
                 //load the view with error
                 $this->view('projects/edit', $data);
@@ -569,5 +569,25 @@ class Projects extends ControllerAdmin
             flash('project_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
         }
         redirect('projects');
+    }
+
+    public function arrangement()
+    {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        if (isset($_POST['arrangement']) && isset($_POST['project_id']) && $row_num = $this->projectModel->arrangeProject($_POST)) {
+            $data = [
+                'msg' => '<div class="alert alert-success text-center"> تم الترتيب بنجاح </div>',
+                'status' => 'success',
+                'arrangement' => $_POST['arrangement'],
+                'project_id' => $_POST['project_id']
+            ];
+        } else {
+            $data = [
+                'msg' => '<div class="alert alert-danger text-danger"> حدث خطأ ما من فضلك حاول مرة اخري </div>',
+                'status' => 'error',
+
+            ];
+        }
+        echo json_encode($data);
     }
 }

@@ -12,16 +12,12 @@
  *
  * For more information about the author , see <http://www.ahmedx.com/>.
  */
-
 // loading plugin style
 $data['header'] = '';
 header("Content-Type: text/html; charset=utf-8");
-
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
     <?php flash('page_msg'); ?>
@@ -33,9 +29,13 @@ require ADMINROOT . '/views/inc/header.php';
             <a href="<?php echo ADMINURL; ?>/pages" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
         </div>
     </div>
-
+    <div class="form-group">
+        <h3 class="prod_title">
+            <label class="control-label">الرابط : </label>
+            <a href="<?php echo URLROOT . '/pages/show/' . $data['page']->page_id; ?>"><?php echo URLROOT . '/pages/show/' . $data['page']->page_id; ?></a>
+        </h3>
+    </div>
     <div class="clearfix"></div>
-
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="form-group">
@@ -66,15 +66,10 @@ require ADMINROOT . '/views/inc/header.php';
             <div class="form-group">
                 <a class="btn btn-info" href="<?php echo ADMINURL . '/pages/edit/' . $data['page']->page_id; ?>" >تعديل</a>
             </div>
-
-
         </div>
     </div>
 </div>
-
 <?php
 // loading plugin
 $data['footer'] = '';
-
-
 require ADMINROOT . '/views/inc/footer.php';

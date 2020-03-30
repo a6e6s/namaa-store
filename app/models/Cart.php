@@ -81,28 +81,28 @@ class Cart extends Model
             $_SESSION['cart']['items'][] = $item;
         }
     }
+    /**
+     * remove item from the cart
+     * @param $id 
+     */
     public function remove($id)
     {
         if (array_key_exists($id, $_SESSION['cart']['items'])) {
-            $_SESSION['cart']['totalQty'] = $_SESSION['cart']['totalQty']-1;
+            $_SESSION['cart']['totalQty'] = $_SESSION['cart']['totalQty'] - $_SESSION['cart']['items'][$id]['quantity'];
             unset($_SESSION['cart']['items'][$id]);
         }
-        if($_SESSION['cart']['totalQty'] == 0) unset($_SESSION['cart']);
+        if ($_SESSION['cart']['totalQty'] == 0) unset($_SESSION['cart']);
     }
 
-    public function updateQty($id, $qty) 
+    public function updateQuantity($data)
     {
-
-        //reset qty and price in the cart ,
-        $this->totalQty -= $this->items[$id]['qty'];
-        $this->totalPrice -= $this->items[$id]['price'] * $this->items[$id]['qty'];
-        // add the item with new qty
-        $this->items[$id]['qty'] = $qty;
-
-        // total price and total qty in cart
-        $this->totalQty += $qty;
-        $this->totalPrice += $this->items[$id]['price'] * $qty;
-
+        if (array_key_exists($data['index'], $_SESSION['cart']['items'])) {
+            //update total quantity
+            $_SESSION['cart']['totalQty'] = $_SESSION['cart']['totalQty'] - $_SESSION['cart']['items'][$data['index']]['quantity'];
+            $_SESSION['cart']['totalQty'] += $data['quantity'];
+            //update item quantity
+            $_SESSION['cart']['items'][$data['index']]['quantity'] = $data['quantity'];
+        }
+        if ($_SESSION['cart']['totalQty'] == 0) unset($_SESSION['cart']);
     }
-
 }

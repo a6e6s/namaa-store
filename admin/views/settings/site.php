@@ -141,7 +141,7 @@ require ADMINROOT . '/views/inc/header.php';
                 <div class="form-group col-md-12">
                     <label class="control-label"> المحتوي السفلي للصفحة الرئيسية  : </label>
                     <div class="row">
-                        <textarea id="ckeditor" name="value[bootom]" class="form-control ckeditor"><?php echo ($data['value']->bootom); ?></textarea>
+                        <textarea id="ckeditor" name="value[bootom]" class="form-control ckeditor"><?php echo $data['value']->bootom; ?></textarea>
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">

@@ -19,12 +19,10 @@ header("Content-Type: text/html; charset=utf-8");
 
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('projectcategory_msg');?>
+    <?php flash('projectcategory_msg'); ?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['page_title']; ?> <small>عرض محتوي الصفحة </small></h3>
@@ -33,9 +31,13 @@ require ADMINROOT . '/views/inc/header.php';
             <a href="<?php echo ADMINURL; ?>/projectcategories" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
         </div>
     </div>
-
+    <div class="form-group">
+        <h3 class="prod_title">
+            <label class="control-label">الرابط : </label>
+            <a href="<?php echo URLROOT . '/projectcategories/show/' . $data['projectcategory']->category_id; ?>"><?php echo URLROOT . '/projectcategories/show/' . $data['projectcategory']->category_id; ?></a>
+        </h3>
+    </div>
     <div class="clearfix"></div>
-
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div class="form-group">
@@ -70,7 +72,7 @@ require ADMINROOT . '/views/inc/header.php';
             <div class="form-group col-md-6 col-sm-12">
                 <label class="control-label">اخر تحديث : </label>
                 <p><?php echo $data['projectcategory']->modified_date ? date('d/ M/ Y', $data['projectcategory']->modified_date) : 'لا'; ?></p>
-            </div>            
+            </div>
             <div class="form-group col-md-6 col-sm-12">
                 <label class="control-label">وقت الإنشاء : </label>
                 <p><?php echo $data['projectcategory']->create_date ? date('d/ M/ Y', $data['projectcategory']->create_date) : 'لا'; ?></p>
@@ -82,16 +84,14 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
             </div>
             <div class="form-group col-md-6 col-sm-12">
-                <label class="control-label tags">الكلمات الدلالية    :</label>
+                <label class="control-label tags">الكلمات الدلالية :</label>
                 <div class=" well">
                     <?php echo $data['projectcategory']->meta_keywords ?: 'لا يوجد'; ?>
                 </div>
             </div>
             <div class="form-group">
-                <a class="btn btn-info" href="<?php echo ADMINURL . '/projectcategories/edit/' . $data['projectcategory']->category_id; ?>" >تعديل</a>
+                <a class="btn btn-info" href="<?php echo ADMINURL . '/projectcategories/edit/' . $data['projectcategory']->category_id; ?>">تعديل</a>
             </div>
-
-
         </div>
     </div>
 </div>

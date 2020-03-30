@@ -12,12 +12,12 @@ class ProjectCategories extends Controller
         $this->meta = new Meta;
     }
 
-    public function index($start = 1, $perpage = 9)
+    public function index($start = 1, $perpage = 100)
     {
         $start = (int) $start;
         $perpage = (int) $perpage;
         empty($start) ? $start = 1 : '';
-        empty($perpage) ? $perpage = 1000 : '';
+        empty($perpage) ? $perpage = 100 : '';
         $categories = $this->categoriesModel->getCategories($start, $perpage);
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
@@ -39,13 +39,13 @@ class ProjectCategories extends Controller
      *
      * @return view
      */
-    public function show($id = '', $start = 1, $perpage = 9)
+    public function show($id = '', $start = 1, $perpage = 100)
     {
         $start = (int) $start;
         $perpage = (int) $perpage;
         empty($id) ? redirect('categories', true) : null;
         empty($start) ? $start = 1 : '';
-        empty($perpage) ? $perpage = 9 : '';
+        empty($perpage) ? $perpage = 100 : '';
         ($category = $this->categoriesModel->getCategoryById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
         $data = [
             'category' => $category,

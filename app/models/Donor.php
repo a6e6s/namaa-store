@@ -42,10 +42,11 @@ class Donor extends Model
      */
     public function addDonor($data)
     {
-        $this->db->query('INSERT INTO donors( full_name, mobile,  mobile_confirmed, status, create_date, modified_date)'
-            . ' VALUES (:full_name, :mobile, :mobile_confirmed, :status, :create_date, :modified_date)');
+        $this->db->query('INSERT INTO donors( full_name, mobile,  mobile_confirmed, email, status, create_date, modified_date)'
+            . ' VALUES (:full_name, :mobile, :mobile_confirmed, :email, :status, :create_date, :modified_date)');
         // binding values
         $this->db->bind(':full_name', $data['full_name']);
+        $this->db->bind(':email', $data['email']);
         $this->db->bind(':mobile', $data['mobile']);
         $this->db->bind(':mobile_confirmed', $data['mobile_confirmed']);
         $this->db->bind(':status', $data['status']);

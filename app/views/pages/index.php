@@ -33,14 +33,15 @@
 
     <div class="row m-0" style="background:<?php echo "#" . $data['theme_settings']->background_color . " url(" . MEDIAURL . "/" . $data['theme_settings']->background_image; ?>" )>
         <div class="container">
-            <div class="col-12 text-center my-2">
+            <div class="col-12 text-center my-2 p-0">
                 <?php
                 if (!empty($data['theme_settings']->banner_image)) {
                     $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->banner_image . '" >';
                     if (!empty($data['theme_settings']->banner_image_url)) $img = '<a href="' . $data['theme_settings']->banner_image_url . ' ">' . $img . '</a>';
                     echo $img;
                 }
-                ?></div>
+                ?>
+            </div>
             <!--- carousel  end --->
         <?php endif;
     if ($data['site_settings']->show_projects) : ?>
@@ -56,52 +57,52 @@
                 <div class="row">
                     <?php foreach ($data['projects'] as $project) : ?>
                         <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
-                            <form class="card" method="post" action="<?php echo URLROOT . '/carts/add/' ; ?>">
+                            <form class="card" method="post" action="<?php echo URLROOT . '/carts/add/'; ?>">
                                 <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="">
                                     <img class="card-img-top" src="<?php echo (empty($project->img)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->img; ?>" alt="<?php echo $project->name; ?>">
                                 </a>
                                 <div class="body-card m-2">
-                                    <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 100); ?></p>
+                                    <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 85); ?></p>
                                 </div>
-                                <div class="p-2">
+                                <div class="p-2 amount-select">
                                     <?php
                                     empty($project->fake_target) ? $target = $project->collected_traget : $target = $project->fake_target;
                                     ($project->target_price) ?: $project->target_price = 1;
-                                    if ($project->enable_cart) : 
-                                    $donation_type = json_decode($project->donation_type);
+                                    if ($project->enable_cart) :
+                                        $donation_type = json_decode($project->donation_type);
                                     ?>
-                                    <div class="my-2 btn-group-toggle" data-toggle="buttons">
-                                        <?php
-                                        switch ($donation_type->type) {
-                                            case 'share':
-                                                foreach ($donation_type->value as $value) {
-                                                    echo '<label class="btn btn-secondary btn-sm m-1">
+                                        <div class="my-2 btn-group-toggle" data-toggle="buttons">
+                                            <?php
+                                            switch ($donation_type->type) {
+                                                case 'share':
+                                                    foreach ($donation_type->value as $value) {
+                                                        echo '<label class="btn btn-secondary btn-sm m-1">
                                                             <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
                                                         </label>';
-                                                }
-                                                break;
-                                            case 'open':
-                                                echo 'قم بكتابة المبلغ المراد التبرع به 
+                                                    }
+                                                    break;
+                                                case 'open':
+                                                    echo 'قم بكتابة المبلغ المراد التبرع به 
                                                     <input type="hidden" name="donation_type" value="مفتوح">';
-                                                break;
-                                            case 'unit':
-                                                foreach ($donation_type->value as $value) {
-                                                    echo '<label class="btn btn-secondary btn-sm m-1">
+                                                    break;
+                                                case 'unit':
+                                                    foreach ($donation_type->value as $value) {
+                                                        echo '<label class="btn btn-secondary btn-sm m-1">
                                                             <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
                                                         </label>';
-                                                }
-                                                break;
-                                            case 'fixed':
-                                                echo '<label class="btn btn-secondary btn-sm m-1">
+                                                    }
+                                                    break;
+                                                case 'fixed':
+                                                    echo '<label class="btn btn-secondary btn-sm m-1">
                                                         <input type="radio" value ="قيمة ثابته" name="donation_type" required class="d-value" id="' . $donation_type->value . '"> ' . $donation_type->value . ' ريال
                                                     </label>';
-                                                break;
+                                                    break;
                                             }
-                                        ?>
-                                    <input placeholder="القيمة" min="1" type="number" class="amt col-4 rounded-lg" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
-                                    <input type="hidden" name="project_id" value="<?php echo $project->project_id ;?>">
-                                    </div>
-                                        <?php endif;?>
+                                            ?>
+                                            <input placeholder="القيمة" min="1" type="number" class="amt col-4 rounded-lg" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
+                                            <input type="hidden" name="project_id" value="<?php echo $project->project_id; ?>">
+                                        </div>
+                                    <?php endif; ?>
                                     <p class="m-0 p-0 text-left"><span>المستهدف : </span><i class="icofont-riyal"></i> <span><?php echo $project->target_price; ?></span></p>
                                     <div class="progress">
                                         <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $project->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
@@ -122,7 +123,7 @@
                     <?php endforeach; ?>
                 </div>
             </section>
-            <div class="col-12 text-center my-2">
+            <div class="col-12 text-center my-2 p-0">
                 <?php
                 if (!empty($data['theme_settings']->projects_image)) {
                     $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->projects_image . '" >';
@@ -159,7 +160,7 @@
                     </div>
                 </div>
             </section>
-            <div class="col-12 text-center my-2">
+            <div class="col-12 text-center my-2 p-0">
                 <?php
                 if (!empty($data['theme_settings']->categories_image)) {
                     $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image . '" >';
@@ -167,7 +168,7 @@
                     echo $img;
                 }
                 ?></div>
-            <div class="col-12 text-center my-2">
+            <div class="col-12 text-center my-2 p-0">
                 <?php
                 if (!empty($data['theme_settings']->categories_image2)) {
                     $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image2 . '" >';
@@ -175,7 +176,7 @@
                     echo $img;
                 }
                 ?></div>
-            <div class="col-12 text-center my-2">
+            <div class="col-12 text-center my-2 p-0">
                 <?php
                 if (!empty($data['theme_settings']->categories_image3)) {
                     $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image3 . '" >';

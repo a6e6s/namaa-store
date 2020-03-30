@@ -16,15 +16,12 @@
 // loading plugin style
 $data['header'] = '';
 header("Content-Type: text/html; charset=utf-8");
-
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('project_msg');?>
+    <?php flash('project_msg'); ?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['page_title']; ?> <small>عرض محتوي الصفحة </small></h3>
@@ -33,9 +30,7 @@ require ADMINROOT . '/views/inc/header.php';
             <a href="<?php echo ADMINURL; ?>/projects" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
         </div>
     </div>
-
     <div class="clearfix"></div>
-
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div class="form-group">
@@ -43,20 +38,23 @@ require ADMINROOT . '/views/inc/header.php';
                     <?php echo $data['project']->name; ?>
                 </h3>
             </div>
+            <div class="form-group">
+                <h3 class="prod_title">
+                    <label class="control-label">الرابط : </label>
+                    <a href="<?php echo URLROOT . '/projects/show/' . $data['project']->project_id; ?>"><?php echo URLROOT . '/projects/show/' . $data['project']->project_id; ?></a>
+                </h3>
+            </div>
             <div class="well img-thumbnail col-md-6 col-sm-6">
-            <label class="control-label">الصورة الرئيسية : </label>
-            <?php if (!empty($data['project']->image)):
-                $galery = explode(',', $data['project']->image);
-                foreach ($galery as $img) {
-
-                    $img = MEDIAURL . '/' . str_replace( '&#34;' ,'', trim(trim($img, ']'), '['));
-                    echo 
-                    ' <img src="' . $img . '" class="img-responsive img-rounded"> ';
-
-                }
-            endif;?>
-
-                <img  src="<?php echo empty($data['project']->image) ? MEDIAURL . '/default.jpg' : ''; ?>" />
+                <label class="control-label">الصورة الرئيسية : </label>
+                <?php if (!empty($data['project']->image)) :
+                    $galery = explode(',', $data['project']->image);
+                    foreach ($galery as $img) {
+                        $img = MEDIAURL . '/' . str_replace('&#34;', '', trim(trim($img, ']'), '['));
+                        echo
+                            ' <img src="' . $img . '" class="img-responsive img-rounded"> ';
+                    }
+                endif; ?>
+                <img src="<?php echo empty($data['project']->image) ? MEDIAURL . '/default.jpg' : ''; ?>" />
             </div>
             <div class="well img-thumbnail col-md-6 col-sm-6">
                 <label class="control-label">الصورة الخارجية : </label>
@@ -93,18 +91,18 @@ require ADMINROOT . '/views/inc/header.php';
             <div class="form-group col-md-6 col-xs-6">
                 <label class="control-label">نوع التبرع : </label>
                 <p><?php
-                $donation_type = json_decode($data['project']->donation_type, true);
-                echo $data['donation_type_list'][$donation_type['type']];
-                ?></p>
+                    $donation_type = json_decode($data['project']->donation_type, true);
+                    echo $data['donation_type_list'][$donation_type['type']];
+                    ?></p>
             </div>
             <div class="form-group col-md-6 col-xs-6">
                 <label class="control-label">وسائل الدفع المدعومة : </label>
                 <ul class="list-group">
-                <?php
-                foreach ($data['paymentMethodsList'] as $payMethod) {
-                    echo '<li class="list-group-item ">' . $payMethod->title . '</li>';
-                }
-                ?>
+                    <?php
+                    foreach ($data['paymentMethodsList'] as $payMethod) {
+                        echo '<li class="list-group-item ">' . $payMethod->title . '</li>';
+                    }
+                    ?>
                 </ul>
             </div>
             <div class="form-group col-md-6 col-xs-6">
@@ -170,13 +168,13 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
             </div>
             <div class="form-group col-md-6 col-xs-6">
-                <label class="control-label tags">الكلمات الدلالية    :</label>
+                <label class="control-label tags">الكلمات الدلالية :</label>
                 <div class=" well">
                     <?php echo $data['project']->meta_keywords ?: 'لا يوجد'; ?>
                 </div>
             </div>
             <div class="form-group col-xs-12">
-                <a class="btn btn-info" href="<?php echo ADMINURL . '/projects/edit/' . $data['project']->category_id; ?>" >تعديل</a>
+                <a class="btn btn-info" href="<?php echo ADMINURL . '/projects/edit/' . $data['project']->category_id; ?>">تعديل</a>
             </div>
 
 

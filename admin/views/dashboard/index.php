@@ -14,19 +14,16 @@
  */
 
 // loading  plugin style
-$data['header'] = '';
-
+$data['header'] = '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">';
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('page_msg');?>
+    <?php flash('page_msg'); ?>
     <div class="page-title">
         <div class="title_right">
-            <h3><?php echo $data['title']; ?> <small>عرض  <?php echo $data['title']; ?> </small></h3>
+            <h3><?php echo $data['title']; ?> <small>عرض <?php echo $data['title']; ?> </small></h3>
         </div>
         <div class="title_left">
         </div>
@@ -35,19 +32,109 @@ require ADMINROOT . '/views/inc/header.php';
     <div class="clearfix"></div>
 
     <div class="row">
-        <!-- <div class="col-md-12 col-sm-12 col-xs-12">
-            <pre dir='ltr' align='left'>
-<?php
-print_r($_SESSION);
 
-?>
+        <div class="wiget animated flipInY col-lg-3 col-md-6 col-xs-12 ">
+            <div class="tile-stats bg-blue">
+                <div class="icon"><i class="glyphicon glyphicon-gift white"></i>
+                </div>
+                <div class="count"><?php echo $data['donationCount']; ?></div>
+                <h3 class=" white">تبرع جديد</h3>
+                <p class="tiles text-right"><a class="white" href="<?php echo ADMINURL; ?>/donations">عرض المزيد</a></p>
+            </div>
+        </div>
 
-            </pre>
-        </div> -->
+        <div class="wiget animated flipInY col-lg-3 col-md-6 col-xs-12 ">
+            <div class="tile-stats bg-blue-sky">
+                <div class="icon"><i class="glyphicon glyphicon-user white"></i>
+                </div>
+                <div class="count"><?php echo $data['donorCount']; ?></div>
+                <h3 class=" white">متبرع</h3>
+                <p class="tiles text-right"><a class="white" href="<?php echo ADMINURL; ?>/donors">عرض المزيد</a></p>
+            </div>
+        </div>
+        <div class="wiget animated flipInY col-lg-3 col-md-6 col-xs-12 ">
+            <div class="tile-stats bg-purple">
+                <div class="icon"><i class="glyphicon glyphicon-envelope white"></i>
+                </div>
+                <div class="count"><?php echo $data['contactsCount']; ?></div>
+                <h3 class=" white">رسالة جديدة</h3>
+                <p class="tiles text-right"><a class="white" href="<?php echo ADMINURL; ?>/contacts">عرض المزيد</a></p>
+            </div>
+        </div>
+
+
+        <div class="wiget animated flipInY col-lg-3 col-md-6 col-xs-12 ">
+            <div class="tile-stats bg-green">
+                <div class="icon"><i class="glyphicon glyphicon-grain white"></i>
+                </div>
+                <div class="count"><?php echo $data['projectsCount']; ?></div>
+                <h3 class=" white">مشروع خيري</h3>
+                <p class="tiles text-right"><a class="white" href="<?php echo ADMINURL; ?>/projects">عرض المزيد</a></p>
+            </div>
+        </div>
     </div>
+    <br><br>
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2 class="text-center">التبرعات <small>عدد التبرعات خلال الشهر الحالي</small></h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content2">
+                    <div id="myfirstchart" style="height: 450px;"></div>
+                </div>
+            </div>
+
+        </div>
+        <?php
+        foreach ($data['donations'] as $donation) {
+            $date[] = date('Y-m-d', $donation->create_date);
+        }
+        $repeats = array_count_values($date);
+        ?>
+    </div>
+
+
+
+
+
+
+
+
+
 </div>
 <?php
 // loading  plugin
-$data['footer'] = '';
-
+$data['footer'] = '<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+                   <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>';
 require ADMINROOT . '/views/inc/footer.php';
+?>
+<script>
+    new Morris.Line({
+        // ID of the element in which to draw the chart.
+        element: 'myfirstchart',
+        // Chart data records -- each entry in this array corresponds to a point on
+        // the chart.
+        data: [
+            <?php
+            foreach ($repeats as $day => $value) {
+                echo "{
+                day: '" . $day . "',
+                value: " . $value . "
+                },";
+            }
+            ?>
+        ],
+
+
+        // The name of the data record attribute that contains x-values.
+        xLabels: 'day',
+        xkey: 'day',
+        // A list of names of data record attributes that contain y-values.
+        ykeys: ['value'],
+        // Labels for the ykeys -- will be displayed when you hover over the
+        // chart.
+        labels: ['عدد التبرعات']
+    });
+</script>

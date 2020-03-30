@@ -88,7 +88,7 @@ class CoreAdmin {
             isset($_POST['publish']) ? $method = 'status' : '';
             isset($_POST['unpublish']) ? $method = 'status' : '';
         }
-        $status = [ 'publish', 'unpublish', 'relativedelete', 'relativeblock', 'relativeactive','incomeDelete','realstateDelete'];
+        $status = [ 'publish', 'unpublish', 'featured', 'unfeatured'];
         in_array($method, $status) ? $method = 'status' : '';
         // check if user logged in
         if (isset($_SESSION['user'])) {

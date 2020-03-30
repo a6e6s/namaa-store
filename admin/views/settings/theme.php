@@ -187,7 +187,7 @@ require ADMINROOT . '/views/inc/header.php';
             <div class="form-group col-xs-6">
                 <label class="control-label">رابط الفاصل اسفل  الاقسام 2  : </label>
                 <div class="has-feedback">
-                    <input type="text" class="form-control" name="value[projects_image2_url]" placeholder="رابط الفاصل اسفل  الاقسام 2 " value="<?php echo $data['value']->projects_image2_url; ?>">
+                    <input type="text" class="form-control" name="value[categories_image2_url]" placeholder="رابط الفاصل اسفل  الاقسام 2 " value="<?php echo $data['value']->categories_image2_url; ?>">
                 </div>
             </div><br class="clear">
             <div class="form-group col-xs-6">

@@ -5,11 +5,11 @@
         <div class="footer-top">
 <?php if ($data['site_settings']->bootom) echo $data['site_settings']->bootom ;   ?>
 
-            <div class="row my-3">
+            <!-- <div class="row my-3">
                 <div class="col-4"><img src="<?php echo URLROOT; ?>/templates/default/images/namaa-logo.png" alt="" class="img-fluid"></div>
                 <div class="col-5"><img src="<?php echo URLROOT; ?>/templates/default/images/Banner 661.jpg" alt="" class="img-fluid"></div>
                 <div class="col-3"><img src="<?php echo URLROOT; ?>/templates/default/images/Banner 662.jpg" alt="" class="img-fluid"></div>
-            </div>
+            </div> -->
         </div>
         <div class="footer-bottom text-white text-center py-1 small">
             <p class="pt-3 m-0"> الإدارة العامة : جدة - حي الروضة - شارع الأمير محمد بن العبدالعزيز </p>

@@ -182,6 +182,8 @@ class Model
         if (!empty($stringHTML)) {
             require_once '../helpers/htmlpurifier/HTMLPurifier.auto.php';
             $config = HTMLPurifier_Config::createDefault();
+            $config->set('HTML.SafeIframe', true);
+            $config->set('URI.SafeIframeRegexp', '%^(https?:)?(\/\/www\.youtube(?:-nocookie)?\.com\/embed\/|\/\/player\.vimeo\.com\/)%');
             $purifier = new HTMLPurifier($config);
             return $purifier->purify($stringHTML);
         } else {

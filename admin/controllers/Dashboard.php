@@ -14,22 +14,29 @@
  * For more information about the author , see <http://www.ahmedx.com/>.
  */
 
-class Dashboard extends ControllerAdmin {
+class Dashboard extends ControllerAdmin
+{
 
-    public function __construct() {
-        
+    public function __construct()
+    {
+        $this->donationModel = $this->model('Donation');
     }
 
     /**
      * loading index view with latest groups
      */
-    public function index() {
+    public function index()
+    {
         $data = [
             'header' => '',
+            'donationCount' => $this->donationModel->countAll('WHERE status = 0','')->count,
+            'donorCount' => $this->donationModel->countAll('','','donors')->count,
+            'contactsCount' => $this->donationModel->countAll('WHERE status = 1','','contacts')->count,
+            'projectsCount' => $this->donationModel->countAll('','','projects')->count,
+            'donations' => $this->donationModel->getAll('SELECT amount, total, quantity, create_date FROM donations WHERE status = 1 AND create_date <= ' . time() . ' AND create_date >= ' . (time() - 2592000)),
             'title' => 'لوحة التحكم',
             'footer' => ''
         ];
         $this->view('dashboard/index', $data);
     }
-
 }

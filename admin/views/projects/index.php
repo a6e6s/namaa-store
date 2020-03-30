@@ -93,6 +93,8 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="submit" name="publish" value="نشر" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
+                                    <input type="submit" name="featured" value="مميز" class="btn btn-warning btn-xs" />
+                                    <input type="submit" name="unfeatured" value="غير مميز" class="btn btn-default btn-xs" />
                                 </th>
                             </tr>
                         </thead>
@@ -120,8 +122,14 @@ require ADMINROOT . '/views/inc/header.php';
                                             echo '<a href="' . ADMINURL . '/projects/unpublish/' . $project->project_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور"><i class="fa fa-check"></i></a>';
                                         }
                                         ?>
+                                        <?php
+                                        if ($project->featured == 1) {
+                                            echo '<a href="' . ADMINURL . '/projects/unfeatured/' . $project->project_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="مميز"><i class="fa fa-star"></i></a>';
+                                        } elseif ($project->featured == 0) {
+                                            echo '<a href="' . ADMINURL . '/projects/featured/' . $project->project_id . '" class="btn btn-xs btn-default" type="button" data-toggle="tooltip" data-original-title="غير مميز"><i class="fa fa-star"></i></a>';
+                                        }
+                                        ?>
                                         <a href="<?php echo ADMINURL . '/projects/show/' . $project->project_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-xs btn-<?php echo empty($project->featured) ? 'default' : 'warning' ?>" data-placement="top" data-toggle="tooltip" data-original-title="مميز"><i class="fa fa-star"></i></a>
                                         <a href="<?php echo ADMINURL . '/projects/edit/' . $project->project_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
                                         <a href="<?php echo ADMINURL . '/projects/delete/' . $project->project_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
                                     </td>

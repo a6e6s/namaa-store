@@ -108,7 +108,8 @@ class Projects extends Controller
         //redirect if no project
         (!$project) ? flashRedirect('', 'msg', 'حدث خطأ ما ربما اتبعت رابط خاطيء ', 'alert alert-danger') : null;
         //validating gift options
-        if (!empty($_POST['gift']['enable']) &&
+        if (
+            !empty($_POST['gift']['enable']) &&
             (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
         ) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
@@ -217,7 +218,6 @@ class Projects extends Controller
         //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = 'شكرا لتبرعك لدي متجر نماء الخيري' : null;
         flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
-        // dd('/projects/show/' . $_SESSION['payment']['project_id']);
     }
 
     /**
@@ -301,5 +301,92 @@ class Projects extends Controller
             flashRedirect('', 'msg', 'هذه الصفحة غير موجودة ربما اتبعت رابط خاطئ', 'alert alert-danger');
         }
         $this->view('projects/paymentdetails', $data);
+    }
+
+    /**
+     * redirect and temperary save post data
+     *
+     * @return void
+     */
+    public function cartRedirect()
+    {
+        //filtter post data
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        //saving donor data
+        if (empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['total'])) {
+            flashRedirect('carts' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
+        } else {
+            $_SESSION['payment'] = $_POST;
+            //loading donor model
+            $this->donorModel = $this->model('donor');
+            //check if exist and return its id
+            if ($donor = $this->donorModel->getdonorByMobile($_POST['mobile'])) {
+                if ($donor->mobile_confirmed == 'no') {
+                    $data = ['mobile_confirmed' => $_POST['mobile_confirmed'], 'donor_id' => $donor->donor_id];
+                    $this->donorModel->updateMobileConfirmation($data);
+                }
+                $donor = $donor->donor_id;
+            } else {
+                // if not exist save it and return its id
+                ($_POST['mobile_confirmed'] == 'yes') ? $_POST['status'] = 1 : $_POST['status'] = 0;
+                $this->donorModel->addDonor($_POST);
+                $donor = $this->donorModel->lastId();
+            }
+        }
+        //generat secrit hash
+        $hash = sha1(time() . rand(999, 999999));
+        $_SESSION['donation']['hash'] = $hash; // saving donation hash into session
+        $donation_identifier = time() . rand(99000, 99999);
+
+        foreach ($_SESSION['cart']['items']  as $item) {
+            $data = [
+                'payment_method_id' => $_POST['payment_method'],
+                'donation_identifier' => $donation_identifier,
+                'amount' => $item['amount'],
+                'total' => ($item['amount'] * $item['quantity']),
+                'quantity' => $item['quantity'],
+                'donation_type' => $item['donation_type'],
+                'hash' => $hash,
+                'gift' => 0,
+                'gift_data' => '',
+                'project_id' => $item['project_id'],
+                'donor_id' => $donor,
+                'status' => 0,
+            ];
+
+        //save donation data through saving method
+            if (!$this->projectsModel->addDonation($data)) {
+                flashRedirect('carts', 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
+            }
+        }
+        unset($_SESSION['cart']);
+        if ($_POST['payment_method'] == 3) { //payment with payfort
+            require_once APPROOT . '/helpers/PayfortIntegration.php';
+            $objFort = new PayfortIntegration();
+            $objFort->amount = $_POST['total'];
+            $objFort->projectUrlPath = SITEFOLDER . '/projects';
+            $objFort->itemName = 'Cart Donation';
+            $objFort->customerEmail = 'namaa@namaa.sa';
+            $request = $objFort->processRequest('creditcard');
+            $redirectUrl = 'https://checkout.payfort.com/FortAPI/paymentPage';
+            echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
+            echo '';
+            echo '<div style="position:fixed; top:40%;right:50%;text-align: center;font-weight: bold;color: yellowgreen;" ><img src="' . MEDIAURL . '/icon.gif"/>
+            <p> سيتم تحويلك خلال عدة ثواني</p></div>';
+            echo "<form action='$redirectUrl' method='post' name='frm'>\n";
+            foreach ($request as $a => $b) {
+                echo "\t<input type='hidden' name='" . htmlentities($a) . "' value='" . htmlentities($b) . "'>\n";
+            }
+            echo "\t<script type='text/javascript'>\n";
+            echo "\t\tdocument.frm.submit();\n";
+            echo "\t</script>\n";
+            echo "</form>\n</body>\n</html>";
+        } elseif ($_POST['payment_method'] == 1) { //bank transfere
+            redirect('projects/banktransfer/' . $hash, true);
+        } else { //other
+            //redirect to payment information
+            empty($project->thanks_message) ? $project->thanks_message = 'شكرا لتبرعك لدي متجر نماء الخيري' : null;
+            flashRedirect('projects/paymentdetails/' . $_POST['payment_method'], 'msg', 'شكرا لتبرعك لدي متجر نماء الخيري', 'alert alert-success');
+        }
     }
 }

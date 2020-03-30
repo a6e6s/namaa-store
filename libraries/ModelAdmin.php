@@ -88,6 +88,56 @@ class ModelAdmin
     }
 
     /**
+     * featured one or more records by id
+     * @param Array $ids
+     * @param string colomn id
+     * @return boolean or row count
+     */
+    public function featuredById($ids, $where)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($ids); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE ' . $this->table . ' SET featured = 1 WHERE ' . $where . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($ids as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * unfeatured one or more records by id
+     * @param Array $ids
+     * @param string colomn id
+     * @return boolean or row count
+     */
+    public function unfeaturedById($ids, $where)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($ids); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE ' . $this->table . ' SET featured = 0 WHERE ' . $where . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($ids as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * get By Id
      *
      * @param  string $id
@@ -227,9 +277,10 @@ class ModelAdmin
      * @param string $cond
      * @return array $bind
      */
-    public function countAll($cond = '', $bind = '')
+    public function countAll($cond = '', $bind = '', $table = NULL)
     {
-        $this->db->query('SELECT count(*) as count FROM ' . $this->table . ' ' . $cond);
+        if (!$table) $table = $this->table;
+        $this->db->query('SELECT count(*) as count FROM ' . $table . ' ' . $cond);
         if (!empty($bind)) {
             foreach ($bind as $key => $value) {
                 $this->db->bind($key, '%' . $value . '%');
@@ -249,6 +300,8 @@ class ModelAdmin
         if (!empty($stringHTML)) {
             require_once '../helpers/htmlpurifier/HTMLPurifier.auto.php';
             $config = HTMLPurifier_Config::createDefault();
+            $config->set('HTML.SafeIframe', true);
+            $config->set('URI.SafeIframeRegexp', '%^(https?:)?(\/\/www\.youtube(?:-nocookie)?\.com\/embed\/|\/\/player\.vimeo\.com\/)%');
             $purifier = new HTMLPurifier($config);
             return $purifier->purify($stringHTML);
         } else {

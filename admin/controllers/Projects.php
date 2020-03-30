@@ -74,6 +74,29 @@ class Projects extends ControllerAdmin
                 }
                 redirect('projects');
             }
+            //handling featured
+            if (isset($_POST['featured'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->projectModel->featuredById($_POST['record'], 'project_id')) {
+                        flash('project_msg', 'تم [جعلة كا مميز] ' . $row_num . ' بنجاح');
+                    } else {
+                        flash('project_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    }
+                }
+                redirect('projects');
+            }
+            //handling Unfeatured
+            if (isset($_POST['unfeatured'])) {
+
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->projectModel->unfeaturedById($_POST['record'], 'project_id')) {
+                        flash('project_msg', 'تم ايقاف [جعلة كا مميز] ' . $row_num . ' بنجاح');
+                    } else {
+                        flash('project_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    }
+                }
+                redirect('projects');
+            }
         }
         //handling search
         $searches = $this->projectModel->searchHandling(['name', 'project_number', 'category_id', 'hidden', 'target_price', 'status']);
@@ -109,7 +132,7 @@ class Projects extends ControllerAdmin
         ];
         $this->view('projects/index', $data);
     }
-
+ 
     /**
      * adding new project
      */
@@ -520,4 +543,31 @@ class Projects extends ControllerAdmin
         redirect('projects');
     }
 
+    /**
+     * featured record by id
+     * @param integer $id
+     */
+    public function featured($id)
+    {
+        if ($row_num = $this->projectModel->featuredById([$id], 'project_id')) {
+            flash('project_msg', 'تم جعله كا مميز ' . $row_num . ' بنجاح');
+        } else {
+            flash('project_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+        }
+        redirect('projects');
+    }
+
+    /**
+     * unfeatured record by id
+     * @param integer $id
+     */
+    public function unfeatured($id)
+    {
+        if ($row_num = $this->projectModel->unfeaturedById([$id], 'project_id')) {
+            flash('project_msg', 'تم ايقاف جعله كا مميز ' . $row_num . ' بنجاح');
+        } else {
+            flash('project_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+        }
+        redirect('projects');
+    }
 }

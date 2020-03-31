@@ -3,25 +3,14 @@
 <div class="container page">
     <div class="card" style="">
         <div class="row no-gutters">
-            <div class="col-md-5" style="background: #868e96;">
-                <img src="<?php echo (empty($data['category']->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['category']->image; ?>" class="card-img-top h-100" alt="...">
+            <div class="col-md-3" style="background: #868e96;">
+                <img src="<?php echo (empty($data['tag']->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['tag']->image; ?>" class="card-img-top h-100" alt="...">
             </div>
-            <div class="col-md-7">
+            <div class="col-md-9">
                 <div class="card-body">
-                    <h2 class="card-title text-primary"><?php echo $data['category']->name; ?></h2>
-                    <p class="card-text"><?php echo $data['category']->description; ?></p>
+                    <h2 class="card-title text-primary"><?php echo $data['tag']->name; ?></h2>
+                    <p class="card-text"><?php echo $data['tag']->description; ?></p>
                 </div>
-                <?php if (count($data['subcategories']) > 0) : ?>
-                    <div class="col-12">
-                        <h5 class="text-secondary"> الاقسام الفرعية</h4>
-                            <?php
-                            foreach ($data['subcategories'] as $subcategories) {
-                                echo '<a class="btn badge-primary m-1" href="' . URLROOT . '/projectCategories/show/' . $subcategories->category_id . '">' . $subcategories->name . '</a>';
-                            }
-                            ?>
-                    </div>
-                <?php endif; ?>
-
             </div>
         </div>
     </div>
@@ -97,7 +86,7 @@
                             <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                                 <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
                                 <?php if ($project->enable_cart) : ?>
-                                    <button class="card-text float-left btn btn-sm " name="projectCategories" value="<?php echo $data['category']->category_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                    <button class="card-text float-left btn btn-sm " name="projectCategories" value="<?php echo $data['tag']->tag_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -114,7 +103,7 @@
             </nav>
         </div>
         <div class="row ">
-            <?php echo ($data['category']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '"> العودة الي الرئيسية</a></div>' : ''; ?>
+            <?php echo ($data['tag']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '"> العودة الي الرئيسية</a></div>' : ''; ?>
         </div>
     </section>
     <!-- end products -->

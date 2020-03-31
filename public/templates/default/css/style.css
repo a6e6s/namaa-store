@@ -95,6 +95,32 @@ body {
     padding: 5px 3rem;
 }
 
+.project .content {
+    /* height: 130px; */
+    font-size: 0.9rem;
+    position: relative;
+    top: -130px;
+    margin-bottom: -130px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+.card-img-top {
+    position: relative;
+}
+
+.project-title {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.project .btn-section {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    font-size: 0.7rem;
+    padding: 5px 3rem;
+}
 .owl-carousel,.ltr {
     direction: ltr;
 }

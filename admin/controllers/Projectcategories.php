@@ -126,6 +126,9 @@ class ProjectCategories extends ControllerAdmin
                 'name' => trim($_POST['name']),
                 'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['name']),
                 'description' => trim($_POST['description']),
+                'categories' => $this->projectcategoryModel->getProjectCategories('WHERE status <> 2 ', '', '', '', 'category_id, name, level, parent_id'),
+                'parent_id' => explode(',', $_POST['parent_id'])[0],
+                'level' =>  explode(',', $_POST['parent_id'])[1],
                 'image' => '',
                 'meta_keywords' => trim($_POST['meta_keywords']),
                 'meta_description' => trim($_POST['meta_description']),
@@ -135,12 +138,13 @@ class ProjectCategories extends ControllerAdmin
                 'background_image' => '',
                 'background_color' => trim($_POST['background_color']),
                 'featured' => trim($_POST['featured']),
+                'parent_id_error' => '',
                 'status_error' => '',
                 'name_error' => '',
                 'image_error' => '',
                 'background_image_error' => '',
             ];
-// validate name
+            // validate name
             if (empty($data['name'])) {
                 $data['name_error'] = 'هذا الحقل مطلوب';
             }
@@ -173,7 +177,7 @@ class ProjectCategories extends ControllerAdmin
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
-//             mack sue there is no errors
+            //             mack sue there is no errors
             if (empty($data['status_error']) && empty($data['image_error']) && empty($data['name_error']) && empty($data['background_image_error'])) {
                 //validated
                 if ($this->projectcategoryModel->addProjectCategory($data)) {
@@ -190,6 +194,9 @@ class ProjectCategories extends ControllerAdmin
             $data = [
                 'page_title' => 'اقسام المشروعات',
                 'name' => '',
+                'categories' => $this->projectcategoryModel->getProjectCategories('WHERE status <> 2 ', '', '', '', 'category_id, name, level, parent_id'),
+                'parent_id' => '',
+                'level' => '',
                 'description' => '',
                 'image' => '',
                 'meta_keywords' => '',
@@ -201,6 +208,7 @@ class ProjectCategories extends ControllerAdmin
                 'background_color' => '',
                 'featured' => 0,
                 'name_error' => '',
+                'parent_id_error' => '',
                 'status_error' => '',
                 'image_error' => '',
                 'background_image_error' => '',
@@ -227,6 +235,9 @@ class ProjectCategories extends ControllerAdmin
                 'page_title' => 'الأقسام',
                 'name' => trim($_POST['name']),
                 'image' => '',
+                'categories' => $this->projectcategoryModel->getProjectCategories('WHERE status <> 2 ', '', '', '', 'category_id, name, level, parent_id'),
+                'parent_id' => explode(',', $_POST['parent_id'])[0],
+                'level' =>  explode(',', $_POST['parent_id'])[1],
                 'description' => trim($_POST['description']),
                 'meta_keywords' => trim($_POST['meta_keywords']),
                 'meta_description' => trim($_POST['meta_description']),
@@ -238,6 +249,7 @@ class ProjectCategories extends ControllerAdmin
                 'featured' => trim($_POST['featured']),
                 'status_error' => '',
                 'name_error' => '',
+                'parent_id_error' => '',
                 'image_error' => '',
                 'background_image_error' => '',
 
@@ -300,6 +312,9 @@ class ProjectCategories extends ControllerAdmin
                 'page_title' => 'الأقسام',
                 'category_id' => $id,
                 'name' => $projectcategory->name,
+                'categories' => $this->projectcategoryModel->getProjectCategories('WHERE status <> 2 ', '', '', '', 'category_id, name, level, parent_id'),
+                'parent_id' => $projectcategory->parent_id,
+                'level' =>  $projectcategory->level,
                 'description' => $projectcategory->description,
                 'image' => $projectcategory->image,
                 'meta_keywords' => $projectcategory->meta_keywords,
@@ -311,6 +326,7 @@ class ProjectCategories extends ControllerAdmin
                 'background_color' => $projectcategory->background_color,
                 'featured' => $projectcategory->featured,
                 'status_error' => '',
+                'parent_id_error' => '',
                 'name_error' => '',
                 'image_error' => '',
                 'background_image_error' => '',
@@ -377,5 +393,4 @@ class ProjectCategories extends ControllerAdmin
         }
         redirect('projectcategories');
     }
-
 }

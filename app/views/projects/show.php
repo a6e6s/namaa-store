@@ -39,7 +39,12 @@
                                 تم جمع
                                 <span class="h4 mx-1"><i class="icofont-riyal"></i>
                                     <?php
-                                    echo empty($data['project']->fake_target) ? $target = $data['project']->collected_traget : $target = $data['project']->fake_target;
+                                    if (!empty($data['project']->target_unit) && !empty($data['project']->unit_price)) {
+                                        echo empty($data['project']->fake_target) ? $target = $data['collected_traget'] : $target = $data['project']->fake_target * $data['project']->unit_price;
+                                    } else {
+                                        echo empty($data['project']->fake_target) ? $target = $data['collected_traget'] : $target = $data['project']->fake_target;
+                                    }
+
                                     ($data['project']->target_price) ?: $data['project']->target_price = 1;
                                     ?>
                                 </span>
@@ -50,7 +55,13 @@
                                 </h6>
                             </div>
                             <h5 class="h3 pt-1 text-left"><span>المستهدف : </span>
-                                <i class="icofont-riyal"></i> <span><?php echo $data['project']->target_price; ?></span></h5>
+                                <span><?php echo $data['project']->target_price; ?></span>
+                                <?php if (empty($data['project']->target_unit)) {
+                                    echo '<i class="icofont-riyal"></i>';
+                                } else {
+                                    echo  $data['project']->target_unit;
+                                }  ?>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -264,6 +275,25 @@
                 <!-- Go to www.addthis.com/dashboard to customize your tools -->
                 <div class="addthis_inline_share_toolbox"></div>
             </div>
+            <section id="categories">
+                <div class="row mt-2 px-2">
+                    <div class="col-12 wow zoomIn owl-carousel">
+                        <?php foreach ($data['moreprojects'] as $moreprojects) : ?>
+                            <div class="project">
+                                <a class="">
+                                    <img class="card-img-top rounded" src="<?php echo (empty($moreprojects->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $moreprojects->image; ?>" alt="<?php echo $moreprojects->name; ?>">
+                                    <div class="content p-1">
+                                        <h3 class="project-title mt-2"><?php echo $moreprojects->name; ?></h3>
+                                        <div class="text-center mt-2">
+                                            <a href="<?php echo URLROOT . '/projects/show/' . $moreprojects->project_id . '-' . $moreprojects->name; ?>" class="btn btn-section mb-4"> <i class="icofont-paper"></i> التفاصيل</a>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
             <div class="row text-center mx-1 mt-4 ">
                 <?php echo ($data['project']->whatsapp) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-success icofont-whatsapp" href="tel:' . $data['project']->whatsapp . ' "> ' . $data['project']->whatsapp . ' </a></div>' : ''; ?>
                 <?php echo ($data['project']->mobile) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-primary icofont-phone" href="tel:' . $data['project']->mobile . '"> ' . $data['project']->mobile . '</a></div>' : ''; ?>

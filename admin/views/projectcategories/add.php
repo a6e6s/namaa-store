@@ -24,10 +24,10 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('projectcategory_msg');?>
+    <?php flash('projectcategory_msg'); ?>
     <div class="page-title">
         <div class="title_right">
-            <h3><?php echo $data['page_title']; ?> <small>اضافة  قسم جديد </small></h3>
+            <h3><?php echo $data['page_title']; ?> <small>اضافة قسم جديد </small></h3>
         </div>
         <div class="title_left">
             <a href="<?php echo ADMINURL; ?>/projectcategories" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
@@ -38,7 +38,7 @@ require ADMINROOT . '/views/inc/header.php';
 
     <div class="row">
 
-        <form action="<?php echo ADMINURL . '/projectcategories/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
+        <form action="<?php echo ADMINURL . '/projectcategories/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
             <div class="col-lg-8 col-sm-12 col-xs-12">
                 <div class="form-group  <?php echo (empty($data['name_error'])) ?: 'has-error'; ?>">
                     <label class="control-label" for="pageTitle">عنوان القسم : </label>
@@ -47,6 +47,22 @@ require ADMINROOT . '/views/inc/header.php';
                         <span class="fa fa-edit form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block"><?php echo $data['name_error']; ?></span>
                     </div>
+                </div>
+                <div class="form-group <?php echo (!empty($data['parent_id_error'])) ? 'has-error' : ''; ?>">
+                    <label class="control-label">الاقسام</label>
+                    <div class="has-feedback">
+                        <select name="parent_id" class="form-control">
+                            <option value="">اختار القسم </option>
+                            <option value="0,0">قسم رئيسي </option>
+                            <?php foreach ($data['categories'] as $category) : ?>
+                                <option value="<?php echo $category->category_id . ',' . $category->level; ?>" <?php echo ($category->category_id == $data['parent_id']) ? " selected " : ''; ?>>
+                                    <?php echo str_repeat('ـــ ', $category->level - 1) . $category->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <span class="fa fa-folder form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <span class="help-block"><?php echo $data['parent_id_error']; ?></span>
                 </div>
                 <div class="form-group <?php echo (empty($data['image_error'])) ?: 'has-error'; ?>">
                     <label class="control-label" for="imageUpload">صورة القسم : </label>
@@ -60,8 +76,8 @@ require ADMINROOT . '/views/inc/header.php';
                     <div class="help-block"><?php echo $data['image_error']; ?></div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">وصف القسم  : </label>
-                        <textarea rows="5" name="description" class="form-control"><?php echo ($data['description']); ?></textarea>
+                    <label class="control-label">وصف القسم : </label>
+                    <textarea rows="5" name="description" class="form-control"><?php echo ($data['description']); ?></textarea>
                 </div>
                 <div class="form-group col-xs-12 <?php echo (!empty($data['status_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label">حالة النشر :</label>
@@ -74,19 +90,19 @@ require ADMINROOT . '/views/inc/header.php';
                         </label>
                         <span class="help-block"><?php echo $data['status_error']; ?></span>
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="col-lg-4 col-sm-12 col-xs-12 options">
                 <h4>الاعدادات</h4>
                 <div class="accordion">
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
-                                <span> اعدادات النشر   </span>
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <span> اعدادات النشر </span>
                         </div>
-                        <div id="collapseOne" class="collapse card-body" aria-labelledby="headingOne" >                            
+                        <div id="collapseOne" class="collapse card-body" aria-labelledby="headingOne">
                             <div class="form-group">
                                 <label>الترتيب : </label>
-                                <input type="number" class="form-control" name="arrangement" value="<?php echo $data['arrangement']; ?>"  placeholder="الترتيب">
+                                <input type="number" class="form-control" name="arrangement" value="<?php echo $data['arrangement']; ?>" placeholder="الترتيب">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">نشر كا مميز :</label>
@@ -115,10 +131,10 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" >
-                              <span>   اعدادات ال SEO  </span>
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                            <span> اعدادات ال SEO </span>
                         </div>
-                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo" >
+                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo">
 
                             <div class="form-group">
                                 <label class="control-label">الوصف : </label>
@@ -129,7 +145,7 @@ require ADMINROOT . '/views/inc/header.php';
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label" for="tags_1">الكلمات الدلالية    :</label>
+                                <label class="control-label" for="tags_1">الكلمات الدلالية :</label>
                                 <div class="text-warning ">افصل بين كل كلمة بعلامة (,)</div>
                                 <div class=" form-group">
                                     <input type="text" name="meta_keywords" value="<?php echo $data['meta_keywords']; ?>" id="tags_1" class="form-control" />
@@ -138,10 +154,10 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree" >
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                             <span>اعدادات المظهر</span>
                         </div>
-                        <div id="collapseThree" class="collapse card-body <?php echo (empty($data['background_image_error'])) ?: 'in'; ?>" aria-labelledby="headingThree" >
+                        <div id="collapseThree" class="collapse card-body <?php echo (empty($data['background_image_error'])) ?: 'in'; ?>" aria-labelledby="headingThree">
                             <div class="form-group <?php echo (empty($data['background_image_error'])) ?: 'has-error'; ?>">
                                 <label class="control-label">صورة الخلفية : </label>
                                 <div class="has-feedback input-group">
@@ -155,7 +171,7 @@ require ADMINROOT . '/views/inc/header.php';
                             </div>
                             <div class="form-group">
                                 <label>لون الخلفية : </label>
-                                <input type="text" class="colorpicker form-control" name="background_color" value="<?php echo $data['background_color']; ?>"  data-wcp-format="rgba">
+                                <input type="text" class="colorpicker form-control" name="background_color" value="<?php echo $data['background_color']; ?>" data-wcp-format="rgba">
                             </div>
 
 
@@ -171,11 +187,11 @@ require ADMINROOT . '/views/inc/header.php';
             </div>
 
             <div class="col-xs-12">
-                    <button type="submit" name="submit" class="btn btn-success">أضف
-                        <i class="fa fa-save"> </i></button>
-                    <button type="reset" class="btn btn-danger">مسح
-                        <i class="fa fa-trash "> </i></button>
-                </div>
+                <button type="submit" name="submit" class="btn btn-success">أضف
+                    <i class="fa fa-save"> </i></button>
+                <button type="reset" class="btn btn-danger">مسح
+                    <i class="fa fa-trash "> </i></button>
+            </div>
 
         </form>
     </div>

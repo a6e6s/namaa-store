@@ -32,13 +32,50 @@ class ProjectCategory extends ModelAdmin
      *
      * @return object project_categories data
      */
-    public function getProjectCategories($cond = '', $bind = '', $limit = '', $bindLimit)
+    public function getProjectCategories($cond = '', $bind = '', $limit = '', $bindLimit, $cols = '*')
     {
-        $query = 'SELECT * FROM project_categories ' . $cond . ' ORDER BY project_categories.create_date DESC ';
+        $list_ids = $this->arrang_records($cond, $bind, $limit, $bindLimit);
 
-        return $this->getAll($query, $bind, $limit, $bindLimit);
+        !empty($list_ids) ?: $list_ids = [0];
+        $query = 'SELECT ' . $cols . ' FROM project_categories where category_id IN (' . implode(',', $list_ids) . ') ORDER BY FIND_IN_SET(category_id,"' . implode(',', $list_ids) . '"), project_categories.create_date DESC ';
+        return $this->getAll($query);
     }
 
+    /**
+     * get multi level records
+     * @param string $table database table
+     * @param string  $condation 
+     * @return array array of all records ips sorted from pparent to chiled
+     */
+    public function arrang_records($cond, $bind, $limit, $bindLimit)
+    {
+        $list_ids = [];
+        $query = 'SELECT category_id, parent_id FROM project_categories ' . $cond . ' ORDER BY project_categories.create_date DESC ';
+        $total = $this->getAll($query, $bind, $limit, $bindLimit);
+
+        foreach ($total as $parent) {
+            if ($parent->parent_id == 0) {
+                $list_ids[] = $parent->category_id;
+                $this->arrange_child($total, $parent->category_id, $list_ids);
+            }
+        }
+        return $list_ids;
+    }
+
+    /**
+     * @param array $total
+     * @param int $paren_id
+     * @param array $list_ids
+     */
+    function arrange_child($total, $paren_id, &$list_ids)
+    {
+        foreach ($total as $child) {
+            if ($child->parent_id == $paren_id) {
+                $list_ids[] = $child->category_id;
+                $this->arrange_child($total, $child->category_id, $list_ids);
+            }
+        }
+    }
     /**
      * get count of all records
      * @param type $cond
@@ -48,7 +85,18 @@ class ProjectCategory extends ModelAdmin
     {
         return $this->countAll($cond, $bind);
     }
-
+    /**
+     * get list of projects categories
+     * @param string $cond
+     * @return object categories list
+     */
+    public function categoriesList($cond = '')
+    {
+        $query = 'SELECT category_id, name, level, parent_id FROM project_categories  ' . $cond . ' ORDER BY create_date DESC ';
+        $this->db->query($query);
+        $results = $this->db->resultSet();
+        return $results;
+    }
     /**
      * insert new project_categories
      * @param array $data
@@ -56,11 +104,13 @@ class ProjectCategory extends ModelAdmin
      */
     public function addProjectCategory($data)
     {
-        $this->db->query('INSERT INTO project_categories( name, alias, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, modified_date, create_date)'
-            . ' VALUES (:name, :alias, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO project_categories( name, alias, parent_id, level, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, modified_date, create_date)'
+            . ' VALUES (:name, :alias, :parent_id, :level, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':alias', $data['alias']);
+        $this->db->bind(':parent_id', $data['parent_id']);
+        $this->db->bind(':level', $data['level'] + 1);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':image', $data['image']);
         $this->db->bind(':arrangement', $data['arrangement']);
@@ -84,7 +134,7 @@ class ProjectCategory extends ModelAdmin
 
     public function updateProjectCategory($data)
     {
-        $query = 'UPDATE project_categories SET name = :name, description = :description, arrangement = :arrangement, back_home = :back_home, meta_keywords = :meta_keywords,'
+        $query = 'UPDATE project_categories SET name = :name, parent_id = :parent_id, level = :level, description = :description, arrangement = :arrangement, back_home = :back_home, meta_keywords = :meta_keywords,'
             . ' background_color =:background_color, featured=:featured, meta_description = :meta_description, status = :status, modified_date = :modified_date';
 
         (empty($data['image'])) ? null : $query .= ', image = :image';
@@ -93,6 +143,8 @@ class ProjectCategory extends ModelAdmin
         $query .= ' WHERE category_id = :category_id';
         $this->db->query($query);
         // binding values
+        $this->db->bind(':parent_id', $data['parent_id']);
+        $this->db->bind(':level', $data['level'] + 1);
         $this->db->bind(':category_id', $data['category_id']);
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':description', $data['description']);
@@ -123,5 +175,4 @@ class ProjectCategory extends ModelAdmin
     {
         return $this->getById($id, 'category_id');
     }
-
 }

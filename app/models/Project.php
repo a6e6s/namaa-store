@@ -44,6 +44,33 @@ class Project extends Model
     }
 
     /**
+     * get projects in the same category
+     *
+     * @param [int] $category_id
+     * @return object
+     */
+    public function moreProjects($category_id)
+    {
+        return $this->get('name , project_id, secondary_image',['category_id' => $category_id, 'status' => 1]);
+    }
+
+    /**
+     * get collected project Traget by i
+     *
+     * @param [int] $id
+     * @return record
+     */
+    public function collectedTraget($id)
+    {
+        // prepare Query
+        $query = 'SELECT SUM(total) as total FROM donations WHERE project_id =' . $id . ' AND status = 1 LIMIT 1 ';
+        // dd($query);
+        $this->db->query($query);
+        //bind values
+        $this->db->bind(':project_id', $id);
+        return (int) $this->db->single()->total;;
+    }
+    /**
      * projectsCount
      *
      * @param  mixed $id

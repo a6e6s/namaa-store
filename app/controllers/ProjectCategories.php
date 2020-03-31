@@ -50,6 +50,7 @@ class ProjectCategories extends Controller
         $data = [
             'category' => $category,
             'pagesLinks' => $this->categoriesModel->getMenu(),
+            'subcategories' => $this->categoriesModel->getSubCategories($id),
             'site_settings' => json_decode($this->categoriesModel->getSettings('site')->value),
             'projects' => $this->categoriesModel->getProductsByCategory($id, $start, $perpage),
             'pagination' => generatePagination($this->categoriesModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/ProjectCategories/show/' . $id),

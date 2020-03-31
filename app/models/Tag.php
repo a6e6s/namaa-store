@@ -14,11 +14,11 @@
  * For more information about the author , see <http://www.ahmedx.com/>.
  */
 
-class ProjectCategory extends Model
+class Tag extends Model
 {
     public function __construct()
     {
-        parent::__construct('project_categories');
+        parent::__construct('project_tags');
     }
 
     /**
@@ -32,27 +32,32 @@ class ProjectCategory extends Model
     }
 
     /**
-     * getCategoryById
+     * getTagById
      *
      * @param  mixed $id
      *
-     * @return object category
+     * @return object tag
      */
-    public function getCategoryById($id)
+    public function getTagById($id)
     {
-        return $this->getBy(['category_id' => $id, 'status' => 1]);
+        return $this->getBy(['tag_id' => $id, 'status' => 1]);
     }
 
     /**
-     * get Products By Category
+     * get Products By Tag
      *
      * @param  int  $id
      *
      * @return object
      */
-    public function getProductsByCategory($id, $start, $perpage)
+    public function getProductsByTag($id, $start, $perpage)
     {
-        return $this->getFromTable('projects', '*', ['category_id' => $id, 'status' => 1], $start, $perpage);
+        $query = 'SELECT projects.*, project_tags.tag_id, project_tags.name FROM `projects`,tags_projects,project_tags 
+        WHERE tags_projects.tag_id = :tag_id AND projects.project_id = tags_projects.project_id AND project_tags.tag_id = tags_projects.tag_id  LIMIT ' . $start . ' ,' . $perpage;
+        $this->db->query($query);
+        $this->db->bind(':tag_id', $id);
+
+        return $this->db->resultSet();
     }
 
     /**
@@ -63,7 +68,7 @@ class ProjectCategory extends Model
      */
     public function projectsCount($id)
     {
-        return $this->countAll(['category_id' => $id, 'status' => 1], 'projects');
+        return $this->countAll(['status' => 1], 'projects');
     }
 
     /**
@@ -87,16 +92,5 @@ class ProjectCategory extends Model
     public function getCategories($start, $perpage)
     {
         return $this->get('*', ['status' => 1], $start, $perpage);
-    }
-
-    /**
-     * get SubCategories
-     *
-     * @param [int] $id
-     * @return object
-     */
-    public function getSubCategories($id)
-    {
-        return $this->get('category_id, name ', ['status' => 1, 'parent_id' => $id]);
     }
 }

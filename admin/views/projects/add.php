@@ -23,10 +23,10 @@ require ADMINROOT . '/views/inc/header.php';
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('projectcategory_msg');?>
+    <?php flash('projectcategory_msg'); ?>
     <div class="page-title">
         <div class="title_right">
-            <h3><?php echo $data['page_title']; ?> <small>اضافة  مشروع جديد </small></h3>
+            <h3><?php echo $data['page_title']; ?> <small>اضافة مشروع جديد </small></h3>
         </div>
         <div class="title_left">
             <a href="<?php echo ADMINURL; ?>/projects" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
@@ -34,7 +34,7 @@ require ADMINROOT . '/views/inc/header.php';
     </div>
     <div class="clearfix"></div>
     <div class="row">
-        <form action="<?php echo ADMINURL . '/projects/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
+        <form action="<?php echo ADMINURL . '/projects/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
             <div class="col-lg-8 col-sm-12 col-xs-12">
                 <div class="form-group  <?php echo (empty($data['name_error'])) ?: 'has-error'; ?>">
                     <label class="control-label" for="pageTitle">عنوان المشروع : </label>
@@ -55,11 +55,11 @@ require ADMINROOT . '/views/inc/header.php';
                     <div class="has-feedback">
                         <select name="category_id" class="form-control">
                             <option value="">اختار قسم المشروع </option>
-                            <?php foreach ($data['categories'] as $category): ?>
+                            <?php foreach ($data['categories'] as $category) : ?>
                                 <option value="<?php echo $category->category_id; ?>" <?php echo ($category->category_id == $data['category_id']) ? " selected " : ''; ?>>
                                     <?php echo $category->name; ?>
                                 </option>
-                            <?php endforeach;?>
+                            <?php endforeach; ?>
                         </select>
                         <span class="fa fa-folder form-control-feedback" aria-hidden="true"></span>
                     </div>
@@ -67,30 +67,30 @@ require ADMINROOT . '/views/inc/header.php';
                 </div>
                 <div class="form-group">
                     <label class="control-label">الوسوم</label>
-                    <select class="form-control select2" name="tags[]"  multiple="multiple" data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
-                    <?php foreach ($data['tagsList'] as $tag): ?>
-                                <option value="<?php echo $tag->tag_id; ?>" <?php echo in_array($tag->tag_id, $data['tags']) ? " selected " : ''; ?>>
-                                    <?php echo $tag->name; ?>
-                                </option>
-                    <?php endforeach;?>
+                    <select class="form-control select2" name="tags[]" multiple="multiple" data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
+                        <?php foreach ($data['tagsList'] as $tag) : ?>
+                            <option value="<?php echo $tag->tag_id; ?>" <?php echo in_array($tag->tag_id, $data['tags']) ? " selected " : ''; ?>>
+                                <?php echo $tag->name; ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
-                </div> 
+                </div>
                 <div class="">
                     <label class="control-label" for="imageUpload">صور المشروع : </label>
                     <div class="glr-group row">
-                        <a data-toggle="modal"  href="javascript:;" data-target="#myModal" class="glr-btn col-xs-2" type="button">اختيار</a>
-                        <input  id="galery" readonly name="image" class="glr-control  col-xs-10" type="text" value="<?php echo $data['image']; ?>" >
+                        <a data-toggle="modal" href="javascript:;" data-target="#myModal" class="glr-btn col-xs-2" type="button">اختيار</a>
+                        <input id="galery" readonly name="image" class="glr-control  col-xs-10" type="text" value="<?php echo $data['image']; ?>">
                     </div>
                     <!-- /.modal -->
                     <div class="modal fade" id="myModal" style=" margin-left: 0px;">
                         <div class="modal-dialog" style="width: 80%;">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">اختيار الصور</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">اختيار الصور</h4>
                                 </div>
-                                <div class="modal-body" >
-                                <iframe width="100%" height="500" src="<?php echo ADMINURL; ?>/helpers/filemanager/dialog.php?type=2&field_id=galery&relative_url=1" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+                                <div class="modal-body">
+                                    <iframe width="100%" height="500" src="<?php echo ADMINURL; ?>/helpers/filemanager/dialog.php?type=2&field_id=galery&relative_url=1" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
                                 </div>
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
@@ -130,8 +130,8 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">وصف المشروع  : </label>
-                        <textarea rows="5" name="description" id="ckeditor" class="form-control ckeditor"><?php echo ($data['description']); ?></textarea>
+                    <label class="control-label">وصف المشروع : </label>
+                    <textarea rows="5" name="description" id="ckeditor" class="form-control ckeditor"><?php echo ($data['description']); ?></textarea>
                 </div>
                 <div class="form-group col-xs-12 <?php echo (!empty($data['status_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label">حالة النشر :</label>
@@ -146,48 +146,51 @@ require ADMINROOT . '/views/inc/header.php';
                 <h4>الاعدادات</h4>
                 <div class="accordion">
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero" >
-                            <span> اعدادات الدفع   </span>
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
+                            <span> اعدادات الدفع </span>
                         </div>
-                        <div id="collapseZero" class="collapse in card-body" aria-labelledby="headingZero" >
+                        <div id="collapseZero" class="collapse in card-body" aria-labelledby="headingZero">
                             <div class="form-group <?php echo (!empty($data['donation_type_error'])) ? 'has-error' : ''; ?>">
                                 <label class="control-label">نوع التبرع</label>
                                 <div class="has-feedback">
                                     <select name="donation_type[type]" class="form-control type-change">
                                         <option value="">اختار نوع التبرع </option>
                                         <?php
-                                            foreach ($data['donation_type_list'] as $donationtype => $value) {
-                                                echo '<option value="' . $donationtype . '"';
-                                                echo ($data['donation_type']['type'] != $donationtype) ?: ' selected ';
-                                                echo ' >' . $value . '</option>';
-                                            }
-                                            ?>
+                                        foreach ($data['donation_type_list'] as $donationtype => $value) {
+                                            echo '<option value="' . $donationtype . '"';
+                                            echo ($data['donation_type']['type'] != $donationtype) ?: ' selected ';
+                                            echo ' >' . $value . '</option>';
+                                        }
+                                        ?>
                                     </select>
                                     <br>
                                     <div class="collapse <?php echo ($data['donation_type']['type'] == "share" || $data['donation_type']['type'] == "unit") ? 'in' : '' ?> multible-values">
                                         <table class="table jambo_table text-center ">
-                                            <thead><tr class="headings text-center"><th>الاسم</th><th colspan="2">القيمة </th></tr></thead>
+                                            <thead>
+                                                <tr class="headings text-center">
+                                                    <th>الاسم</th>
+                                                    <th colspan="2">القيمة </th>
+                                                </tr>
+                                            </thead>
                                             <tbody id="items">
                                                 <?php
-                                                    if ($data['donation_type']['type'] == "share" || $data['donation_type']['type'] == "unit") {
-                                                        foreach ($data['donation_type']['value'] as $key => $value) {
-                                                            echo '<tr class="">' .
-                                                                '<td class="form-group"><input value="' . $value['name'] . '" class="form-control" required type="text" name="donation_type[value][' . $key . '][name]"></td>' .
-                                                                '<td class="form-group"><input value="' . $value['value'] . '" class="form-control" required type="number" name="donation_type[value][' . $key . '][value]"></td>' .
-                                                                '<td><a href="#" class="remove_field"><i class="fa fa-times"></a></td>' .
-                                                                '</tr>';
-                                                        }
-
+                                                if ($data['donation_type']['type'] == "share" || $data['donation_type']['type'] == "unit") {
+                                                    foreach ($data['donation_type']['value'] as $key => $value) {
+                                                        echo '<tr class="">' .
+                                                            '<td class="form-group"><input value="' . $value['name'] . '" class="form-control" required type="text" name="donation_type[value][' . $key . '][name]"></td>' .
+                                                            '<td class="form-group"><input value="' . $value['value'] . '" class="form-control" required type="number" name="donation_type[value][' . $key . '][value]"></td>' .
+                                                            '<td><a href="#" class="remove_field"><i class="fa fa-times"></a></td>' .
+                                                            '</tr>';
                                                     }
+                                                }
 
-                                                    ?>
+                                                ?>
                                             </tbody>
                                         </table>
                                         <button type="button" class="add_field_donation btn btn-dark">اضافة خيار جديد</button>
                                     </div>
                                     <div class="donation_type_data">
-                                    <?php
-                                        // var_dump($data['donation_type']);
+                                        <?php
                                         if ($data['donation_type']['type'] == "fixed") {
                                             echo '<label class="control-label">القيم الثابتة</label>
                                              <input value="' . $data['donation_type']['value'] . '" required class="form-control" type="number" name="donation_type[value]">';
@@ -201,11 +204,19 @@ require ADMINROOT . '/views/inc/header.php';
                             <br>
                             <div class="form-group">
                                 <label>المبلغ المستهدف : </label>
-                                <input type="number" class="form-control" name="target_price" value="<?php echo $data['target_price']; ?>"  placeholder="المبلغ المستهدف جمعه">
+                                <input type="number" class="form-control" name="target_price" value="<?php echo $data['target_price']; ?>" placeholder="المبلغ المستهدف جمعه">
+                            </div>
+                            <div class="form-group">
+                                <label>الوحدة : </label>
+                                <input type="text" class="form-control" name="target_unit" value="<?php echo $data['target_unit']; ?>" placeholder="الوحدة المستهدف جمعها">
+                            </div>
+                            <div class="form-group">
+                                <label>سعر الوحدة : </label>
+                                <input type="number" class="form-control" name="unit_price" value="<?php echo $data['unit_price']; ?>" placeholder="سعر الوحدة ">
                             </div>
                             <div class="form-group">
                                 <label>القيم المؤقته لما تم جمعه : </label>
-                                <input type="number" class="form-control" name="fake_target" value="<?php echo $data['fake_target']; ?>"  placeholder="رقم مؤقت يظهر للمتبرع">
+                                <input type="number" class="form-control" name="fake_target" value="<?php echo $data['fake_target']; ?>" placeholder="رقم مؤقت يظهر للمتبرع">
                             </div>
                             <div class="form-group <?php echo (!empty($data['payment_methods_error'])) ? 'has-error' : ''; ?>">
                                 <label class="control-label">وسائل الدفع المعتمدة للمشروع :</label>
@@ -223,21 +234,21 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
-                                <span> اعدادات النشر   </span>
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <span> اعدادات النشر </span>
                         </div>
-                        <div id="collapseOne" class="collapse card-body" aria-labelledby="headingOne" >
+                        <div id="collapseOne" class="collapse card-body" aria-labelledby="headingOne">
                             <div class="form-group">
                                 <label>الترتيب : </label>
-                                <input type="number" class="form-control" name="arrangement" value="<?php echo $data['arrangement']; ?>"  placeholder="الترتيب">
+                                <input type="number" class="form-control" name="arrangement" value="<?php echo $data['arrangement']; ?>" placeholder="الترتيب">
                             </div>
                             <div class="form-group">
                                 <label>تاريخ بدأ النشر : </label>
-                                <input type="date" class="form-control" name="start_date" value="<?php echo $data['start_date']; ?>"  placeholder="تاريخ بدأ النشر ">
+                                <input type="date" class="form-control" name="start_date" value="<?php echo $data['start_date']; ?>" placeholder="تاريخ بدأ النشر ">
                             </div>
                             <div class="form-group">
                                 <label>تاريخ ايقاف النشر : </label>
-                                <input type="date" class="form-control date" name="end_date" value="<?php echo $data['end_date']; ?>"  placeholder="تاريخ ايقاف النشر">
+                                <input type="date" class="form-control date" name="end_date" value="<?php echo $data['end_date']; ?>" placeholder="تاريخ ايقاف النشر">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">نشر كا مميز :</label>
@@ -278,10 +289,10 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" >
-                              <span>   اعدادات ال SEO  </span>
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                            <span> اعدادات ال SEO </span>
                         </div>
-                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo" >
+                        <div id="collapseTwo" class="collapse card-body" aria-labelledby="headingTwo">
                             <div class="form-group">
                                 <label class="control-label">كود الهيدر : </label>
                                 <div class=" form-group">
@@ -302,7 +313,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="tags_1">الكلمات الدلالية    :</label>
+                                <label class="control-label" for="tags_1">الكلمات الدلالية :</label>
                                 <div class="text-warning ">افصل بين كل كلمة بعلامة (,)</div>
                                 <div class=" form-group">
                                     <input type="text" name="meta_keywords" value="<?php echo $data['meta_keywords']; ?>" id="tags_1" class="form-control" />
@@ -311,10 +322,10 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree" >
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                             <span>اعدادات المظهر</span>
                         </div>
-                        <div id="collapseThree" class="collapse card-body <?php echo (empty($data['background_image_error'])) ?: 'in'; ?>" aria-labelledby="headingThree" >
+                        <div id="collapseThree" class="collapse card-body <?php echo (empty($data['background_image_error'])) ?: 'in'; ?>" aria-labelledby="headingThree">
                             <div class="form-group <?php echo (empty($data['background_image_error'])) ?: 'has-error'; ?>">
                                 <label class="control-label">صورة الخلفية : </label>
                                 <div class="has-feedback input-group">
@@ -328,15 +339,15 @@ require ADMINROOT . '/views/inc/header.php';
                             </div>
                             <div class="form-group">
                                 <label>لون الخلفية : </label>
-                                <input type="text" class="colorpicker form-control" name="background_color" value="<?php echo $data['background_color']; ?>"  data-wcp-format="rgba">
+                                <input type="text" class="colorpicker form-control" name="background_color" value="<?php echo $data['background_color']; ?>" data-wcp-format="rgba">
                             </div>
                         </div>
                     </div>
                     <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-target="#collapsefour" aria-expanded="true" aria-controls="collapsefour" >
+                        <div class="card-header" data-toggle="collapse" data-target="#collapsefour" aria-expanded="true" aria-controls="collapsefour">
                             <span>اعدادات التواصل</span>
                         </div>
-                        <div id="collapsefour" class="collapse card-body" aria-labelledby="headingfour" >
+                        <div id="collapsefour" class="collapse card-body" aria-labelledby="headingfour">
                             <div class="form-group">
                                 <label>رقم الهاتف : </label>
                                 <input type="text" class="form-control" name="mobile" value="<?php echo $data['mobile']; ?>">
@@ -353,7 +364,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">الرسالة النصية القصيرة  : </label>
+                                <label class="control-label">الرسالة النصية القصيرة : </label>
                                 <div class="text-warning ">رسالة ترسل للمستخدم عند تأكيد الطلب</div>
                                 <div class=" form-group">
                                     <textarea name="sms_msg" class="form-control description" placeholder="تم استلام تبرعكم بنجاح"><?php echo $data['sms_msg']; ?></textarea>
@@ -368,11 +379,11 @@ require ADMINROOT . '/views/inc/header.php';
                 <br><br>
             </div>
             <div class="col-xs-12">
-                    <button type="submit" name="submit" class="btn btn-success">أضف
-                        <i class="fa fa-save"> </i></button>
-                    <button type="reset" class="btn btn-danger">مسح
-                        <i class="fa fa-trash "> </i></button>
-                </div>
+                <button type="submit" name="submit" class="btn btn-success">أضف
+                    <i class="fa fa-save"> </i></button>
+                <button type="reset" class="btn btn-danger">مسح
+                    <i class="fa fa-trash "> </i></button>
+            </div>
         </form>
     </div>
 </div>

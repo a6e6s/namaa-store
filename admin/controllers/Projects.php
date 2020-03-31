@@ -164,6 +164,8 @@ class Projects extends ControllerAdmin
                 'payment_methods' => [],
                 'paymentMethodsList' => $this->projectModel->paymentMethodsList(' WHERE status <> 2 '),
                 'target_price' => trim($_POST['target_price']),
+                'target_unit' => trim($_POST['target_unit']),
+                'unit_price' => (int) $_POST['unit_price'],
                 'fake_target' => trim($_POST['fake_target']),
                 'hidden' => trim($_POST['hidden']),
                 'thanks_message' => trim($_POST['thanks_message']),
@@ -260,6 +262,8 @@ class Projects extends ControllerAdmin
                 'payment_methods' => array(),
                 'paymentMethodsList' => $this->projectModel->paymentMethodsList(' WHERE status <> 2 '),
                 'target_price' => '',
+                'target_unit' => '',
+                'unit_price' => '',
                 'fake_target' => '',
                 'hidden' => '',
                 'sms_msg' => '',
@@ -311,7 +315,7 @@ class Projects extends ControllerAdmin
             // sanitize POST array
             $description = $this->projectModel->cleanHTML($_POST['description']);
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
+            isset($_POST['tags'])? '':$_POST['tags'] =[];
             $data = [
                 'project_id' => $id,
                 'page_title' => ' المشروعات',
@@ -329,6 +333,8 @@ class Projects extends ControllerAdmin
                 'payment_methods' => [],
                 'paymentMethodsList' => $this->projectModel->paymentMethodsList(' WHERE status <> 2 '),
                 'target_price' => trim($_POST['target_price']),
+                'target_unit' => trim($_POST['target_unit']),
+                'unit_price' => (int) $_POST['unit_price'],
                 'fake_target' => trim($_POST['fake_target']),
                 'hidden' => trim($_POST['hidden']),
                 'sms_msg' => trim($_POST['sms_msg']),
@@ -454,6 +460,8 @@ class Projects extends ControllerAdmin
                 'payment_methods' => json_decode($project->payment_methods, true),
                 'paymentMethodsList' => $this->projectModel->paymentMethodsList(' WHERE status <> 2 '),
                 'target_price' => $project->target_price,
+                'target_unit' => $project->target_unit,
+                'unit_price' => $project->unit_price,
                 'fake_target' => $project->fake_target,
                 'hidden' => $project->hidden,
                 'sms_msg' => $project->sms_msg,

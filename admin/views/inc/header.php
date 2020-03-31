@@ -13,34 +13,34 @@ it under the terms of the GNU General Public License
 For more information about the author , see <http://www.ahmedx.com/>.
 -->
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!-- Meta, title, CSS, favicons, etc. -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title><?php echo SITENAME; ?> </title>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?php echo URLROOT; ?>/templates/default/images/favicon.ico" type="image/x-icon">
+    <title><?php echo SITENAME; ?> </title>
 
-        <!-- Bootstrap -->
-        <link href="<?php echo ADMINURL; ?>/template/default/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Font Awesome -->
-        <link href="<?php echo ADMINURL; ?>/template/default/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <!-- NProgress -->
-        <link href="<?php echo ADMINURL; ?>/template/default/vendors/nprogress/nprogress.css" rel="stylesheet">
-        <!-- iCheck -->
-        <link href="<?php echo ADMINURL; ?>/template/default/vendors/iCheck/skins/flat/green.css" rel="stylesheet"
-        <!-- colorpicker -->
-        <link href="<?php echo ADMINURL; ?>/template/default/vendors/colorpicker/css/wheelcolorpicker.dark.css" rel="stylesheet">
-        <!-- Custom Theme Style -->
-        <link href="<?php echo ADMINURL; ?>/template/default/css/custom.min.css" rel="stylesheet">
-        <?php echo $data['header']; ?>
-    </head>
+    <!-- Bootstrap -->
+    <link href="<?php echo ADMINURL; ?>/template/default/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<?php echo ADMINURL; ?>/template/default/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="<?php echo ADMINURL; ?>/template/default/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="<?php echo ADMINURL; ?>/template/default/vendors/iCheck/skins/flat/green.css" rel="stylesheet" <!-- colorpicker -->
+    <link href="<?php echo ADMINURL; ?>/template/default/vendors/colorpicker/css/wheelcolorpicker.dark.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="<?php echo ADMINURL; ?>/template/default/css/custom.min.css" rel="stylesheet">
+    <?php echo $data['header']; ?>
+</head>
 
-    <body class="nav-md">
-        <div class="container body">
-            <div class="main_container">
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
 
-                <?php
-                require ADMINROOT . '/views/inc/navbar.php';
-                
+            <?php
+            require ADMINROOT . '/views/inc/navbar.php';

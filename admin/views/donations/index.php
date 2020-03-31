@@ -185,7 +185,7 @@ require ADMINROOT . '/views/inc/header.php';
 
                             <tr class="tab-selected">
                                 <th></th>
-                                <th class="column-title" colspan="3"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
+                                <th class="column-title" colspan="4"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
                                 <th class="column-title" colspan="7"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/donations/index/' . $data['current']; ?>' + '/' + this.value">
@@ -197,7 +197,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <option value="1000" <?php echo ($data['perpage'] == 1000) ? 'selected' : null; ?>>1000 </option>
                                     </select>
                                 </th>
-                                <th class="column-title"> </th>
+                                <th class="column-title" colspan="3"> </th>
                                 <th class="column-title no-link last"></th>
                             </tr>
                         </tbody>

@@ -215,6 +215,14 @@ require ADMINROOT . '/views/inc/header.php';
                                 <input type="number" class="form-control" name="target_price" value="<?php echo $data['target_price']; ?>"  placeholder="المبلغ المستهدف جمعه">
                             </div>
                             <div class="form-group">
+                                <label>الوحدة : </label>
+                                <input type="text" class="form-control" name="target_unit" value="<?php echo $data['target_unit']; ?>"  placeholder="الوحدة المستهدف جمعها">
+                            </div>
+                            <div class="form-group">
+                                <label>سعر الوحدة  : </label>
+                                <input type="number" class="form-control" name="unit_price" value="<?php echo $data['unit_price']; ?>"  placeholder="سعر الوحدة ">
+                            </div>
+                            <div class="form-group">
                                 <label>القيم المؤقته لما تم جمعه : </label>
                                 <input type="number" class="form-control" name="fake_target" value="<?php echo $data['fake_target']; ?>"  placeholder="رقم مؤقت يظهر للمتبرع">
                             </div>

@@ -23,7 +23,7 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('projectcategory_msg');?>
+    <?php flash('projectcategory_msg'); ?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['title']; ?> <small>عرض كافة <?php echo $data['title']; ?> </small></h3>
@@ -38,18 +38,18 @@ require ADMINROOT . '/views/inc/header.php';
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
 
-            <form action="" method="post" >
+            <form action="" method="post">
                 <div class="table-responsive">
                     <table class="table table-striped jambo_table bulk_action">
                         <thead>
                             <tr class=" form-group-sm">
                                 <th width="70px"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" /></th>
                                 <th width="36px"></th>
-                                <th class=""><input type="search" class="form-control" placeholder="بحث بالاسم" name="search[name]" value="" ></th>
-                                <th class=""><input type="search" class="form-control" placeholder="بحث بالوصف" name="search[description]" value="" ></th>
-                                <th class="" colspan= "3"></th>
+                                <th class=""><input type="search" class="form-control" placeholder="بحث بالاسم" name="search[name]" value=""></th>
+                                <th class=""><input type="search" class="form-control" placeholder="بحث بالوصف" name="search[description]" value=""></th>
+                                <th class="" colspan="3"></th>
                                 <th width="175px">
-                                    <select class="form-control" name="search[status]" >
+                                    <select class="form-control" name="search[status]">
                                         <option value=""></option>
                                         <option value="1">منشور </option>
                                         <option value="0"> غير منشور </option>
@@ -69,7 +69,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span>
                                 </th>
                                 <th class="bulk-actions" colspan="6">
-                                    <span> تنفيذ علي الكل     :</span>
+                                    <span> تنفيذ علي الكل :</span>
                                     <input type="submit" name="publish" value="Publish" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="Unpublish" class="btn btn-warning btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
@@ -77,14 +77,14 @@ require ADMINROOT . '/views/inc/header.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data['projectcategories'] as $category): ?>
+                            <?php foreach ($data['projectcategories'] as $category) : ?>
 
                                 <tr class="even pointer">
                                     <td class="a-center ">
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $category->category_id; ?>">
                                     </td>
                                     <td class=" "><?php echo empty($category->image) ?: '<img width="32" src="' . MEDIAURL . '/../thumbs/' . $category->image . '" />'; ?></td>
-                                    <td class=" "><?php echo $category->name; ?></td>
+                                    <td class=" "><?php echo str_repeat('ـــ ', $category->level - 1) . $category->name; ?></td>
                                     <td class=" "><?php echo $category->description; ?></td>
                                     <td class=" "><?php echo $category->arrangement; ?></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $category->create_date); ?></td>
@@ -103,13 +103,13 @@ require ADMINROOT . '/views/inc/header.php';
                                         <a href="<?php echo ADMINURL . '/projectcategories/delete/' . $category->category_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
-                            <?php endforeach;?>
+                            <?php endforeach; ?>
 
                             <tr class="tab-selected">
                                 <th></th>
                                 <th></th>
-                                <th class="column-title"> العدد الكلي  :   <?php echo $data['recordsCount']; ?>  </th>
-                                <th class="column-title"  colspan= "3"> عرض
+                                <th class="column-title"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
+                                <th class="column-title" colspan="3"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/projectcategories/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>
@@ -129,8 +129,8 @@ require ADMINROOT . '/views/inc/header.php';
 
                 <ul class="pagination text-center">
                     <?php
-pagination($data['recordsCount'], $data['current'], $data['perpage'], 4, ADMINURL . '/projectcategories');
-?>
+                    pagination($data['recordsCount'], $data['current'], $data['perpage'], 4, ADMINURL . '/projectcategories');
+                    ?>
                 </ul>
 
 

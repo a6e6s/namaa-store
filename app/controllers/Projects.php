@@ -29,15 +29,19 @@ class Projects extends Controller
      */
     public function show($id = '', $start = 1, $perpage = 9)
     {
+        $id = (int) $id;
         empty($id) ? redirect('projects', true) : null;
         ($project = $this->projectsModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
         $data = [
             'project' => $project,
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'gift_settings' => json_decode($this->projectsModel->getSettings('gift')->value),
+            'collected_traget' => $this->projectsModel->collectedTraget($id),
             'pagesLinks' => $this->projectsModel->getMenu(),
+            'moreprojects' => $this->projectsModel->moreProjects($project->category_id),
             'payment_methods' => $this->projectsModel->getSupportedPaymentMethods($project->payment_methods),
         ];
+        // dd($data['moreprojects']);
         $data['pageTitle'] = $data['project']->name . "  " . SITENAME;
 
         $this->meta->header_code = $project->header_code;

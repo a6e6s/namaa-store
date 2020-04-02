@@ -40,13 +40,17 @@ require ADMINROOT . '/views/inc/header.php';
                             <tr class=" form-group-sm">
                                 <th width="70px"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" /></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالمعرف" name="search[donation_identifier]" value=""></th>
-                                <th><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount]" value=""></th>
-                                <th colspan=""></th>
+                                <th>القيمة من<input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount_from]" value=""></th>
+                                <th>الي<input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount_to]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث الاجمالي" name="search[total]" value=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالنوع" name="search[donation_type]" value=""></th>
                                 <th colspan=""></th>
                                 <th><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor]" value=""></th>
-                                <th colspan="7"></th>
+                                <th colspan=""><input type="search" class="form-control" placeholder="بحث بالمشروع" name="search[project]" value=""></th>
+                                <th><input type="search" class="form-control" placeholder="وسيلة الدفع" name="search[payment_method]" value=""></th>
+                                <th colspan=""></th>
+                                <th colspan="2">التاريخ من<input type="date" class="form-control" placeholder="التاريخ من" name="search[date_from]" value=""></th>
+                                <th colspan="2"> الي<input type="date" class="form-control" placeholder=" الي" name="search[date_to]" value=""></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[status]">
                                         <option value=""></option>
@@ -79,6 +83,9 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="submit" name="publish" value="تأكيد" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
+                                    <span class="control-label">ارسال :</span>
+                                    <input type="submit" name="send" value="SMS" class="btn btn-success btn-sm" />
+                                    <input type="submit" name="send" value="Email" class="btn btn-success btn-sm" />
                                     <span class="control-label">الوسوم :</span>
                                     <?php
                                     foreach ($data['tags'] as $tag) {
@@ -86,7 +93,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     }
                                     ?>
                                     <span class="control-label"> حذف الوسوم :</span>
-                                    <input type="submit" name="clear" value="Clear" class="btn btn-warning btn-xs" />
+                                    <input type="submit" name="clear" value="Clear" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-warning btn-xs" />
 
                                 </th>
                             </tr>
@@ -107,34 +114,33 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td><?php echo $donation->project; ?></td>
                                     <td><?php echo $donation->payment_method; ?></td>
                                     <td>
-                                    <?php if ($donation->gift) { ?>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#gift<?php echo $donation->donation_id; ?>">تفاصيل</button>
-                                        <div class="modal fade" id="gift<?php echo $donation->donation_id; ?>" role="dialog">
-                                            <div class="modal-dialog">
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-body text-right" dir="ltr">
-                                                        <ul class="text-capitalize">
-                                                            <?php
-                                                            ($donation->gift) ? $gifts = json_decode($donation->gift_data) : $gifts = [];
-                                                            foreach ($gifts as $key => $value) {
-                                                                if($key == 'enable') continue;
-                                                                if($key =='card'){
-                                                                    echo '<li class="h5">' . $key . " : <img width='200' src= '" . MEDIAURL .'/'. $value . "'></li>\n";
-                                                                }else{
-                                                                    echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
+                                        <?php if ($donation->gift) { ?>
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#gift<?php echo $donation->donation_id; ?>">تفاصيل</button>
+                                            <div class="modal fade" id="gift<?php echo $donation->donation_id; ?>" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-right" dir="ltr">
+                                                            <ul class="text-capitalize">
+                                                                <?php
+                                                                ($donation->gift) ? $gifts = json_decode($donation->gift_data) : $gifts = [];
+                                                                foreach ($gifts as $key => $value) {
+                                                                    if ($key == 'enable') continue;
+                                                                    if ($key == 'card') {
+                                                                        echo '<li class="h5">' . $key . " : <img width='200' src= '" . MEDIAURL . '/' . $value . "'></li>\n";
+                                                                    } else {
+                                                                        echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
+                                                                    }
                                                                 }
-                                                                
-                                                            }
-                                                            ?>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                ?>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         <?php } ?>
                                     </td>
                                     <td><?php if (!empty($donation->banktransferproof)) : ?>
@@ -142,28 +148,28 @@ require ADMINROOT . '/views/inc/header.php';
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                    <?php if ($donation->meta) { ?>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#meta<?php echo $donation->donation_id; ?>">تفاصيل</button>
-                                        <div class="modal fade" id="meta<?php echo $donation->donation_id; ?>" role="dialog">
-                                            <div class="modal-dialog">
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-body text-right" dir="ltr">
-                                                        <ul class="text-capitalize">
-                                                            <?php
-                                                            ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
-                                                            foreach ($metas as $key => $value) {
-                                                                echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
-                                                            }
-                                                            ?>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <?php if ($donation->meta) { ?>
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#meta<?php echo $donation->donation_id; ?>">تفاصيل</button>
+                                            <div class="modal fade" id="meta<?php echo $donation->donation_id; ?>" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-right" dir="ltr">
+                                                            <ul class="text-capitalize">
+                                                                <?php
+                                                                ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
+                                                                foreach ($metas as $key => $value) {
+                                                                    echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
+                                                                }
+                                                                ?>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         <?php } ?>
                                     </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->create_date); ?></td>
@@ -210,7 +216,6 @@ require ADMINROOT . '/views/inc/header.php';
                 </ul>
             </form>
         </div>
-        <button id="cmd">generate PDF</button>
     </div>
 </div>
 <?php

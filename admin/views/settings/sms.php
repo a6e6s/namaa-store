@@ -24,10 +24,10 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('setting_msg');?>
+    <?php flash('setting_msg'); ?>
     <div class="setting-title">
         <div class="title_right">
-            <h3><small>التعديل علي  </small><?php echo $data['title']; ?> </h3>
+            <h3><small>التعديل علي </small><?php echo $data['title']; ?> </h3>
         </div>
         <div class="title_left">
             <a href="<?php echo ADMINURL; ?>/settings" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
@@ -36,7 +36,7 @@ require ADMINROOT . '/views/inc/header.php';
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <form action="<?php echo ADMINURL . '/settings/edit/' . $data['setting_id']; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
+            <form action="<?php echo ADMINURL . '/settings/edit/' . $data['setting_id']; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="form-group">
                     <label class="control-label" for="settingTitle">عنوان الاعداد : </label>
                     <div class="has-feedback">
@@ -54,6 +54,13 @@ require ADMINROOT . '/views/inc/header.php';
                     <div class="has-feedback">
                         <input type="text" id="settingTitle" class="form-control" name="value[sms_username]" placeholder="" value="<?php echo $data['value']->sms_username; ?>">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="settingTitle">اسم المرسل : </label>
+                    <div class="has-feedback">
+                        <input type="text" id="settingTitle" class="form-control" name="value[sender_name]" placeholder="" value="<?php echo $data['value']->sender_name; ?>">
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="control-label" for="settingTitle">كلمة مرور البوابة : </label>
                     <div class="has-feedback">
@@ -65,7 +72,7 @@ require ADMINROOT . '/views/inc/header.php';
                     <label class="control-label">تفعيل البوابة :</label>
                     <div class="radio">
                         <label>
-                            <input type="radio" class="flat" <?php echo ($data['value']->smsenabled == 1) ? 'checked' : ''; ?> value="1" name="value[smsenabled]"> مفعلة 
+                            <input type="radio" class="flat" <?php echo ($data['value']->smsenabled == 1) ? 'checked' : ''; ?> value="1" name="value[smsenabled]"> مفعلة
                         </label>
                         <label>
                             <input type="radio" class="flat" <?php echo ($data['value']->smsenabled == '0') ? 'checked' : ''; ?> value="0" name="value[smsenabled]"> معلقة
@@ -89,6 +96,6 @@ require ADMINROOT . '/views/inc/header.php';
 
 <?php
 // loading plugin
-$data['footer'] = '<script src="' . ADMINURL . '/template/default/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>'."\n";
+$data['footer'] = '<script src="' . ADMINURL . '/template/default/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>' . "\n";
 
 require ADMINROOT . '/views/inc/footer.php';

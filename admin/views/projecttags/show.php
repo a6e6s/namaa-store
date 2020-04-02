@@ -43,6 +43,13 @@ require ADMINROOT . '/views/inc/header.php';
                     <?php echo $data['projecttag']->name; ?>
                 </h3>
             </div>
+            
+            <div class="form-group">
+                <h3 class="prod_title">
+                    <label class="control-label">الرابط : </label>
+                    <a href="<?php echo URLROOT . '/tags/show/' . $data['projecttag']->tag_id; ?>"><?php echo URLROOT . '/tags/show/' . $data['projecttag']->tag_id; ?></a>
+                </h3>
+            </div>
             <div class="well img-thumbnail col-md-6 col-sm-12">
                 <img class="img-responsive img-rounded" src="<?php echo empty($data['projecttag']->image) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['projecttag']->image; ?>" />
 

@@ -34,10 +34,47 @@ function dd($var)
     var_dump($var);
     die();
 }
-
+/**
+ * view array content
+ *
+ * @param [array] $var
+ * @return void
+ */
 function pr($var)
 {
     echo "<pre class='text-left ltr'>";
     print_r($var);
     echo "</pre>";
+}
+/**
+ * Sending SMS message
+ *
+ * @param [type] $username
+ * @param [type] $password
+ * @param [type] $messageContent
+ * @param [type] $mobileNumber
+ * @param [type] $sendername
+ * @param [type] $server
+ * @param string $return
+ * @return void
+ */
+function sendSMS($username, $password, $messageContent, $mobileNumber, $sendername, $server, $return = 'json')
+{
+    // built url
+    $post = 'username=' . urlencode($username) . '&password=' . urlencode($password) . '&numbers=' . urlencode($mobileNumber)
+        . '&message=' . urlencode($messageContent) . '&sender=' . urlencode($sendername) . '&unicode=E&return=' . urlencode($return);
+    //open connection
+    $ch = curl_init();
+    // API URL     
+    curl_setopt($ch, CURLOPT_URL, $server);
+    //Sending through $_POST request    
+    curl_setopt($ch, CURLOPT_POST, TRUE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    // excution    
+    $respond = curl_exec($ch);
+    // close connection    
+    curl_close($ch);
+    //using the return as a PHP array
+    return json_decode($respond);
 }

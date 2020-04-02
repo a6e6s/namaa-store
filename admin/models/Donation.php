@@ -48,6 +48,7 @@ class Donation extends ModelAdmin
      */
     public function allDonationsCount($cond = '', $bind = '')
     {
+        // dd($cond);
         $this->db->query('SELECT count(*) as count FROM ' . $this->table . ' ds ' . $cond);
         if (!empty($bind)) {
             foreach ($bind as $key => $value) {
@@ -317,10 +318,21 @@ class Donation extends ModelAdmin
             foreach ($searches as $keyword) {
                 if ($keyword == 'donor') {
                     $cond .= ' AND donors.full_name LIKE :' . $keyword . ' ';
+                } elseif ($keyword == 'payment_method') {
+                    $cond .= ' AND payment_methods.title LIKE :' . $keyword . ' ';
+                } elseif ($keyword == 'project') {
+                    $cond .= ' AND projects.name LIKE :' . $keyword . ' ';
                 } else {
                     $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
                 }
-                $bind[':' . $keyword] = $_POST['search'][$keyword];
+
+                if ($keyword == 'date_from' || $keyword == 'date_to') {
+                    $bind[':' . $keyword] = strtotime($_POST['search'][$keyword]);
+                    // dd($keyword);
+                } else {
+                    $bind[':' . $keyword] = $_POST['search'][$keyword];
+                }
+
                 $_SESSION['search'][$keyword] = $_POST['search'][$keyword];
             }
         }
@@ -341,12 +353,44 @@ class Donation extends ModelAdmin
             if (isset($_SESSION['search'][$keyword])) {
                 if ($keyword == 'donor') {
                     $cond .= ' AND donors.full_name LIKE :' . $keyword . ' ';
+                } elseif ($keyword == 'project') {
+                    $cond .= ' AND projects.name LIKE :' . $keyword . ' ';
+                } elseif ($keyword == 'payment_method') {
+                    $cond .= ' AND payment_methods.title LIKE :' . $keyword . ' ';
                 } else {
                     $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
                 }
-                $bind[':' . $keyword] = $_SESSION['search'][$keyword];
+                if ($keyword == 'date_from' || $keyword == 'date_to') {
+                    $bind[':' . $keyword] = strtotime($_SESSION['search'][$keyword]);
+                } else {
+                    $bind[':' . $keyword] = $_SESSION['search'][$keyword];
+                }
             }
         }
         return $data = ['cond' => $cond, 'bind' => $bind];
+    }
+    /**
+     * get users informations to contact them
+     *
+     * @param [array] $donation_ids
+     * @return object
+     */
+    public function getUsersData($in)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($in); $index++) {
+            $id_num[] = ":in" . $index;
+        }
+        //setting the query
+        $this->db->query('SELECT DISTINCT donors.donor_id, donors.full_name, donors.mobile, donors.email FROM donors, donations WHERE donations.donor_id = donors.donor_id AND donations.donation_id IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($in as $key => $value) {
+            $this->db->bind(':in' . ($key + 1), $value);
+        }
+        if ($this->db->excute()) {
+            return $this->db->resultSet();
+        } else {
+            return false;
+        }
     }
 }

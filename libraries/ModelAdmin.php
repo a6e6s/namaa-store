@@ -327,4 +327,18 @@ class ModelAdmin
             }
         }
     }
+    /**
+     * loading setting
+     *
+     * @param [string] $settingType
+     * @return object
+     */
+    public function getSettings($settingType = null)
+    {
+        if ($settingType) {
+            return $this->getAll('SELECT * FROM settings WHERE settings.alias = "' . $settingType.'"')[0];
+        } else {
+            return $this->getAll('SELECT * FROM settings');
+        }
+    }
 }

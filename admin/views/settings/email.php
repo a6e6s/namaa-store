@@ -55,6 +55,18 @@ require ADMINROOT . '/views/inc/header.php';
                         <input type="text" id="settingTitle" class="form-control" name="value[donation_email]" placeholder="بريد استقبال تنبيهات التبرعات" value="<?php echo $data['value']->donation_email; ?>">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label" for="settingTitle">بريد الارسال  : </label>
+                    <div class="has-feedback">
+                        <input type="text" id="settingTitle" class="form-control" name="value[sending_email]" placeholder="بريد الارسال" value="<?php echo $data['value']->sending_email; ?>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="settingTitle">اسم المرسل  : </label>
+                    <div class="has-feedback">
+                        <input type="text" id="settingTitle" class="form-control" name="value[sending_name]" placeholder="اسم المرسل" value="<?php echo $data['value']->sending_name; ?>">
+                    </div>
+                </div>
                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                     <button type="submit" name="save" class="btn btn-success">تعديل
                         <i class="fa fa-save"> </i></button>

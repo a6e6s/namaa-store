@@ -37,7 +37,21 @@ class Donations extends ControllerAdmin
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
+            // date search
+            if (!empty($_POST['search']['date_from'])) {
+                $cond .= ' AND ds.create_date >= ' . strtotime($_POST['search']['date_from']) . ' ';
+            }
+            if (!empty($_POST['search']['date_to'])) {
+                $cond .= ' AND ds.create_date <= ' . strtotime($_POST['search']['date_to']) . ' ';
+            }
+            // amount search
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            if (!empty($_POST['search']['amount_from'])) {
+                $cond .= ' AND ds.amount >= ' . $_POST['search']['amount_from'] . ' ';
+            }
+            if (!empty($_POST['search']['amount_to'])) {
+                $cond .= ' AND ds.amount <= ' . $_POST['search']['amount_to'] . ' ';
+            }
             //handling Delete
             if (isset($_POST['delete'])) {
                 if (isset($_POST['record'])) {
@@ -61,6 +75,22 @@ class Donations extends ControllerAdmin
                     }
                 }
                 redirect('donations');
+            }
+            //handling send
+            if (isset($_POST['send'])) {
+                if (isset($_POST['record'])) {
+                    $data = [
+                        'header' => '',
+                        'title' => 'المراسلات',
+                        'type' => $_POST['send'],
+                        'members' => $this->donationModel->getUsersData($_POST['record']),
+                        'footer' => '',
+                    ];
+                    return $this->view('messagings/index', $data);
+                    dd('');
+                } else {
+                    flash('donation_msg', 'لم تقم بأختيار اي تبرع', 'alert alert-danger');
+                }
             }
 
             //handling Unpublish
@@ -101,7 +131,7 @@ class Donations extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->donationModel->searchHandling(['donation_identifier', 'amount', 'total', 'donation_type', 'status', 'donor']);
+        $searches = $this->donationModel->searchHandling(['donation_identifier', 'total', 'donation_type', 'status', 'donor', 'project', 'payment_method']);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
         // get all records count after search and filtration
@@ -293,4 +323,6 @@ class Donations extends ControllerAdmin
         }
         redirect('donations');
     }
+
+
 }

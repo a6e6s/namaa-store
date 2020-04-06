@@ -42,7 +42,7 @@
                 <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
                     <form class="card" method="post" action="<?php echo URLROOT . '/carts/add/'; ?>">
                         <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="">
-                            <img class="card-img-top" src="<?php echo (empty($project->img)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->img; ?>" alt="<?php echo $project->name; ?>">
+                            <img class="card-img-top" src="<?php echo (empty($project->secondary_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->secondary_image; ?>" alt="<?php echo $project->name; ?>">
                         </a>
                         <div class="body-card m-2">
                             <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 85); ?></p>
@@ -86,11 +86,35 @@
                                     <input type="hidden" name="project_id" value="<?php echo $project->project_id; ?>">
                                 </div>
                             <?php endif; ?>
-                            <p class="m-0 p-0 text-left"><span>المستهدف : </span><i class="icofont-riyal"></i> <span><?php echo $project->target_price; ?></span></p>
-                            <div class="progress">
-                                <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $project->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                                    <?php echo ceil($target * 100 / $project->target_price); ?> %
-                                </h6>
+                            <div class="p-2">
+                                <small class="m-0 pb-2">
+                                    تم جمع
+                                    <span class=" mx-1">
+                                        <?php
+                                        if (!empty($project->target_unit) && !empty($project->unit_price)) { // check if user set unit and unit price
+                                            echo empty($project->fake_target) ? $target = $project->total / $project->unit_price : $target = $project->fake_target;
+                                            echo  " $project->target_unit ";
+                                        } else {
+                                            echo empty($project->fake_target) ? $target = (int) $project->total : $target = (int) $project->fake_target;
+                                            echo ' <i class="icofont-riyal"></i> ';
+                                        }
+                                        ($project->target_price) ?: $project->target_price = 1;
+                                        ?>
+                                    </span>
+                                </small>
+                                <small class=" pt-1 float-left"><span>المستهدف : </span>
+                                    <span><?php echo $project->target_price; ?></span>
+                                    <?php if (empty($project->target_unit)) {
+                                        echo '<i class="icofont-riyal"></i>';
+                                    } else {
+                                        echo  $project->target_unit;
+                                    }  ?>
+                                </small>
+                                <div class="progress my-1">
+                                    <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $project->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                        <?php echo ceil($target * 100 / $project->target_price); ?> %
+                                    </h6>
+                                </div>
                             </div>
                         </div>
                         <div class="card-footer bg-primary mt-1">

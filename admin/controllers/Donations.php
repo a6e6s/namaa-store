@@ -32,7 +32,6 @@ class Donations extends ControllerAdmin
         // get donations
         $cond = 'WHERE ds.status <> 2 AND donors.donor_id = ds.donor_id AND projects.project_id = ds.project_id AND ds.payment_method_id = payment_methods.payment_id ';
         $bind = [];
-
         //check user action if the form has submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // sanitize POST array
@@ -45,12 +44,15 @@ class Donations extends ControllerAdmin
                 $cond .= ' AND ds.create_date <= ' . strtotime($_POST['search']['date_to']) . ' ';
             }
             // amount search
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             if (!empty($_POST['search']['amount_from'])) {
                 $cond .= ' AND ds.amount >= ' . $_POST['search']['amount_from'] . ' ';
             }
             if (!empty($_POST['search']['amount_to'])) {
                 $cond .= ' AND ds.amount <= ' . $_POST['search']['amount_to'] . ' ';
+            }
+            // projects search
+            if (!empty($_POST['search']['projects'])) {
+                $cond .= ' AND ds.project_id in (' . implode(',', $_POST['search']['projects']) . ') ';
             }
             //handling Delete
             if (isset($_POST['delete'])) {
@@ -61,15 +63,48 @@ class Donations extends ControllerAdmin
                         flash('donation_msg', 'لم يتم الحذف', 'alert alert-danger');
                     }
                 }
-
                 redirect('donations');
             }
-
             //handling Publish
             if (isset($_POST['publish'])) {
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->donationModel->publishById($_POST['record'], 'donation_id')) {
                         flash('donation_msg', 'تم تأكيد  ' . $row_num . ' بنجاح');
+                    } else {
+                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    }
+                }
+                redirect('donations');
+            }
+            //handling Unpublish
+            if (isset($_POST['unpublish'])) {
+
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->donationModel->unpublishById($_POST['record'], 'donation_id')) {
+                        flash('donation_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
+                    } else {
+                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    }
+                }
+                redirect('donations');
+            }
+            //handling waiting
+            if (isset($_POST['waiting'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->donationModel->waitingById($_POST['record'], 'donation_id')) {
+                        flash('donation_msg', 'تم وضع في الانتظار  ' . $row_num . ' بنجاح');
+                    } else {
+                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    }
+                }
+                redirect('donations');
+            }
+            //handling canceled
+            if (isset($_POST['canceled'])) {
+
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->donationModel->canceledById($_POST['record'], 'donation_id')) {
+                        flash('donation_msg', 'تم الغاء   ' . $row_num . ' بنجاح');
                     } else {
                         flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                     }
@@ -92,20 +127,7 @@ class Donations extends ControllerAdmin
                     flash('donation_msg', 'لم تقم بأختيار اي تبرع', 'alert alert-danger');
                 }
             }
-
-            //handling Unpublish
-            if (isset($_POST['unpublish'])) {
-
-                if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->unpublishById($_POST['record'], 'donation_id')) {
-                        flash('donation_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
-                    } else {
-                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-                    }
-                }
-                redirect('donations');
-            }
-
+            
             //handling tags
             if (isset($_POST['tag_id'])) {
                 if (isset($_POST['record'])) {
@@ -131,8 +153,9 @@ class Donations extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->donationModel->searchHandling(['donation_identifier', 'total', 'donation_type', 'status', 'donor', 'project', 'payment_method']);
+        $searches = $this->donationModel->searchHandling(['donation_identifier', 'total', 'donation_type', 'status', 'donor', 'mobile', 'payment_method']);
         $cond .= $searches['cond'];
+        // dd($_POST);
         $bind = $searches['bind'];
         // get all records count after search and filtration
         $recordsCount = $this->donationModel->allDonationsCount(", donors , projects, payment_methods " . $cond, $bind);
@@ -158,6 +181,7 @@ class Donations extends ControllerAdmin
             'header' => '',
             'title' => 'التبرعات',
             'tags' => $this->donationModel->tagsList(' WHERE status = 1'),
+            'projects' => $this->donationModel->projectsList(' WHERE status = 1'),
             'donations' => $donations,
             'recordsCount' => $recordsCount->count,
             'footer' => '',
@@ -323,6 +347,31 @@ class Donations extends ControllerAdmin
         }
         redirect('donations');
     }
+    /**
+     * canceled record by id
+     * @param integer $id
+     */
+    public function canceled($id)
+    {
+        if ($row_num = $this->donationModel->canceledById([$id], 'donation_id')) {
+            flash('donation_msg', 'تم الغاء ' . $row_num . ' بنجاح');
+        } else {
+            flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+        }
+        redirect('donations');
+    }
 
-
+    /**
+     * publish record by id
+     * @param integer $id
+     */
+    public function waiting($id)
+    {
+        if ($row_num = $this->donationModel->waitingById([$id], 'donation_id')) {
+            flash('donation_msg', 'تم وضع في الانتظار ' . $row_num . ' بنجاح');
+        } else {
+            flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+        }
+        redirect('donations');
+    }
 }

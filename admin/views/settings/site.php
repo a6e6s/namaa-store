@@ -104,6 +104,21 @@ require ADMINROOT . '/views/inc/header.php';
                             <input type="radio" class="flat" <?php echo ($data['value']->show_projects == '0') ? 'checked' : ''; ?> value="0" name="value[show_projects]"> اخفاء المشروعات
                         </label>
                     </div>
+                    <label class="control-label" for="project_text">عنوان المشروعات : </label>
+                    <div class="has-feedback">
+                        <input type="text" id="project_text" class="form-control" name="value[project_text]" placeholder="عنوان الموقع" value="<?php echo $data['value']->project_text; ?>">
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 ">
+                    <label class="control-label">حالة الوسوم :</label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['value']->enableTages == 1) ? 'checked' : ''; ?> value="1" name="value[enableTages]"> اظهار الوسوم 
+                        </label>
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['value']->enableTages == '0') ? 'checked' : ''; ?> value="0" name="value[enableTages]"> اخفاء الوسوم
+                        </label>
+                    </div>
                 </div>
                 <div class="form-group col-xs-12 ">
                     <label class="control-label">حالة الاقسام :</label>
@@ -114,6 +129,10 @@ require ADMINROOT . '/views/inc/header.php';
                         <label>
                             <input type="radio" class="flat" <?php echo ($data['value']->show_categories == '0') ? 'checked' : ''; ?> value="0" name="value[show_categories]"> اخفاء الاقسام
                         </label>
+                    </div>
+                    <label class="control-label" for="category_text">عنوان الاقسام : </label>
+                    <div class="has-feedback">
+                        <input type="text" id="category_text" class="form-control" name="value[category_text]" placeholder="عنوان الاقسام" value="<?php echo $data['value']->category_text; ?>">
                     </div>
                 </div>
                 <div class="form-group col-xs-12 ">

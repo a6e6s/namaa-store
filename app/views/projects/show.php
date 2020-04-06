@@ -37,14 +37,15 @@
                         <div class="p-2">
                             <p class="m-0 pb-2">
                                 تم جمع
-                                <span class="h4 mx-1"><i class="icofont-riyal"></i>
+                                <span class="h4 mx-1">
                                     <?php
-                                    if (!empty($data['project']->target_unit) && !empty($data['project']->unit_price)) {
-                                        echo empty($data['project']->fake_target) ? $target = $data['collected_traget'] : $target = $data['project']->fake_target * $data['project']->unit_price;
+                                    if (!empty($data['project']->target_unit) && !empty($data['project']->unit_price)) { // check if user set unit and unit price
+                                        echo empty($data['project']->fake_target) ? $target = $data['collected_traget'] / $data['project']->unit_price : $target = $data['project']->fake_target;
+                                        echo  " " . $data['project']->target_unit;
                                     } else {
                                         echo empty($data['project']->fake_target) ? $target = $data['collected_traget'] : $target = $data['project']->fake_target;
+                                        echo ' <i class="icofont-riyal"></i> ';
                                     }
-
                                     ($data['project']->target_price) ?: $data['project']->target_price = 1;
                                     ?>
                                 </span>
@@ -150,7 +151,7 @@
                                     <option value="">اختار فئة الإهداء</option>
                                     <?php
                                     foreach ($data['gift_settings'] as $key => $value) {
-                                        echo !strpos($key, 'name') ? '' : '<option id="' . str_replace('_name', '', $key) . '" value="' . $value . '">' . $value . '</option>';
+                                        echo  '<option id="' . str_replace('_name', '', $key) . '" value="' . $value->name . '">' . $value->name . '</option>';
                                     }
                                     ?>
                                 </select>
@@ -162,15 +163,13 @@
                                 <div class=" btn-group-toggle" data-toggle="buttons">
                                     <?php
                                     foreach ($data['gift_settings'] as $key => $value) {
-                                        if (!strpos($key, 'name')) {
-                                            $values = explode(',', $value);
-                                            foreach ($values as $val) {
-                                                $val = str_replace('&#34;', '', trim(trim($val, ']'), '['));
-                                                echo '<label class="btn btn-light group-img d-none" id="' . $key . '">
-                                                        <input type="radio" value="' . $val . '" name="gift[card]" >
-                                                        <img width="100" src="' . MEDIAURL . "/" . $val . '" class="h-100 img-thumbnail">
-                                                    </label>';
-                                            }
+                                        $values = explode(',', $value->image);
+                                        foreach ($values as $val) {
+                                            $val = str_replace('&#34;', '', trim(trim($val, ']'), '['));
+                                            echo '<label class="btn btn-light group-img d-none" id="' . $key . '">
+                                                    <input type="radio" value="' . $val . '" name="gift[card]" >
+                                                    <img width="100" src="' . MEDIAURL . "/" . $val . '" class="h-100 img-thumbnail">
+                                                  </label>';
                                         }
                                     }
                                     ?>
@@ -281,7 +280,7 @@
                         <?php foreach ($data['moreprojects'] as $moreprojects) : ?>
                             <div class="project">
                                 <a class="">
-                                    <img class="card-img-top rounded" src="<?php echo (empty($moreprojects->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $moreprojects->image; ?>" alt="<?php echo $moreprojects->name; ?>">
+                                    <img class="card-img-top rounded" src="<?php echo (empty($moreprojects->secondary_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $moreprojects->secondary_image; ?>" alt="<?php echo $moreprojects->name; ?>">
                                     <div class="content p-1">
                                         <h3 class="project-title mt-2"><?php echo $moreprojects->name; ?></h3>
                                         <div class="text-center mt-2">

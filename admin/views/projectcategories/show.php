@@ -34,7 +34,7 @@ require ADMINROOT . '/views/inc/header.php';
     <div class="form-group">
         <h3 class="prod_title">
             <label class="control-label">الرابط : </label>
-            <a href="<?php echo URLROOT . '/projectcategories/show/' . $data['projectcategory']->category_id; ?>"><?php echo URLROOT . '/projectcategories/show/' . $data['projectcategory']->category_id; ?></a>
+            <a href="<?php echo URLROOT . '/projectCategories/show/' . $data['projectcategory']->category_id; ?>"><?php echo URLROOT . '/projectCategories/show/' . $data['projectcategory']->category_id; ?></a>
         </h3>
     </div>
     <div class="clearfix"></div>

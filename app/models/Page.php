@@ -40,15 +40,28 @@ class Page extends Model
         $results = $this->getFromTable('slides', $cols, $bind, '', '', 'arrangement', 'ASC');
         return $results;
     }
-
+    /**
+     * get Projects Tags
+     *
+     * @param string $cols
+     * @param array $bind
+     * @return void
+     */
+    public function getProjectsTags($cols = '*', $bind = ['status' => 1])
+    {
+        $results = $this->getFromTable('project_tags', $cols, $bind, '', '', 'arrangement', 'ASC');
+        return $results;
+    }
     /**
      * get projects from datatbase
      * @return object projects data
      */
-    public function getProjects($cols = '*', $bind = ['status' => 1], $start = 1, $count = 1000, $orderBy = 'arrangement', $order = 'ASC')
+    public function getProjects()
     {
-        $results = $this->getFromTable('projects', $cols, $bind, $start, $count, $orderBy, $order);
-        return $results;
+        $query = 'SELECT pj.*,(SELECT SUM(total) FROM donations WHERE pj.project_id =donations.project_id AND status = 1 LIMIT 1 ) as total 
+        FROM `projects` pj WHERE pj.status = 1 AND pj.hidden = 0 AND pj.featured = 1 ORDER BY arrangement ASC';
+        $this->db->query($query);
+        return $this->db->resultSet();
     }
 
     /**

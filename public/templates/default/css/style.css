@@ -215,5 +215,11 @@ body {
 .amount-select{
     height: 120px;
 }
-
-
+@media only screen and (max-width: 600px) {
+    #cart{font-size: .8em;border: 1px solid #e9ecef;}
+    #cart .form-control{min-width: 30px;font-size: .8em;}
+    #cart td, #cart th{padding: .35rem;}
+    #cart button{padding: 0 3px;font-size: .8em;}
+    .cart .card-body{padding: .25rem;}
+  }
+.cart-num{position: relative; left: -20px; top: -18px; font-size: 12px;}

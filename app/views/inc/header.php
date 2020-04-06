@@ -85,9 +85,11 @@ For more information about the author , see <http://www.ahmedx.com/>.
                             <a title="Profile" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT ."/user/login"; ?>"><i class="icofont-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="<?php echo URLROOT ."/carts"; ?>"> <i class="icofont-cart cart-icon "></i> <span class="d-none d-sm-inline">السلة (
-                                <?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?>
-                            ) منتج</span> </a>
+                            <a class="nav-link text-dark" href="<?php echo URLROOT ."/carts"; ?>">
+                             <span class="cart-num d-sm-block d-lg-none"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : ''; ?></span>
+                             <i class="icofont-cart cart-icon "></i> 
+                            <span class="d-none d-sm-inline">السلة (<?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?>) منتج</span>
+                         </a>
                         </li>
                     </div>
                 </div>

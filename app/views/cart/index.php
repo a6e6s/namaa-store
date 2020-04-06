@@ -1,19 +1,18 @@
 <?php require APPROOT . '/app/views/inc/header.php'; ?>
 <?php flash('msg'); ?>
-<div class="card">
+<div class="card cart">
     <div class="card-header text-center">
         <h4 class="">سلة التبرع</h4>
     </div>
     <div class="card-body">
         <div class="card-text">
-            <table class="table table-light ">
+            <table class="table table-light" id="cart">
                 <thead class="thead-light">
                     <tr>
-                        <th>id</th>
-                        <th>اسم المشروع</th>
+                        <th> المشروع</th>
                         <th>القيمة</th>
                         <th>الكمية</th>
-                        <th>نوع التبرع</th>
+                        <th>النوع </th>
                         <th>حذف</th>
                     </tr>
                 </thead>
@@ -23,7 +22,6 @@
                     if (isset($_SESSION['cart'])) {
                         foreach ($_SESSION['cart']['items'] as $key => $value) {
                             echo "<tr>
-                                    <td>" . $key . "</td>
                                     <td><a href='" . URLROOT . "/projects/show/ " . $value['project_id'] . "' >" . $value['name'] . "</a></td>
                                     <td>" . $value['amount'] . "</td>
                                     <td><form class='form-row' action='" . URLROOT . "/carts/setQuantity' method='post'>
@@ -44,8 +42,8 @@
                     <tr>
                         <th colspan="2">الاجمالي</th>
                         <th><?php echo $total; ?></th>
-                        <th colspan="2"><?php if (isset($_SESSION['cart']['totalQty'])) echo $_SESSION['cart']['totalQty']; ?> </th>
-                        <th><a href="<?php echo URLROOT . '/carts/removeAll'; ?>">افراغ السلة</a></th>
+                        <th colspan="1"><?php if (isset($_SESSION['cart']['totalQty'])) echo $_SESSION['cart']['totalQty']; ?> </th>
+                        <th><a href="<?php echo URLROOT . '/carts/removeAll'; ?>">افراغ </a></th>
                     </tr>
                 </tfoot>
             </table>
@@ -67,7 +65,7 @@
                         </div>
                     </div>
                     <div class="form-group row mt-4">
-                        <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني <span class="text-warning small">(اختياري)</span></label>
+                        <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="email" placeholder="البريد الالكتروني">
                         </div>

@@ -52,7 +52,7 @@ class ProjectCategory extends Model
      */
     public function getProductsByCategory($id, $start, $perpage)
     {
-        return $this->getFromTable('projects', '*', ['category_id' => $id, 'status' => 1], $start, $perpage);
+        return $this->getFromTable('projects pj', 'pj.*,(SELECT SUM(total) FROM donations WHERE pj.project_id =donations.project_id AND status = 1 LIMIT 1 ) as total ', ['category_id' => $id, 'status' => 1], $start, $perpage);
     }
 
     /**
@@ -86,7 +86,7 @@ class ProjectCategory extends Model
      */
     public function getCategories($start, $perpage)
     {
-        return $this->get('*', ['status' => 1], $start, $perpage);
+        return $this->get('*', ['status' => 1, 'parent_id' => 0], $start, $perpage);
     }
 
     /**

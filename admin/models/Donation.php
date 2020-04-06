@@ -34,7 +34,7 @@ class Donation extends ModelAdmin
      */
     public function getDonations($cond = '', $bind = '', $limit = '', $bindLimit)
     {
-        $query = 'SELECT ds.*, payment_methods.title as payment_method, donors.full_name as donor, projects.name as project ,
+        $query = 'SELECT ds.*, payment_methods.title as payment_method, donors.full_name as donor, donors.mobile, projects.name as project ,
         (select GROUP_CONCAT(  DISTINCT  donation_tags.name    SEPARATOR " , ") from donation_tags, tags_donations where ds.donation_id = tags_donations.donation_id  AND donation_tags.tag_id = tags_donations.tag_id) as tags
         FROM donations ds ,projects, donors,payment_methods ' . $cond . ' ORDER BY ds.create_date DESC ';
         // dd($query);
@@ -320,15 +320,15 @@ class Donation extends ModelAdmin
                     $cond .= ' AND donors.full_name LIKE :' . $keyword . ' ';
                 } elseif ($keyword == 'payment_method') {
                     $cond .= ' AND payment_methods.title LIKE :' . $keyword . ' ';
+                } elseif ($keyword == 'mobile') {
+                    $cond .= ' AND donors.mobile LIKE :' . $keyword . ' ';
                 } elseif ($keyword == 'project') {
                     $cond .= ' AND projects.name LIKE :' . $keyword . ' ';
                 } else {
                     $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
                 }
-
                 if ($keyword == 'date_from' || $keyword == 'date_to') {
                     $bind[':' . $keyword] = strtotime($_POST['search'][$keyword]);
-                    // dd($keyword);
                 } else {
                     $bind[':' . $keyword] = $_POST['search'][$keyword];
                 }
@@ -357,6 +357,8 @@ class Donation extends ModelAdmin
                     $cond .= ' AND projects.name LIKE :' . $keyword . ' ';
                 } elseif ($keyword == 'payment_method') {
                     $cond .= ' AND payment_methods.title LIKE :' . $keyword . ' ';
+                } elseif ($keyword == 'mobile') {
+                    $cond .= ' AND donors.mobile LIKE :' . $keyword . ' ';
                 } else {
                     $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
                 }
@@ -393,4 +395,55 @@ class Donation extends ModelAdmin
             return false;
         }
     }
+    
+    /**
+     * canceled one or more records by id
+     * @param Array $ids
+     * @param string colomn id
+     * @return boolean or row count
+     */
+    public function canceledById($ids, $where)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($ids); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE ' . $this->table . ' SET status = 4 WHERE ' . $where . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($ids as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * waiting one or more records by id
+     * @param Array $ids
+     * @param string colomn id
+     * @return boolean or row count
+     */
+    public function waitingById($ids, $where)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($ids); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE ' . $this->table . ' SET status = 3 WHERE ' . $where . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($ids as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+
 }

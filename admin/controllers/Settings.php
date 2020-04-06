@@ -45,10 +45,10 @@ class Settings extends ControllerAdmin
     {
         $id = (int) $id;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $bootom = $this->settingModel->cleanHTML($_POST['value']['bootom']);
+            if (isset($_POST['value']['bootom'])) $bootom = $this->settingModel->cleanHTML($_POST['value']['bootom']);
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $_POST['value']['bootom'] = $bootom;
+            if (isset($_POST['value']['bootom'])) $_POST['value']['bootom'] = $bootom;
             $data = [
                 'setting_id' => $id,
                 'page_title' => 'الأعدادات',
@@ -88,7 +88,6 @@ class Settings extends ControllerAdmin
                 'title_error' => '',
                 'value_error' => '',
             ];
-
         }
         switch ($id) {
             case '1':

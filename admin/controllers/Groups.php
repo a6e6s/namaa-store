@@ -78,7 +78,7 @@ class Groups extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->groupModel->searchHandling(['name', 'description', 'status']);
+        $searches = $this->groupModel->searchHandling(['name', 'description', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

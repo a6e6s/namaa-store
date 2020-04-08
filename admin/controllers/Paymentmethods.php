@@ -83,7 +83,7 @@ class PaymentMethods extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->paymentModel->searchHandling(['title', 'status']);
+        $searches = $this->paymentModel->searchHandling(['title', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

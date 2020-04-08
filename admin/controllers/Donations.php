@@ -28,7 +28,7 @@ class Donations extends ControllerAdmin
      * loading index view with latest donations
      */
     public function index($current = '', $perpage = 50)
-    { #SELECT donations.*, donors.full_name as donor, projects.name as project FROM `donations`,projects, donors WHEre donors.donor_id = donations.donor_id AND projects.project_id = donations.project_id
+    {
         // get donations
         $cond = 'WHERE ds.status <> 2 AND donors.donor_id = ds.donor_id AND projects.project_id = ds.project_id AND ds.payment_method_id = payment_methods.payment_id ';
         $bind = [];
@@ -50,10 +50,18 @@ class Donations extends ControllerAdmin
             if (!empty($_POST['search']['amount_to'])) {
                 $cond .= ' AND ds.amount <= ' . $_POST['search']['amount_to'] . ' ';
             }
+            // payment_method search
+            if (!empty($_POST['search']['payment_method'])) {
+                $cond .= ' AND ds.payment_method_id in (' . implode(',', $_POST['search']['payment_method']) . ') ';
+            }
             // projects search
             if (!empty($_POST['search']['projects'])) {
                 $cond .= ' AND ds.project_id in (' . implode(',', $_POST['search']['projects']) . ') ';
             }
+            // projects search
+            // if (!empty($_POST['search']['status_id'])) {
+            //     $cond .= ' AND ds.status_id = ' . $_POST['search']['status_id'] . ' ';
+            // }
             //handling Delete
             if (isset($_POST['delete'])) {
                 if (isset($_POST['record'])) {
@@ -127,11 +135,11 @@ class Donations extends ControllerAdmin
                     flash('donation_msg', 'لم تقم بأختيار اي تبرع', 'alert alert-danger');
                 }
             }
-            
-            //handling tags
-            if (isset($_POST['tag_id'])) {
+
+            //handling status
+            if (isset($_POST['status_id'])) {
                 if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->setDonationTages($_POST['record'], $_POST['tag_id'])) {
+                    if ($row_num = $this->donationModel->setDonationStatuses($_POST['record'], $_POST['status_id'])) {
                         flash('donation_msg', 'تم اضافة ' . $row_num . ' بنجاح');
                     } else {
                         flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
@@ -142,7 +150,7 @@ class Donations extends ControllerAdmin
             //clear tags
             if (isset($_POST['clear'])) {
                 if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->clearAllTagsByDonationsId($_POST['record'])) {
+                    if ($row_num = $this->donationModel->clearAllStatusesByDonationsId($_POST['record'])) {
                         flash('donation_msg', 'تم الغاء   ' . $row_num . ' بنجاح');
                     } else {
                         flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
@@ -151,9 +159,8 @@ class Donations extends ControllerAdmin
                 redirect('donations');
             }
         }
-
         //handling search
-        $searches = $this->donationModel->searchHandling(['donation_identifier', 'total', 'donation_type', 'status', 'donor', 'mobile', 'payment_method']);
+        $searches = $this->donationModel->searchHandling(['donation_identifier', 'total', 'donation_type', 'status', 'status_id', 'donor', 'mobile'], $current);
         $cond .= $searches['cond'];
         // dd($_POST);
         $bind = $searches['bind'];
@@ -180,7 +187,8 @@ class Donations extends ControllerAdmin
             'perpage' => $perpage,
             'header' => '',
             'title' => 'التبرعات',
-            'tags' => $this->donationModel->tagsList(' WHERE status = 1'),
+            'statuses' => $this->donationModel->statusesList(' WHERE status = 1'),
+            'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
             'projects' => $this->donationModel->projectsList(' WHERE status = 1'),
             'donations' => $donations,
             'recordsCount' => $recordsCount->count,
@@ -207,20 +215,21 @@ class Donations extends ControllerAdmin
                 'amount' => $_POST['amount'],
                 'total' => $_POST['total'],
                 'quantity' => $_POST['quantity'],
+                'status_id' => $_POST['status_id'],
                 'payment_method_id' => trim($_POST['payment_method_id']),
                 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => '',
-                'tagsList' => $this->donationModel->tagsList(),
+                'statusesList' => $this->donationModel->statusesList(),
                 'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
                 'project_id' => $_POST['project_id'],
-                'tags' => '',
+                'statuses' => '',
                 'status' => '',
                 'payment_method_id_error' => '',
                 'project_id_error' => '',
                 'banktransferproof_error' => '',
                 'status_error' => '',
             ];
-            isset($_POST['tags']) ? $data['tags'] = $_POST['tags'] : '';
+            isset($_POST['statuses']) ? $data['statuses'] = $_POST['statuses'] : '';
             // validate payment methods
             !(empty($data['payment_method_id'])) ?: $data['payment_method_id_error'] = 'هذا الحقل مطلوب';
 
@@ -242,11 +251,6 @@ class Donations extends ControllerAdmin
             if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error']) && empty($data['project_id_error'])) {
                 //validated
                 if ($this->donationModel->updateDonation($data)) {
-                    //clear previous tags before inserting new values
-                    $this->donationModel->deleteTagsByDonationId($id);
-                    // insert new tags
-                    $this->donationModel->insertTags($data['tags'], $id);
-
                     flash('donation_msg', 'تم التعديل بنجاح');
                     isset($_POST['save']) ? redirect('donations/edit/' . $id) : redirect('donations');
                 } else {
@@ -264,19 +268,11 @@ class Donations extends ControllerAdmin
             }
             $data = [
                 'page_title' => 'التبرعات',
-                'donation_id' => $id,
-                'donation_identifier' => $donation->donation_identifier,
-                'amount' => $donation->amount,
-                'total' => $donation->total,
-                'quantity' => $donation->quantity,
-                'payment_method_id' => $donation->payment_method_id,
+                'donation' => $donation,
                 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => $donation->banktransferproof,
-                'project_id' => $donation->project_id,
                 'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
-                'tagsList' => $this->donationModel->tagsList(),
-                'tags' => $this->donationModel->tagsListByDonation($id),
-                'status' => '',
+                'statusesList' => $this->donationModel->statusesList(),
                 'payment_method_id_error' => '',
                 'project_id_error' => '',
                 'banktransferproof_error' => '',

@@ -78,7 +78,7 @@ class ProjectTags extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->projectTagModel->searchHandling(['name', 'description', 'status']);
+        $searches = $this->projectTagModel->searchHandling(['name', 'description', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

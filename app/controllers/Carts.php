@@ -13,6 +13,7 @@ class Carts extends Controller
     {
         $data = [
             'site_settings' => json_decode($this->cartModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->cartModel->getSettings('contact')->value),
             'pagesLinks' => $this->cartModel->getMenu(),
             'payment_methods' => $this->cartModel->getFromTable('payment_methods', '*', ['status' => 1]),
             'pageTitle' => 'الرئيسية: ' . SITENAME,

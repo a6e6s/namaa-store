@@ -75,7 +75,7 @@ class Pages extends ControllerAdmin {
         }
 
         //handling search
-        $searches = $this->pageModel->searchHandling(['title', 'status']);
+        $searches = $this->pageModel->searchHandling(['title', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

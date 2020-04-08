@@ -46,21 +46,22 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                         <div class="form-group col-xs-12">
                             <label class="control-label">المشروعات</label>
-                            <select class="form-control select2" donations copy copy name="projects[]" multiple="multiple" data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
+                            <select class="form-control select2" donations copy copy name="projects[]" multiple="multiple" data-placeholder="اختار المشروعات" style="width: 100%;">
                                 <?php foreach ($data['projects'] as $project) {
                                     echo '<option value="' . $project->project_id . '" >' . $project->name . '</option>';
                                 } ?>
                             </select>
                         </div>
-                        <div class="form-group col-xs-12">
-                            <label class="control-label">الوسوم</label>
-                            <select class="form-control select2" name="tags[]" multiple="multiple" data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
-                                <?php foreach ($data['tags'] as $tag) {
-                                    echo '<option value="' . $tag->tag_id . '" >' . $tag->name . '</option>';
+                        <div class="form-group col-xs-6">
+                            <label class="control-label">الحالة</label>
+                            <select class="form-control" name="statuses" data-placeholder="اختار الحالة المناسبة" style="width: 100%;">
+                            <option value="">اختار حالة التبرع</option>
+                                <?php foreach ($data['statuses'] as $statuses) {
+                                    echo '<option value="' . $statuses->status_id . '" >' . $statuses->name . '</option>';
                                 } ?>
                             </select>
                         </div>
-                        <div class="form-group col-lg-4 col-xs-12">
+                        <div class="form-group col-lg-6 col-xs-12">
                             <label for="payment_methods">وسيلة الدفع</label>
                             <select id="payment_methods" class="form-control" name="payment_methods">
                                 <option value="">اختار وسيلة الدفع</option>
@@ -69,7 +70,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 } ?>
                             </select>
                         </div>
-                        <div class="form-group col-lg-4 col-xs-12">
+                        <div class="form-group col-lg-6 col-xs-12">
                             <label for="status">حالة التبرع</label>
                             <select id="status" class="form-control " name="status">
                                 <option value="">اختار حالة التبرع</option>
@@ -78,7 +79,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <option value="2">محذوف</option>
                             </select>
                         </div>
-                        <div class="form-group col-lg-4 col-xs-12">
+                        <div class="form-group col-lg-6 col-xs-12">
                             <label for="gift">مهدي خيريا</label>
                             <select id="gift" class="form-control " name="gift">
                                 <option value="">اختار حالة الاهداء</option>

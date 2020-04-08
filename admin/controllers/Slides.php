@@ -78,7 +78,7 @@ class Slides extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->slideModel->searchHandling(['name', 'url', 'description', 'status']);
+        $searches = $this->slideModel->searchHandling(['name', 'url', 'description', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

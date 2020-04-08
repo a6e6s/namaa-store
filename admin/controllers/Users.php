@@ -78,7 +78,7 @@ class Users extends ControllerAdmin
             }
         }
         //handling search
-        $searches = $this->userModel->searchHandling(['name', 'group_id', 'email', 'mobile', 'status']);
+        $searches = $this->userModel->searchHandling(['name', 'group_id', 'email', 'mobile', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

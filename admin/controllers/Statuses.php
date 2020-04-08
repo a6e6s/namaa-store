@@ -14,22 +14,22 @@
  * For more information about the author , see <http://www.ahmedx.com/>.
  */
 
-class DonationTags extends ControllerAdmin
+class Statuses extends ControllerAdmin
 {
 
-    private $donationTagModel;
+    private $statusesModel;
 
     public function __construct()
     {
-        $this->donationTagModel = $this->model('DonationTag');
+        $this->statusesModel = $this->model('Status');
     }
 
     /**
-     * loading index view with latest donationtags
+     * loading index view with latest statuses
      */
     public function index($current = '', $perpage = 50)
     {
-        // get donationtags
+        // get statuses
         $cond = 'WHERE status <> 2 ';
         $bind = [];
 
@@ -41,49 +41,49 @@ class DonationTags extends ControllerAdmin
             //handling Delete
             if (isset($_POST['delete'])) {
                 if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationTagModel->deleteById($_POST['record'], 'tag_id')) {
-                        flash('donationtag_msg', 'تم حذف ' . $row_num . ' بنجاح');
+                    if ($row_num = $this->statusesModel->deleteById($_POST['record'], 'status_id')) {
+                        flash('status_msg', 'تم حذف ' . $row_num . ' بنجاح');
                     } else {
-                        flash('donationtag_msg', 'لم يتم الحذف', 'alert alert-danger');
+                        flash('status_msg', 'لم يتم الحذف', 'alert alert-danger');
                     }
                 }
 
-                redirect('donationtags');
+                redirect('statuses');
             }
 
             //handling Publish
             if (isset($_POST['publish'])) {
                 if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationTagModel->publishById($_POST['record'], 'tag_id')) {
-                        flash('donationtag_msg', 'تم نشر ' . $row_num . ' بنجاح');
+                    if ($row_num = $this->statusesModel->publishById($_POST['record'], 'status_id')) {
+                        flash('status_msg', 'تم نشر ' . $row_num . ' بنجاح');
                     } else {
-                        flash('donationtag_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                        flash('status_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                     }
                 }
-                redirect('donationtags');
+                redirect('statuses');
             }
 
             //handling Unpublish
             if (isset($_POST['unpublish'])) {
 
                 if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationTagModel->unpublishById($_POST['record'], 'tag_id')) {
-                        flash('donationtag_msg', 'تم ايقاف نشر ' . $row_num . ' بنجاح');
+                    if ($row_num = $this->statusesModel->unpublishById($_POST['record'], 'status_id')) {
+                        flash('status_msg', 'تم ايقاف نشر ' . $row_num . ' بنجاح');
                     } else {
-                        flash('donationtag_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                        flash('status_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                     }
                 }
-                redirect('donationtags');
+                redirect('statuses');
             }
         }
 
         //handling search
-        $searches = $this->donationTagModel->searchHandling(['name', 'description', 'status']);
+        $searches = $this->statusesModel->searchHandling(['name', 'description', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 
         // get all records count after search and filtration
-        $recordsCount = $this->donationTagModel->allDonationTagsCount($cond, $bind);
+        $recordsCount = $this->statusesModel->allStatusesCount($cond, $bind);
         // make sure its integer value and its usable
         $current = (int) $current;
         $perpage = (int) $perpage;
@@ -97,23 +97,23 @@ class DonationTags extends ControllerAdmin
             $limit = 'LIMIT  ' . (($current - 1) * $perpage) . ', :perpage';
             $bindLimit[':perpage'] = $perpage;
         }
-        //get all records for current donationtag
-        $donationtags = $this->donationTagModel->getDonationTags($cond, $bind, $limit, $bindLimit);
+        //get all records for current status
+        $statuses = $this->statusesModel->getStatuses($cond, $bind, $limit, $bindLimit);
 
         $data = [
             'current' => $current,
             'perpage' => $perpage,
             'header' => '',
-            'title' => 'الوسوم',
-            'donationtags' => $donationtags,
+            'title' => 'الحالات',
+            'statuses' => $statuses,
             'recordsCount' => $recordsCount->count,
             'footer' => '',
         ];
-        $this->view('donationtags/index', $data);
+        $this->view('statuses/index', $data);
     }
 
     /**
-     * adding new donationtag
+     * adding new status
      */
     public function add()
     {
@@ -122,7 +122,7 @@ class DonationTags extends ControllerAdmin
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'page_title' => 'الوسوم',
+                'page_title' => 'الحالات',
                 'name' => trim($_POST['name']),
                 'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['name']),
                 'description' => trim($_POST['description']),
@@ -144,19 +144,19 @@ class DonationTags extends ControllerAdmin
             //mack sue there is no errors
             if (empty($data['status_error']) && empty($data['name_error'])) {
                 //validated
-                if ($this->donationTagModel->addDonationTag($data)) {
-                    flash('donationtag_msg', 'تم الحفظ بنجاح');
-                    redirect('donationtags');
+                if ($this->statusesModel->addStatus($data)) {
+                    flash('status_msg', 'تم الحفظ بنجاح');
+                    redirect('statuses');
                 } else {
-                    flash('donationtag_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
+                    flash('status_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
                 }
             } else {
                 //load the view with error
-                $this->view('donationtags/add', $data);
+                $this->view('statuses/add', $data);
             }
         } else {
             $data = [
-                'page_title' => 'وسوم التبرعات',
+                'page_title' => 'حالات التبرعات',
                 'name' => '',
                 'description' => '',
                 'status' => 0,
@@ -165,12 +165,12 @@ class DonationTags extends ControllerAdmin
             ];
         }
 
-        //loading the add donationtag view
-        $this->view('donationtags/add', $data);
+        //loading the add status view
+        $this->view('statuses/add', $data);
     }
 
     /**
-     * update donationtag
+     * update status
      * @param integer $id
      */
     public function edit($id)
@@ -181,8 +181,8 @@ class DonationTags extends ControllerAdmin
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'tag_id' => $id,
-                'page_title' => 'الوسوم',
+                'status_id' => $id,
+                'page_title' => 'الحالات',
                 'name' => trim($_POST['name']),
                 'description' => trim($_POST['description']),
                 'status' => trim($_POST['status']),
@@ -204,51 +204,51 @@ class DonationTags extends ControllerAdmin
             // mack sue there is no errors
             if (empty($data['status_error']) && empty($data['name_error'])) {
                 //validated
-                if ($this->donationTagModel->updateDonationTag($data)) {
-                    flash('donationtag_msg', 'تم التعديل بنجاح');
-                    isset($_POST['save']) ? redirect('donationtags/edit/' . $id) : redirect('donationtags');
+                if ($this->statusesModel->updateStatus($data)) {
+                    flash('status_msg', 'تم التعديل بنجاح');
+                    isset($_POST['save']) ? redirect('statuses/edit/' . $id) : redirect('statuses');
                 } else {
-                    flash('donationtag_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
+                    flash('status_msg', 'هناك خطأ مه حاول مرة اخري', 'alert alert-danger');
                 }
             } else {
                 //load the view with error
-                $this->view('donationtags/edit', $data);
+                $this->view('statuses/edit', $data);
             }
         } else {
-            // featch donationtag
-            if (!$donationtag = $this->donationTagModel->getDonationTagById($id)) {
-                flash('donationtag_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
-                redirect('donationtags');
+            // featch status
+            if (!$status = $this->statusesModel->getStatusById($id)) {
+                flash('status_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
+                redirect('statuses');
             }
 
             $data = [
-                'page_title' => 'الوسوم',
-                'tag_id' => $id,
-                'name' => $donationtag->name,
-                'description' => $donationtag->description,
-                'status' => $donationtag->status,
+                'page_title' => 'الحالات',
+                'status_id' => $id,
+                'name' => $status->name,
+                'description' => $status->description,
+                'status' => $status->status,
                 'status_error' => '',
                 'name_error' => '',
             ];
-            $this->view('donationtags/edit', $data);
+            $this->view('statuses/edit', $data);
         }
     }
 
     /**
-     * showing donationtag details
+     * showing status details
      * @param integer $id
      */
     public function show($id)
     {
-        if (!$donationtag = $this->donationTagModel->getDonationTagById($id)) {
-            flash('donationtag_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
-            redirect('donationtags');
+        if (!$status = $this->statusesModel->getStatusById($id)) {
+            flash('status_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
+            redirect('statuses');
         }
         $data = [
-            'page_title' => 'الوسوم',
-            'donationtag' => $donationtag,
+            'page_title' => 'الحالات',
+            'status' => $status,
         ];
-        $this->view('donationtags/show', $data);
+        $this->view('statuses/show', $data);
     }
 
     /**
@@ -257,12 +257,12 @@ class DonationTags extends ControllerAdmin
      */
     public function delete($id)
     {
-        if ($row_num = $this->donationTagModel->deleteById([$id], 'tag_id')) {
-            flash('donationtag_msg', 'تم حذف ' . $row_num . ' بنجاح');
+        if ($row_num = $this->statusesModel->deleteById([$id], 'status_id')) {
+            flash('status_msg', 'تم حذف ' . $row_num . ' بنجاح');
         } else {
-            flash('donationtag_msg', 'لم يتم الحذف', 'alert alert-danger');
+            flash('status_msg', 'لم يتم الحذف', 'alert alert-danger');
         }
-        redirect('donationtags');
+        redirect('statuses');
     }
 
     /**
@@ -271,12 +271,12 @@ class DonationTags extends ControllerAdmin
      */
     public function publish($id)
     {
-        if ($row_num = $this->donationTagModel->publishById([$id], 'tag_id')) {
-            flash('donationtag_msg', 'تم نشر ' . $row_num . ' بنجاح');
+        if ($row_num = $this->statusesModel->publishById([$id], 'status_id')) {
+            flash('status_msg', 'تم نشر ' . $row_num . ' بنجاح');
         } else {
-            flash('donationtag_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+            flash('status_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
         }
-        redirect('donationtags');
+        redirect('statuses');
     }
 
     /**
@@ -285,12 +285,12 @@ class DonationTags extends ControllerAdmin
      */
     public function unpublish($id)
     {
-        if ($row_num = $this->donationTagModel->unpublishById([$id], 'tag_id')) {
-            flash('donationtag_msg', 'تم ايقاف نشر ' . $row_num . ' بنجاح');
+        if ($row_num = $this->statusesModel->unpublishById([$id], 'status_id')) {
+            flash('status_msg', 'تم ايقاف نشر ' . $row_num . ' بنجاح');
         } else {
-            flash('donationtag_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+            flash('status_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
         }
-        redirect('donationtags');
+        redirect('statuses');
     }
 
 }

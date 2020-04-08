@@ -21,29 +21,29 @@ require ADMINROOT . '/views/inc/header.php';
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('donationtag_msg');?>
+    <?php flash('status_msg');?>
     <div class="page-title">
         <div class="title_right">
-            <h3><?php echo $data['page_title']; ?> <small>اضافة  وسم جديد </small></h3>
+            <h3><?php echo $data['page_title']; ?> <small>اضافة  حالة جديد </small></h3>
         </div>
         <div class="title_left">
-            <a href="<?php echo ADMINURL; ?>/donationtags" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
+            <a href="<?php echo ADMINURL; ?>/statuses" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="row">
-        <form action="<?php echo ADMINURL . '/donationtags/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
+        <form action="<?php echo ADMINURL . '/statuses/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="form-group  <?php echo (empty($data['name_error'])) ?: 'has-error'; ?>">
-                    <label class="control-label" for="pageTitle">عنوان الوسم : </label>
+                    <label class="control-label" for="pageTitle">عنوان الحالة : </label>
                     <div class="has-feedback">
-                        <input type="text" class="form-control" name="name" placeholder="عنوان الوسم" value="<?php echo $data['name']; ?>">
+                        <input type="text" class="form-control" name="name" placeholder="عنوان الحالة" value="<?php echo $data['name']; ?>">
                         <span class="fa fa-edit form-control-feedback" aria-hidden="true"></span>
                         <span class="help-block"><?php echo $data['name_error']; ?></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">وصف الوسم  : </label>
+                    <label class="control-label">وصف الحالة  : </label>
                         <textarea rows="5" name="description" class="form-control"><?php echo ($data['description']); ?></textarea>
                 </div>
                 <div class="form-group col-xs-12 <?php echo (!empty($data['status_error'])) ? 'has-error' : ''; ?>">
@@ -70,8 +70,6 @@ require ADMINROOT . '/views/inc/header.php';
 </div>
 <?php
 // loading plugin
-$data['footer'] = '<script src="' . ADMINURL . '/template/default/vendors/ckeditor/ckeditor.js"></script>
-
-                   <script src="' . ADMINURL . '/template/default/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>';
+$data['footer'] = '';
 
 require ADMINROOT . '/views/inc/footer.php';

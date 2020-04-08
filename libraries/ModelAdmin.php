@@ -181,12 +181,40 @@ class ModelAdmin
     }
 
     /**
+     * Set multiable value 
+     *
+     * @param [string] $target
+     * @param [string] $value
+     * @param [string] $colomn
+     * @param [array] $in
+     * @return void
+     */
+    public function setWhereIn($target, $value, $colomn, $in)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($in); $index++) {
+            $id_num[] = ":in" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE ' . $this->table . ' SET ' . $target . ' = :target WHERE ' . $colomn . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        $this->db->bind(':target', $value);
+        foreach ($in as $key => $val) {
+            $this->db->bind(':in' . ($key + 1), $val);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+    /**
      * searchHandling
      *
      * @param  array $searchColomns ['name','status']
      * @return array $cond $bind
      */
-    public function searchHandling($searchColomns)
+    public function searchHandling($searchColomns, $current ='')
     {
         // if user make a search
         if (isset($_POST['search'])) {
@@ -199,7 +227,8 @@ class ModelAdmin
             if (empty($current)) {
                 unset($_SESSION['search']);
                 // if there is pagenation and value stored into session get it and prepare Condition and bind
-            } else {
+            }
+             else {
                 return $this->handlingSearchSessionCondition($searchColomns);
             }
         }
@@ -336,7 +365,7 @@ class ModelAdmin
     public function getSettings($settingType = null)
     {
         if ($settingType) {
-            return $this->getAll('SELECT * FROM settings WHERE settings.alias = "' . $settingType.'"')[0];
+            return $this->getAll('SELECT * FROM settings WHERE settings.alias = "' . $settingType . '"')[0];
         } else {
             return $this->getAll('SELECT * FROM settings');
         }

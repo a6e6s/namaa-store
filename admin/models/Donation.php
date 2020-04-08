@@ -35,7 +35,7 @@ class Donation extends ModelAdmin
     public function getDonations($cond = '', $bind = '', $limit = '', $bindLimit)
     {
         $query = 'SELECT ds.*, payment_methods.title as payment_method, donors.full_name as donor, donors.mobile, projects.name as project ,
-        (select GROUP_CONCAT(  DISTINCT  donation_tags.name    SEPARATOR " , ") from donation_tags, tags_donations where ds.donation_id = tags_donations.donation_id  AND donation_tags.tag_id = tags_donations.tag_id) as tags
+        (select name from statuses where ds.status_id = statuses.status_id) as status_name
         FROM donations ds ,projects, donors,payment_methods ' . $cond . ' ORDER BY ds.create_date DESC ';
         // dd($query);
         return $this->getAll($query, $bind, $limit, $bindLimit);
@@ -121,7 +121,7 @@ class Donation extends ModelAdmin
      */
     public function updateDonation($data)
     {
-        $query = 'UPDATE donations SET amount = :amount, quantity =:quantity, total = :total, payment_method_id = :payment_method_id, project_id =:project_id, status = :status, modified_date = :modified_date';
+        $query = 'UPDATE donations SET amount = :amount, quantity =:quantity, total = :total, payment_method_id = :payment_method_id, project_id =:project_id, status_id = :status_id, status = :status, modified_date = :modified_date';
 
         (empty($data['banktransferproof'])) ? null : $query .= ', banktransferproof = :banktransferproof';
 
@@ -134,6 +134,7 @@ class Donation extends ModelAdmin
         $this->db->bind(':total', $data['total']);
         $this->db->bind(':quantity', $data['quantity']);
         $this->db->bind(':payment_method_id', $data['payment_method_id']);
+        $this->db->bind(':status_id', $data['status_id']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':modified_date', time());
         empty($data['banktransferproof']) ? null : $this->db->bind(':banktransferproof', $data['banktransferproof']);
@@ -174,9 +175,9 @@ class Donation extends ModelAdmin
      * @param string $cond
      * @return object categories list
      */
-    public function tagsList($cond = '')
+    public function statusesList($cond = '')
     {
-        $query = 'SELECT tag_id, name FROM donation_tags  ' . $cond . ' ORDER BY create_date DESC ';
+        $query = 'SELECT status_id, name FROM statuses  ' . $cond . ' ORDER BY create_date DESC ';
         $this->db->query($query);
         $results = $this->db->resultSet();
         return $results;
@@ -186,9 +187,9 @@ class Donation extends ModelAdmin
      * @param string $cond
      * @return object tags list
      */
-    public function tagsListByDonation($donation_id)
+    public function statusesListByDonation($donation_id)
     {
-        $query = 'SELECT donation_tags.tag_id,  donation_tags.name FROM tags_donations ,donation_tags WHERE tags_donations.donation_id = ' . $donation_id . ' and donation_tags.tag_id = tags_donations.tag_id ';
+        $query = 'SELECT statuses.tag_id,  statuses.name FROM tags_donations ,statuses WHERE tags_donations.donation_id = ' . $donation_id . ' and statuses.tag_id = tags_donations.tag_id ';
         $this->db->query($query);
         $results = $this->db->resultSet(PDO::FETCH_COLUMN);
         return $results;
@@ -206,66 +207,7 @@ class Donation extends ModelAdmin
         return $results;
     }
 
-    /**
-     * insertTags
-     *
-     * @param  mixed $tags
-     * @param  mixed $donation_id
-     *
-     * @return void
-     */
-    public function insertTags($tags, $donation_id)
-    {
-        foreach ($tags as $tag_id) {
-            $this->db->query('INSERT INTO tags_donations( tag_id, donation_id, modified_date, create_date) VALUES (:tag_id, :donation_id, :modified_date, :create_date)');
 
-            // binding values
-            $this->db->bind(':tag_id', $tag_id);
-            $this->db->bind(':donation_id', $donation_id);
-            $this->db->bind(':create_date', time());
-            $this->db->bind(':modified_date', time());
-
-            // excute
-            $this->db->excute();
-        }
-    }
-
-    /**
-     * delete Tags By Donation Id
-     *
-     * @param  mixed $donationId
-     *
-     * @return void
-     */
-    public function deleteTagsByDonationId($donation_id)
-    {
-        $this->db->query('DELETE FROM tags_donations WHERE donation_id = :donation_id');
-
-        $this->db->bind(':donation_id', $donation_id);
-
-        // excute
-        if ($this->db->excute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * clear multable Tags By Donations Id
-     *
-     * @param  mixed $donation_ids
-     * @return void
-     */
-    public function clearAllTagsByDonationsId($donation_ids)
-    {
-        $count = 0;
-        foreach ($donation_ids as $id) {
-            $this->deleteTagsByDonationId($id);
-            $count++;
-        }
-        return $count;
-    }
 
     /**
      * get last Id
@@ -283,23 +225,14 @@ class Donation extends ModelAdmin
      * @param  mixed $tag_id
      * @return void
      */
-    public function setDonationTages($donation_ids, $tag_id)
+    public function setDonationStatuses($donation_ids, $status_id)
     {
-        $count = 0;
-        foreach ($donation_ids as $id) {
-            $this->db->query('INSERT INTO tags_donations( tag_id, donation_id, modified_date, create_date) VALUES (:tag_id, :donation_id, :modified_date, :create_date)');
+        return $this->setWhereIn('status_id', $status_id, 'donation_id', $donation_ids);
+    }
 
-            // binding values
-            $this->db->bind(':tag_id', $tag_id);
-            $this->db->bind(':donation_id', $id);
-            $this->db->bind(':create_date', time());
-            $this->db->bind(':modified_date', time());
-
-            // excute
-            $this->db->excute();
-            $count++;
-        }
-        return $count;
+    public function clearAllStatusesByDonationsId($donation_ids)
+    {
+        return $this->setWhereIn('status_id', null, 'donation_id', $donation_ids);
     }
 
     /**
@@ -336,7 +269,7 @@ class Donation extends ModelAdmin
                 $_SESSION['search'][$keyword] = $_POST['search'][$keyword];
             }
         }
-        return $data = ['cond' => $cond, 'bind' => $bind];
+        return  ['cond' => $cond, 'bind' => $bind];
     }
 
     /**
@@ -362,6 +295,7 @@ class Donation extends ModelAdmin
                 } else {
                     $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
                 }
+                //handling
                 if ($keyword == 'date_from' || $keyword == 'date_to') {
                     $bind[':' . $keyword] = strtotime($_SESSION['search'][$keyword]);
                 } else {
@@ -369,7 +303,7 @@ class Donation extends ModelAdmin
                 }
             }
         }
-        return $data = ['cond' => $cond, 'bind' => $bind];
+        return ['cond' => $cond, 'bind' => $bind];
     }
     /**
      * get users informations to contact them
@@ -395,7 +329,7 @@ class Donation extends ModelAdmin
             return false;
         }
     }
-    
+
     /**
      * canceled one or more records by id
      * @param Array $ids
@@ -445,5 +379,4 @@ class Donation extends ModelAdmin
             return false;
         }
     }
-
 }

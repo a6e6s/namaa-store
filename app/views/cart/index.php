@@ -81,7 +81,7 @@
                     <div class="form-group row">
                         <label for="mobile" class="col-sm-2 col-form-label">رقم الجوال</label>
                         <div class="input-group col-sm-10 mobile-validate">
-                            <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '+\\966 99 9999999'">
+                            <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '+\\966 59 9999999'">
                             <div class="">
                                 <a class="input-group-text activate" data-toggle="modal" data-target="#addcode-x">ارسال </a>
                             </div>

@@ -41,9 +41,14 @@ require ADMINROOT . '/views/inc/header.php';
                     <div class="col-xs-6 form-group"><span class="title">بالنوع :</span><input type="search" class="form-control" placeholder="بحث بالنوع" name="search[donation_type]" value=""></div>
                     <div class="col-xs-6 form-group"><span class="title">بحث بالمتبرع :</span><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor]" value=""></div>
                     <div class="col-xs-6 form-group"><span class="title">بحث بالجوال :</span><input type="search" class="form-control" placeholder="بحث بالجوال" name="search[mobile]" value=""></div>
-                    <div class="col-xs-6 form-group"><span class="title">وسيلة الدفع :</span><input type="search" class="form-control" placeholder="وسيلة الدفع" name="search[payment_method]" value=""></div>
-                    <div class="col-xs-3 form-group"><span class="title"> التاريخ من :</span><input type="date" class="form-control" placeholder="التاريخ من" name="search[date_from]" value=""></div>
-                    <div class="col-xs-3 form-group"><span class="title"> التاريخ الي :</span><input type="date" class="form-control" placeholder=" الي" name="search[date_to]" value=""></div>
+                    <div class="col-xs-6 form-group"><span class="title">وسيلة الدفع :</span>
+                        <select class="form-control select2" name="search[payment_method][]" multiple="multiple">
+                            <option value=""></option>
+                            <?php foreach ($data['paymentMethodsList'] as $paymentMethod) {
+                                echo '<option value="' . $paymentMethod->payment_id . '" >' . $paymentMethod->title . '</option>';
+                            } ?>
+                        </select>
+                    </div>
                     <div class="col-xs-6 form-group"><span class="title">بحث بالمشروع :</span>
                         <select class="form-control select2" name="search[projects][]" multiple="multiple" style="width: 100%;">
                             <?php foreach ($data['projects'] as $project) {
@@ -51,13 +56,24 @@ require ADMINROOT . '/views/inc/header.php';
                             } ?>
                         </select>
                     </div>
-                    <div class="col-xs-6 form-group"><span class="title"> بحث بالحالة :</span>
+                    <div class="col-xs-3 form-group"><span class="title"> التاريخ من :</span><input type="date" class="form-control" placeholder="التاريخ من" name="search[date_from]" value=""></div>
+                    <div class="col-xs-3 form-group"><span class="title"> التاريخ الي :</span><input type="date" class="form-control" placeholder=" الي" name="search[date_to]" value=""></div>
+                    <div class="col-xs-3 form-group"><span class="title"> بحث بالحالة :</span>
                         <select class="form-control" name="search[status]">
                             <option value=""></option>
                             <option value="1">مؤكد </option>
                             <option value="0"> غير مؤكد </option>
                             <option value="3"> في الانتظار </option>
                             <option value="4">ملغاه </option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-xs-3 form-group"><span class="title">بحث بالحالات المخصصة :</span>
+                        <select class="form-control" name="search[status_id]">
+                            <option value=""></option>
+                            <?php foreach ($data['statuses'] as $status) {
+                                echo '<option value="' . $status->status_id . '" >' . $status->name . '</option>';
+                            } ?>
                         </select>
                     </div>
                     <div class="col-xs-12 form-group"><input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" /></div>
@@ -74,7 +90,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">العدد </th>
                                 <th class="column-title">الاجمالي </th>
                                 <th class="column-title">النوع </th>
-                                <th class="column-title">الحالات </th>
+                                <th class="column-title">الحالة </th>
                                 <th class="column-title">اسم المتبرع </th>
                                 <th class="column-title">الجوال </th>
                                 <th class="column-title">المشروع </th>
@@ -97,8 +113,8 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="submit" name="send" value="Email" class="btn btn-success btn-sm" />
                                     <span class="control-label">الوسوم :</span>
                                     <?php
-                                    foreach ($data['tags'] as $tag) {
-                                        echo ' <button type="submit" name="tag_id"  value="' . $tag->tag_id . '" class="btn btn-primary btn-xs">' . $tag->name . '</button> ';
+                                    foreach ($data['statuses'] as $status) {
+                                        echo ' <button type="submit" name="status_id"  value="' . $status->status_id . '" class="btn btn-primary btn-xs">' . $status->name . '</button> ';
                                     }
                                     ?>
                                     <span class="control-label"> حذف الوسوم :</span>
@@ -118,7 +134,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td><?php echo $donation->quantity; ?></td>
                                     <td><?php echo $donation->total; ?></td>
                                     <td><?php echo $donation->donation_type; ?></td>
-                                    <td><?php echo $donation->tags; ?></td>
+                                    <td><?php echo $donation->status_name; ?></td>
                                     <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $donation->donor_id . '">' . $donation->donor . '</a>'; ?></td>
                                     <td class="ltr"><?php echo $donation->mobile; ?></td>
                                     <td><?php echo $donation->project; ?></td>

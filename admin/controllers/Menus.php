@@ -78,7 +78,7 @@ class Menus extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->menuModel->searchHandling(['name', 'url', 'status']);
+        $searches = $this->menuModel->searchHandling(['name', 'url', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

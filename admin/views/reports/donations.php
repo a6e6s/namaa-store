@@ -47,7 +47,7 @@ require ADMINROOT . '/views/inc/header.php';
                         <th>رد بايفورت</th>
                         <th>merchant_reference</th>
                         <th>اهداء</th>
-                        <th>الوسوم</th>
+                        <th>الحالة</th>
                         <th>حالة التبرع</th>
                         <th>تاريخ التبرع </th>
                         <th>آخر تحديث </th>
@@ -75,7 +75,7 @@ require ADMINROOT . '/views/inc/header.php';
                             }
                             ?>
                             <td><?php echo ($donation->gift) ? "نعم" : "لا"; ?></td>
-                            <td><?php echo $donation->tags; ?></td>
+                            <td><?php echo $donation->statuses; ?></td>
                             <td><?php echo ($donation->status) ? "مؤكد" : "غير مؤكد";; ?></td>
                             <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->create_date); ?></td>
                             <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>

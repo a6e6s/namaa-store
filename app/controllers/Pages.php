@@ -24,6 +24,7 @@ class Pages extends Controller
             'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
             'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
             'theme_settings' => json_decode($this->pagesModel->getSettings('theme')->value),
+            'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
             'project_categories' => $this->pagesModel->getProjectCategories('category_id, name, description, image', ['status' => 1, 'featured' => 1]),
         ];
         $this->meta->header_code = $data['site_settings']->header_code;
@@ -58,7 +59,6 @@ class Pages extends Controller
                 'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
                 'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
                 'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
-                'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
                 'subject' => trim($_POST['subject']),
                 'full_name' => trim($_POST['full_name']),
                 'message' => trim($_POST['message']),

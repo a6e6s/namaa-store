@@ -36,6 +36,7 @@ class Tags extends Controller
             'tag' => $tag,
             'pagesLinks' => $this->categoriesModel->getMenu(),
             'site_settings' => json_decode($this->categoriesModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->categoriesModel->getSettings('contact')->value),
             'projects' => $this->categoriesModel->getProductsByTag($id, $start, $perpage),
             'pagination' => generatePagination($this->categoriesModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/tags/show/' . $id),
         ];

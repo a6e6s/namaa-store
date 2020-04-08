@@ -34,7 +34,7 @@ class Reports extends ControllerAdmin
         $data = [
             'header' => '',
             'title' => ' التقارير',
-            'tags' => $this->donationModel->tagsList(),
+            'statuses' => $this->donationModel->statusesList(),
             'projects' => $this->donationModel->projectsList(),
             'paymentMethods' => $this->donationModel->paymentMethodsList(),
             'footer' => '',
@@ -42,7 +42,7 @@ class Reports extends ControllerAdmin
         $this->view('reports/index', $data);
     }
 
-  
+
 
     /**
      * showing donation details
@@ -59,7 +59,7 @@ class Reports extends ControllerAdmin
         if ($id == 'donations') {
             // build query
             $project_exp = '';
-            $tags_exp = '';
+            $statuses_exp = '';
             $payment_exp = '';
             $status_exp = '';
             $gift_exp = '';
@@ -71,10 +71,7 @@ class Reports extends ControllerAdmin
             if (isset($_POST['projects'])) {
                 $project_exp = ' AND ds.project_id IN (' . implode(',', $_POST['projects']) . ') ';
             }
-            if (isset($_POST['tags'])) {
-                $tags_exp = ' AND tags_donations.tag_id IN (' . implode(',', $_POST['tags']) . ') ';
-                // will return NULL and I will escape it on the loop
-            }
+            (!empty($_POST['statuses'])) ? $statuses_exp = ' AND ds.status_id = ' .  $_POST['statuses'] . ' ' : '';
             if (!empty($_POST['payment_methods'])) {
                 $payment_exp = ' AND ds.payment_method_id =' . $_POST['payment_methods'] . ' ';
             }
@@ -101,15 +98,11 @@ class Reports extends ControllerAdmin
             }
 
             $query = 'SELECT ds.*, dr.full_name, pm.title, pj.name,
-            (SELECT GROUP_CONCAT( DISTINCT donation_tags.name SEPARATOR " , ")
-                FROM donation_tags, tags_donations
-                WHERE ds.donation_id = tags_donations.donation_id
-                AND donation_tags.tag_id = tags_donations.tag_id ' . $tags_exp . ') AS tags
+            (SELECT name FROM  statuses WHERE ds.status_id = statuses.status_id) AS statuses
          FROM donations ds,projects pj,donors dr,payment_methods pm
          WHERE ds.donor_id= dr.donor_id
          AND ds.payment_method_id = pm.payment_id
-         AND ds.project_id = pj.project_id' . $project_exp . $payment_exp . $status_exp . $gift_exp . $amount_exp_from . $amount_exp_to . $donors_exp . $date_exp_from . $date_exp_to;
-
+         AND ds.project_id = pj.project_id' . $project_exp . $payment_exp . $status_exp . $gift_exp . $amount_exp_from . $amount_exp_to . $donors_exp . $date_exp_from . $date_exp_to . $statuses_exp;
 
             $donation = $this->donationModel->getAll($query);
             $data = [

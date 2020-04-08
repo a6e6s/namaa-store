@@ -14,6 +14,7 @@ class Projects extends Controller
     public function index()
     {
         $data = [
+            'contact_settings' => json_decode($this->projectsModel->getSettings('contact')->value),
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'pageTitle' => 'الرئيسية: ' . SITENAME,
         ];
@@ -35,6 +36,7 @@ class Projects extends Controller
         $data = [
             'project' => $project,
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->projectsModel->getSettings('contact')->value),
             'gift_settings' => json_decode($this->projectsModel->getSettings('gift')->value),
             'collected_traget' => $this->projectsModel->collectedTraget($id),
             'pagesLinks' => $this->projectsModel->getMenu(),
@@ -277,6 +279,7 @@ class Projects extends Controller
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
                 'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $this->projectsModel->getSingle('*', ['payment_id', 1], 'payment_methods'),
+                'contact_settings' => json_decode($this->projectsModel->getSettings('contact')->value),
                 'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
                 'image' => '',
                 'image_error' => '',
@@ -297,6 +300,7 @@ class Projects extends Controller
         if ($payment_methouds = $this->projectsModel->getSingle('*', ['payment_id' => $id], 'payment_methods')) {
             $data = [
                 'pageTitle' => 'بيانات الدفع: ' . SITENAME,
+                'contact_settings' => json_decode($this->projectsModel->getSettings('contact')->value),
                 'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
                 'pagesLinks' => $this->projectsModel->getMenu(),
                 'payment_method' => $payment_methouds,
@@ -358,7 +362,7 @@ class Projects extends Controller
                 'status' => 0,
             ];
 
-        //save donation data through saving method
+            //save donation data through saving method
             if (!$this->projectsModel->addDonation($data)) {
                 flashRedirect('carts', 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
             }

@@ -78,7 +78,7 @@ class Donors extends ControllerAdmin
             }
         }
         //handling search
-        $searches = $this->donorModel->searchHandling(['full_name', 'mobile', 'status']);
+        $searches = $this->donorModel->searchHandling(['full_name', 'mobile', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

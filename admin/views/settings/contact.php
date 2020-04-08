@@ -80,6 +80,12 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                 </div>
                 <div class="form-group col-md-12">
+                    <label class="control-label">البريد الالكتروني  : </label>
+                    <div class="row">
+                        <input type="text" id="email" class="form-control" name="value[email]" placeholder="البريد الالكتروني" value="<?php echo $data['value']->email; ?>">
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
                     <label class="control-label">الخريطة  : </label>
                     <div class="row">
                         <textarea name="value[map]" class="form-control"><?php echo ($data['value']->map); ?></textarea>

@@ -78,7 +78,7 @@ class Contacts extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->contactModel->searchHandling(['subject', 'full_name', 'email', 'phone', 'type', 'status']);
+        $searches = $this->contactModel->searchHandling(['subject', 'full_name', 'email', 'phone', 'type', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

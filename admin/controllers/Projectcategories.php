@@ -78,7 +78,7 @@ class ProjectCategories extends ControllerAdmin
         }
 
         //handling search
-        $searches = $this->projectcategoryModel->searchHandling(['name', 'description', 'status']);
+        $searches = $this->projectcategoryModel->searchHandling(['name', 'description', 'status'], $current);
         $cond .= $searches['cond'];
         $bind = $searches['bind'];
 

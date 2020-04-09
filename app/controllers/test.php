@@ -57,7 +57,6 @@ class test extends Controller
         echo "\t\tdocument.frm.submit();\n";
         echo "\t</script>\n";
         echo "</form>\n</body>\n</html>";
-
     }
     public function test2()
     {
@@ -70,4 +69,19 @@ class test extends Controller
         </script>';
     }
 
+    public function sendEmail()
+    {
+        die('ssssss');
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers .= 'From: namaa <ololsms@s192-169-243-241.secureserver.net>' . "\r\n";
+        $headers .= 'Cc: ololsms@s192-169-243-241.secureserver.net' . "\r\n";
+        $message = 'this is test sending message'; // replace name string with user name
+        $result = mail('a6e6s1@gmail.com', 'check if server sending mail', $message, $headers); // sending Email
+        if ($result) {
+            echo 'donation_msg'. 'تم الارسال بنجاح   ';
+        } else {
+            echo 'donation_msg'. 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger';
+        }
+    }
 }

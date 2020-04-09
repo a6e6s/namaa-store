@@ -53,6 +53,7 @@ class Messagings extends ControllerAdmin
             flash('donation_msg', 'تم الارسال بنجاح ');
             redirect('donations');
         } elseif (isset($_POST['Email'])) { // if message through Email
+            $members = $this->donationModel->getUsersData($_POST['members']);
             $emailSettings = $this->donationModel->getSettings('email'); // load email setting 
             $email = json_decode($emailSettings->value);
             $headers = "MIME-Version: 1.0" . "\r\n";
@@ -60,10 +61,13 @@ class Messagings extends ControllerAdmin
             $headers .= 'From: ' . $email->sending_name . '<' . $email->sending_email . '>' . "\r\n";
             $headers .= 'Cc: ' . $email->sending_email . '' . "\r\n";
 
-            foreach ($_POST['members'] as $member) {
-                $member = explode(',', $member); // get member name and number in array
-                $message = str_replace('[[name]]', $member[1], $_POST['message']); // replace name string with user name
-                $result = mail($member[0], $_POST['subject'], $message, $headers); // sending Email
+            foreach ($members as $member) {
+                $email = str_replace(' ', '', $member->email);
+                $message = str_replace('[[name]]', $member->full_name, $_POST['message']); // replace name string with user name
+                $message = str_replace('[[identifier]]', $member->donation_identifier, $message); // replace name string with user name
+                $message = str_replace('[[total]]', $member->total, $message); // replace name string with user name
+                $message = nl2br(str_replace('[[project]]', $member->project, $message)); // replace name string with user name
+                $result = mail($email, $_POST['subject'], $message, $headers); // sending Email
                 if ($result) {
                     flash('donation_msg', 'تم الارسال بنجاح   ');
                 } else {

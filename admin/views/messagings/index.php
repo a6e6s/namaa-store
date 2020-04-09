@@ -62,23 +62,13 @@ require ADMINROOT . '/views/inc/header.php';
                                 <input type="text" name="subject" id="subject" class="form-control" required>
                             </div>
                         <?php endif; ?>
-                        <div class="form-group col-xs-4 ">
+                        <div class="form-group col-xs-12 ">
                             <br>
-                            <label for="donor" class=""> اسم المستخدم </label>
-                            <button type="button" class="btn btn-primary" name="" onclick="$('#message').val($('#message').val() +'[[name]]') ;return false;" value="">ارفاق الاسم </button>
-                            <small class="red">سيتم استبدال المتغير الخاص بالاسم بأسماء المرسل اليهم</small>
-                        </div>
-                        <div class="form-group col-xs-4 ">
-                            <br>
-                            <label for="donor" class=""> رقم الطلب </label>
-                            <button type="button" class="btn btn-primary" name="" onclick="$('#message').val($('#message').val() +'[[identifier]]') ;return false;" value="">ارفاق رقم الطلب </button>
-                            <small class="red">سيتم استبدال المتغير الخاص برقم الطلب</small>
-                        </div>
-                        <div class="form-group col-xs-4 ">
-                            <br>
-                            <label for="donor" class=""> مبلغ التبرع </label>
-                            <button type="button" class="btn btn-primary" name="" onclick="$('#message').val($('#message').val() +'[[total]]') ;return false;" value="">ارفاق المبلغ </button>
-                            <small class="red">سيتم استبدال المتغير الخاص بمبلغ التبرع </small>
+                            <button type="button" class="btn btn-primary" onclick="$('#message').val($('#message').val() +'[[name]]') ;return false;" value="">ارفاق الاسم </button>
+                            <button type="button" class="btn btn-primary" onclick="$('#message').val($('#message').val() +'[[identifier]]') ;return false;" value="">ارفاق رقم الطلب </button>
+                            <button type="button" class="btn btn-primary" onclick="$('#message').val($('#message').val() +'[[total]]') ;return false;" value="">ارفاق المبلغ </button>
+                            <button type="button" class="btn btn-primary" onclick="$('#message').val($('#message').val() +'[[project]]') ;return false;" value="">ارفاق اسم المشروع </button>
+                            <small class="red ">سيتم استبدال المتغير الخاص بالقيمة  </small>
                         </div>
                         <div class="form-group col-xs-12 ">
                             <br>

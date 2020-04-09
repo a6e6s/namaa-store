@@ -47,6 +47,7 @@ class Messagings extends ControllerAdmin
                 $message = str_replace('[[name]]', $member->full_name, $_POST['message']); // replace name string with user name
                 $message = str_replace('[[identifier]]', $member->donation_identifier, $message); // replace name string with user name
                 $message = str_replace('[[total]]', $member->total, $message); // replace name string with user name
+                $message = str_replace('[[project]]', $member->project, $message); // replace name string with user name
                 $result = sendSMS($sms->sms_username, $sms->sms_password, $message, $mobile, $sms->sender_name, $sms->gateurl);
             }
             flash('donation_msg', 'تم الارسال بنجاح ');

@@ -365,16 +365,19 @@ require ADMINROOT . '/views/inc/header.php';
                             </div>
                             <div class="form-group">
                                 <label class="control-label">الرسالة النصية القصيرة : </label>
+                                <div class="form-group col-xs-12 ">
+                                    <button type="button" class="btn btn-primary" name="" onclick="$('#message').val($('#message').val() +'[[name]]') ;return false;" value="">ارفاق الاسم </button>
+                                    <button type="button" class="btn btn-primary" name="" onclick="$('#message').val($('#message').val() +'[[identifier]]') ;return false;" value="">ارفاق رقم الطلب </button>
+                                    <button type="button" class="btn btn-primary" name="" onclick="$('#message').val($('#message').val() +'[[total]]') ;return false;" value="">ارفاق المبلغ </button>
+                                    <button type="button" class="btn btn-primary" name="" onclick="$('#message').val($('#message').val() +'[[project]]') ;return false;" value="">ارفاق المشروع </button>
+                                </div>
                                 <div class="text-warning ">رسالة ترسل للمستخدم عند تأكيد الطلب</div>
                                 <div class=" form-group">
-                                    <textarea name="sms_msg" class="form-control description" placeholder="تم استلام تبرعكم بنجاح"><?php echo $data['sms_msg']; ?></textarea>
+                                    <textarea name="sms_msg" class="form-control description" id="message" placeholder="تم استلام تبرعكم بنجاح"><?php echo $data['sms_msg']; ?></textarea>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
-
                 </div>
                 <br><br>
             </div>

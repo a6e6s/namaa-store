@@ -138,6 +138,10 @@ class Projects extends Controller
                     $data = ['mobile_confirmed' => $_POST['mobile_confirmed'], 'donor_id' => $donor->donor_id];
                     $this->donorModel->updateMobileConfirmation($data);
                 }
+                if (empty($donor->email)) {
+                    $data = ['email' => $_POST['email'], 'donor_id' => $donor->donor_id];
+                    $this->donorModel->updateEmail($data);
+                }
                 $donor = $donor->donor_id;
             } else {
                 // if not exist save it and return its id

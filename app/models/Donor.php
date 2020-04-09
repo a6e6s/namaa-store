@@ -95,6 +95,12 @@ class Donor extends Model
         }
     }
 
+    /**
+     * update user Mobile Confirmation
+     *
+     * @param [array] $data
+     * @return void
+     */
     public function updateMobileConfirmation($data)
     {
         $query = 'UPDATE donors SET mobile_confirmed = :mobile_confirmed WHERE donor_id = :donor_id';
@@ -109,6 +115,25 @@ class Donor extends Model
         }
     }
 
+    /**
+     * update user Email Confirmation
+     *
+     * @param [array] $data
+     * @return void
+     */
+    public function updateEmail($data)
+    {
+        $query = 'UPDATE donors SET email = :email WHERE donor_id = :donor_id';
+        $this->db->query($query);
+        $this->db->bind(':donor_id', $data['donor_id']);
+        $this->db->bind(':email', $data['email']);
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     /**
      * Find donor by email
      * @param string $email

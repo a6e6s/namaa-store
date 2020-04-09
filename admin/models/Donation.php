@@ -318,7 +318,8 @@ class Donation extends ModelAdmin
             $id_num[] = ":in" . $index;
         }
         //setting the query
-        $this->db->query('SELECT DISTINCT donors.donor_id, donors.full_name, donors.mobile, donors.email FROM donors, donations WHERE donations.donor_id = donors.donor_id AND donations.donation_id IN (' . implode(',', $id_num) . ')');
+        $this->db->query('SELECT DISTINCT donors.donor_id, donors.full_name, donors.mobile, donors.email, donations.donation_id, donations.donation_identifier, donations.total
+                    FROM donors, donations WHERE donations.donor_id = donors.donor_id AND donations.donation_id IN (' . implode(',', $id_num) . ')');
         //loop through the bind function to bind all the IDs
         foreach ($in as $key => $value) {
             $this->db->bind(':in' . ($key + 1), $value);

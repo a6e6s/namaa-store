@@ -130,7 +130,6 @@ class Donations extends ControllerAdmin
                         'footer' => '',
                     ];
                     return $this->view('messagings/index', $data);
-                    dd('');
                 } else {
                     flash('donation_msg', 'لم تقم بأختيار اي تبرع', 'alert alert-danger');
                 }

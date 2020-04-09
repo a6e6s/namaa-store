@@ -134,11 +134,12 @@ class Project extends Model
     }
     public function updateDonationMeta($data)
     {
-        $query = 'UPDATE donations SET meta = :meta, hash = NULL, modified_date = :modified_date';
+        $query = 'UPDATE donations SET meta = :meta, status = :status, hash = NULL, modified_date = :modified_date';
         $query .= ' WHERE hash = :hash';
         $this->db->query($query);
         // binding values
         $this->db->bind(':meta', $data['meta']);
+        $this->db->bind(':status', $data['status']);
         $this->db->bind(':hash', $data['hash']);
         $this->db->bind(':modified_date', time());
         // excute

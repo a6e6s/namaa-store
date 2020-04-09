@@ -199,7 +199,7 @@ class Projects extends Controller
     }
 
     /**
-     * recieve paymentrespond and update donation meta data
+     * recieve payment respond and update donation meta data
      *
      * @return void
      */
@@ -211,19 +211,24 @@ class Projects extends Controller
         $fortParams = $objFort->processResponse();
         unset($fortParams['url'], $fortParams['r'], $fortParams['access_code'], $fortParams['return_url'], $fortParams['language'], $fortParams['merchant_identifier']);
         $meta = json_encode($fortParams);
-
+        ($fortParams['status'] == 14) ? $status = 1 : $status = 0;
         $data = [
             'payment_method_id' => 3,
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'meta' => $meta,
             'project_id' => $_SESSION['payment']['project_id'],
             'hash' => $_SESSION['donation']['hash'],
+            'status' => $status,
         ];
         $this->projectsModel->updateDonationMeta($data); //update donation meta
-
         //redirect to project
-        empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = 'شكرا لتبرعك لدي متجر نماء الخيري' : null;
-        flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
+        empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = ' شكرا لتبرعك لدي متجر نماء الخيري جاري التحقق من التبرع ' : null;
+        if(isset($_SESSION['payment']['project_id'])){
+            flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
+        }else {
+            flashRedirect('', 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
+
+        }
     }
 
     /**

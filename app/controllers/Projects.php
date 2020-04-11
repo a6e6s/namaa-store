@@ -90,6 +90,9 @@ class Projects extends Controller
                 'msg' => '<div class="alert alert-success text-center"> تم التفعيل بنجاح </div>',
                 'status' => 'success',
             ];
+            if (isset($_POST['login'])) {
+                $_SESSION['login'] = $_POST['mobile'];
+            }
         } else {
             $data = [
                 'msg' => '<div class="alert alert-danger text-danger"> رمز التفعيل غير صحيح </div>',
@@ -227,11 +230,10 @@ class Projects extends Controller
         $this->projectsModel->updateDonationMeta($data); //update donation meta
         //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = ' شكرا لتبرعك لدي متجر نماء الخيري جاري التحقق من التبرع ' : null;
-        if(isset($_SESSION['payment']['project_id'])){
+        if (isset($_SESSION['payment']['project_id'])) {
             flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
-        }else {
+        } else {
             flashRedirect('', 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
-
         }
     }
 

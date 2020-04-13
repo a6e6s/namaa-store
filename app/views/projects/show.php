@@ -80,9 +80,9 @@
                 <div class="msg"><?php flash('msg'); ?></div>
                 <form method="post" action="<?php root('projects'); ?>/redirect" id="pay">
                     <div class="form-group row mt-4">
-                        <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني <span class="text-warning small">(اختياري)</span></label>
+                        <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="email" placeholder="البريد الالكتروني">
+                            <input type="text" class="form-control" name="email" placeholder="هام لاستقبال رسائل التأكيد ">
                         </div>
                     </div>
                     <div class="form-group row">

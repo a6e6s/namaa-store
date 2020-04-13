@@ -43,17 +43,14 @@ class Projects extends Controller
             'moreprojects' => $this->projectsModel->moreProjects($project->category_id),
             'payment_methods' => $this->projectsModel->getSupportedPaymentMethods($project->payment_methods),
         ];
-        // dd($data['moreprojects']);
         $data['pageTitle'] = $data['project']->name . "  " . SITENAME;
 
         $this->meta->header_code = $project->header_code;
         $this->meta->keywords = $project->meta_keywords;
         $this->meta->title = $project->name;
         $this->meta->description = $project->meta_description;
-        $this->meta->image = $project->secondary_image;
+        $this->meta->image = MEDIAURL . '/' . $project->secondary_image;
         $this->meta->background = $project->background_color . " url(' " . MEDIAURL . '/' . $project->background_image . "')";
-        // dd($project);
-        // var_dump($project);
         $this->view('projects/show', $data);
     }
 
@@ -66,15 +63,14 @@ class Projects extends Controller
     {
         //generst random code
         $num = $_SESSION['code'] = rand(1000, 9999);
-
         // sendSMS($num, $content);
-
+        $messaging = $this->model('Messaging');
+        $data = $messaging->mobileCodeSend(['mobile' => $_POST['name'], 'msg' => " كود التفعيل الخاص بكم  : $num \n جمعية نماء "]);
         //display message
         $msgSuccess = '<div class="alert alert-success text-center"> تم ارسال كود التحقق علي الجوال الخاص بك </div>';
         $msgError = '<div class="alert alert-warning text-center">خطأ في الارسال </div>';
-        $data = true;
         echo ($data) ? $msgSuccess : $msgError;
-        echo $_SESSION['code'];
+        // pr($num);
     }
 
     /**
@@ -134,7 +130,7 @@ class Projects extends Controller
         } else {
             $_SESSION['payment'] = $_POST;
             //loading donor model
-            $this->donorModel = $this->model('donor');
+            $this->donorModel = $this->model('Donor');
             //check if exist and return its id
             if ($donor = $this->donorModel->getdonorByMobile($_POST['mobile'])) {
                 if ($donor->mobile_confirmed == 'no') {
@@ -174,7 +170,28 @@ class Projects extends Controller
         ];
         if (!$this->projectsModel->addDonation($data)) {
             flashRedirect('projects/show/' . $project->project_id, 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
+        } else { // send notification Email 
+            $messaging = $this->model('Messaging');
+            $sendData = [
+                'email' => true,
+                'sms' => false,
+                'mobile' => $_POST['mobile'],
+                'identifier' => $data['donation_identifier'],
+                'total' => $_POST['total'],
+                'project' => $project->name,
+                'donor' => $_POST['full_name'],
+                'subject' => 'تم تسجيل تبرع جديد ',
+                'msg' => "تم تسجيل تبرع جديد بمشروع : $project->name  <br/> بقيمة : " . $_POST['total'],
+            ];
+            $messaging->donationAdminNotify($sendData);
+            // send message to donor 
+            $sendData['subject'] = 'تم استلام طلب تبرعكم  ';
+            $sendData['mailto'] = $_POST['email'];
+            $sendData['msg'] = "تم استلام طلب التبرع الخاص بكم <br> بمشروع : $project->name  <br> بقيمة : " . $_POST['total'] . "<br> وجاري مراجعة الطلب لتأكيد العملية <br> معرف التبرع : " . $data['donation_identifier'];
+
+            $messaging->donationDonorNotify($sendData);
         }
+
         if ($_POST['payment_method'] == 3) { //payment with payfort
             require_once APPROOT . '/helpers/PayfortIntegration.php';
             $objFort = new PayfortIntegration();
@@ -337,7 +354,7 @@ class Projects extends Controller
         } else {
             $_SESSION['payment'] = $_POST;
             //loading donor model
-            $this->donorModel = $this->model('donor');
+            $this->donorModel = $this->model('Donor');
             //check if exist and return its id
             if ($donor = $this->donorModel->getdonorByMobile($_POST['mobile'])) {
                 if ($donor->mobile_confirmed == 'no') {
@@ -378,6 +395,26 @@ class Projects extends Controller
                 flashRedirect('carts', 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
             }
         }
+        // send notification message
+        $messaging = $this->model('Messaging');
+        $sendData = [
+            'email' => true,
+            'sms' => false,
+            'mobile' => $_POST['mobile'],
+            'identifier' => $data['donation_identifier'],
+            'total' => $_POST['total'],
+            'project' => '',
+            'donor' => $_POST['full_name'],
+            'subject' => 'تم تسجيل تبرع جديد ',
+            'msg' => "تم تسجيل تبرع جديد  :  <br/> بقيمة : " . $_POST['total'],
+        ];
+        $messaging->donationAdminNotify($sendData);
+        // send message to donor 
+        $sendData['subject'] = 'تم استلام طلب تبرعكم  ';
+        $sendData['mailto'] = $_POST['email'];
+        $sendData['msg'] = "تم استلام طلب التبرع الخاص بكم <br> بقيمة : " . $_POST['total'] . "<br> وجاري مراجعة الطلب لتأكيد العملية <br> معرف التبرع : " . $data['donation_identifier'];
+        $messaging->donationDonorNotify($sendData);
+        //empty cart clear session 
         unset($_SESSION['cart']);
         if ($_POST['payment_method'] == 3) { //payment with payfort
             require_once APPROOT . '/helpers/PayfortIntegration.php';

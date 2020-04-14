@@ -156,7 +156,7 @@ class Projects extends Controller
         //save donation data through saving method
         $data = [
             'payment_method_id' => $_POST['payment_method'],
-            'donation_identifier' => time() . rand(99000, 99999),
+            'donation_identifier' => time() - 580000000,
             'amount' => $_POST['amount'],
             'total' => $_POST['total'],
             'quantity' => $_POST['quantity'],
@@ -187,7 +187,12 @@ class Projects extends Controller
             // send message to donor 
             $sendData['subject'] = 'تم استلام طلب تبرعكم  ';
             $sendData['mailto'] = $_POST['email'];
-            $sendData['msg'] = "تم استلام طلب التبرع الخاص بكم <br> بمشروع : $project->name  <br> بقيمة : " . $_POST['total'] . "<br> وجاري مراجعة الطلب لتأكيد العملية <br> معرف التبرع : " . $data['donation_identifier'];
+            $sendData['msg'] =  "<p style='text-align: center;'>" .$_POST['full_name'] . "
+             تم استلام طلبكم رقم :  " . $data['donation_identifier'] . "
+             بمشروع : $project->name  
+             بقيمة : " . $_POST['total'] . "<br> وجاري مراجعة الطلب لتأكيد العملية <br>
+             شكرا جزيلاً لكم ..
+             جمعية نماء الأهلية بمنطقة مكة المكرمة .. </p>";
 
             $messaging->donationDonorNotify($sendData);
         }
@@ -372,7 +377,7 @@ class Projects extends Controller
         //generat secrit hash
         $hash = sha1(time() . rand(999, 999999));
         $_SESSION['donation']['hash'] = $hash; // saving donation hash into session
-        $donation_identifier = time() . rand(99000, 99999);
+        $donation_identifier = time() - 580000000;
 
         foreach ($_SESSION['cart']['items']  as $item) {
             $data = [
@@ -389,7 +394,7 @@ class Projects extends Controller
                 'donor_id' => $donor,
                 'status' => 0,
             ];
-
+            $projectsName[] = $item['name'];
             //save donation data through saving method
             if (!$this->projectsModel->addDonation($data)) {
                 flashRedirect('carts', 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
@@ -412,7 +417,13 @@ class Projects extends Controller
         // send message to donor 
         $sendData['subject'] = 'تم استلام طلب تبرعكم  ';
         $sendData['mailto'] = $_POST['email'];
-        $sendData['msg'] = "تم استلام طلب التبرع الخاص بكم <br> بقيمة : " . $_POST['total'] . "<br> وجاري مراجعة الطلب لتأكيد العملية <br> معرف التبرع : " . $data['donation_identifier'];
+        $sendData['msg'] = "<p style='text-align: center;'>" . $_POST['full_name'] . " <br>
+                            تم استلام طلبكم رقم :  : " . $data['donation_identifier'] . " 
+                            في مشروع :  " . implode(' , ', $projectsName) . "
+                            بقيمة : " . $_POST['total'] . " ريال 
+                            وجاري مراجعة الطلب لتأكيد العملية <br>
+                            شكرا جزيلاً لكم ..
+                            جمعية نماء الأهلية بمنطقة مكة المكرمة .. </p>";
         $messaging->donationDonorNotify($sendData);
         //empty cart clear session 
         unset($_SESSION['cart']);

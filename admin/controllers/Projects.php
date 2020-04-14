@@ -188,6 +188,7 @@ class Projects extends ControllerAdmin
                 'background_image' => '',
                 'background_color' => trim($_POST['background_color']),
                 'featured' => trim($_POST['featured']),
+                'project_number_error' => '',
                 'name_error' => '',
                 'category_id_error' => '',
                 'donation_type_error' => '',
@@ -206,11 +207,13 @@ class Projects extends ControllerAdmin
                     $data['donation_type_error'] = 'برجاء اختيار قيمة التبرع';
                 }
             }
+            //validate project number
+            $this->projectModel->itemExistAPI($_POST['project_number']) ?: $data['project_number_error'] = 'هذا الرقم غير متوافق مع برنامج AX';
             //validate category
-            !empty($data['category_id']) ?: $data['category_id_error'] = 'يجب اختيار القسم الخاص بالمشروع';
+            !empty($data['category_id']) ?:
 
-            // validate payment methods
-            empty($_POST['payment_methods']) ? $data['payment_methods_error'] = 'يجب اختيار وسيلة دفع واحدة علي الأقل' : $data['payment_methods'] = $_POST['payment_methods'];
+                // validate payment methods
+                empty($_POST['payment_methods']) ? $data['payment_methods_error'] = 'يجب اختيار وسيلة دفع واحدة علي الأقل' : $data['payment_methods'] = $_POST['payment_methods'];
 
             // validate secondary image
             $image = $this->projectModel->validateImage('secondary_image');
@@ -230,7 +233,7 @@ class Projects extends ControllerAdmin
             //mack sue there is no errors
             if (
                 empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
-                && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
+                && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error']) && empty($data['project_number_error'])
             ) {
                 //validated
                 if ($this->projectModel->addProject($data)) {
@@ -289,6 +292,7 @@ class Projects extends ControllerAdmin
                 'donation_type_error' => '',
                 'category_id_error' => '',
                 'name_error' => '',
+                'project_number_error' => '',
                 'status_error' => '',
                 'secondary_image_error' => '',
                 'payment_methods_error' => '',
@@ -315,7 +319,7 @@ class Projects extends ControllerAdmin
             // sanitize POST array
             $description = $this->projectModel->cleanHTML($_POST['description']);
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            isset($_POST['tags'])? '':$_POST['tags'] =[];
+            isset($_POST['tags']) ? '' : $_POST['tags'] = [];
             $data = [
                 'project_id' => $id,
                 'page_title' => ' المشروعات',
@@ -360,6 +364,7 @@ class Projects extends ControllerAdmin
                 'featured' => trim($_POST['featured']),
                 'name_error' => '',
                 'category_id_error' => '',
+                'project_number_error' => '',
                 'donation_type_error' => '',
                 'payment_methods_error' => '',
                 'secondary_image_error' => '',
@@ -377,6 +382,8 @@ class Projects extends ControllerAdmin
                     $data['donation_type_error'] = 'برجاء اختيار قيمة التبرع';
                 }
             }
+            //validate project number
+            $this->projectModel->itemExistAPI($_POST['project_number']) ?: $data['project_number_error'] = 'هذا الرقم غير متوافق مع برنامج AX';
             //validate category
             !empty($data['category_id']) ?: $data['category_id_error'] = 'يجب اختيار القسم الخاص بالمشروع';
 
@@ -401,7 +408,7 @@ class Projects extends ControllerAdmin
             //mack sue there is no errors
             if (
                 empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
-                && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error'])
+                && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error']) && empty($data['project_number_error'])
             ) {
                 //validated
                 if (isset($_POST['save_new'])) {
@@ -481,6 +488,7 @@ class Projects extends ControllerAdmin
                 'name_error' => '',
                 'status_error' => '',
                 'image_error' => '',
+                'project_number_error' => '',
                 'secondary_image_error' => '',
                 'payment_methods_error' => '',
                 'background_image_error' => '',

@@ -49,10 +49,12 @@ require ADMINROOT . '/views/inc/header.php';
                         <span class="help-block"><?php echo $data['name_error']; ?></span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group  <?php echo (empty($data['project_number_error'])) ?: 'has-error'; ?>">
                     <label class="control-label" for="pageTitle">رقم المشروع : </label>
                     <div class="has-feedback">
                         <input type="text" class="form-control" name="project_number" placeholder="رقم المشروع" value="<?php echo $data['project_number']; ?>">
+                        <span class="fa fa-edit form-control-feedback" aria-hidden="true"></span>
+                        <span class="help-block"><?php echo $data['project_number_error']; ?></span>
                     </div>
                 </div>
                 <div class="form-group <?php echo (!empty($data['category_id_error'])) ? 'has-error' : ''; ?>">

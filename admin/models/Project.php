@@ -364,6 +364,12 @@ class Project extends ModelAdmin
         return $this->db->resultSet();
     }
 
+    /**
+     * update projects order
+     *
+     * @param [int] $data
+     * @return void
+     */
     public function arrangeProject($data)
     {
         $this->db->query('UPDATE projects SET arrangement = :arrangement WHERE project_id = :project_id');
@@ -375,5 +381,21 @@ class Project extends ModelAdmin
         } else {
             return false;
         }
+    }
+
+    /**
+     * load API and check if item ID exist
+     *
+     * @param [type] $item_id
+     * @return void
+     */
+    public function itemExistAPI($item_id)
+    {
+        $data = json_decode(file_get_contents('http://app.namaa.sa:7777/api/lists/GetAll_RevenueItems_nama'));
+        $itemLest = [];
+        foreach ($data->itemsList as $item) {
+            $itemLest[] = $item->itemID;
+        }
+        return in_array($item_id, $itemLest);
     }
 }

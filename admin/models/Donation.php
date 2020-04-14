@@ -318,7 +318,7 @@ class Donation extends ModelAdmin
             $id_num[] = ":in" . $index;
         }
         //setting the query
-        $this->db->query('SELECT DISTINCT projects.name as project, donors.donor_id, donors.full_name, donors.mobile, donors.email, donations.donation_id, donations.donation_identifier, donations.total
+        $this->db->query('SELECT DISTINCT projects.name as project, projects.sms_msg as msg, donors.donor_id, donors.full_name, donors.mobile, donors.email, donations.donation_id, donations.donation_identifier, donations.total
                     FROM donors, donations, projects WHERE donations.project_id = projects.project_id AND donations.donor_id = donors.donor_id AND donations.donation_id IN (' . implode(',', $id_num) . ')');
         //loop through the bind function to bind all the IDs
         foreach ($in as $key => $value) {
@@ -378,6 +378,23 @@ class Donation extends ModelAdmin
             return $this->db->rowCount();
         } else {
             return false;
+        }
+    }
+
+    public function sendConfirmation($in)
+    {
+        $data = $this->getUsersData($in); // loading data required to send sms 
+        foreach ($data as $send) {
+            $message = str_replace('[[name]]', $send->full_name, $send->msg); // replace name string with user name
+            $message = str_replace('[[identifier]]', $send->donation_identifier, $message); // replace name string with user name
+            $message = str_replace('[[total]]', $send->total, $message); // replace name string with user name
+            $message = str_replace('[[project]]', $send->project, $message); // replace name string with user name
+
+            $this->SMS($send->mobile, $message);
+
+            if (!empty($send->email)) {
+                $this->Email($send->email, ' متجر نماء الخيري : تأكيد الطلب', $message);
+            }
         }
     }
 }

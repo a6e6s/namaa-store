@@ -18,12 +18,12 @@ class Messagings extends ControllerAdmin
 {
 
     private $donationModel;
-    // private $donationModel;
+    // private $messagingModel;
 
     public function __construct()
     {
         $this->donationModel = $this->model('Donation');
-        // $this->donationModel = $this->model('Contact');
+        // $this->messagingModel = $this->model('Messaging');
     }
 
     /**

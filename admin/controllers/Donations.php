@@ -58,10 +58,6 @@ class Donations extends ControllerAdmin
             if (!empty($_POST['search']['projects'])) {
                 $cond .= ' AND ds.project_id in (' . implode(',', $_POST['search']['projects']) . ') ';
             }
-            // projects search
-            // if (!empty($_POST['search']['status_id'])) {
-            //     $cond .= ' AND ds.status_id = ' . $_POST['search']['status_id'] . ' ';
-            // }
             //handling Delete
             if (isset($_POST['delete'])) {
                 if (isset($_POST['record'])) {
@@ -82,6 +78,8 @@ class Donations extends ControllerAdmin
                         flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                     }
                 }
+                //send confirmation to user 
+                $this->donationModel->sendConfirmation($_POST['record']);
                 redirect('donations');
             }
             //handling Unpublish

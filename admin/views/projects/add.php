@@ -356,7 +356,7 @@ require ADMINROOT . '/views/inc/header.php';
                             </div>
                             <div class="form-group">
                                 <label>رقم WhatsApp : </label>
-                                <input type="text" class="form-control" name="whatsapp" value="<?php echo $data['mobile']; ?>">
+                                <input type="text" class="form-control" name="whatsapp" value="<?php echo $data['whatsapp']; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">رسالة الشكر التلقائية : </label>

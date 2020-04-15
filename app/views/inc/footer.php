@@ -8,8 +8,8 @@
         </div>
         <div class="footer-bottom text-white text-center py-1 small">
             <p class="pt-3 m-0"><?php echo $data['contact_settings']->address ?></p>
-            <p class="p-0 m-0"><a class=" text-white" href="tel:<?php echo $data['contact_settings']->phone ?>"><?php echo $data['contact_settings']->phone ?></a></p>
-            <p class=" m-0"><a class=" text-white" href="mailto:<?php echo $data['contact_settings']->email ?>"><?php echo $data['contact_settings']->email ?></a></p>
+            <p class="p-0 m-0"><i class="icofont-phone"></i> <a class=" text-white mr-5" href="tel:<?php echo $data['contact_settings']->phone ?>"><?php echo $data['contact_settings']->phone ?></a>
+            <i class="icofont-email"></i> <a class=" text-white" href="mailto:<?php echo $data['contact_settings']->email ?>"><?php echo $data['contact_settings']->email ?></a></p>
         </div>
     </section>
 </div>

@@ -44,27 +44,26 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="settingTitle">بريد استقبال المراسلات : </label>
+                    <label class="control-label" for="settingTitle">اسم المستخدم للواجة البرمجية : </label>
                     <div class="has-feedback">
-                        <input type="text" id="settingTitle" class="form-control" name="value[contacts_email]" placeholder="بريد استقبال المراسلات" value="<?php echo $data['value']->contacts_email; ?>">
+                        <input type="text" id="settingTitle" class="form-control" name="value[api_user]" placeholder="اسم المستخدم للواجة البرمجية" value="<?php echo $data['value']->api_user; ?>">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" for="settingTitle">بريد استقبال تنبيهات التبرعات  : </label>
+                    <label class="control-label" for="settingTitle">كلمة المرور  : </label>
                     <div class="has-feedback">
-                        <input type="text" id="settingTitle" class="form-control" name="value[donation_email]" placeholder="بريد استقبال تنبيهات التبرعات" value="<?php echo $data['value']->donation_email; ?>">
+                        <input type="text" id="settingTitle" class="form-control" name="value[api_key]" placeholder="كلمة المرور" value="<?php echo $data['value']->api_key; ?>">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label" for="settingTitle">بريد الارسال  : </label>
-                    <div class="has-feedback">
-                        <input type="text" id="settingTitle" class="form-control" name="value[sending_email]" placeholder="بريد الارسال" value="<?php echo $data['value']->sending_email; ?>">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="settingTitle">اسم المرسل  : </label>
-                    <div class="has-feedback">
-                        <input type="text" id="settingTitle" class="form-control" name="value[sending_name]" placeholder="اسم المرسل" value="<?php echo $data['value']->sending_name; ?>">
+                <div class="form-group col-xs-12 ">
+                    <label class="control-label" for="settingTitle">تفعيل الواجهة البرمجية  : </label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['value']->api_enable == 1) ? 'checked' : ''; ?> value="1" name="value[api_enable]"> مفعلة
+                        </label>
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['value']->api_enable == '0') ? 'checked' : ''; ?> value="0" name="value[api_enable]"> معلقة
+                        </label>
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">

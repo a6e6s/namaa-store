@@ -114,6 +114,9 @@ class Settings extends ControllerAdmin
             case '8':
                 $this->view('settings/gift', $data);
                 break;
+            case '9':
+                $this->view('settings/api', $data);
+                break;
             default:
                 redirect('settings');
                 break;

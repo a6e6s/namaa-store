@@ -48,8 +48,8 @@ define('ADMINURL', URLROOT . '/admin');
 define('SITENAME', 'جمعية نماء الخيرية');
 // site name
 define('KEYWORDS', 'جمعية خيرية');
-
-
+// set time zone
+date_default_timezone_set("Asia/Kuwait");
 //default language
 define('DEFAULT_LANGUAGE', 'ar');
 

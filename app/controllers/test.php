@@ -5,24 +5,11 @@ class test extends Controller
 
     public function index()
     {
-        echo 'test';
 
-        $requestParams = array(
-            'name' => '',
-            'email' => '',
-            'mobile' => '',
+        echo  date("h:i:sa") ;
 
-        );
-        session_destroy();
-        $redirectUrl = 'http://localhost/Blank-MVC/test/redirect';
-        echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
-        echo "<form action='$redirectUrl' method='post' name='frm'>\n";
-        foreach ($requestParams as $a => $b) {
-            echo "\t<input type='' name='" . htmlentities($a) . "' value='" . htmlentities($b) . "'>\n";
-        }
 
-        echo '<input type="submit" value="send">';
-        echo "</form>\n</body>\n</html>";
+
     }
     public function respond()
     {

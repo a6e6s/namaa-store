@@ -2,57 +2,62 @@
 
 class Apis extends Controller
 {
-    public $meta;
     private $apiModel;
     public $donorModel;
     public function __construct()
     {
         $this->apiModel = $this->model('Api');
-        $this->meta = new Meta;
     }
 
     public function index()
     {
         $data = [
-            'contact_settings' => json_decode($this->apiModel->getSettings('contact')->value),
-            'site_settings' => json_decode($this->apiModel->getSettings('site')->value),
-            'pageTitle' => 'الرئيسية: ' . SITENAME,
+            'status' => 'error',
+            'code' => 000,
+            'msg' => 'bad request',
         ];
+        echo json_encode($data);
     }
-
-    /**
-     * show api by id
-     *
-     * @param  int $id
-     *
-     * @return view
-     */
-    public function show($id = '', $start = 1, $perpage = 9)
+/**
+ * donation API 
+ *
+ * @return json
+ */
+    public function donations()
     {
-        $id = (int) $id;
-        empty($id) ? redirect('api', true) : null;
-        ($api = $this->apiModel->getApiById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
-        $data = [
-            'api' => $api,
-            'site_settings' => json_decode($this->apiModel->getSettings('site')->value),
-            'contact_settings' => json_decode($this->apiModel->getSettings('contact')->value),
-            'gift_settings' => json_decode($this->apiModel->getSettings('gift')->value),
-            'collected_traget' => $this->apiModel->collectedTraget($id),
-            'pagesLinks' => $this->apiModel->getMenu(),
-            'moreapi' => $this->apiModel->moreApi($api->category_id),
-            'payment_methods' => $this->apiModel->getSupportedPaymentMethods($api->payment_methods),
-        ];
-        $data['pageTitle'] = $data['api']->name . "  " . SITENAME;
-
-        $this->meta->header_code = $api->header_code;
-        $this->meta->keywords = $api->meta_keywords;
-        $this->meta->title = $api->name;
-        $this->meta->description = $api->meta_description;
-        $this->meta->image = MEDIAURL . '/' . $api->secondary_image;
-        $this->meta->background = $api->background_color . " url(' " . MEDIAURL . '/' . $api->background_image . "')";
-        $this->view('api/show', $data);
+        if (isset($_POST['api_key']) && isset($_POST['api_user'])) { // check if credential is sent
+            $api_settings = json_decode($this->apiModel->getSettings('api')->value); // load API settings
+            if ($api_settings->api_enable) {
+                //validate credential
+                if ($api_settings->api_key == $_POST['api_key'] && $api_settings->api_user == $_POST['api_user']) {
+                    $donations = $this->apiModel->getDonations();
+                    $data = [
+                        'status' => 'success',
+                        'code' => 100,
+                        'msg' => 'Successfully connected',
+                        'donations' => $donations,
+                    ];
+                } else { // wrong user or key
+                    $data = [
+                        'status' => 'error',
+                        'code' => 102,
+                        'msg' => 'Wrong Credential check user and API key',
+                    ];
+                }
+            } else { // API not enabled
+                $data = [
+                    'status' => 'error',
+                    'code' => 103,
+                    'msg' => 'API not enabled',
+                ];
+            }
+        } else { // no credential
+            $data = [
+                'status' => 'error',
+                'code' => 101,
+                'msg' => 'Invalid Credential',
+            ];
+        }
+        echo json_encode($data);
     }
-
-
-
 }

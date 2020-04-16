@@ -12,6 +12,25 @@ class Model
         $this->db = new Database;
     }
 
+    
+    /**
+     * do query that return result
+     *
+     * @param [string] $query
+     * @return object
+     */
+    public function queryResult($query)
+    {
+        //setting the query
+        $this->db->query($query);
+        if ($this->db->excute()) {
+            return $this->db->resultSet();
+        } else {
+            return false;
+        }
+    }
+
+
     /**
      * get record by value @example getby([id=>5])
      *

@@ -381,15 +381,42 @@ class Donation extends ModelAdmin
         }
     }
 
+    /**
+     * send Confirmation email and sms to users
+     *
+     * @param [array] $in
+     * @return void
+     */
     public function sendConfirmation($in)
     {
         $data = $this->getUsersData($in); // loading data required to send sms 
-        foreach ($data as $send) {
+        $identifiers = [];      //saving the repeated identifiers (cart donations)
+        $cartItems = [];        //temperary save identifer to escap repeated
+        $sendData = [];         // non repeated data array
+        $totals = [];           // total value for donations that was in cart
+
+        foreach ($data as $value) { // loop to collect repeated identifiers and non repeated 
+            if (in_array($value->donation_identifier, $identifiers)) {
+                $cartItems[] = $value->donation_identifier;
+                continue;
+            }
+            $identifiers[] = $value->donation_identifier;
+            $sendData[] = $value;
+        }
+        foreach ($data as $total) { // loop to get sum of repeated donations 
+            if (in_array($total->donation_identifier, $cartItems)) {
+                $totals[$total->donation_identifier] += $total->total;
+                continue;
+            }
+        }
+        foreach ($sendData as $send) {
+            if (array_key_exists($send->donation_identifier, $totals)) { // setting the value for total donation
+                $send->total = $totals[$send->donation_identifier];
+            }
             $message = str_replace('[[name]]', $send->full_name, $send->msg); // replace name string with user name
             $message = str_replace('[[identifier]]', $send->donation_identifier, $message); // replace name string with user name
             $message = str_replace('[[total]]', $send->total, $message); // replace name string with user name
             $message = str_replace('[[project]]', $send->project, $message); // replace name string with user name
-
             $this->SMS($send->mobile, $message);
 
             if (!empty($send->email)) {

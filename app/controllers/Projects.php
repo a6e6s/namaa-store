@@ -175,6 +175,7 @@ class Projects extends Controller
             $sendData = [
                 'email' => true,
                 'sms' => false,
+                'mailto' => $_POST['email'],
                 'mobile' => $_POST['mobile'],
                 'identifier' => $data['donation_identifier'],
                 'total' => $_POST['total'],
@@ -183,11 +184,14 @@ class Projects extends Controller
                 'subject' => 'تم تسجيل تبرع جديد ',
                 'msg' => "تم تسجيل تبرع جديد بمشروع : $project->name  <br/> بقيمة : " . $_POST['total'],
             ];
+
+            // save message data to session 
+            $_SESSION['sendData'] = $sendData;
             $messaging->donationAdminNotify($sendData);
             // send message to donor 
             $sendData['subject'] = 'تم استلام طلب تبرعكم  ';
             $sendData['mailto'] = $_POST['email'];
-            $sendData['msg'] =  "<p style='text-align: center;'>" .$_POST['full_name'] . "
+            $sendData['msg'] =  "<p style='text-align: center;'>" . $_POST['full_name'] . "
              تم استلام طلبكم رقم :  " . $data['donation_identifier'] . "
              بمشروع : $project->name  
              بقيمة : " . $_POST['total'] . "<br> وجاري مراجعة الطلب لتأكيد العملية <br>
@@ -249,7 +253,10 @@ class Projects extends Controller
             'hash' => $_SESSION['donation']['hash'],
             'status' => $status,
         ];
-        $this->projectsModel->updateDonationMeta($data); //update donation meta
+        $this->projectsModel->updateDonationMeta($data); //update donation meta and set status
+        //send Email and SMS confirmation
+        $messaging = $this->model('Messaging');
+        if ($status == 1) $messaging->sendConfirmation($_SESSION['sendData']);
         //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = ' شكرا لتبرعك لدي متجر نماء الخيري جاري التحقق من التبرع ' : null;
         if (isset($_SESSION['payment']['project_id'])) {
@@ -274,7 +281,6 @@ class Projects extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
             $data = [
                 'pageTitle' => 'الحسابات البنكية: ' . SITENAME,
                 'pagesLinks' => $this->projectsModel->getMenu(),
@@ -284,7 +290,6 @@ class Projects extends Controller
                 'image_error' => '',
                 'hash' => $hash,
             ];
-
             // validate image
             if ($_FILES['image']['error'] == 0) {
                 $image = uploadImage('image', APPROOT . '/media/files/banktransfer/', 1000000, false);
@@ -405,14 +410,17 @@ class Projects extends Controller
         $sendData = [
             'email' => true,
             'sms' => false,
+            'mailto' => $_POST['email'],
             'mobile' => $_POST['mobile'],
             'identifier' => $data['donation_identifier'],
             'total' => $_POST['total'],
-            'project' => '',
+            'project' => $projectsName,
             'donor' => $_POST['full_name'],
             'subject' => 'تم تسجيل تبرع جديد ',
             'msg' => "تم تسجيل تبرع جديد  :  <br/> بقيمة : " . $_POST['total'],
         ];
+        // save message data to session 
+        $_SESSION['sendData'] = $sendData;
         $messaging->donationAdminNotify($sendData);
         // send message to donor 
         $sendData['subject'] = 'تم استلام طلب تبرعكم  ';

@@ -160,3 +160,903 @@ Array
 )
 
 
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 6100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => add39d06cb94ff16983daf846731fbf4ffce640c4ed4e5a76579ebfd54a611cb
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 6100
+    [response_code] => 00072
+    [signature] => 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d, Response Signature: 28282844e72afe5c3b9063799fa72683f8e374ae83160c104bdc125fff499515
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 6100
+    [response_code] => 00072
+    [signature] => 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d, Response Signature: 28282844e72afe5c3b9063799fa72683f8e374ae83160c104bdc125fff499515
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 6100
+    [response_code] => 00072
+    [signature] => 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d, Response Signature: 28282844e72afe5c3b9063799fa72683f8e374ae83160c104bdc125fff499515
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 6100
+    [response_code] => 00072
+    [signature] => 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d, Response Signature: 28282844e72afe5c3b9063799fa72683f8e374ae83160c104bdc125fff499515
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 6100
+    [response_code] => 00072
+    [signature] => 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d, Response Signature: 28282844e72afe5c3b9063799fa72683f8e374ae83160c104bdc125fff499515
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 1100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 1296807254
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 9e85219c6057c8f634aa2e30c47ef43902a670e92455b77fa3749e5bba299516
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => 2d8dd956343a97634fa2812238f1b62d630c532eec5151d706c6748e8e5c4748
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1296807254
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 2d8dd956343a97634fa2812238f1b62d630c532eec5151d706c6748e8e5c4748, Response Signature: 943ab8afebd7069953fe1295d088b7c7c11c5b727f0257dfa9c995dc838138cb
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 6100
+    [response_code] => 00072
+    [signature] => 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d, Response Signature: 28282844e72afe5c3b9063799fa72683f8e374ae83160c104bdc125fff499515
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 6100
+    [response_code] => 00072
+    [signature] => 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1750785866
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 62fca132d0d163db128adc9e2dc2e75d746403f0ce9af8861f71e0ba7b33fc8d, Response Signature: 28282844e72afe5c3b9063799fa72683f8e374ae83160c104bdc125fff499515
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => 2d8dd956343a97634fa2812238f1b62d630c532eec5151d706c6748e8e5c4748
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1296807254
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 2d8dd956343a97634fa2812238f1b62d630c532eec5151d706c6748e8e5c4748, Response Signature: 943ab8afebd7069953fe1295d088b7c7c11c5b727f0257dfa9c995dc838138cb
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 21100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 68908197
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => ffe25951e19d8e36082d0a54d9265cce365d8edfbfee4c49f68ea0a4d69e09a2
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 21100
+    [response_code] => 00072
+    [signature] => b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 68908197
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18, Response Signature: 92bd11797796f658e9fc87f1d4eba430c330d31dca494a6f3804ae36bbe86c8e
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 21100
+    [response_code] => 00072
+    [signature] => b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 68908197
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18, Response Signature: 92bd11797796f658e9fc87f1d4eba430c330d31dca494a6f3804ae36bbe86c8e
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 21100
+    [response_code] => 00072
+    [signature] => b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 68908197
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18, Response Signature: 92bd11797796f658e9fc87f1d4eba430c330d31dca494a6f3804ae36bbe86c8e
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 5000
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 1807096545
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 376579a60c547858fdbc1cab98ee1d92bd3711f1c5a241a887c3d39217ef39b6
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 5000
+    [response_code] => 00072
+    [signature] => 952ca345c7daef9903e25132b98d806fe6891fd082d3b3ef1bf425beb308b124
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1807096545
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 952ca345c7daef9903e25132b98d806fe6891fd082d3b3ef1bf425beb308b124, Response Signature: 70ba90088989a4e36c6cac4399e123482d208d54fe1bc7e6c61f53c252a33315
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 5000
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 2070804670
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 2d157bff6b2ce1614a4c06b3b0f42e2b392f52cb833a8c5c25eea91cf4f56807
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 5000
+    [response_code] => 00072
+    [signature] => 5f45959db833839304143daa98ca2217e98211ec121d417ba79acf6f583c5940
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 2070804670
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 5f45959db833839304143daa98ca2217e98211ec121d417ba79acf6f583c5940, Response Signature: 435aeab8017a24fa7bd135b0edc15be56b9c5c563224c8887b51ba04a30538f5
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 5000
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 720760860
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 8e08565e7275c56b1917d1ae43be355d0ec6b2aa32ddd0fdee498db39db70c53
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 5000
+    [response_code] => 00072
+    [signature] => be48f033001f0a3424bad0c32c7d8943e5f5978660a949eb52503fb788a4d135
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 720760860
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: be48f033001f0a3424bad0c32c7d8943e5f5978660a949eb52503fb788a4d135, Response Signature: 3a5560d65e5cf52ad3e9165dc776b0f77fa20843c94477ffa76ea508c3243ab3
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 1100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 369cbb629dd8c4ef824e7249f97e5c1d136039eb80cfde56b57ae746197ee045
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 5000
+    [response_code] => 00072
+    [signature] => be48f033001f0a3424bad0c32c7d8943e5f5978660a949eb52503fb788a4d135
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 720760860
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: be48f033001f0a3424bad0c32c7d8943e5f5978660a949eb52503fb788a4d135, Response Signature: 3a5560d65e5cf52ad3e9165dc776b0f77fa20843c94477ffa76ea508c3243ab3
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 21100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 1548211642
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 1a0490e0dcf737ba334726773c1bac1fe1ab3a8b145aad753852ab04242e5dc2
+)
+
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 21100
+    [response_code] => 00072
+    [signature] => 5825e1aa83b1ea92a0b32577888c70a98078b53cae9003b5e005b2d176787b20
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1548211642
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 5825e1aa83b1ea92a0b32577888c70a98078b53cae9003b5e005b2d176787b20, Response Signature: 105535b267e9991468d4fabce93b64287943bf94993f4e317590caee10a452be
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 21100
+    [response_code] => 00072
+    [signature] => 5825e1aa83b1ea92a0b32577888c70a98078b53cae9003b5e005b2d176787b20
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1548211642
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 5825e1aa83b1ea92a0b32577888c70a98078b53cae9003b5e005b2d176787b20, Response Signature: 105535b267e9991468d4fabce93b64287943bf94993f4e317590caee10a452be
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 21100
+    [response_code] => 00072
+    [signature] => 5825e1aa83b1ea92a0b32577888c70a98078b53cae9003b5e005b2d176787b20
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1548211642
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: 5825e1aa83b1ea92a0b32577888c70a98078b53cae9003b5e005b2d176787b20, Response Signature: 105535b267e9991468d4fabce93b64287943bf94993f4e317590caee10a452be
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+
+========================================================
+
+Fort Redirect Response Parameters 
+Array
+(
+    [url] => projects/paymentrespond
+    [r] => processResponse
+    [amount] => 1100
+    [response_code] => 00072
+    [signature] => fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [language] => ar
+    [command] => PURCHASE
+    [response_message] => تم إلغاء العملية من قبل المستخدم
+    [merchant_reference] => 1432675692
+    [customer_email] => test@payfort.com
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [currency] => SAR
+    [status] => 00
+)
+
+
+========================================================
+
+Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
+

@@ -82,7 +82,7 @@ class Messaging extends ModelAdmin
             $message = str_replace('[[identifier]]', $data['identifier'], $message); // replace name string with user name
             $message = str_replace('[[total]]', $data['total'], $message); // replace name string with user name
             $message = nl2br(str_replace('[[project]]', $data['project'], $message)); // replace name string with user name
-            // mail($email->donation_email, $data['subject'], $message, $headers); // sending Email
+            mail($email->donation_email, $data['subject'], $message, $headers); // sending Email
         }
     }
 
@@ -107,5 +107,42 @@ class Messaging extends ModelAdmin
             $message = nl2br(str_replace('[[project]]', $data['project'], $message)); // replace name string with user name
             mail($data['mailto'], $data['subject'], $message, $headers); // sending Email
         }
+    }
+
+/**
+ * send Email and SMS Confirmation
+ *
+ * @param [array] $data
+ * @return void
+ */
+    public function sendConfirmation($data)
+    {
+        if (is_array($data['project'])) { // check if the project from cart or direct donation 
+            // prepar EMAIL MSG
+            $data['msg'] =  $data['donor'] . "
+                            تم تأكيد طلبكم رقم :" . $data['identifier'] . "
+                            بمبلغ :" . $data['total'] . " ريال 
+                            في مشروع :" . implode(' , ', $data['project']) . "
+                            بارك الله فيكم ونفعنا وأياكم وجعله في ميزان حسناتكم ";
+            $data['subject'] = "تم تأكيد طلبكم رقم " . $data['identifier'];
+            // prepare SMS message
+            $data['msgsms'] =  $data['donor'] . "
+                            تم تأكيد طلبكم رقم :" . $data['identifier'] . "
+                            بمبلغ :" . $data['total'] . " ريال 
+                            بارك الله فيكم ونفعنا وأياكم وجعله في ميزان حسناتكم ";
+            // send SMS
+            $this->SMS($data['mobile'], $data['msgsms']);
+        } else { //direct donation
+            $data['msg'] =  $data['donor'] . "
+                            تم تأكيد طلبكم رقم :" . $data['identifier'] . "
+                            بمبلغ :" . $data['total'] . " ريال 
+                            في مشروع  :" . $data['project'] . "
+                            بارك الله فيكم ونفعنا وأياكم وجعله في ميزان حسناتكم ";
+            $data['subject'] = "تم تأكيد طلبكم رقم " . $data['identifier'];
+            // send SMS
+            $this->SMS($data['mobile'], $data['msg']);
+        }
+        // send email
+        if (!empty($data['mailto'])) $this->Email($data['mailto'], $data['subject'], "<p style='text-align: right;'>" . $data['msg'] . " </p>");
     }
 }

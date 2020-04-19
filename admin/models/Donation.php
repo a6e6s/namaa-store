@@ -394,7 +394,7 @@ class Donation extends ModelAdmin
         $cartItems = [];        //temperary save identifer to escap repeated
         $sendData = [];         // non repeated data array
         $totals = [];           // total value for donations that was in cart
-
+        $projects = [];         // compain projects
         foreach ($data as $value) { // loop to collect repeated identifiers and non repeated 
             if (in_array($value->donation_identifier, $identifiers)) {
                 $cartItems[] = $value->donation_identifier;
@@ -406,19 +406,20 @@ class Donation extends ModelAdmin
         foreach ($data as $total) { // loop to get sum of repeated donations 
             if (in_array($total->donation_identifier, $cartItems)) {
                 $totals[$total->donation_identifier] += $total->total;
+                $projects[$total->donation_identifier] .= " - " . $total->project;
                 continue;
             }
         }
         foreach ($sendData as $send) {
             if (array_key_exists($send->donation_identifier, $totals)) { // setting the value for total donation
                 $send->total = $totals[$send->donation_identifier];
+                $send->project = $projects[$send->donation_identifier];
             }
             $message = str_replace('[[name]]', $send->full_name, $send->msg); // replace name string with user name
             $message = str_replace('[[identifier]]', $send->donation_identifier, $message); // replace name string with user name
             $message = str_replace('[[total]]', $send->total, $message); // replace name string with user name
             $message = str_replace('[[project]]', $send->project, $message); // replace name string with user name
             $this->SMS($send->mobile, $message);
-
             if (!empty($send->email)) {
                 $this->Email($send->email, ' متجر نماء الخيري : تأكيد الطلب', $message);
             }

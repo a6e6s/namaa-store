@@ -46,9 +46,13 @@ class Settings extends ControllerAdmin
         $id = (int) $id;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['value']['bootom'])) $bootom = $this->settingModel->cleanHTML($_POST['value']['bootom']);
+            if (isset($_POST['value']['header_code'])) $header_code = ($_POST['value']['header_code']);
+            if (isset($_POST['value']['footer_code'])) $footer_code = ($_POST['value']['footer_code']);
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             if (isset($_POST['value']['bootom'])) $_POST['value']['bootom'] = $bootom;
+            if (isset($_POST['value']['header_code'])) $_POST['value']['header_code'] = $header_code;
+            if (isset($_POST['value']['footer_code'])) $_POST['value']['footer_code'] = $footer_code;
             $data = [
                 'setting_id' => $id,
                 'page_title' => 'الأعدادات',

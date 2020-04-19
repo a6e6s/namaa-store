@@ -54,17 +54,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <?php if($data['site_settings']->enableTages){ ?>
-                    <div class="col-12 ">
-                        <nav class="nav pr-3 sub-menu">
-                            <?php
-                            foreach ($data['tags'] as $tag) {
-                                echo '<a class="nav-link active m-1 p-2" href="' . URLROOT . '/tags/show/' . $tag->tag_id . '-' . $tag->alias . '">' . $tag->name . '</a>';
-                            }
-                            ?>
-                        </nav>
-                    </div>
-                        <?php } foreach ($data['projects'] as $project) : ?>
+                    <?php if ($data['site_settings']->enableTages) { ?>
+                        <div class="col-12 ">
+
+                            <div class="scrollmenu">
+                                <?php
+                                foreach ($data['tags'] as $tag) {
+                                    echo '<a class="" href="' . URLROOT . '/tags/show/' . $tag->tag_id . '-' . $tag->alias . '">' . $tag->name . '</a>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    <?php }
+                    foreach ($data['projects'] as $project) : ?>
                         <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
                             <form class="card" method="post" action="<?php echo URLROOT . '/carts/add/'; ?>">
                                 <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="">

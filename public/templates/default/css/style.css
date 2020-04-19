@@ -223,3 +223,31 @@ body {
     .cart .card-body{padding: .25rem;}
   }
 .cart-num{position: relative; left: -20px; top: -18px; font-size: 12px;}
+/* scroll menu  */
+div.scrollmenu {
+    background-color: #39abf2;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  
+  div.scrollmenu a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+  }
+  
+  div.scrollmenu a:hover {
+    background-color: #777;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 4px; 
+    width: 4px; 
+    border: 1px solid #d5d5d5;
+  }
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #879846; 
+  }

@@ -239,7 +239,8 @@ div.scrollmenu {
   }
   
   div.scrollmenu a:hover {
-    background-color: #777;
+    background-color: #fff;
+    color: #39abf2;
   }
   ::-webkit-scrollbar {
     width: 5px;
@@ -249,5 +250,5 @@ div.scrollmenu {
   }
   /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #879846; 
+    background: #ddd; 
   }

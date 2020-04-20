@@ -243,7 +243,7 @@
                     <div class="form-group text-center">
                         <button class="btn btn-primary btn-lg m-2 px-5" name="pay" type="submit">دفع <i class="icofont-riyal"></i> </button>
                         <?php if ($data['project']->enable_cart) : ?>
-                            <a href="<?php echo URLROOT . '/carts/add/' . $data['project']->project_id; ?>" class="btn btn-lg p-2 btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a>
+                            <!-- <a href="<?php echo URLROOT . '/carts/add/' . $data['project']->project_id; ?>" class="btn btn-lg p-2 btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a> -->
                         <?php endif; ?>
                     </div>
                 </form>
@@ -294,7 +294,7 @@
                 </div>
             </section>
             <div class="row text-center mx-1 mt-4 ">
-                <?php echo ($data['project']->whatsapp) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-success icofont-whatsapp" href="tel:' . $data['project']->whatsapp . ' "> ' . $data['project']->whatsapp . ' </a></div>' : ''; ?>
+                <?php echo ($data['project']->whatsapp) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-success icofont-whatsapp" href="https://wa.me/' . $data['project']->whatsapp . ' "> ' . $data['project']->whatsapp . ' </a></div>' : ''; ?>
                 <?php echo ($data['project']->mobile) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-primary icofont-phone" href="tel:' . $data['project']->mobile . '"> ' . $data['project']->mobile . '</a></div>' : ''; ?>
                 <?php echo ($data['project']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '"> العودة الي الرئيسية</a></div>' : ''; ?>
             </div>

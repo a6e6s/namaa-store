@@ -95,6 +95,16 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                 </div>
                 <div class="form-group col-xs-12 ">
+                    <label class="control-label">يجب تأكيد الجوال اثناء الشراء من خلال السلة  :</label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['value']->mobile_validation == 1) ? 'checked' : ''; ?> value="1" name="value[mobile_validation]"> نعم 
+                        </label>
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['value']->mobile_validation == '0') ? 'checked' : ''; ?> value="0" name="value[mobile_validation]"> لا
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 ">
                     <label class="control-label">حالة المشروعات :</label>
                     <div class="radio">
                         <label>

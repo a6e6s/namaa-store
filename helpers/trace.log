@@ -1060,3 +1060,75 @@ Array
 
 Invalid Signature. Calculated Signature: fccf28361c63732836ac2e6a555ac0926221f85d25d92eec0a6e8fb0c2e1a72e, Response Signature: cbeef19d39727f7a40434576701223fd2af226c174f8e88b9a9bddaa0a7faca4
 
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 16100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 2089300166
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 1599b4afb7f4e693670f864cb039178d1733e76c715087ea27105708c0c37f85
+)
+
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 11100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 211098871
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 5afdbb3402ef91b6c5eadc9b9df26b88b06a23e4ea62c01a85b5ef4b6c395e3d
+)
+
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 11100
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 1704002299
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 467fbe07864cd26950e5a6153a8b91ce4ac3b204b085fcb2a55fe020fdbf4909
+)
+
+
+========================================================
+
+Fort Redirect Request Parameters 
+Array
+(
+    [amount] => 5000
+    [currency] => SAR
+    [merchant_identifier] => BiZjlLxK
+    [access_code] => PFEiLpPP5luIGAsOyoFy
+    [merchant_reference] => 391557087
+    [customer_email] => test@payfort.com
+    [command] => PURCHASE
+    [language] => ar
+    [return_url] => http://localhost/Blank-MVC/projects/paymentrespond?r=processResponse
+    [signature] => 859e2d118f49d419f92b0d69a34f1416c503ad68f896379583376f259e0d2cbf
+)
+
+

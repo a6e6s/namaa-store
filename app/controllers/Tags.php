@@ -4,11 +4,11 @@ class Tags extends Controller
 {
 
     public $meta;
-    private $categoriesModel;
+    private $tagModel;
 
     public function __construct()
     {
-        $this->categoriesModel = $this->model('Tag');
+        $this->tagModel = $this->model('Tag');
         $this->meta = new Meta;
     }
 
@@ -24,21 +24,21 @@ class Tags extends Controller
      *
      * @return view
      */
-    public function show($id = '', $start = 1, $perpage = 100)
+    public function show($id = '', $start = 0, $perpage = 100)
     {
         $start = (int) $start;
         $perpage = (int) $perpage;
         empty($id) ? redirect('tags', true) : null;
-        empty($start) ? $start = 1 : '';
+        empty($start) ? $start = 0 : '';
         empty($perpage) ? $perpage = 100 : '';
-        ($tag = $this->categoriesModel->getTagById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
+        ($tag = $this->tagModel->getTagById($id)) ?: flashRedirect('index', 'msg', ' هذا الوسم غير موجود او ربما تم حذفه ');
         $data = [
             'tag' => $tag,
-            'pagesLinks' => $this->categoriesModel->getMenu(),
-            'site_settings' => json_decode($this->categoriesModel->getSettings('site')->value),
-            'contact_settings' => json_decode($this->categoriesModel->getSettings('contact')->value),
-            'projects' => $this->categoriesModel->getProductsByTag($id, $start, $perpage),
-            'pagination' => generatePagination($this->categoriesModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/tags/show/' . $id),
+            'pagesLinks' => $this->tagModel->getMenu(),
+            'site_settings' => json_decode($this->tagModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->tagModel->getSettings('contact')->value),
+            'projects' => $this->tagModel->getProductsByTag($id, $start, $perpage),
+            'pagination' => generatePagination($this->tagModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/tags/show/' . $id),
         ];
         $data['pageTitle'] = $data['tag']->name . "  " . SITENAME;
         $this->meta->title = $data['tag']->name;

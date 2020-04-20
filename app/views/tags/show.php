@@ -110,7 +110,7 @@
                             <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                                 <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
                                 <?php if ($project->enable_cart) : ?>
-                                    <button class="card-text float-left btn btn-sm " name="projectCategories" value="<?php echo $data['tag']->tag_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                    <button class="card-text float-left btn btn-sm " name="tags" value="<?php echo $data['tag']->tag_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
                                 <?php endif; ?>
                             </div>
                         </div>

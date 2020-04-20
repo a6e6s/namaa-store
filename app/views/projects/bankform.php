@@ -7,9 +7,8 @@
         <div class="row m-3 justify-content-center ">
             <h2 class="text-center col-12"> <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="Smiley face" class="ml-2">الحسابات البنكية</h2>
             <div class="col-12 card">
-                <div class="form-group">
                     <label class="control-label h4 pt-2">الحسابات البنكية : </label>
-                    <table class="table table-striped jambo_table text-center">
+                    <table class="table table-striped jambo_table text-center table-responsive d-lg-table">
                         <thead>
                             <tr class="headings  text-center">
                                 <th class="">اسم البنك </th>
@@ -36,7 +35,6 @@
                             ?>
                         </tbody>
                     </table>
-                </div>
                 <?php if ($data['hash']) : flash('msg') ?>
                     <h1 class="h3 text-center">ارفاق صورة التحويل</h1>
                     <form action="<?php echo URLROOT . '/projects/banktransfer/' . $data['hash']->hash; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">

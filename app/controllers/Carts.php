@@ -39,6 +39,8 @@ class Carts extends Controller
         $this->cartModel->add($project);
         if (isset($_POST['projectCategories'])) {
             flashRedirect('projectCategories/show/' . $_POST['projectCategories'], 'msg', ' تم اضافة المشروع بنجاح <a href="' . URLROOT . '/carts"> عرص السلة </a> ');
+        }elseif (isset($_POST['tags'])) {
+            flashRedirect('tags/show/' . $_POST['tags'], 'msg', ' تم اضافة المشروع بنجاح <a href="' . URLROOT . '/carts"> عرص السلة </a> ');
         }
         flashRedirect('', 'msg', ' تم اضافة المشروع بنجاح <a href="' . URLROOT . '/carts"> عرص السلة </a> ');
     }

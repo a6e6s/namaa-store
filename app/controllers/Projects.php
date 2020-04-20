@@ -28,7 +28,7 @@ class Projects extends Controller
      *
      * @return view
      */
-    public function show($id = '', $start = 1, $perpage = 9)
+    public function show($id = '')
     {
         $id = (int) $id;
         empty($id) ? redirect('projects', true) : null;
@@ -307,7 +307,7 @@ class Projects extends Controller
             if (empty($data['image_error'])) {
                 //validated
                 if ($this->projectsModel->updateDonationHash($data)) { //update donation proof file and hash
-                    flashRedirect('', 'msg', 'تم الحفظ بنجاح', 'alert alert-success');
+                    flashRedirect('', 'msg', 'تم استلام طلبك بنجاح', 'alert alert-success');
                 } else {
                     flash('msg', 'هناك خطأ ما حاول مرة اخري', 'alert alert-danger');
                 }
@@ -414,7 +414,7 @@ class Projects extends Controller
             'mobile' => $_POST['mobile'],
             'identifier' => $data['donation_identifier'],
             'total' => $_POST['total'],
-            'project' => $projectsName,
+            'project' => implode(' , ', $projectsName) ,
             'donor' => $_POST['full_name'],
             'subject' => 'تم تسجيل تبرع جديد ',
             'msg' => "تم تسجيل تبرع جديد  :  <br/> بقيمة : " . $_POST['total'],

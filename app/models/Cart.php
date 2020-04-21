@@ -52,12 +52,12 @@ class Cart extends Model
         $_SESSION['cart']['totalQty'] = $totalQty;
         $_SESSION['cart'][$project->project_id] = $item;
     }
-    public function add($project)
+    public function add($project, $quantity =1)
     {
         $item = [
             'name' => $project->name,
             'project_id' => $project->project_id,
-            'quantity' => 1,
+            'quantity' => $quantity,
             'amount' => $_POST['amount'],
             'donation_type' => $_POST['donation_type'],
         ];
@@ -69,14 +69,14 @@ class Cart extends Model
                 }
             }
             if ($x) {
-                $_SESSION['cart']['items'][$key]['quantity'] = $_SESSION['cart']['items'][$key]['quantity'] + 1;
+                $_SESSION['cart']['items'][$key]['quantity'] = $_SESSION['cart']['items'][$key]['quantity'] + $quantity;
             } else {
                 $_SESSION['cart']['items'][] = $item;
             }
-            $totalQty = $_SESSION['cart']['totalQty'] + 1;
+            $totalQty = $_SESSION['cart']['totalQty'] + $quantity;
             $_SESSION['cart']['totalQty'] = $totalQty;
         } else {
-            $totalQty = 1;
+            $totalQty = $quantity;
             $_SESSION['cart']['totalQty'] = $totalQty;
             $_SESSION['cart']['items'][] = $item;
         }

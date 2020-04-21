@@ -40,7 +40,7 @@ class ProjectCategories extends Controller
      *
      * @return view
      */
-    public function show($id = '', $start = 0, $perpage = 100)
+    public function show($id = '', $start = 1, $perpage = 100)
     {
         $start = (int) $start;
         $perpage = (int) $perpage;

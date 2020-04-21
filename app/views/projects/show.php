@@ -181,7 +181,6 @@
                         <label for="" class="col-sm-2 col-form-label">قيمة التبرع </label>
                         <?php
                         $donation_type = json_decode($data['project']->donation_type);
-                        // if ($donation_type->type != 'open') :
                         ?>
                         <div class="input-group col-sm-8">
                             <div class=" btn-group-toggle" data-toggle="buttons">
@@ -191,59 +190,60 @@
                                         foreach ($donation_type->value as $value) {
                                             echo '<label class="btn btn-secondary  m-1">
                                                         <input type="radio" value ="' . $value->value . '" name="donation_type" required class="donation-value"> ' . $value->name . '
-                                                        <input type="hidden" name="donation_type" value="' . $value->name . '" id="donation_type">
+                                                        <input type="hidden" name="donation_type" value="" class="donation_type_name">
                                                     </label>';
                                         }
                                         break;
                                     case 'open':
                                         echo 'قم بكتابة المبلغ المراد التبرع به 
-                                            <input type="hidden" name="donation_type" value="مفتوح" id="donation_type">
+                                            <input type="hidden" name="donation_type" value="مفتوح" class="donation_type_name">
                                             ';
                                         break;
                                     case 'unit':
                                         foreach ($donation_type->value as $value) {
                                             echo '<label class="btn btn-secondary  m-1">
                                                         <input type="radio" value ="' . $value->value . '" name="donation_type" class="donation-value"> ' . $value->name . '
-                                                        <input type="hidden" name="donation_type" value="' . $value->name . '" id="donation_type">
+                                                        <input type="hidden" name="donation_type" value="" class="donation_type_name">
                                                         </label>';
                                         }
                                         break;
                                     case 'fixed':
                                         echo '<label class="btn btn-secondary  m-1">
                                                     <input type="radio" value ="' . $donation_type->value . '" name="donation_type" class="donation-value"> ' . $donation_type->value . ' ريال
-                                                        <input type="hidden" name="donation_type" value="قيمة ثابته" id="donation_type">
+                                                        <input type="hidden" name="donation_type" value="قيمة ثابته" class="donation_type_name">
                                                 </label>';
                                         break;
                                 }
                                 ?>
+                                <span class="donation_type_error"></span>
                             </div>
                         </div>
-                        <?php #endif; 
-                        ?>
                     </div>
-
                     <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label">قيمة الوحدة : </label>
                         <div class="input-group col-sm-2">
                             <input placeholder="القيمة" min="1" type="number" class="form-control amount" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
                         </div>
+                        <span class="amout_error"></span>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label"> الكمية: </label>
                         <div class="input-group col-sm-2">
                             <input type="number" name="quantity" min="1" value="1" required id="quantity" class="form-control d-inline">
                         </div>
+                        <span class="quantity_error"></span>
                     </div>
                     <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label">القيمة الاجمالية: </label>
                         <div class="input-group col-sm-2">
                             <input type="number" readonly name="total" id="total" class="form-control d-inline">
                         </div>
+                        <span class="total_error"></span>
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-primary btn-lg m-2 px-5" name="pay" type="submit">دفع <i class="icofont-riyal"></i> </button>
                         <?php if ($data['project']->enable_cart) : ?>
-                            <!-- <a href="<?php echo URLROOT . '/carts/add/' . $data['project']->project_id; ?>" class="btn btn-lg p-2 btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a> -->
+                            <a href="<?php echo URLROOT . '/carts/ajaxAdd'; ?>" id="addToCart" class="btn btn-lg p-2 btn-success">اضف الي السلة <i class="icofont-cart-alt"></i> </a>
                         <?php endif; ?>
                     </div>
                 </form>
@@ -267,6 +267,19 @@
                                 <input class="btn btn-danger mt-2 float-left" name="verify" type="submit" data-dismiss="modal" value="غلق">
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="alertModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                        </div>
+                        <div class="p-2 border-top">
+                            <a href="/carts" class="btn btn-primary" >عرض السلة</a>
+                            <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -270,19 +270,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal" id="alertModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                        </div>
-                        <div class="p-2 border-top">
-                            <a href="/carts" class="btn btn-primary" >عرض السلة</a>
-                            <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
-                        </div>
 
-                    </div>
-                </div>
-            </div>
             <div class="divider mx-auto p-1">
                 <!-- Go to www.addthis.com/dashboard to customize your tools -->
                 <div class="addthis_inline_share_toolbox"></div>
@@ -314,6 +302,20 @@
         </div>
     </div>
 </section>
+<!-- alertModal -->
+<div class="modal" id="alertModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+            <div class="p-2 border-top">
+                <a href="/carts" class="btn btn-primary">عرض السلة</a>
+                <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 <!-- End product -->
 <?php
 $footer = ' <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-508116077910fef8"></script>' . "\n\t";

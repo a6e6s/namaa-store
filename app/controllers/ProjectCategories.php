@@ -12,7 +12,7 @@ class ProjectCategories extends Controller
         $this->meta = new Meta;
     }
 
-    public function index($start = 0, $perpage = 100)
+    public function index($start = 1, $perpage = 100)
     {
         $start = (int) $start;
         $perpage = (int) $perpage;

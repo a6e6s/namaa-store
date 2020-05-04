@@ -183,7 +183,7 @@ class Orders extends ControllerAdmin
             'current' => $current,
             'perpage' => $perpage,
             'header' => '',
-            'title' => 'التبرعات',
+            'title' => 'الطلبات',
             'statuses' => $this->orderModel->statusesList(' WHERE status = 1'),
             'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE status <> 2 '),
             'projects' => $this->orderModel->projectsList(' WHERE status = 1'),
@@ -207,7 +207,7 @@ class Orders extends ControllerAdmin
 
             $data = [
                 'order_id' => $id,
-                'page_title' => ' التبرعات',
+                'page_title' => ' الطلبات',
                 'order_identifier' => trim($_POST['order_identifier']),
                 'amount' => $_POST['amount'],
                 'total' => $_POST['total'],
@@ -264,7 +264,7 @@ class Orders extends ControllerAdmin
                 redirect('orders');
             }
             $data = [
-                'page_title' => 'التبرعات',
+                'page_title' => 'الطلبات',
                 'order' => $order,
                 'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => $order->banktransferproof,
@@ -290,7 +290,7 @@ class Orders extends ControllerAdmin
             redirect('orders');
         }
         $data = [
-            'page_title' => 'التبرعات',
+            'page_title' => 'الطلبات',
             'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
             'order' => $order,
             // 'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE payment_id IN (' . implode(',', json_decode($order->payment_methods, true)) . ') '),

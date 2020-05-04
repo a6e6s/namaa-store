@@ -60,61 +60,6 @@ class Order extends ModelAdmin
     }
 
     /**
-     * insert new orders
-     * @param array $data
-     * @return boolean
-     */
-    public function addOrder($data)
-    {
-        $this->db->query('INSERT INTO orders( name, alias, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, modified_date, create_date,enable_cart,
-         mobile_confirmation, donation_type, target_price, payment_methods, fake_target, hidden, thanks_message, advertising_code, header_code, whatsapp, mobile, end_date, start_date, category_id, secondary_image, sms_msg
-        )'
-            . ' VALUES (:name, :alias, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :modified_date, :create_date, :enable_cart,
-         :mobile_confirmation, :donation_type, :target_price, :payment_methods, :fake_target, :hidden, :thanks_message, :advertising_code, :header_code, :whatsapp, :mobile, :end_date, :start_date, :category_id, :secondary_image, :sms_msg
-        )');
-
-        // binding values
-        $this->db->bind(':enable_cart', $data['enable_cart']);
-        $this->db->bind(':mobile_confirmation', $data['mobile_confirmation']);
-        $this->db->bind(':donation_type', json_encode($data['donation_type']));
-        $this->db->bind(':target_price', (int) $data['target_price']);
-        $this->db->bind(':payment_methods', json_encode($data['payment_methods']));
-        $this->db->bind(':fake_target', (int) $data['fake_target']);
-        $this->db->bind(':hidden', $data['hidden']);
-        $this->db->bind(':sms_msg', $data['sms_msg']);
-        $this->db->bind(':thanks_message', $data['thanks_message']);
-        $this->db->bind(':advertising_code', $data['advertising_code']);
-        $this->db->bind(':header_code', $data['header_code']);
-        $this->db->bind(':whatsapp', $data['whatsapp']);
-        $this->db->bind(':mobile', $data['mobile']);
-        $this->db->bind(':end_date', strtotime($data['end_date']));
-        $this->db->bind(':start_date', strtotime($data['start_date']));
-        $this->db->bind(':category_id', $data['category_id']);
-        $this->db->bind(':secondary_image', $data['secondary_image']);
-        $this->db->bind(':name', $data['name']);
-        $this->db->bind(':alias', $data['alias']);
-        $this->db->bind(':description', $data['description']);
-        $this->db->bind(':image', str_replace('&#34;', '', $data['image']));
-        $this->db->bind(':arrangement', $data['arrangement']);
-        $this->db->bind(':background_image', $data['background_image']);
-        $this->db->bind(':background_color', $data['background_color']);
-        $this->db->bind(':featured', $data['featured']);
-        $this->db->bind(':back_home', $data['back_home']);
-        $this->db->bind(':meta_keywords', $data['meta_keywords']);
-        $this->db->bind(':meta_description', $data['meta_description']);
-        $this->db->bind(':status', $data['status']);
-        $this->db->bind(':create_date', time());
-        $this->db->bind(':modified_date', time());
-
-        // excute
-        if ($this->db->excute()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * updateOrder
      * @param  array $data
      * @return void

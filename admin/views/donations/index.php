@@ -34,45 +34,17 @@ require ADMINROOT . '/views/inc/header.php';
         <div class="col-md-12 col-sm-12 col-xs-12">
             <form action="" method="post">
                 <div class="row">
-                    <div class="col-xs-6 form-group"><span class="title">بحث بالمعرف :</span><input type="search" class="form-control" placeholder="بحث بالمعرف" name="search[donation_identifier]" value=""></div>
-                    <div class="col-xs-3 form-group"><span class="title">القيمة من :</span><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount_from]" value=""></div>
-                    <div class="col-xs-3 form-group"><span class="title">القيمة الي :</span><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount_to]" value=""></div>
+                    <div class="col-xs-6 form-group"><span class="title"> رقم الطلب :</span><input type="search" class="form-control" placeholder="رقم الطلب" name="search[order]" value=""></div>
                     <div class="col-xs-6 form-group"><span class="title"> الاجمالي :</span><input type="search" class="form-control" placeholder="بحث الاجمالي" name="search[total]" value=""></div>
                     <div class="col-xs-6 form-group"><span class="title">بالنوع :</span><input type="search" class="form-control" placeholder="بحث بالنوع" name="search[donation_type]" value=""></div>
-                    <div class="col-xs-6 form-group"><span class="title">بحث بالمتبرع :</span><input type="search" class="form-control" placeholder="بحث بالمتبرع" name="search[donor]" value=""></div>
-                    <div class="col-xs-6 form-group"><span class="title">بحث بالجوال :</span><input type="search" class="form-control" placeholder="بحث بالجوال" name="search[mobile]" value=""></div>
-                    <div class="col-xs-6 form-group"><span class="title">وسيلة الدفع :</span>
-                        <select class="form-control select2" name="search[payment_method][]" multiple="multiple">
-                            <option value=""></option>
-                            <?php foreach ($data['paymentMethodsList'] as $paymentMethod) {
-                                echo '<option value="' . $paymentMethod->payment_id . '" >' . $paymentMethod->title . '</option>';
-                            } ?>
-                        </select>
-                    </div>
+                    <div class="col-xs-3 form-group"><span class="title">القيمة من :</span><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount_from]" value=""></div>
+                    <div class="col-xs-3 form-group"><span class="title">القيمة الي :</span><input type="search" class="form-control" placeholder="بحث بالقيمة" name="search[amount_to]" value=""></div>
+                    <div class="col-xs-3 form-group"><span class="title"> التاريخ من :</span><input type="date" class="form-control" placeholder="التاريخ من" name="search[date_from]" value=""></div>
+                    <div class="col-xs-3 form-group"><span class="title"> التاريخ الي :</span><input type="date" class="form-control" placeholder=" الي" name="search[date_to]" value=""></div>                  
                     <div class="col-xs-6 form-group"><span class="title">بحث بالمشروع :</span>
                         <select class="form-control select2" name="search[projects][]" multiple="multiple" style="width: 100%;">
                             <?php foreach ($data['projects'] as $project) {
                                 echo '<option value="' . $project->project_id . '" >' . $project->name . '</option>';
-                            } ?>
-                        </select>
-                    </div>
-                    <div class="col-xs-3 form-group"><span class="title"> التاريخ من :</span><input type="date" class="form-control" placeholder="التاريخ من" name="search[date_from]" value=""></div>
-                    <div class="col-xs-3 form-group"><span class="title"> التاريخ الي :</span><input type="date" class="form-control" placeholder=" الي" name="search[date_to]" value=""></div>
-                    <div class="col-xs-3 form-group"><span class="title"> بحث بالحالة :</span>
-                        <select class="form-control" name="search[status]">
-                            <option value=""></option>
-                            <option value="1">مؤكد </option>
-                            <option value="0"> غير مؤكد </option>
-                            <option value="3"> في الانتظار </option>
-                            <option value="4">ملغاه </option>
-                        </select>
-                    </div>
-                    
-                    <div class="col-xs-3 form-group"><span class="title">بحث بالحالات المخصصة :</span>
-                        <select class="form-control" name="search[status_id]">
-                            <option value=""></option>
-                            <?php foreach ($data['statuses'] as $status) {
-                                echo '<option value="' . $status->status_id . '" >' . $status->name . '</option>';
                             } ?>
                         </select>
                     </div>
@@ -85,41 +57,18 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th>
                                     <input type="checkbox" id="check-all" class="flat">
                                 </th>
-                                <th class="column-title">معرف التبرع </th>
+                                <th class="column-title">رقم الطلب </th>
                                 <th class="column-title">القيمة </th>
                                 <th class="column-title">العدد </th>
                                 <th class="column-title">الاجمالي </th>
                                 <th class="column-title">النوع </th>
-                                <th class="column-title">الحالة </th>
-                                <th class="column-title">اسم المتبرع </th>
-                                <th class="column-title">الجوال </th>
                                 <th class="column-title">المشروع </th>
-                                <th class="column-title">وسيلة التبرع </th>
-                                <th class="column-title">بيانات الإهداء </th>
-                                <th class="column-title">تأكيد التحويل </th>
-                                <th class="column-title">تفاصيل Payfort </th>
                                 <th class="column-title">تاريخ التبرع </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last" width="140"><span class="nobr">اجراءات</span></th>
-                                <th class="bulk-actions" colspan="16">
+                                <th class="bulk-actions" colspan="9">
                                     <span> تنفيذ علي الكل :</span>
-                                    <input type="submit" name="publish" value="تأكيد" class="btn btn-success btn-xs" />
-                                    <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
-                                    <input type="submit" name="canceled" value="الغاء" class="btn btn-default  btn-xs" />
-                                    <input type="submit" name="waiting" value="في الانتظار" class="btn btn-info btn-xs" />
                                     <input type="submit" name="delete" value="حذف" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-danger btn-xs" />
-                                    <span class="control-label">ارسال :</span>
-                                    <input type="submit" name="send" value="SMS" class="btn btn-success btn-sm" />
-                                    <input type="submit" name="send" value="Email" class="btn btn-success btn-sm" />
-                                    <span class="control-label">الوسوم :</span>
-                                    <?php
-                                    foreach ($data['statuses'] as $status) {
-                                        echo ' <button type="submit" name="status_id"  value="' . $status->status_id . '" class="btn btn-primary btn-xs">' . $status->name . '</button> ';
-                                    }
-                                    ?>
-                                    <span class="control-label"> حذف الوسوم :</span>
-                                    <input type="submit" name="clear" value="Clear" onclick="return confirm('Are you sure?') ? true : false" class="btn btn-warning btn-xs" />
-
                                 </th>
                             </tr>
                         </thead>
@@ -129,89 +78,15 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="a-center ">
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $donation->donation_id; ?>">
                                     </td>
-                                    <td><?php echo $donation->donation_identifier; ?></td>
+                                    <td><a href="<?php echo ADMINURL . '/orders/show/' . $donation->order_id; ?>"><?php echo $donation->order; ?></a></td>
                                     <td><?php echo $donation->amount; ?></td>
                                     <td><?php echo $donation->quantity; ?></td>
                                     <td><?php echo $donation->total; ?></td>
                                     <td><?php echo $donation->donation_type; ?></td>
-                                    <td><?php echo $donation->status_name; ?></td>
-                                    <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $donation->donor_id . '">' . $donation->donor . '</a>'; ?></td>
-                                    <td class="ltr"><?php echo $donation->mobile; ?></td>
                                     <td><?php echo $donation->project; ?></td>
-                                    <td><?php echo $donation->payment_method; ?></td>
-                                    <td>
-                                        <?php if ($donation->gift) { ?>
-                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#gift<?php echo $donation->donation_id; ?>">تفاصيل</button>
-                                            <div class="modal fade" id="gift<?php echo $donation->donation_id; ?>" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-body text-right" dir="ltr">
-                                                            <ul class="text-capitalize">
-                                                                <?php
-                                                                ($donation->gift) ? $gifts = json_decode($donation->gift_data) : $gifts = [];
-                                                                foreach ($gifts as $key => $value) {
-                                                                    if ($key == 'enable') continue;
-                                                                    if ($key == 'card') {
-                                                                        echo '<li class="h5">' . $key . " : <img width='200' src= '" . MEDIAURL . '/' . $value . "'></li>\n";
-                                                                    } else {
-                                                                        echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
-                                                                    }
-                                                                }
-                                                                ?>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
-                                    </td>
-                                    <td><?php if (!empty($donation->banktransferproof)) : ?>
-                                            <a class="btn btn-success btn-sm" href="<?php echo URLROOT . "/media/files/banktransfer/" . $donation->banktransferproof; ?>" target="blank">تحميل</a>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?php if ($donation->meta) { ?>
-                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#meta<?php echo $donation->donation_id; ?>">تفاصيل</button>
-                                            <div class="modal fade" id="meta<?php echo $donation->donation_id; ?>" role="dialog">
-                                                <div class="modal-dialog">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-body text-right" dir="ltr">
-                                                            <ul class="text-capitalize">
-                                                                <?php
-                                                                ($donation->meta) ? $metas = json_decode($donation->meta) : $metas = [];
-                                                                foreach ($metas as $key => $value) {
-                                                                    echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
-                                                                }
-                                                                ?>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
-                                    </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->create_date); ?></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
                                     <td class="form-group">
-                                        <?php
-                                        if (!$donation->status) {
-                                            echo '<a class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
-                                        } elseif ($donation->status == 1) {
-                                            echo '<a class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="مؤكد"><i class="fa fa-check"></i></a>';
-                                        } elseif ($donation->status == 3) {
-                                            echo '<a class="btn btn-xs btn-info" type="button" data-toggle="tooltip" data-original-title="في الانتظار"><i class="fa fa-clock-o"></i></a>';
-                                        } elseif ($donation->status == 4) {
-                                            echo '<a class="btn btn-xs btn-default" type="button" data-toggle="tooltip" data-original-title="ملغاه"><i class="fa fa-close"></i></a>';
-                                        }
-                                        ?>
                                         <a href="<?php echo ADMINURL . '/donations/show/' . $donation->donation_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
                                         <a href="<?php echo ADMINURL . '/donations/edit/' . $donation->donation_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
                                         <a href="<?php echo ADMINURL . '/donations/delete/' . $donation->donation_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
@@ -222,7 +97,7 @@ require ADMINROOT . '/views/inc/header.php';
                             <tr class="tab-selected">
                                 <th></th>
                                 <th class="column-title" colspan="4"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
-                                <th class="column-title" colspan="7"> عرض
+                                <th class="column-title" colspan="3"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/donations/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>
@@ -233,7 +108,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <option value="1000" <?php echo ($data['perpage'] == 1000) ? 'selected' : null; ?>>1000 </option>
                                     </select>
                                 </th>
-                                <th class="column-title" colspan="4"> </th>
+                                <th class="column-title" colspan=""> </th>
                                 <th class="column-title no-link last"></th>
                             </tr>
                         </tbody>

@@ -24,7 +24,7 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('donation_msg');?>
+    <?php flash('donation_msg'); ?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['page_title']; ?> <small>عرض محتوي التبرع </small></h3>
@@ -38,63 +38,13 @@ require ADMINROOT . '/views/inc/header.php';
 
     <div class="row">
         <div class="col-md-12 col-sm-12">
-            <div class="form-group">
-                <h3 class="prod_title">
-                    <?php echo $data['donation']->donation_identifier; ?>
-                </h3>
-            </div>
             <div class="form-groupcol-xs-12">
                 <label class="control-label">قيمة التبرع : </label>
                 <p><?php echo $data['donation']->amount; ?></p>
             </div>
             <div class="form-groupcol-xs-12">
-                <label class="control-label">وسيلة التبرع : </label>
-                <p class="ltr"><?php echo $data['donation']->payment_method_id; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">اثبات التحويل : </label>
-                <p><?php echo $data['donation']->banktransferproof; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">مهدي خيريا :</label>
-                <p><?php echo $data['donation']->gift ? 'نعم' : 'لا'; ?></p>
-                <p class="btn-default">
-                <h3 class="control-label">بيانات الاهداء  :</h3>
-                <?php if ($data['donation']->gift) {
-    $gift_data = json_decode($data['donation']->gift_data);
-    foreach ($gift_data as $key => $value) {
-        if ($key == 'enable') {
-            continue;
-        }
-
-        echo "<label>" . $key . " :</label> " . $value . "<br>\n";
-    }
-
-}?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <h3 class="control-label">بيانات الدفع من خلال بايفورت : </h3>
-                <p class=" btn-default"><?php
-if (!empty($data['donation']->meta)) {
-    $meta = json_decode($data['donation']->meta);
-    foreach ($meta as $key => $value) {
-        echo "<label>" . $key . " :</label> " . $value . "<br>\n";
-    }
-
-}
-?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
                 <label class="control-label">اسم المشروع : </label>
                 <p><?php echo $data['donation']->project_id; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">اسم المتبرع : </label>
-                <p><?php echo $data['donation']->donor_id; ?></p>
-            </div>
-            <div class="form-groupcol-xs-12">
-                <label class="control-label">حالة التبرع : </label>
-                <p><?php echo $data['donation']->status ? 'مؤكد' : 'غير مؤكد'; ?></p>
             </div>
             <div class="form-groupcol-xs-12">
                 <label class="control-label">اخر تحديث : </label>
@@ -106,7 +56,7 @@ if (!empty($data['donation']->meta)) {
             </div>
 
             <div class="form-group col-xs-12">
-                <a class="btn btn-info" href="<?php echo ADMINURL . '/donations/edit/' . $data['donation']->donation_id; ?>" >تعديل</a>
+                <a class="btn btn-info" href="<?php echo ADMINURL . '/donations/edit/' . $data['donation']->donation_id; ?>">تعديل</a>
             </div>
 
 

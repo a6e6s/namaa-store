@@ -30,7 +30,7 @@ class Donations extends ControllerAdmin
     public function index($current = '', $perpage = 50)
     {
         // get donations
-        $cond = 'WHERE ds.status <> 2 AND donors.donor_id = ds.donor_id AND projects.project_id = ds.project_id AND ds.payment_method_id = payment_methods.payment_id ';
+        $cond = ' WHERE ds.status <> 2 AND projects.project_id = ds.project_id AND ds.order_id = orders.order_id ';
         $bind = [];
         //check user action if the form has submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -50,9 +50,8 @@ class Donations extends ControllerAdmin
             if (!empty($_POST['search']['amount_to'])) {
                 $cond .= ' AND ds.amount <= ' . $_POST['search']['amount_to'] . ' ';
             }
-            // payment_method search
-            if (!empty($_POST['search']['payment_method'])) {
-                $cond .= ' AND ds.payment_method_id in (' . implode(',', $_POST['search']['payment_method']) . ') ';
+            if (!empty($_POST['search']['order'])) {
+                $cond .= ' AND orders.order_identifier LIKE "%' . $_POST['search']['order'] . '%" ';
             }
             // projects search
             if (!empty($_POST['search']['projects'])) {
@@ -69,100 +68,13 @@ class Donations extends ControllerAdmin
                 }
                 redirect('donations');
             }
-            //handling Publish
-            if (isset($_POST['publish'])) {
-                if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->publishById($_POST['record'], 'donation_id')) {
-                        flash('donation_msg', 'تم تأكيد  ' . $row_num . ' بنجاح');
-                    } else {
-                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-                    }
-                }
-                //send confirmation to user 
-                $this->donationModel->sendConfirmation($_POST['record']);
-                redirect('donations');
-            }
-            //handling Unpublish
-            if (isset($_POST['unpublish'])) {
-
-                if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->unpublishById($_POST['record'], 'donation_id')) {
-                        flash('donation_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
-                    } else {
-                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-                    }
-                }
-                redirect('donations');
-            }
-            //handling waiting
-            if (isset($_POST['waiting'])) {
-                if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->waitingById($_POST['record'], 'donation_id')) {
-                        flash('donation_msg', 'تم وضع في الانتظار  ' . $row_num . ' بنجاح');
-                    } else {
-                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-                    }
-                }
-                redirect('donations');
-            }
-            //handling canceled
-            if (isset($_POST['canceled'])) {
-
-                if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->canceledById($_POST['record'], 'donation_id')) {
-                        flash('donation_msg', 'تم الغاء   ' . $row_num . ' بنجاح');
-                    } else {
-                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-                    }
-                }
-                redirect('donations');
-            }
-            //handling send
-            if (isset($_POST['send'])) {
-                if (isset($_POST['record'])) {
-                    $data = [
-                        'header' => '',
-                        'title' => 'المراسلات',
-                        'type' => $_POST['send'],
-                        'members' => $this->donationModel->getUsersData($_POST['record']),
-                        'footer' => '',
-                    ];
-                    return $this->view('messagings/index', $data);
-                } else {
-                    flash('donation_msg', 'لم تقم بأختيار اي تبرع', 'alert alert-danger');
-                }
-            }
-
-            //handling status
-            if (isset($_POST['status_id'])) {
-                if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->setDonationStatuses($_POST['record'], $_POST['status_id'])) {
-                        flash('donation_msg', 'تم اضافة ' . $row_num . ' بنجاح');
-                    } else {
-                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-                    }
-                }
-                redirect('donations');
-            }
-            //clear tags
-            if (isset($_POST['clear'])) {
-                if (isset($_POST['record'])) {
-                    if ($row_num = $this->donationModel->clearAllStatusesByDonationsId($_POST['record'])) {
-                        flash('donation_msg', 'تم الغاء   ' . $row_num . ' بنجاح');
-                    } else {
-                        flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
-                    }
-                }
-                redirect('donations');
-            }
         }
         //handling search
-        $searches = $this->donationModel->searchHandling(['donation_identifier', 'total', 'donation_type', 'status', 'status_id', 'donor', 'mobile'], $current);
+        $searches = $this->donationModel->searchHandling(['total', 'donation_type'], $current);
         $cond .= $searches['cond'];
-        // dd($_POST);
         $bind = $searches['bind'];
         // get all records count after search and filtration
-        $recordsCount = $this->donationModel->allDonationsCount(", donors , projects, payment_methods " . $cond, $bind);
+        $recordsCount = $this->donationModel->allDonationsCount(", projects, orders " . $cond, $bind);
         // make sure its integer value and its usable
         $current = (int) $current;
         $perpage = (int) $perpage;
@@ -208,23 +120,16 @@ class Donations extends ControllerAdmin
             $data = [
                 'donation_id' => $id,
                 'page_title' => ' التبرعات',
-                'donation_identifier' => trim($_POST['donation_identifier']),
                 'amount' => $_POST['amount'],
                 'total' => $_POST['total'],
                 'quantity' => $_POST['quantity'],
-                'status_id' => $_POST['status_id'],
-                'payment_method_id' => trim($_POST['payment_method_id']),
-                'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => '',
-                'statusesList' => $this->donationModel->statusesList(),
                 'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
                 'project_id' => $_POST['project_id'],
                 'statuses' => '',
                 'status' => '',
                 'payment_method_id_error' => '',
                 'project_id_error' => '',
-                'banktransferproof_error' => '',
-                'status_error' => '',
             ];
             isset($_POST['statuses']) ? $data['statuses'] = $_POST['statuses'] : '';
             // validate payment methods
@@ -233,10 +138,7 @@ class Donations extends ControllerAdmin
             // validate payment methods
             !(empty($data['project_id'])) ? null : $data['project_id_error'] = 'هذا الحقل مطلوب';
 
-            // validate banktransferproof
-            $image = $this->donationModel->validateImage('banktransferproof');
-            ($image[0]) ? $data['banktransferproof'] = $image[1] : $data['banktransferproof_error'] = $image[1];
-
+            // dd($_FILES);
             // validate status
             if (isset($_POST['status'])) {
                 $data['status'] = trim($_POST['status']);
@@ -245,7 +147,7 @@ class Donations extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error']) && empty($data['project_id_error'])) {
+            if (empty($data['project_id_error'])) {
                 //validated
                 if ($this->donationModel->updateDonation($data)) {
                     flash('donation_msg', 'تم التعديل بنجاح');
@@ -265,11 +167,12 @@ class Donations extends ControllerAdmin
             }
             $data = [
                 'page_title' => 'التبرعات',
-                'donation' => $donation,
-                'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE status <> 2 '),
-                'banktransferproof' => $donation->banktransferproof,
+                'donation_id' => $id,
+                'amount' => $donation->amount,
+                'total' => $donation->total,
+                'quantity' => $donation->quantity,
+                'project_id' => $donation->project_id,
                 'projectList' => $this->donationModel->projectsList('WHERE status = 1'),
-                'statusesList' => $this->donationModel->statusesList(),
                 'payment_method_id_error' => '',
                 'project_id_error' => '',
                 'banktransferproof_error' => '',
@@ -293,8 +196,6 @@ class Donations extends ControllerAdmin
             'page_title' => 'التبرعات',
             'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
             'donation' => $donation,
-            // 'paymentMethodsList' => $this->donationModel->paymentMethodsList(' WHERE payment_id IN (' . implode(',', json_decode($donation->payment_methods, true)) . ') '),
-
         ];
         $this->view('donations/show', $data);
     }

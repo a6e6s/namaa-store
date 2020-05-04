@@ -51,7 +51,7 @@ class Project extends Model
      */
     public function moreProjects($category_id)
     {
-        return $this->get('name , project_id, secondary_image',['category_id' => $category_id, 'status' => 1]);
+        return $this->get('name , project_id, secondary_image', ['category_id' => $category_id, 'status' => 1]);
     }
 
     /**
@@ -103,9 +103,9 @@ class Project extends Model
      *
      * @return void
      */
-    public function getDonationByHash($hash)
+    public function getOrderByHash($hash)
     {
-        return $this->getSingle('*', ['hash' => $hash], 'donations');
+        return $this->getSingle('*', ['hash' => $hash], 'orders');
     }
 
     /**
@@ -115,9 +115,9 @@ class Project extends Model
      *
      * @return void
      */
-    public function updateDonationHash($data)
+    public function updateOrderHash($data)
     {
-        $query = 'UPDATE donations SET banktransferproof = :banktransferproof, hash = NULL, modified_date = :modified_date';
+        $query = 'UPDATE orders SET banktransferproof = :banktransferproof, hash = NULL, modified_date = :modified_date';
 
         $query .= ' WHERE hash = :hash';
         $this->db->query($query);
@@ -132,9 +132,9 @@ class Project extends Model
             return false;
         }
     }
-    public function updateDonationMeta($data)
+    public function updateOrderMeta($data)
     {
-        $query = 'UPDATE donations SET meta = :meta, status = :status, hash = NULL, modified_date = :modified_date';
+        $query = 'UPDATE orders SET meta = :meta, status = :status, hash = NULL, modified_date = :modified_date';
         $query .= ' WHERE hash = :hash';
         $this->db->query($query);
         // binding values
@@ -158,10 +158,38 @@ class Project extends Model
      */
     public function addDonation($data)
     {
-        $this->db->query('INSERT INTO donations (donation_identifier, amount, total, quantity, donation_type, gift, gift_data, payment_method_id, hash, project_id, donor_id, status, modified_date, create_date)'
-            . ' VALUES (:donation_identifier, :amount, :total, :quantity, :donation_type, :gift, :gift_data, :payment_method_id, :hash, :project_id, :donor_id, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO donations (amount, total, quantity, donation_type, gift, gift_data, payment_method_id, hash, order_id, project_id, donor_id, status, modified_date, create_date)'
+            . ' VALUES (:amount, :total, :quantity, :donation_type, :gift, :gift_data, :payment_method_id, :hash, :order_id, :project_id, :donor_id, :status, :modified_date, :create_date)');
         // binding values
-        $this->db->bind(':donation_identifier', $data['donation_identifier']);
+        // $this->db->bind(':donation_identifier', $data['donation_identifier']);
+        $this->db->bind(':gift', $data['gift']);
+        $this->db->bind(':gift_data', $data['gift_data']);
+        $this->db->bind(':amount', $data['amount']);
+        $this->db->bind(':total', $data['total']);
+        $this->db->bind(':quantity', $data['quantity']);
+        $this->db->bind(':donation_type', $data['donation_type']);
+        $this->db->bind(':hash', $data['hash']);
+        $this->db->bind(':payment_method_id', $data['payment_method_id']);
+        $this->db->bind(':project_id', $data['project_id']);
+        $this->db->bind(':donor_id', $data['donor_id']);
+        $this->db->bind(':order_id', $data['order_id']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':create_date', time());
+        $this->db->bind(':modified_date', time());
+        // excute
+        if ($this->db->excute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function addOrder($data)
+    {
+        $this->db->query('INSERT INTO orders (order_identifier, amount, total, quantity, donation_type, gift, gift_data, payment_method_id, hash, project_id, donor_id, status, modified_date, create_date)'
+            . ' VALUES (:order_identifier, :amount, :total, :quantity, :donation_type, :gift, :gift_data, :payment_method_id, :hash, :project_id, :donor_id, :status, :modified_date, :create_date)');
+        // binding values
+        $this->db->bind(':order_identifier', $data['order_identifier']);
         $this->db->bind(':gift', $data['gift']);
         $this->db->bind(':gift_data', $data['gift_data']);
         $this->db->bind(':amount', $data['amount']);

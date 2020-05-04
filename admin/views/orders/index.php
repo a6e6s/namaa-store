@@ -51,7 +51,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 </th>
                                 <th class="column-title">الكمية <input type="search" placeholder="الكمية" name="search[quantity]" value="" class="w50"></th>
                                 <th class="column-title">الاجمالي <input type="search" placeholder=" الاجمالي" name="search[total]" value="" class="w50"></th>
-                                <th class="column-title">النوع <input type="search" placeholder="النوع" name="search[donation_type]" value="" class="w150"></th>
+                                <th class="column-title">النوع <input type="search" placeholder="النوع" name="search[donation_type]" value="" class="w100"></th>
                                 <th class="column-title">الحالة
                                     <select name="search[status_id]">
                                         <option value=""></option>
@@ -63,14 +63,14 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">اسم المتبرع <input type="search" placeholder="بحث بالمتبرع" name="search[donor]" value="" class="w100"></th>
                                 <th class="column-title">الجوال <input type="search" placeholder="بحث بالجوال" name="search[mobile]" value="" class="w100"></th>
                                 <th class="column-title">المشروع
-                                    <select class="" name="search[projects][]">
+                                    <select class="w100" name="search[projects][]">
                                         <?php foreach ($data['projects'] as $project) {
                                             echo '<option value="' . $project->project_id . '" >' . $project->name . '</option>';
                                         } ?>
                                     </select>
                                 </th>
                                 <th class="column-title">وسيلة التبرع
-                                    <select class="" name="search[payment_method][]">
+                                    <select class="w100" name="search[payment_method][]">
                                         <option value=""></option>
                                         <?php foreach ($data['paymentMethodsList'] as $paymentMethod) {
                                             echo '<option value="' . $paymentMethod->payment_id . '" >' . $paymentMethod->title . '</option>';
@@ -81,8 +81,8 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">تأكيد التحويل </th>
                                 <th class="column-title">تفاصيل Payfort </th>
                                 <th class="column-title">تاريخ التبرع <br>
-                                    <input type="date" placeholder=" من" name="search[date_from]" value="" class="w150">
-                                    <input type="date" placeholder=" الي" name="search[date_to]" value="" class="w150">
+                                    <input type="date" placeholder=" من" name="search[date_from]" value="" class="">
+                                    <input type="date" placeholder=" الي" name="search[date_to]" value="" class="">
                                 </th>
                                 <th class="column-title no-link last" width="140"><span class="nobr">اجراءات</span>
                                     <select name="search[status]">
@@ -213,7 +213,7 @@ require ADMINROOT . '/views/inc/header.php';
                             <tr class="tab-selected">
                                 <th></th>
                                 <th class="column-title" colspan="4"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
-                                <th class="column-title" colspan="7"> عرض
+                                <th class="column-title" colspan="6"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/orders/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>

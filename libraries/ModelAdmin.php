@@ -214,7 +214,7 @@ class ModelAdmin
      * @param  array $searchColomns ['name','status']
      * @return array $cond $bind
      */
-    public function searchHandling($searchColomns, $current ='')
+    public function searchHandling($searchColomns, $current = '')
     {
         // if user make a search
         if (isset($_POST['search'])) {
@@ -227,8 +227,7 @@ class ModelAdmin
             if (empty($current)) {
                 unset($_SESSION['search']);
                 // if there is pagenation and value stored into session get it and prepare Condition and bind
-            }
-             else {
+            } else {
                 return $this->handlingSearchSessionCondition($searchColomns);
             }
         }
@@ -343,10 +342,20 @@ class ModelAdmin
      * @param  string $imageName
      * @return array name or error
      */
-    public function validateImage($imageName)
+    public function validateImage($imageName, $pass =  ADMINROOT . '/../media/images/')
     {
+        $uploadErrors = array(
+            0 => 'There is no error, the file uploaded with success',
+            1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+            2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+            3 => 'The uploaded file was only partially uploaded',
+            4 => 'No file was uploaded',
+            6 => 'Missing a temporary folder',
+            7 => 'Failed to write file to disk.',
+            8 => 'A PHP extension stopped the file upload.',
+        );
         if ($_FILES[$imageName]['error'] == 0) {
-            $image = uploadImage($imageName, ADMINROOT . '/../media/images/', 5000000, true);
+            $image = uploadImage($imageName, $pass, 5000000, true);
             if (empty($image['error'])) {
                 return [true, $image['filename']];
             } else {
@@ -354,6 +363,8 @@ class ModelAdmin
                     return [false, implode(',', $image['error'])];
                 }
             }
+        } else {
+            return [true, $uploadErrors[$_FILES[$imageName]['error']]];
         }
     }
     /**
@@ -370,7 +381,7 @@ class ModelAdmin
             return $this->getAll('SELECT * FROM settings');
         }
     }
-    
+
     /**
      * sending Html Email
      *

@@ -34,13 +34,39 @@ class Order extends ModelAdmin
      */
     public function getOrders($cond = '', $bind = '', $limit = '', $bindLimit)
     {
-        $query = 'SELECT ds.*, payment_methods.title as payment_method, donors.full_name as donor, donors.mobile, projects.name as project ,
-        (select name from statuses where ds.status_id = statuses.status_id) as status_name
-        FROM orders ds ,projects, donors,payment_methods ' . $cond . ' ORDER BY ds.create_date DESC ';
-        // dd($query);
+        $query = 'SELECT ord.*, payment_methods.title as payment_method, donors.full_name as donor, donors.mobile,
+        (select name from statuses where ord.status_id = statuses.status_id) as status_name
+        FROM orders ord , donors,payment_methods ' . $cond . ' ORDER BY ord.create_date DESC ';
+        pr($bind);
+        pr($query);
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }
 
+    /**
+     * getAll data from database
+     *
+     * @param  string $cond
+     * @param  array $bind
+     * @param  string $limit
+     * @param  array $bindLimit
+     *
+     * @return Object
+     */
+    public function getAll($query, $bind = '', $limit = '', $bindLimit = '')
+    {
+        $this->db->query($query . $limit);
+        if (!empty($bind)) {
+            foreach ($bind as $key => $value) {
+                $this->db->bind($key, $value );
+            }
+        }
+        if (!empty($bindLimit)) {
+            foreach ($bindLimit as $key => $value) {
+                $this->db->bind($key, $value);
+            }
+        }
+        return $this->db->resultSet();
+    }
     /**
      * get count of all records
      * @param type $cond
@@ -48,8 +74,8 @@ class Order extends ModelAdmin
      */
     public function allOrdersCount($cond = '', $bind = '')
     {
-        // dd($cond);
-        $this->db->query('SELECT count(*) as count FROM ' . $this->table . ' ds ' . $cond);
+        $query = 'SELECT count(*) as count FROM ' . $this->table . ' ord ' . $cond;
+        $this->db->query($query);
         if (!empty($bind)) {
             foreach ($bind as $key => $value) {
                 $this->db->bind($key, '%' . $value . '%');
@@ -180,42 +206,6 @@ class Order extends ModelAdmin
         return $this->setWhereIn('status_id', null, 'order_id', $order_ids);
     }
 
-    /**
-     * handling Search Condition, creating bind array and handling search session
-     *
-     * @param  array $searches
-     * @return array of condation and bind array
-     */
-    public function handlingSearchCondition($searches)
-    {
-        //reset search session
-        unset($_SESSION['search']);
-        $cond = '';
-        $bind = [];
-        if (!empty($searches)) {
-            foreach ($searches as $keyword) {
-                if ($keyword == 'donor') {
-                    $cond .= ' AND donors.full_name LIKE :' . $keyword . ' ';
-                } elseif ($keyword == 'payment_method') {
-                    $cond .= ' AND payment_methods.title LIKE :' . $keyword . ' ';
-                } elseif ($keyword == 'mobile') {
-                    $cond .= ' AND donors.mobile LIKE :' . $keyword . ' ';
-                } elseif ($keyword == 'project') {
-                    $cond .= ' AND projects.name LIKE :' . $keyword . ' ';
-                } else {
-                    $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
-                }
-                if ($keyword == 'date_from' || $keyword == 'date_to') {
-                    $bind[':' . $keyword] = strtotime($_POST['search'][$keyword]);
-                } else {
-                    $bind[':' . $keyword] = $_POST['search'][$keyword];
-                }
-
-                $_SESSION['search'][$keyword] = $_POST['search'][$keyword];
-            }
-        }
-        return  ['cond' => $cond, 'bind' => $bind];
-    }
 
     /**
      * handling Search Condition on the stored session, creating bind array and handling search session
@@ -225,30 +215,6 @@ class Order extends ModelAdmin
      */
     public function handlingSearchSessionCondition($searches)
     {
-        $cond = '';
-        $bind = [];
-        foreach ($searches as $keyword) {
-            if (isset($_SESSION['search'][$keyword])) {
-                if ($keyword == 'donor') {
-                    $cond .= ' AND donors.full_name LIKE :' . $keyword . ' ';
-                } elseif ($keyword == 'project') {
-                    $cond .= ' AND projects.name LIKE :' . $keyword . ' ';
-                } elseif ($keyword == 'payment_method') {
-                    $cond .= ' AND payment_methods.title LIKE :' . $keyword . ' ';
-                } elseif ($keyword == 'mobile') {
-                    $cond .= ' AND donors.mobile LIKE :' . $keyword . ' ';
-                } else {
-                    $cond .= ' AND ds.' . $keyword . ' LIKE :' . $keyword . ' ';
-                }
-                //handling
-                if ($keyword == 'date_from' || $keyword == 'date_to') {
-                    $bind[':' . $keyword] = strtotime($_SESSION['search'][$keyword]);
-                } else {
-                    $bind[':' . $keyword] = $_SESSION['search'][$keyword];
-                }
-            }
-        }
-        return ['cond' => $cond, 'bind' => $bind];
     }
     /**
      * get users informations to contact them

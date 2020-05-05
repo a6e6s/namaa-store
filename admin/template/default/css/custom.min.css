@@ -32,4 +32,5 @@ body,html{direction:rtl}.dropleft .dropdown-toggle::before,.dropright .dropdown-
 .wiget .tile-stats{padding: 15px;} .wiget .tiles{padding: 5px 0; margin-top: 15px;}
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{padding: 8px 2px;}
 .w100{width: 100px;}.w10{width: 10px;}.w50{width: 50px;}.w150{width: 150px;}
-.orders{font-size: 12px;} .orders input,.orders select{color:#4B5F71;border: 1px solid #4B5F71;border-radius: 3px; height: 30px;}
+.orders{font-size: 12px;} .orders input,.orders select{color:#4B5F71;border: 1px solid #4B5F71;border-radius: 3px; height: 27px;}
+input.btn.btn-sm.btn-primary.search-query{color: #fff;}

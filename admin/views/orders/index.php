@@ -34,7 +34,6 @@ require ADMINROOT . '/views/inc/header.php';
         <div class="col-md-12 col-sm-12 col-xs-12">
             <form action="" method="post">
                 <div class="clearfix">
-                    <input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query pull-left" />
                 </div>
 
                 <div class="table-responsive">
@@ -46,19 +45,8 @@ require ADMINROOT . '/views/inc/header.php';
                                 </th>
                                 <th class="column-title">معرف التبرع <input type="search" placeholder="بحث بالمعرف" name="search[order_identifier]" value="" class="w100"></th>
                                 <th class="column-title">القيمة <br>
-                                    <input type="search" placeholder="من" name="search[amount_from]" value=""  class="w50">
-                                    <input type="search" placeholder="الي" name="search[amount_to]" value=""  class="w50">
-                                </th>
-                                <th class="column-title">الكمية <input type="search" placeholder="الكمية" name="search[quantity]" value="" class="w50"></th>
-                                <th class="column-title">الاجمالي <input type="search" placeholder=" الاجمالي" name="search[total]" value="" class="w50"></th>
-                                <th class="column-title">النوع <input type="search" placeholder="النوع" name="search[donation_type]" value="" class="w100"></th>
-                                <th class="column-title">الحالة
-                                    <select name="search[status_id]">
-                                        <option value=""></option>
-                                        <?php foreach ($data['statuses'] as $status) {
-                                            echo '<option value="' . $status->status_id . '" >' . $status->name . '</option>';
-                                        } ?>
-                                    </select>
+                                    <input type="search" placeholder="من" name="search[amount_from]" value="" class="w50">
+                                    <input type="search" placeholder="الي" name="search[amount_to]" value="" class="w50">
                                 </th>
                                 <th class="column-title">اسم المتبرع <input type="search" placeholder="بحث بالمتبرع" name="search[donor]" value="" class="w100"></th>
                                 <th class="column-title">الجوال <input type="search" placeholder="بحث بالجوال" name="search[mobile]" value="" class="w100"></th>
@@ -84,7 +72,15 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="date" placeholder=" من" name="search[date_from]" value="" class="">
                                     <input type="date" placeholder=" الي" name="search[date_to]" value="" class="">
                                 </th>
-                                <th class="column-title no-link last" width="140"><span class="nobr">اجراءات</span>
+                                <th class="column-title">الحالة
+                                    <select name="search[status_id]">
+                                        <option value=""></option>
+                                        <?php foreach ($data['statuses'] as $status) {
+                                            echo '<option value="' . $status->status_id . '" >' . $status->name . '</option>';
+                                        } ?>
+                                    </select>
+                                </th>
+                                <th class="column-title no-link last" width="140"><span class="nobr">اجراءات</span><br>
                                     <select name="search[status]">
                                         <option value=""></option>
                                         <option value="1">مؤكد </option>
@@ -92,6 +88,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <option value="3"> في الانتظار </option>
                                         <option value="4">ملغاه </option>
                                     </select>
+                                    <input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" />
                                 </th>
                                 <th class="bulk-actions" colspan="16">
                                     <span> تنفيذ علي الكل :</span>
@@ -122,14 +119,10 @@ require ADMINROOT . '/views/inc/header.php';
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $order->order_id; ?>">
                                     </td>
                                     <td><?php echo $order->order_identifier; ?></td>
-                                    <td><?php echo $order->amount; ?></td>
-                                    <td><?php echo $order->quantity; ?></td>
                                     <td><?php echo $order->total; ?></td>
-                                    <td><?php echo $order->donation_type; ?></td>
-                                    <td><?php echo $order->status_name; ?></td>
                                     <td><?php echo '<a class="text-warning" href="' . ADMINURL . '/donors/show/' . $order->donor_id . '">' . $order->donor . '</a>'; ?></td>
                                     <td class="ltr"><?php echo $order->mobile; ?></td>
-                                    <td><?php echo $order->project; ?></td>
+                                    <td><?php echo $order->projects; ?></td>
                                     <td><?php echo $order->payment_method; ?></td>
                                     <td>
                                         <?php if ($order->gift) { ?>
@@ -191,6 +184,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <?php } ?>
                                     </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $order->create_date); ?></td>
+                                    <td><?php echo $order->status_name; ?></td>
                                     <td class="form-group">
                                         <?php
                                         if (!$order->status) {

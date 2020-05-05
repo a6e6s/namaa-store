@@ -30,7 +30,7 @@ class Orders extends ControllerAdmin
     public function index($current = '', $perpage = 50)
     {
         // get orders
-        $cond = 'WHERE ds.status <> 2 AND donors.donor_id = ds.donor_id AND projects.project_id = ds.project_id AND ds.payment_method_id = payment_methods.payment_id ';
+        $cond = 'WHERE ord.status <> 2 AND donors.donor_id = ord.donor_id AND ord.payment_method_id = payment_methods.payment_id';
         $bind = [];
         //check user action if the form has submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -38,25 +38,45 @@ class Orders extends ControllerAdmin
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             // date search
             if (!empty($_POST['search']['date_from'])) {
-                $cond .= ' AND ds.create_date >= ' . strtotime($_POST['search']['date_from']) . ' ';
+                $cond .= ' AND ord.create_date >= :date_from ';
+                $bind[':date_from'] = strtotime($_POST['search']['date_from']);
             }
             if (!empty($_POST['search']['date_to'])) {
-                $cond .= ' AND ds.create_date <= ' . strtotime($_POST['search']['date_to']) . ' ';
+                $cond .= ' AND ord.create_date <= :date_to ';
+                $bind[':date_to'] = strtotime($_POST['search']['date_to']);
             }
             // amount search
             if (!empty($_POST['search']['amount_from'])) {
-                $cond .= ' AND ds.amount >= ' . $_POST['search']['amount_from'] . ' ';
+                $cond .= ' AND ord.amount >= :amount_from ';
+                $bind[':amount_from'] = $_POST['search']['amount_from'];
             }
             if (!empty($_POST['search']['amount_to'])) {
-                $cond .= ' AND ds.amount <= ' . $_POST['search']['amount_to'] . ' ';
+                $cond .= ' AND ord.amount <= :amount_to ';
+                $bind[':amount_to'] = $_POST['search']['amount_to'];
+            }
+
+            // order_identifier search
+            if (!empty($_POST['search']['order_identifier'])) {
+                $cond .= ' AND ord.order_identifier LIKE  :order_identifier ';
+                $bind[':order_identifier'] = '%' . $_POST['search']['order_identifier'] . '%';
             }
             // payment_method search
             if (!empty($_POST['search']['payment_method'])) {
-                $cond .= ' AND ds.payment_method_id in (' . implode(',', $_POST['search']['payment_method']) . ') ';
+                foreach ($_POST['search']['payment_method'] as $key => $payment) {
+                    if (!empty($payment)) {
+                        $cond .= ' AND ord.payment_method_id = :method' . $key;
+                        $bind[':method' . $key] = $payment;
+                    }
+                }
             }
             // projects search
             if (!empty($_POST['search']['projects'])) {
-                $cond .= ' AND ds.project_id in (' . implode(',', $_POST['search']['projects']) . ') ';
+                foreach ($_POST['search']['projects'] as $index => $project) {
+                    if (!empty($project)) {
+                        $cond .= ' AND ord.projects LIKE  :project' . $index;
+                        $bind[':project' . $index] = '%' . $project . '%';
+                    }
+                }
             }
             //handling Delete
             if (isset($_POST['delete'])) {
@@ -132,7 +152,6 @@ class Orders extends ControllerAdmin
                     flash('order_msg', 'لم تقم بأختيار اي تبرع', 'alert alert-danger');
                 }
             }
-
             //handling status
             if (isset($_POST['status_id'])) {
                 if (isset($_POST['record'])) {
@@ -144,7 +163,7 @@ class Orders extends ControllerAdmin
                 }
                 redirect('orders');
             }
-            //clear tags
+            //clear status
             if (isset($_POST['clear'])) {
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->orderModel->clearAllStatusesByOrdersId($_POST['record'])) {
@@ -156,13 +175,9 @@ class Orders extends ControllerAdmin
                 redirect('orders');
             }
         }
-        //handling search
-        $searches = $this->orderModel->searchHandling(['order_identifier', 'total', 'donation_type', 'status', 'status_id', 'donor', 'mobile','quantity'], $current);
-        $cond .= $searches['cond'];
-        // dd($_POST);
-        $bind = $searches['bind'];
+
         // get all records count after search and filtration
-        $recordsCount = $this->orderModel->allOrdersCount(", donors , projects, payment_methods " . $cond, $bind);
+        $recordsCount = $this->orderModel->allOrdersCount(", donors, payment_methods " . $cond, $bind);
         // make sure its integer value and its usable
         $current = (int) $current;
         $perpage = (int) $perpage;
@@ -178,7 +193,6 @@ class Orders extends ControllerAdmin
         }
         //get all records for current order
         $orders = $this->orderModel->getOrders($cond, $bind, $limit, $bindLimit);
-
         $data = [
             'current' => $current,
             'perpage' => $perpage,
@@ -217,21 +231,17 @@ class Orders extends ControllerAdmin
                 'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => '',
                 'statusesList' => $this->orderModel->statusesList(),
-                'projectList' => $this->orderModel->projectsList('WHERE status = 1'),
-                'project_id' => $_POST['project_id'],
+                'projects' => $_POST['projects'],
                 'statuses' => '',
                 'status' => '',
                 'payment_method_id_error' => '',
-                'project_id_error' => '',
+                'projects_error' => '',
                 'banktransferproof_error' => '',
                 'status_error' => '',
             ];
             isset($_POST['statuses']) ? $data['statuses'] = $_POST['statuses'] : '';
             // validate payment methods
             !(empty($data['payment_method_id'])) ?: $data['payment_method_id_error'] = 'هذا الحقل مطلوب';
-
-            // validate payment methods
-            !(empty($data['project_id'])) ? null : $data['project_id_error'] = 'هذا الحقل مطلوب';
 
             // validate banktransferproof
             $image = $this->orderModel->validateImage('banktransferproof');
@@ -245,7 +255,7 @@ class Orders extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error']) && empty($data['project_id_error'])) {
+            if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error'])) {
                 //validated
                 if ($this->orderModel->updateOrder($data)) {
                     flash('order_msg', 'تم التعديل بنجاح');
@@ -268,10 +278,8 @@ class Orders extends ControllerAdmin
                 'order' => $order,
                 'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => $order->banktransferproof,
-                'projectList' => $this->orderModel->projectsList('WHERE status = 1'),
                 'statusesList' => $this->orderModel->statusesList(),
                 'payment_method_id_error' => '',
-                'project_id_error' => '',
                 'banktransferproof_error' => '',
                 'status_error' => '',
             ];

@@ -23,7 +23,7 @@ class Order extends ModelAdmin
     }
 
     /**
-     * get all orders from datatbase
+     * get all orders from datatbase 
      *
      * @param  string $cond
      * @param  array $bind
@@ -34,7 +34,6 @@ class Order extends ModelAdmin
      */
     public function getOrders($cond = '', $bind = '', $limit = '', $bindLimit)
     {
-        // pr($bind);
         $query = 'SELECT ord.*, payment_methods.title as payment_method, donors.full_name as donor, donors.mobile,
         (select name from statuses where ord.status_id = statuses.status_id) as status_name,
         (select GROUP_CONCAT( DISTINCT projects.name SEPARATOR " , ") from projects, donations where ord.order_id = donations.order_id AND donations.project_id = projects.project_id) as projects
@@ -299,6 +298,7 @@ class Order extends ModelAdmin
     public function sendConfirmation($in)
     {
         $data = $this->getUsersData($in); // loading data required to send sms 
+        dd($data);
         $identifiers = [];      //saving the repeated identifiers (cart orders)
         $cartItems = [];        //temperary save identifer to escap repeated
         $sendData = [];         // non repeated data array

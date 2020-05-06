@@ -144,7 +144,8 @@ class Donor extends ModelAdmin
      */
     public function getDonerDonations($id)
     {
-        $this->db->query('SELECT donations.*, projects.name as project FROM donations,projects WHERE donations.project_id = projects.project_id AND  donor_id= :donor_id');
+        $this->db->query('SELECT donations.*, projects.name as project, orders.order_identifier as donation_identifier FROM donations, projects, orders 
+        WHERE donations.project_id = projects.project_id AND orders.order_id = donations.order_id AND orders.donor_id= :donor_id');
         $this->db->bind(':donor_id', $id);
         return $this->db->resultSet();
     }

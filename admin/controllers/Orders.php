@@ -36,64 +36,78 @@ class Orders extends ControllerAdmin
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            // date search
-            if (!empty($_POST['search']['date_from'])) {
-                $cond .= ' AND ord.create_date >= :date_from ';
-                $bind[':date_from'] = strtotime($_POST['search']['date_from']);
-            }
-            if (!empty($_POST['search']['date_to'])) {
-                $cond .= ' AND ord.create_date <= :date_to ';
-                $bind[':date_to'] = strtotime($_POST['search']['date_to']) + 86400;
-            }
-            // total search
-            if (!empty($_POST['search']['total_from'])) {
-                $cond .= ' AND ord.total >= :total_from ';
-                $bind[':total_from'] = $_POST['search']['total_from'];
-            }
-            if (!empty($_POST['search']['total_to'])) {
-                $cond .= ' AND ord.total <= :total_to ';
-                $bind[':total_to'] = $_POST['search']['total_to'];
-            }
-            // order_identifier search
-            if (!empty($_POST['search']['order_identifier'])) {
-                $cond .= ' AND ord.order_identifier LIKE  :order_identifier ';
-                $bind[':order_identifier'] = '%' . $_POST['search']['order_identifier'] . '%';
-            }
-            // mobile search
-            if (!empty($_POST['search']['mobile'])) {
-                $cond .= ' AND donors.mobile LIKE  :mobile ';
-                $bind[':mobile'] = '%' . $_POST['search']['mobile'] . '%';
-            }
-            // custom status search
-            if (!empty($_POST['search']['status_id'])) {
-                $status_ids = array_filter($_POST['search']['status_id']);
-                $cond .= ' AND ord.status_id  in ('  . strIncRepeat(':status_id', count($status_ids)) . ')';
-                foreach ($status_ids as $key => $status) {
-                    if (!empty($status)) {
-                        $bind[':status_id' . $key] = $status;
+            //search handling
+            if (isset($_POST['search']['submit'])) {
+                unset($_SESSION['search']);
+                // date search
+                if (!empty($_POST['search']['date_from'])) {
+                    $cond .= ' AND ord.create_date >= :date_from ';
+                    $bind[':date_from'] = strtotime($_POST['search']['date_from']);
+                }
+                if (!empty($_POST['search']['date_to'])) {
+                    $cond .= ' AND ord.create_date <= :date_to ';
+                    $bind[':date_to'] = strtotime($_POST['search']['date_to']) + 86400;
+                }
+                // total search
+                if (!empty($_POST['search']['total_from'])) {
+                    $cond .= ' AND ord.total >= :total_from ';
+                    $bind[':total_from'] = $_POST['search']['total_from'];
+                }
+                if (!empty($_POST['search']['total_to'])) {
+                    $cond .= ' AND ord.total <= :total_to ';
+                    $bind[':total_to'] = $_POST['search']['total_to'];
+                }
+                // order_identifier search
+                if (!empty($_POST['search']['order_identifier'])) {
+                    $cond .= ' AND ord.order_identifier LIKE  :order_identifier ';
+                    $bind[':order_identifier'] = '%' . $_POST['search']['order_identifier'] . '%';
+                }
+                // mobile search
+                if (!empty($_POST['search']['mobile'])) {
+                    $cond .= ' AND donors.mobile LIKE  :mobile ';
+                    $bind[':mobile'] = '%' . $_POST['search']['mobile'] . '%';
+                }
+                // status search
+                if (!empty($_POST['search']['status'])) {
+                    if ($_POST['search']['status'] == 5) $_POST['search']['status'] = 0;
+                    $cond .= ' AND ord.status =  :status ';
+                    $bind[':status'] =  $_POST['search']['status'];
+                }
+                // custom status search
+                if (!empty($_POST['search']['status_id'])) {
+                    $status_ids = array_filter($_POST['search']['status_id']);
+                    $cond .= ' AND ord.status_id  in (' . strIncRepeat(':status_id', count($status_ids)) . ')';
+                    foreach ($status_ids as $key => $status) {
+                        if (!empty($status)) {
+                            $bind[':status_id' . $key] = $status;
+                        }
                     }
                 }
-            }
-            // payment_method search
-            if (!empty($_POST['search']['payment_method'])) {
-                $payment_methods = array_filter($_POST['search']['payment_method']);
-                $cond .= ' AND ord.payment_method_id  in ('  . strIncRepeat(':payment_method', count($payment_methods)) . ')';
-                foreach ($payment_methods as $key => $payment_method) {
-                    if (!empty($payment_method)) {
-                        $bind[':payment_method' . $key] = $payment_method;
+                // payment_method search
+                if (!empty($_POST['search']['payment_method'])) {
+                    $payment_methods = array_filter($_POST['search']['payment_method']);
+                    $cond .= ' AND ord.payment_method_id  in ('  . strIncRepeat(':payment_method', count($payment_methods)) . ')';
+                    foreach ($payment_methods as $key => $payment_method) {
+                        if (!empty($payment_method)) {
+                            $bind[':payment_method' . $key] = $payment_method;
+                        }
                     }
                 }
-            }
-            // projects search 
-            if (!empty($_POST['search']['projects'])) {
-                $projects = array_filter($_POST['search']['projects']);
-                $cond .= ' AND ord.projects_id  in ('  . strIncRepeat(':projects_id', count($projects)) . ')';
-                foreach ($projects as $key => $project) {
-                    if (!empty($project)) {
-                        $bind[':projects_id' . $key] = $project;
+                // projects search 
+                if (!empty($_POST['search']['projects'])) {
+                    $projects = array_filter($_POST['search']['projects']);
+                    $cond .= ' AND ord.projects_id REGEXP '  . rtrim(strIncRepeat(':projects_id', count($projects), "|"), "|") . '';
+                    foreach ($projects as $key => $project) {
+                        if (!empty($project)) {
+                            $bind[':projects_id' . $key] = "($project)";
+                        }
                     }
                 }
-                pr($bind);
+                // storing search data into session
+                $_SESSION['search']['cond'] = $cond;
+                $_SESSION['search']['bind'] = $bind;
+            } elseif (isset($_POST['search']['clearSearch'])) {
+                unset($_SESSION['search']);
             }
             //handling Delete
             if (isset($_POST['delete'])) {
@@ -121,7 +135,6 @@ class Orders extends ControllerAdmin
             }
             //handling Unpublish
             if (isset($_POST['unpublish'])) {
-
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->orderModel->unpublishById($_POST['record'], 'order_id')) {
                         flash('order_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
@@ -191,8 +204,12 @@ class Orders extends ControllerAdmin
                 }
                 redirect('orders');
             }
+        } else {
+            if (isset($_SESSION['search'])) {
+                $cond = $_SESSION['search']['cond'];
+                $bind = $_SESSION['search']['bind'];
+            }
         }
-
         // get all records count after search and filtration
         $recordsCount = $this->orderModel->allOrdersCount(", donors, payment_methods " . $cond, $bind);
         // make sure its integer value and its usable

@@ -87,17 +87,20 @@ require ADMINROOT . '/views/inc/header.php';
                                         </ul>
                                     </div>
                                 </th>
-                                <th class="column-title no-link last" width="140"><span class="nobr">اجراءات</span><br>
+                                <th class="column-title no-link last"><span class="nobr">اجراءات</span><br>
                                     <select name="search[status]">
                                         <option value=""></option>
                                         <option value="1">مؤكد </option>
-                                        <option value="0"> غير مؤكد </option>
+                                        <option value="5"> غير مؤكد </option>
                                         <option value="3"> في الانتظار </option>
                                         <option value="4">ملغاه </option>
                                     </select>
-                                    <input type="submit" name="search[submit]" value="بحث" class="btn btn-sm btn-primary search-query" />
                                 </th>
-                                <th class="bulk-actions" colspan="16">
+                                <th class="column-title w50">
+                                    <input type="submit" name="search[submit]" value="بحـث" class="btn btn-sm btn-primary search-query" />
+                                    <input type="submit" name="search[clearSearch]" value="مسح" class="btn btn-sm btn-warning search-query" />
+                                </th>
+                                <th class="bulk-actions" colspan="14">
                                     <span> تنفيذ علي الكل :</span>
                                     <input type="submit" name="publish" value="تأكيد" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="تعليق" class="btn btn-warning btn-xs" />
@@ -192,7 +195,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $order->create_date); ?></td>
                                     <td><?php echo $order->status_name; ?></td>
-                                    <td class="form-group">
+                                    <td class="form-group w200" colspan="2">
                                         <?php
                                         if (!$order->status) {
                                             echo '<a class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
@@ -210,7 +213,6 @@ require ADMINROOT . '/views/inc/header.php';
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-
                             <tr class="tab-selected">
                                 <th></th>
                                 <th class="column-title" colspan="4"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
@@ -225,7 +227,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <option value="1000" <?php echo ($data['perpage'] == 1000) ? 'selected' : null; ?>>1000 </option>
                                     </select>
                                 </th>
-                                <th class="column-title" colspan="4"> </th>
+                                <th class="column-title" colspan="2"> </th>
                                 <th class="column-title no-link last"></th>
                             </tr>
                         </tbody>

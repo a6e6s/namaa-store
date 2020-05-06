@@ -29,11 +29,17 @@ function generateRandomString($length = 10)
     }
     return $randomString;
 }
+
+/**
+ * display and die
+ * @param [var or object or array] $var
+ */
 function dd($var)
 {
     var_dump($var);
     die();
 }
+
 /**
  * view array content
  *
@@ -46,6 +52,7 @@ function pr($var)
     print_r($var);
     echo "</pre>";
 }
+
 /**
  * Sending SMS message
  *
@@ -77,4 +84,16 @@ function sendSMS($username, $password, $messageContent, $mobileNumber, $senderna
     curl_close($ch);
     //using the return as a PHP array
     return json_decode($respond);
+}
+
+/**
+ * repeat string while incrising it's number
+ */
+function strIncRepeat($var, $count, $seprator = ',')
+{
+    $text = '';
+    for ($i = 0; $i < $count; $i++) {
+        $text .= $var . $i . $seprator;
+    }
+    return rtrim($text, ',');
 }

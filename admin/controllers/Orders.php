@@ -43,40 +43,57 @@ class Orders extends ControllerAdmin
             }
             if (!empty($_POST['search']['date_to'])) {
                 $cond .= ' AND ord.create_date <= :date_to ';
-                $bind[':date_to'] = strtotime($_POST['search']['date_to']);
+                $bind[':date_to'] = strtotime($_POST['search']['date_to']) + 86400;
             }
-            // amount search
-            if (!empty($_POST['search']['amount_from'])) {
-                $cond .= ' AND ord.amount >= :amount_from ';
-                $bind[':amount_from'] = $_POST['search']['amount_from'];
+            // total search
+            if (!empty($_POST['search']['total_from'])) {
+                $cond .= ' AND ord.total >= :total_from ';
+                $bind[':total_from'] = $_POST['search']['total_from'];
             }
-            if (!empty($_POST['search']['amount_to'])) {
-                $cond .= ' AND ord.amount <= :amount_to ';
-                $bind[':amount_to'] = $_POST['search']['amount_to'];
+            if (!empty($_POST['search']['total_to'])) {
+                $cond .= ' AND ord.total <= :total_to ';
+                $bind[':total_to'] = $_POST['search']['total_to'];
             }
-
             // order_identifier search
             if (!empty($_POST['search']['order_identifier'])) {
                 $cond .= ' AND ord.order_identifier LIKE  :order_identifier ';
                 $bind[':order_identifier'] = '%' . $_POST['search']['order_identifier'] . '%';
             }
-            // payment_method search
-            if (!empty($_POST['search']['payment_method'])) {
-                foreach ($_POST['search']['payment_method'] as $key => $payment) {
-                    if (!empty($payment)) {
-                        $cond .= ' AND ord.payment_method_id = :method' . $key;
-                        $bind[':method' . $key] = $payment;
+            // mobile search
+            if (!empty($_POST['search']['mobile'])) {
+                $cond .= ' AND donors.mobile LIKE  :mobile ';
+                $bind[':mobile'] = '%' . $_POST['search']['mobile'] . '%';
+            }
+            // custom status search
+            if (!empty($_POST['search']['status_id'])) {
+                $status_ids = array_filter($_POST['search']['status_id']);
+                $cond .= ' AND ord.status_id  in ('  . strIncRepeat(':status_id', count($status_ids)) . ')';
+                foreach ($status_ids as $key => $status) {
+                    if (!empty($status)) {
+                        $bind[':status_id' . $key] = $status;
                     }
                 }
             }
-            // projects search
-            if (!empty($_POST['search']['projects'])) {
-                foreach ($_POST['search']['projects'] as $index => $project) {
-                    if (!empty($project)) {
-                        $cond .= ' AND ord.projects LIKE  :project' . $index;
-                        $bind[':project' . $index] = '%' . $project . '%';
+            // payment_method search
+            if (!empty($_POST['search']['payment_method'])) {
+                $payment_methods = array_filter($_POST['search']['payment_method']);
+                $cond .= ' AND ord.payment_method_id  in ('  . strIncRepeat(':payment_method', count($payment_methods)) . ')';
+                foreach ($payment_methods as $key => $payment_method) {
+                    if (!empty($payment_method)) {
+                        $bind[':payment_method' . $key] = $payment_method;
                     }
                 }
+            }
+            // projects search 
+            if (!empty($_POST['search']['projects'])) {
+                $projects = array_filter($_POST['search']['projects']);
+                $cond .= ' AND ord.projects_id  in ('  . strIncRepeat(':projects_id', count($projects)) . ')';
+                foreach ($projects as $key => $project) {
+                    if (!empty($project)) {
+                        $bind[':projects_id' . $key] = $project;
+                    }
+                }
+                pr($bind);
             }
             //handling Delete
             if (isset($_POST['delete'])) {
@@ -223,7 +240,7 @@ class Orders extends ControllerAdmin
                 'order_id' => $id,
                 'page_title' => ' الطلبات',
                 'order_identifier' => trim($_POST['order_identifier']),
-                'amount' => $_POST['amount'],
+                'total' => $_POST['total'],
                 'total' => $_POST['total'],
                 'quantity' => $_POST['quantity'],
                 'status_id' => $_POST['status_id'],

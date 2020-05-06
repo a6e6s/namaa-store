@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 04, 2020 at 12:51 AM
+-- Generation Time: May 06, 2020 at 06:50 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -303,6 +303,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `gift_data` mediumtext DEFAULT NULL,
   `meta` text DEFAULT NULL,
   `projects` text DEFAULT NULL,
+  `projects_id` varchar(255) DEFAULT NULL,
   `donor_id` int(11) NOT NULL,
   `status_id` int(11) DEFAULT 0,
   `status` tinyint(1) DEFAULT NULL,
@@ -317,20 +318,20 @@ CREATE TABLE IF NOT EXISTS `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `order_identifier`, `total`, `quantity`, `payment_method_id`, `hash`, `banktransferproof`, `gift`, `gift_data`, `meta`, `projects`, `donor_id`, `status_id`, `status`, `modified_date`, `create_date`) VALUES
-(1, 1007077117, 150, 3, 3, '0', NULL, 0, NULL, '{\"amount\":\"21100\",\"response_code\":\"00072\",\"signature\":\"b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"68908197\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', NULL, 12, 4, 1, 1588074971, 1587077117),
-(2, 1008115805, 111, 1, 1, 'ad314df3832a435fa30bfea2930fce6e6b9c3e32', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, NULL, 18, 0, 0, 1588115805, 1588115805),
-(3, 1008115843, 111, 1, 1, 'aba628064cebaa1f62eccde66eed83a2a4f84b74', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, NULL, 18, 0, 0, 1588115843, 1588115843),
-(4, 1008115914, 111, 1, 1, '20ad13e6c75f1b2a82255617ab8339f3154c971c', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, NULL, 18, 0, 0, 1588115914, 1588115914),
-(5, 1008116027, 111, 1, 2, '6171a4d4809bc5e63ce8fe9eca5ba2be40e412e0', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, NULL, 18, 0, 0, 1588116027, 1588116027),
-(6, 1008116314, 1111, 1, 1, NULL, 'image_a0769.jpg', 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, NULL, 18, 0, 0, 1588116324, 1588116314),
-(7, 1008118105, 222, 0, 1, NULL, '', 0, '', NULL, NULL, 18, 0, 0, 1588118116, 1588118105),
-(8, 1008118165, 150, 0, 1, NULL, '', 0, '', NULL, NULL, 18, 0, 0, 1588118174, 1588118165),
-(9, 1008118241, 200, 0, 1, NULL, '', 0, '', NULL, NULL, 18, 0, 0, 1588118253, 1588118241),
-(10, 1008118290, 150, 0, 1, NULL, 'image_c4900.jpg', 0, '', NULL, NULL, 18, 0, 0, 1588118302, 1588118290),
-(11, 1008245908, 100, 0, 1, 'fa6f3beb6988e60054639dac49344b0dd1f988ae', NULL, 0, '', NULL, NULL, 18, 0, 0, 1588245908, 1588245908),
-(12, 1008246062, 211, 0, 1, NULL, 'image_3a335.jpg', 0, '', NULL, NULL, 18, 0, 0, 1588246127, 1588246062),
-(13, 1008246232, 111, 0, 1, NULL, '', 0, '', NULL, NULL, 18, 0, 0, 1588246256, 1588246232);
+INSERT INTO `orders` (`order_id`, `order_identifier`, `total`, `quantity`, `payment_method_id`, `hash`, `banktransferproof`, `gift`, `gift_data`, `meta`, `projects`, `projects_id`, `donor_id`, `status_id`, `status`, `modified_date`, `create_date`) VALUES
+(1, 1007077117, 150, 3, 3, '0', NULL, 0, NULL, '{\"amount\":\"21100\",\"response_code\":\"00072\",\"signature\":\"b4e49fabe5496ccc47cf6058d6bc5169bc6b13650f13ad80f2aa9e80361cfb18\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"68908197\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', NULL, NULL, 12, 4, 1, 1588074971, 1587077117),
+(2, 1008115805, 111, 1, 1, 'ad314df3832a435fa30bfea2930fce6e6b9c3e32', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', '', NULL, '4-,2-,3', 18, 0, 0, 1588115805, 1588115805),
+(3, 1008115843, 111, 1, 1, 'aba628064cebaa1f62eccde66eed83a2a4f84b74', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', '', NULL, '4-,3-,9-,6-,1', 18, 4, 0, 1588115843, 1588115843),
+(4, 1008115914, 111, 1, 1, '20ad13e6c75f1b2a82255617ab8339f3154c971c', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', '', NULL, '8-,11-,6-,3-,4-,10-,2-,15-,19', 18, 0, 0, 1588115914, 1588115914),
+(5, 1008116027, 111, 1, 2, '6171a4d4809bc5e63ce8fe9eca5ba2be40e412e0', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, NULL, '2-,4-,10-,3', 18, 0, 0, 1588116027, 1588116027),
+(6, 1008116314, 1111, 1, 1, NULL, 'image_a0769.jpg', 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, NULL, NULL, 18, 4, 0, 1588116324, 1588116314),
+(7, 1008118105, 222, 0, 1, NULL, '', 0, '', NULL, NULL, NULL, 18, 0, 0, 1588118116, 1588118105),
+(8, 1008118165, 150, 0, 1, NULL, '', 0, '', NULL, NULL, NULL, 18, 0, 0, 1588118174, 1588118165),
+(9, 1008118241, 200, 0, 1, NULL, '', 0, '', NULL, NULL, NULL, 18, 4, 0, 1588118253, 1588118241),
+(10, 1008118290, 150, 0, 1, NULL, 'image_c4900.jpg', 0, '', NULL, NULL, '3', 18, 3, 0, 1588118302, 1588118290),
+(11, 1008245908, 100, 0, 1, 'fa6f3beb6988e60054639dac49344b0dd1f988ae', NULL, 0, '', NULL, NULL, '10', 18, 0, 0, 1588245908, 1588245908),
+(12, 1008246062, 211, 0, 1, NULL, 'image_3a335.jpg', 0, '', NULL, NULL, '4', 18, 1, 0, 1588246127, 1588246062),
+(13, 1008246232, 111, 0, 1, NULL, '', 0, '', NULL, NULL, '14-,3-,2-,10-,4-,15-,11-,1', 18, 2, 0, 1588246256, 1588246232);
 
 -- --------------------------------------------------------
 
@@ -758,7 +759,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `mobile`, `image`, `bio`, `activation_code`, `request_password_time`, `group_id`, `login_date`, `status`, `modified_date`, `create_date`) VALUES
-(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1587942664, 1, 1574344167, 1543831099),
+(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1588704046, 1, 1574344167, 1543831099),
 (23, 'Monyb Younos', 'munybe@gmail.com', '$2y$10$Raf3iUVZJPQr4//YEBuypO.fWDuSWTRZPDmCa7.Ta84v21ZFWl056', '0597767751', 'سيسش شسيشسي سيسش ضصث  غعغف عفغ.png', '', NULL, NULL, 3, NULL, 1, 1584428774, 1572786123);
 
 --

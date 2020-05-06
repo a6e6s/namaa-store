@@ -15,7 +15,6 @@
 
 // loading  plugin style
 $data['header'] = '<link rel="stylesheet" href="' . ADMINURL . '/template/default/vendors/select2/dist/css/select2.min.css">';
-
 require ADMINROOT . '/views/inc/header.php';
 ?>
 <!-- page content -->
@@ -35,7 +34,6 @@ require ADMINROOT . '/views/inc/header.php';
             <form action="" method="post">
                 <div class="clearfix">
                 </div>
-
                 <div class="table-responsive">
                     <table class="table table-striped jambo_table bulk_action">
                         <thead>
@@ -45,25 +43,32 @@ require ADMINROOT . '/views/inc/header.php';
                                 </th>
                                 <th class="column-title">معرف التبرع <input type="search" placeholder="بحث بالمعرف" name="search[order_identifier]" value="" class="w100"></th>
                                 <th class="column-title">القيمة <br>
-                                    <input type="search" placeholder="من" name="search[amount_from]" value="" class="w50">
-                                    <input type="search" placeholder="الي" name="search[amount_to]" value="" class="w50">
+                                    <input type="search" placeholder="من" name="search[total_from]" value="" class="w50">
+                                    <input type="search" placeholder="الي" name="search[total_to]" value="" class="w50">
                                 </th>
                                 <th class="column-title">اسم المتبرع <input type="search" placeholder="بحث بالمتبرع" name="search[donor]" value="" class="w100"></th>
                                 <th class="column-title">الجوال <input type="search" placeholder="بحث بالجوال" name="search[mobile]" value="" class="w100"></th>
                                 <th class="column-title">المشروع
-                                    <select class="w100" name="search[projects][]">
-                                        <?php foreach ($data['projects'] as $project) {
-                                            echo '<option value="' . $project->project_id . '" >' . $project->name . '</option>';
-                                        } ?>
-                                    </select>
+                                    <div class="dropdown check-list">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle btn-default"> المشروع <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach ($data['projects'] as $project) {
+                                                echo '<li><label class="btn-default"><input class="flat" name="search[projects][]"';
+                                                echo ' type="checkbox" value="' . $project->project_id . '" > ' . $project->name . ' </label></li>';
+                                            } ?>
+                                        </ul>
+                                    </div>
                                 </th>
-                                <th class="column-title">وسيلة التبرع
-                                    <select class="w100" name="search[payment_method][]">
-                                        <option value=""></option>
-                                        <?php foreach ($data['paymentMethodsList'] as $paymentMethod) {
-                                            echo '<option value="' . $paymentMethod->payment_id . '" >' . $paymentMethod->title . '</option>';
-                                        } ?>
-                                    </select>
+                                <th class="column-title">وسيلة التبرع <br>
+                                    <div class="dropdown check-list">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle btn-default"> وسيلة التبرع <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach ($data['paymentMethodsList'] as $pm) {
+                                                echo '<li><label class="btn-default"><input class="flat" name="search[payment_method][]"';
+                                                echo ' type="checkbox" value="' . $pm->payment_id . '" > ' . $pm->title . ' </label></li>';
+                                            } ?>
+                                        </ul>
+                                    </div>
                                 </th>
                                 <th class="column-title">بيانات الإهداء </th>
                                 <th class="column-title">تأكيد التحويل </th>
@@ -73,12 +78,14 @@ require ADMINROOT . '/views/inc/header.php';
                                     <input type="date" placeholder=" الي" name="search[date_to]" value="" class="">
                                 </th>
                                 <th class="column-title">الحالة
-                                    <select name="search[status_id]">
-                                        <option value=""></option>
-                                        <?php foreach ($data['statuses'] as $status) {
-                                            echo '<option value="' . $status->status_id . '" >' . $status->name . '</option>';
-                                        } ?>
-                                    </select>
+                                    <div class="dropdown check-list">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle  btn-default"> الحالة <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach ($data['statuses'] as $status) {
+                                                echo '<li><label class="btn-default"><input class="flat" name="search[status_id][]" type="checkbox" value="' . $status->status_id . '"> ' . $status->name . ' </label></li>';
+                                            } ?>
+                                        </ul>
+                                    </div>
                                 </th>
                                 <th class="column-title no-link last" width="140"><span class="nobr">اجراءات</span><br>
                                     <select name="search[status]">

@@ -34,11 +34,11 @@ class Order extends ModelAdmin
      */
     public function getOrders($cond = '', $bind = '', $limit = '', $bindLimit)
     {
+        // pr($bind);
         $query = 'SELECT ord.*, payment_methods.title as payment_method, donors.full_name as donor, donors.mobile,
-        (select name from statuses where ord.status_id = statuses.status_id) as status_name
+        (select name from statuses where ord.status_id = statuses.status_id) as status_name,
+        (select GROUP_CONCAT( DISTINCT projects.name SEPARATOR " , ") from projects, donations where ord.order_id = donations.order_id AND donations.project_id = projects.project_id) as projects
         FROM orders ord , donors,payment_methods ' . $cond . ' ORDER BY ord.create_date DESC ';
-        pr($bind);
-        pr($query);
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }
 
@@ -57,7 +57,7 @@ class Order extends ModelAdmin
         $this->db->query($query . $limit);
         if (!empty($bind)) {
             foreach ($bind as $key => $value) {
-                $this->db->bind($key, $value );
+                $this->db->bind($key, $value);
             }
         }
         if (!empty($bindLimit)) {
@@ -78,7 +78,7 @@ class Order extends ModelAdmin
         $this->db->query($query);
         if (!empty($bind)) {
             foreach ($bind as $key => $value) {
-                $this->db->bind($key, '%' . $value . '%');
+                $this->db->bind($key, $value);
             }
         }
         $this->db->excute();
@@ -93,9 +93,7 @@ class Order extends ModelAdmin
     public function updateOrder($data)
     {
         $query = 'UPDATE orders SET amount = :amount, quantity =:quantity, total = :total, payment_method_id = :payment_method_id, project_id =:project_id, status_id = :status_id, status = :status, modified_date = :modified_date';
-
         (empty($data['banktransferproof'])) ? null : $query .= ', banktransferproof = :banktransferproof';
-
         $query .= ' WHERE order_id = :order_id';
         $this->db->query($query);
         // binding values

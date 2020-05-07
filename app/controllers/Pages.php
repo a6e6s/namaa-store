@@ -31,6 +31,7 @@ class Pages extends Controller
         $this->meta->keywords = $data['seo_settings']->meta_keywords;
         $data['pageTitle'] = $data['site_settings']->title;
         $this->meta->description = $data['seo_settings']->meta_description;
+        $this->meta->image =  MEDIAURL . '/' . $data['site_settings']->logo;
         //loading the view
         $this->view('pages/index', $data);
     }

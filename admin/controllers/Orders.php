@@ -205,7 +205,7 @@ class Orders extends ControllerAdmin
                 redirect('orders');
             }
         } else {
-            if (isset($_SESSION['search'])) {
+            if (isset($_SESSION['search']['bind'])) {
                 $cond = $_SESSION['search']['cond'];
                 $bind = $_SESSION['search']['bind'];
             }
@@ -278,8 +278,10 @@ class Orders extends ControllerAdmin
             !(empty($data['payment_method_id'])) ?: $data['payment_method_id_error'] = 'هذا الحقل مطلوب';
 
             // validate banktransferproof
-            $image = $this->orderModel->validateImage('banktransferproof');
-            ($image[0]) ? $data['banktransferproof'] = $image[1] : $data['banktransferproof_error'] = $image[1];
+            if ($_FILES['banktransferproof']['error'] != 4) {// no file has uploaded 
+                $image = $this->donationModel->validateImage('banktransferproof', ADMINROOT . '/../media/files/banktransfer/');
+                ($image[0]) ? $data['banktransferproof'] = $image[1] : $data['banktransferproof_error'] = $image[1];
+            }
 
             // validate status
             if (isset($_POST['status'])) {

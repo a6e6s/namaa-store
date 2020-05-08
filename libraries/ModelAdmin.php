@@ -413,8 +413,8 @@ class ModelAdmin
         $smsSettings = $this->getSettings('sms'); // load sms setting 
         $sms = json_decode($smsSettings->value);
         if (!$sms->smsenabled) {
-            flash('donation_msg', 'هناك خطأ ما بوابة الارسال غير مفعلة', 'alert alert-danger');
-            redirect('donations');
+            flash('order_msg', 'هناك خطأ ما بوابة الارسال غير مفعلة', 'alert alert-danger');
+            redirect('orders');
         }
         return sendSMS($sms->sms_username, $sms->sms_password, $msg, $to, $sms->sender_name, $sms->gateurl);
     }

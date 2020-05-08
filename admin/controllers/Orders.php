@@ -278,7 +278,7 @@ class Orders extends ControllerAdmin
             !(empty($data['payment_method_id'])) ?: $data['payment_method_id_error'] = 'هذا الحقل مطلوب';
 
             // validate banktransferproof
-            if ($_FILES['banktransferproof']['error'] != 4) {// no file has uploaded 
+            if ($_FILES['banktransferproof']['error'] != 4) { // no file has uploaded 
                 $image = $this->donationModel->validateImage('banktransferproof', ADMINROOT . '/../media/files/banktransfer/');
                 ($image[0]) ? $data['banktransferproof'] = $image[1] : $data['banktransferproof_error'] = $image[1];
             }

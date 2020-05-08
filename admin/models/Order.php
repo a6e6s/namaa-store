@@ -205,15 +205,6 @@ class Order extends ModelAdmin
 
 
     /**
-     * handling Search Condition on the stored session, creating bind array and handling search session
-     *
-     * @param  array $searches
-     * @return array of condation and bind array
-     */
-    public function handlingSearchSessionCondition($searches)
-    {
-    }
-    /**
      * get users informations to contact them
      *
      * @param [array] $order_ids
@@ -226,8 +217,9 @@ class Order extends ModelAdmin
             $id_num[] = ":in" . $index;
         }
         //setting the query
-        $this->db->query('SELECT DISTINCT projects.name as project, projects.sms_msg as msg, donors.donor_id, donors.full_name, donors.mobile, donors.email, orders.order_id, orders.order_identifier, orders.total
-                    FROM donors, orders, projects WHERE orders.project_id = projects.project_id AND orders.donor_id = donors.donor_id AND orders.order_id IN (' . implode(',', $id_num) . ')');
+        $this->db->query('SELECT ord.order_id, ord.total, ord.order_identifier, dnr.full_name as donor, dnr.mobile, dnr.email,
+        (select GROUP_CONCAT( DISTINCT projects.name SEPARATOR " , ") from projects, donations dn where ord.order_id = dn.order_id AND dn.project_id = projects.project_id) as projects
+        FROM orders ord , donors dnr  WHERE dnr.donor_id = ord.donor_id AND ord.order_id IN (' . implode(',', $id_num) . ')');
         //loop through the bind function to bind all the IDs
         foreach ($in as $key => $value) {
             $this->db->bind(':in' . ($key + 1), $value);
@@ -297,40 +289,27 @@ class Order extends ModelAdmin
      */
     public function sendConfirmation($in)
     {
-        $data = $this->getUsersData($in); // loading data required to send sms 
-        dd($data);
-        $identifiers = [];      //saving the repeated identifiers (cart orders)
-        $cartItems = [];        //temperary save identifer to escap repeated
-        $sendData = [];         // non repeated data array
-        $totals = [];           // total value for orders that was in cart
-        $projects = [];         // compain projects
-        foreach ($data as $value) { // loop to collect repeated identifiers and non repeated 
-            if (in_array($value->order_identifier, $identifiers)) {
-                $cartItems[] = $value->order_identifier;
-                continue;
+        $userData = $this->getUsersData($in); // loading data required to send sms 
+        $notificationsSetting = $this->getSettings('notifications'); // loading sending settings
+        $options = json_decode($notificationsSetting->value);
+        foreach ($userData as $send) {
+            if ($options->confirm_enabled) { // check if email confirmation is enabled
+                $message = str_replace('[[name]]', $send->donor, $options->confirm_msg); // replace name string with user name
+                $message = str_replace('[[identifier]]', $send->order_identifier, $message); // replace identifier string with order identifier
+                $message = str_replace('[[total]]', $send->total, $message); // replace total string with order total
+                $message = str_replace('[[project]]', $send->projects, $message); // replace name string with project
+                if (!empty($send->email)) {
+                    $this->Email($send->email, $options->confirm_subject, nl2br($message));
+                }
             }
-            $identifiers[] = $value->order_identifier;
-            $sendData[] = $value;
-        }
-        foreach ($data as $total) { // loop to get sum of repeated orders 
-            if (in_array($total->order_identifier, $cartItems)) {
-                $totals[$total->order_identifier] += $total->total;
-                $projects[$total->order_identifier] .= " - " . $total->project;
-                continue;
-            }
-        }
-        foreach ($sendData as $send) {
-            if (array_key_exists($send->order_identifier, $totals)) { // setting the value for total order
-                $send->total = $totals[$send->order_identifier];
-                $send->project = $projects[$send->order_identifier];
-            }
-            $message = str_replace('[[name]]', $send->full_name, $send->msg); // replace name string with user name
-            $message = str_replace('[[identifier]]', $send->order_identifier, $message); // replace name string with user name
-            $message = str_replace('[[total]]', $send->total, $message); // replace name string with user name
-            $message = str_replace('[[project]]', $send->project, $message); // replace name string with user name
-            $this->SMS($send->mobile, $message);
-            if (!empty($send->email)) {
-                $this->Email($send->email, ' متجر نماء الخيري : تأكيد الطلب', $message);
+            if ($options->confirm_sms) { // check if SMS confirmation is enabled
+                $message = str_replace('[[name]]', $send->donor, $options->confirm_sms_msg); // replace name string with user name
+                $message = str_replace('[[identifier]]', $send->order_identifier, $message); // replace identifier string with order identifier
+                $message = str_replace('[[total]]', $send->total, $message); // replace total string with order total
+                $message = str_replace('[[project]]', $send->projects, $message); // replace name string with project
+                if (!empty($send->mobile)) {
+                    $this->SMS($send->mobile, $message);
+                }
             }
         }
     }

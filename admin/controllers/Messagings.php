@@ -17,63 +17,49 @@
 class Messagings extends ControllerAdmin
 {
 
-    private $donationModel;
+    private $orderModel;
     // private $messagingModel;
 
     public function __construct()
     {
-        $this->donationModel = $this->model('Donation');
-        // $this->messagingModel = $this->model('Messaging');
+        $this->orderModel = $this->model('order');
     }
 
     /**
-     * sendning message to member
+     * sendning message to member /members
      *
      * @return void
      */
     public function send()
     {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        if (isset($_POST['SMS'])) { // if message through sms
-            $smsSettings = $this->donationModel->getSettings('sms'); // load sms setting 
-            $sms = json_decode($smsSettings->value);
-            if (!$sms->smsenabled) {
-                flash('donation_msg', 'هناك خطأ ما بوابة الارسال غير مفعلة', 'alert alert-danger');
-                redirect('donations');
-            }
-            $members = $this->donationModel->getUsersData($_POST['members']);
+        // get members data
+        $members = $this->orderModel->getUsersData($_POST['members']);
+        if (isset($_POST['SMS'])) { // if message through sms            
             foreach ($members as $member) {
                 $mobile = str_replace(' ', '', $member->mobile);
-                $message = str_replace('[[name]]', $member->full_name, $_POST['message']); // replace name string with user name
-                $message = str_replace('[[identifier]]', $member->donation_identifier, $message); // replace name string with user name
+                $message = str_replace('[[name]]', $member->donor, $_POST['message']); // replace name string with user name
+                $message = str_replace('[[identifier]]', $member->order_identifier, $message); // replace name string with user name
                 $message = str_replace('[[total]]', $member->total, $message); // replace name string with user name
-                $message = str_replace('[[project]]', $member->project, $message); // replace name string with user name
-                $result = sendSMS($sms->sms_username, $sms->sms_password, $message, $mobile, $sms->sender_name, $sms->gateurl);
+                $message = str_replace('[[project]]', $member->projects, $message); // replace name string with user name
+                $this->orderModel->SMS($mobile, $message);
             }
-            flash('donation_msg', 'تم الارسال بنجاح ');
-            redirect('donations');
+            flash('order_msg', 'تم الارسال بنجاح ');
+            redirect('orders');
         } elseif (isset($_POST['Email'])) { // if message through Email
-            $members = $this->donationModel->getUsersData($_POST['members']);
-            $emailSettings = $this->donationModel->getSettings('email'); // load email setting 
-            $email = json_decode($emailSettings->value);
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: ' . $email->sending_name . '<' . $email->sending_email . '>' . "\r\n";
-            $headers .= 'Cc: ' . $email->sending_email . '' . "\r\n";
-
             foreach ($members as $member) {
                 $email = str_replace(' ', '', $member->email);
-                $message = str_replace('[[name]]', $member->full_name, $_POST['message']); // replace name string with user name
-                $message = str_replace('[[identifier]]', $member->donation_identifier, $message); // replace name string with user name
+                $message = str_replace('[[name]]', $member->donor, $_POST['message']); // replace name string with user name
+                $message = str_replace('[[identifier]]', $member->order_identifier, $message); // replace name string with user name
                 $message = str_replace('[[total]]', $member->total, $message); // replace name string with user name
-                $message = nl2br(str_replace('[[project]]', $member->project, $message)); // replace name string with user name
-                $result = mail($email, $_POST['subject'], $message, $headers); // sending Email
+                $message = nl2br(str_replace('[[project]]', $member->projects, $message)); // replace name string with user name
+                $result = $this->orderModel->Email($email, $_POST['subject'], $message); // sending Email
                 if ($result) {
-                    flash('donation_msg', 'تم الارسال بنجاح   ');
+                    flash('order_msg', 'تم الارسال بنجاح   ');
                 } else {
-                    flash('donation_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+                    flash('order_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
                 }
-                redirect('donations');
+                redirect('orders');
             }
         }
     }

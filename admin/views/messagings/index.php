@@ -29,7 +29,7 @@ require ADMINROOT . '/views/inc/header.php';
             <h3><?php echo $data['title']; ?></h3>
         </div>
         <div class="title_left">
-            <a href="<?php echo ADMINURL; ?>/donations" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
+            <a href="<?php echo ADMINURL; ?>/orders" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -47,10 +47,10 @@ require ADMINROOT . '/views/inc/header.php';
                                 <?php foreach ($data['members'] as $member) {
                                     if ($data['type'] == 'SMS') {
                                         $mobile = str_replace('+', '', str_replace(' ', '', $member->mobile));
-                                        echo '<option selected value="' . $member->donation_id . '" >' . $mobile . '</option>';
+                                        echo '<option selected value="' . $member->order_id . '" >' . $mobile . '</option>';
                                     } else {
                                         if (empty($member->email)) continue;
-                                        echo '<option selected value="' . $member->donation_id . '" >' . $member->email . '</option>';
+                                        echo '<option selected value="' . $member->order_id . '" >' . $member->email . '</option>';
                                     }
                                 } ?>
                             </select>

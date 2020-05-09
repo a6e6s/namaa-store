@@ -45,7 +45,7 @@ define('ADMINROOT', dirname(dirname(__FILE__)) . '/admin');
 // Admin url root
 define('ADMINURL', URLROOT . '/admin');
 // site name
-define('SITENAME', 'جمعية نماء الخيرية');
+define('SITENAME', 'جمعية نماء الأهلية');
 // site name
 define('KEYWORDS', 'جمعية خيرية');
 // set time zone

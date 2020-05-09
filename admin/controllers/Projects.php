@@ -390,14 +390,16 @@ class Projects extends ControllerAdmin
             // validate payment methods
             empty($_POST['payment_methods']) ? $data['payment_methods_error'] = 'يجب اختيار وسيلة دفع واحدة علي الأقل' : $data['payment_methods'] = $_POST['payment_methods'];
 
-            // validate secondary image
-            $image = $this->projectModel->validateImage('secondary_image');
-            ($image[0]) ? $data['secondary_image'] = $image[1] : $data['secondary_image_error'] = $image[1];
-
+            // validate secondary image 
+            if ($_FILES['secondary_image']['error'] != 4) { // no file has uploaded
+                $image = $this->projectModel->validateImage('secondary_image');
+                ($image[0]) ? $data['secondary_image'] = $image[1] : $data['secondary_image_error'] = $image[1];
+            }
             // validate background image
-            $image = $this->projectModel->validateImage('background_image');
-            ($image[0]) ? $data['background_image'] = $image[1] : $data['background_image_error'] = $image[1];
-
+            if ($_FILES['background_image']['error'] != 4) { // no file has uploaded
+                $image = $this->projectModel->validateImage('background_image');
+                ($image[0]) ? $data['background_image'] = $image[1] : $data['background_image_error'] = $image[1];
+            }
             // validate status
             if (isset($_POST['status'])) {
                 $data['status'] = trim($_POST['status']);

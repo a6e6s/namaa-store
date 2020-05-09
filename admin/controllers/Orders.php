@@ -67,6 +67,11 @@ class Orders extends ControllerAdmin
                     $cond .= ' AND donors.mobile LIKE  :mobile ';
                     $bind[':mobile'] = '%' . $_POST['search']['mobile'] . '%';
                 }
+                // full_name search
+                if (!empty($_POST['search']['full_name'])) {
+                    $cond .= ' AND donors.full_name LIKE  :full_name ';
+                    $bind[':full_name'] = '%' . $_POST['search']['full_name'] . '%';
+                }
                 // status search
                 if (!empty($_POST['search']['status'])) {
                     if ($_POST['search']['status'] == 5) $_POST['search']['status'] = 0;
@@ -106,6 +111,9 @@ class Orders extends ControllerAdmin
                 // storing search data into session
                 $_SESSION['search']['cond'] = $cond;
                 $_SESSION['search']['bind'] = $bind;
+                //store status and payment method for saving search attribute 
+                if (isset($_POST['search']['payment_method'])) $_SESSION['search']['payment_method'] = $_POST['search']['payment_method'];
+                if (isset($_POST['search']['status_id'])) $_SESSION['search']['status_id'] = $_POST['search']['status_id'];
             } elseif (isset($_POST['search']['clearSearch'])) {
                 unset($_SESSION['search']);
             }
@@ -312,6 +320,7 @@ class Orders extends ControllerAdmin
             $data = [
                 'page_title' => 'الطلبات',
                 'order' => $order,
+                'donations' => $this->orderModel->getDonationsByOrderId($id),
                 'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE status <> 2 '),
                 'banktransferproof' => $order->banktransferproof,
                 'statusesList' => $this->orderModel->statusesList(),
@@ -336,9 +345,8 @@ class Orders extends ControllerAdmin
         $data = [
             'page_title' => 'الطلبات',
             'donation_type_list' => ['share' => 'تبرع بالاسهم', 'fixed' => 'قيمة ثابته', 'open' => 'تبرع مفتوح', 'unit' => 'فئات'],
+            'donations' => $this->orderModel->getDonationsByOrderId($id),
             'order' => $order,
-            // 'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE payment_id IN (' . implode(',', json_decode($order->payment_methods, true)) . ') '),
-
         ];
         $this->view('orders/show', $data);
     }

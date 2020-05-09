@@ -87,7 +87,12 @@ function sendSMS($username, $password, $messageContent, $mobileNumber, $senderna
 }
 
 /**
- * repeat string while incrising it's number
+ * Undocumented function
+ *
+ * @param string $var
+ * @param integer $count
+ * @param string $seprator
+ * @return string
  */
 function strIncRepeat($var, $count, $seprator = ',')
 {
@@ -96,4 +101,46 @@ function strIncRepeat($var, $count, $seprator = ',')
         $text .= $var . $i . $seprator;
     }
     return rtrim($text, ',');
+}
+
+/**
+ * print variable if exist
+ *
+ * @param string $var
+ * @return void
+ */
+function printIsset($var)
+{
+    if (isset($var)) {
+        echo $var;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * print variable if exist
+ *
+ * @param string $var
+ * @return void
+ */
+function returnIsset($var)
+{
+    if (isset($var)) {
+        return $var;
+    } else {
+        return false;
+    }
+}
+/**
+ * clean Search Var
+ *
+ * @param string $var
+ * @return string
+ */
+function cleanSearchVar($var)
+{
+    if (isset($_SESSION['search']['bind'][":$var"])) {
+        return str_replace('%', '', $_SESSION['search']['bind'][":$var"]);
+    }
 }

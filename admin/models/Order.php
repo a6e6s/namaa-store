@@ -91,14 +91,12 @@ class Order extends ModelAdmin
      */
     public function updateOrder($data)
     {
-        $query = 'UPDATE orders SET amount = :amount, quantity =:quantity, total = :total, payment_method_id = :payment_method_id, project_id =:project_id, status_id = :status_id, status = :status, modified_date = :modified_date';
+        $query = 'UPDATE orders SET quantity =:quantity, total = :total, payment_method_id = :payment_method_id, status_id = :status_id, status = :status, modified_date = :modified_date';
         (empty($data['banktransferproof'])) ? null : $query .= ', banktransferproof = :banktransferproof';
         $query .= ' WHERE order_id = :order_id';
         $this->db->query($query);
         // binding values
         $this->db->bind(':order_id', $data['order_id']);
-        $this->db->bind(':project_id', $data['project_id']);
-        $this->db->bind(':amount', $data['amount']);
         $this->db->bind(':total', $data['total']);
         $this->db->bind(':quantity', $data['quantity']);
         $this->db->bind(':payment_method_id', $data['payment_method_id']);
@@ -122,7 +120,11 @@ class Order extends ModelAdmin
      */
     public function getOrderById($id)
     {
-        return $this->getById($id, 'order_id');
+        $query = 'SELECT orders.*, payment_methods.title FROM orders, payment_methods WHERE orders.payment_method_id = payment_methods.payment_id AND order_id = :order_id ORDER BY create_date DESC ';
+        $this->db->query($query);
+        $this->db->bind(':order_id', $id);
+        $row = $this->db->single();
+        return $row;
     }
 
     /**
@@ -162,6 +164,7 @@ class Order extends ModelAdmin
         $results = $this->db->resultSet(PDO::FETCH_COLUMN);
         return $results;
     }
+
     /**
      * get list of pamyment methods
      * @param string $cond
@@ -174,8 +177,6 @@ class Order extends ModelAdmin
         $results = $this->db->resultSet();
         return $results;
     }
-
-
 
     /**
      * get last Id
@@ -312,5 +313,20 @@ class Order extends ModelAdmin
                 }
             }
         }
+    }
+
+    /**
+     * get donations by order id
+     *
+     * @param [int] $id
+     * @return object
+     */
+    public function getDonationsByOrderId($id)
+    {
+        $query = 'SELECT donations.*, projects.name as project FROM donations, projects WHERE donations.project_id = projects.project_id AND order_id = :order_id ORDER BY create_date DESC ';
+        $this->db->query($query);
+        $this->db->bind(':order_id', $id);
+        $results = $this->db->resultSet();
+        return $results;
     }
 }

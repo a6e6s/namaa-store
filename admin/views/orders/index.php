@@ -41,19 +41,20 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th>
                                     <input type="checkbox" id="check-all" class="flat">
                                 </th>
-                                <th class="column-title">معرف التبرع <input type="search" placeholder="بحث بالمعرف" name="search[order_identifier]" value="" class="w100"></th>
+                                <th class="column-title">معرف التبرع <input type="search" placeholder="بحث بالمعرف" name="search[order_identifier]" value="<?php printIsset(cleanSearchVar('order_identifier')); ?>" class="w100"></th>
                                 <th class="column-title">القيمة <br>
-                                    <input type="search" placeholder="من" name="search[total_from]" value="" class="w50">
-                                    <input type="search" placeholder="الي" name="search[total_to]" value="" class="w50">
+                                    <input type="search" placeholder="من" name="search[total_from]" value="<?php printIsset(cleanSearchVar('total_from')); ?>" class="w50">
+                                    <input type="search" placeholder="الي" name="search[total_to]" value="<?php printIsset(cleanSearchVar('total_to')); ?>" class="w50">
                                 </th>
-                                <th class="column-title">اسم المتبرع <input type="search" placeholder="بحث بالمتبرع" name="search[donor]" value="" class="w100"></th>
-                                <th class="column-title">الجوال <input type="search" placeholder="بحث بالجوال" name="search[mobile]" value="" class="w100"></th>
+                                <th class="column-title">اسم المتبرع <input type="search" placeholder="بحث بالمتبرع" name="search[full_name]" value="<?php printIsset(cleanSearchVar('full_name')); ?>" class="w100"></th>
+                                <th class="column-title">الجوال <input type="search" placeholder="بحث بالجوال" name="search[mobile]" value="<?php printIsset(cleanSearchVar('mobile')); ?>" class="w100"></th>
                                 <th class="column-title">المشروع
                                     <div class="dropdown check-list">
                                         <a href="#" data-toggle="dropdown" class="dropdown-toggle btn-default"> المشروع <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
-                                            <?php foreach ($data['projects'] as $project) {
+                                            <?php foreach ($data['projects'] as $key => $project) {
                                                 echo '<li><label class="btn-default"><input class="flat" name="search[projects][]"';
+                                                if (isset($_SESSION['search']['bind'])) echo in_array("($project->project_id)", $_SESSION['search']['bind']) ? 'checked' : null;
                                                 echo ' type="checkbox" value="' . $project->project_id . '" > ' . $project->name . ' </label></li>';
                                             } ?>
                                         </ul>
@@ -65,6 +66,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <ul class="dropdown-menu">
                                             <?php foreach ($data['paymentMethodsList'] as $pm) {
                                                 echo '<li><label class="btn-default"><input class="flat" name="search[payment_method][]"';
+                                                if (isset($_SESSION['search']['payment_method'])) echo in_array($pm->payment_id, $_SESSION['search']['payment_method']) ? 'checked' : null;
                                                 echo ' type="checkbox" value="' . $pm->payment_id . '" > ' . $pm->title . ' </label></li>';
                                             } ?>
                                         </ul>
@@ -74,15 +76,17 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">تأكيد التحويل </th>
                                 <th class="column-title">تفاصيل Payfort </th>
                                 <th class="column-title">تاريخ التبرع <br>
-                                    <input type="date" placeholder=" من" name="search[date_from]" value="" class="">
-                                    <input type="date" placeholder=" الي" name="search[date_to]" value="" class="">
+                                    <input type="date" placeholder=" من" name="search[date_from]" value="<?php if(returnIsset(cleanSearchVar('date_from'))) echo date('Y-m-d', returnIsset(cleanSearchVar('date_from'))); ?>" class="">
+                                    <input type="date" placeholder=" الي" name="search[date_to]" value="<?php if(returnIsset(cleanSearchVar('date_to'))) echo date('Y-m-d', returnIsset(cleanSearchVar('date_to'))); ?>" class="">
                                 </th>
                                 <th class="column-title">الحالة
                                     <div class="dropdown check-list">
                                         <a href="#" data-toggle="dropdown" class="dropdown-toggle  btn-default"> الحالة <b class="caret"></b></a>
                                         <ul class="dropdown-menu">
                                             <?php foreach ($data['statuses'] as $status) {
-                                                echo '<li><label class="btn-default"><input class="flat" name="search[status_id][]" type="checkbox" value="' . $status->status_id . '"> ' . $status->name . ' </label></li>';
+                                                echo '<li><label class="btn-default"><input class="flat" name="search[status_id][]" type="checkbox"';
+                                                if (isset($_SESSION['search']['status_id'])) echo in_array($status->status_id, $_SESSION['search']['status_id']) ? 'checked' : null;
+                                                echo ' value="' . $status->status_id . '"> ' . $status->name . ' </label></li>';
                                             } ?>
                                         </ul>
                                     </div>

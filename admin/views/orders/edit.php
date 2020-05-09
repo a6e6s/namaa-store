@@ -43,9 +43,9 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" for="amount">قيمة التبرع : </label>
+                        <label class="control-label" for="total">قيمة التبرع : </label>
                         <div class="has-feedback">
-                            <input type="number" class="form-control" name="amount" required value="<?php echo $data['order']->amount; ?>">
+                            <input type="number" class="form-control" name="total" required value="<?php echo $data['order']->total; ?>">
                         </div>
                     </div>
                     <div class="form-group">
@@ -59,21 +59,6 @@ require ADMINROOT . '/views/inc/header.php';
                         <div class="has-feedback">
                             <input type="number" class="form-control" name="total" required value="<?php echo $data['order']->total; ?>">
                         </div>
-                    </div>
-                    <div class="form-group <?php echo (!empty($data['project_id_error'])) ? 'has-error' : ''; ?>">
-                        <label class="control-label">المشروع</label>
-                        <div class="has-feedback">
-                            <select name="project_id" class="form-control">
-                                <option value="">اختار المشروع </option>
-                                <?php foreach ($data['projectList'] as $project) : ?>
-                                    <option value="<?php echo $project->project_id; ?>" <?php echo ($project->project_id == $data['order']->project_id) ? " selected " : ''; ?>>
-                                        <?php echo $project->name; ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <span class="fa fa-folder form-control-feedback" aria-hidden="true"></span>
-                        </div>
-                        <span class="help-block"><?php echo $data['project_id_error']; ?></span>
                     </div>
                     <div class="form-group <?php echo (!empty($data['payment_method_id_error'])) ? 'has-error' : ''; ?>">
                         <label class="control-label">وسيلة التبرع</label>
@@ -90,12 +75,13 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                         <span class="help-block"><?php echo $data['payment_method_id_error']; ?></span>
                     </div>
-                    <?php #dd($data); ?>
+                    <?php #dd($data); 
+                    ?>
                     <div class="form-group">
                         <label class="control-label">الوسوم</label>
-                        <select class="form-control select2" name="status_id"  data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
+                        <select class="form-control select2" name="status_id" data-placeholder="اختار الوسوم المناسبة" style="width: 100%;">
                             <?php foreach ($data['statusesList'] as $status) : ?>
-                                <option value="<?php echo $status->status_id; ?>" <?php echo ($status->status_id==  $data['order']->status_id) ? " selected " : 'no'; ?>>
+                                <option value="<?php echo $status->status_id; ?>" <?php echo ($status->status_id ==  $data['order']->status_id) ? " selected " : 'no'; ?>>
                                     <?php echo $status->name; ?>
                                 </option>
                             <?php endforeach; ?>
@@ -131,6 +117,50 @@ require ADMINROOT . '/views/inc/header.php';
                                 <input type="radio" class="flat" <?php echo ($data['order']->status == 3) ? 'checked' : ''; ?> value="3" name="status"> في الانتظار
                             </label>
                             <span class="help-block"><?php echo $data['status_error']; ?></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">المشروعات المتبرع لها </label>
+                        <div class="has-feedback">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="column-title">المشروع </th>
+                                        <th class="column-title">القيمة </th>
+                                        <th class="column-title">العدد </th>
+                                        <th class="column-title">الاجمالي </th>
+                                        <th class="column-title">النوع </th>
+                                        <th class="column-title">آخر تحديث </th>
+                                        <th class="column-title no-link last" width="140"><span class="nobr">اجراءات</span></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($data['donations'] as $donation) : ?>
+                                        <tr class="even pointer">
+                                            <td><?php echo $donation->project; ?></td>
+                                            <td><?php echo $donation->amount; ?></td>
+                                            <td><?php echo $donation->quantity; ?></td>
+                                            <td><?php echo $donation->total; ?></td>
+                                            <td><?php echo $donation->donation_type; ?></td>
+                                            <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
+                                            <td class="form-group">
+                                                <a href="<?php echo ADMINURL . '/donations/show/' . $donation->donation_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
+                                                <a href="<?php echo ADMINURL . '/donations/edit/' . $donation->donation_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
+                                                <a href="<?php echo ADMINURL . '/donations/delete/' . $donation->donation_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+
+                                    <tr class="tab-selected">
+                                        <th></th>
+                                        <th class="column-title" colspan="2"> العدد الكلي : <?php echo count($data['donations']); ?> </th>
+                                        <th class="column-title" colspan="3"> </th>
+                                        <th class="column-title no-link last"></th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

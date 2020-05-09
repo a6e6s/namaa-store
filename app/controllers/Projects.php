@@ -70,7 +70,6 @@ class Projects extends Controller
         $msgSuccess = '<div class="alert alert-success text-center"> تم ارسال كود التحقق علي الجوال الخاص بك </div>';
         $msgError = '<div class="alert alert-warning text-center">خطأ في الارسال </div>';
         echo ($data) ? $msgSuccess : $msgError;
-        // pr($num);
     }
 
     /**
@@ -158,28 +157,28 @@ class Projects extends Controller
         //save donation data through saving method
         //saving order
         $data = [
-            'payment_method_id' => $_POST['payment_method'],
             'order_identifier' => time() - 580000000,
-            'amount' => $_POST['amount'],
             'total' => $_POST['total'],
             'quantity' => $_POST['quantity'],
-            'donation_type' => $_POST['donation_type'],
+            'payment_method_id' => $_POST['payment_method'],
             'hash' => $hash,
             'gift' => $_POST['gift']['enable'],
             'gift_data' => json_encode($_POST['gift']),
-            'project_id' => $project->project_id,
+            'projects' => $project->name,
+            'projects_id' => "($project->project_id)",
             'donor_id' => $donor,
             'status' => 0,
         ];
         $savingOrder = $this->projectsModel->addOrder($data);
         $data['order_id'] = $this->projectsModel->lastId();
+        $data['project_id'] = $project->project_id;
+        $data['amount'] = $_POST['amount'];
+        $data['donation_type'] = $_POST['donation_type'];
         if (!$this->projectsModel->addDonation($data) && !$savingOrder) {
             flashRedirect('projects/show/' . $project->project_id, 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
         } else { // send notification Email 
             $messaging = $this->model('Messaging');
             $sendData = [
-                'email' => true,
-                'sms' => false,
                 'mailto' => $_POST['email'],
                 'mobile' => $_POST['mobile'],
                 'identifier' => $data['order_identifier'],
@@ -189,30 +188,20 @@ class Projects extends Controller
                 'subject' => 'تم تسجيل تبرع جديد ',
                 'msg' => "تم تسجيل تبرع جديد بمشروع : $project->name  <br/> بقيمة : " . $_POST['total'],
             ];
-
             // save message data to session 
             $_SESSION['sendData'] = $sendData;
             $messaging->donationAdminNotify($sendData);
             // send message to donor 
-            $sendData['subject'] = 'تم استلام طلب تبرعكم  ';
-            $sendData['mailto'] = $_POST['email'];
-            $sendData['msg'] =  "<p style='text-align: center;'>" . $_POST['full_name'] . "
-             تم استلام طلبكم رقم :  " . $data['order_identifier'] . "
-             بمشروع : $project->name  
-             بقيمة : " . $_POST['total'] . "<br> وجاري مراجعة الطلب لتأكيد العملية <br>
-             شكرا جزيلاً لكم ..
-             جمعية نماء الأهلية بمنطقة مكة المكرمة .. </p>";
-
             $messaging->donationDonorNotify($sendData);
         }
-
+        isset($_POST['email']) ? $customerEmail = $_POST['email'] : $customerEmail = 'namaa@namaa.sa';
         if ($_POST['payment_method'] == 3) { //payment with payfort
             require_once APPROOT . '/helpers/PayfortIntegration.php';
             $objFort = new PayfortIntegration();
             $objFort->amount = $_POST['total'];
             $objFort->projectUrlPath = SITEFOLDER . '/projects';
             $objFort->itemName = $project->name;
-            $objFort->customerEmail = 'namaa@namaa.sa';
+            $objFort->customerEmail = $customerEmail;
             $request = $objFort->processRequest('creditcard');
             $redirectUrl = 'https://checkout.payfort.com/FortAPI/paymentPage';
             echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
@@ -251,7 +240,6 @@ class Projects extends Controller
         $meta = json_encode($fortParams);
         ($fortParams['status'] == 14) ? $status = 1 : $status = 0;
         $data = [
-            'payment_method_id' => 3,
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'meta' => $meta,
             'project_id' => $_SESSION['payment']['project_id'],
@@ -308,7 +296,7 @@ class Projects extends Controller
             } else {
                 $data['image_error'] = flash('msg', $data['image_error'], 'alert alert-danger');
             }
-            //save image to donation
+            //save image to order
             if (empty($data['image_error'])) {
                 //validated
                 if ($this->projectsModel->updateOrderHash($data)) { //update donation proof file and hash
@@ -363,8 +351,6 @@ class Projects extends Controller
     {
         //filtter post data
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        // dd($_POST);
-        // dd($_SESSION);
         //saving donor data
         if (empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['total'])) {
             flashRedirect('carts' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
@@ -390,41 +376,42 @@ class Projects extends Controller
         $hash = sha1(time() . rand(999, 999999));
         $_SESSION['donation']['hash'] = $hash; // saving donation hash into session
         $order_identifier = time() - 580000000;
-        $data = [
-            'payment_method_id' => $_POST['payment_method'],
+        $projects = [];
+        $projects_id = [];
+        foreach ($_SESSION['cart']['items'] as $item) {
+            $projects[] = $item['name'];
+            $projects_id[] = "(" . $item['project_id'] . ")";
+        }
+        //saving order
+        $orderdata = [
             'order_identifier' => $order_identifier,
-            'amount' => $_POST['total'],
             'total' => $_POST['total'],
-            'quantity' => 0,
-            'donation_type' => '',
+            'quantity' => $_SESSION['cart']['totalQty'],
+            'payment_method_id' => $_POST['payment_method'],
             'hash' => $hash,
             'gift' => 0,
             'gift_data' => '',
-            'project_id' => 0,
+            'projects_id' => implode(',', $projects_id),
+            'projects' => implode(',', $projects),
             'donor_id' => $donor,
             'status' => 0,
         ];
         //save order data through saving method
-        if (!$this->projectsModel->addOrder($data)) {
+        if (!$this->projectsModel->addOrder($orderdata)) {
             flashRedirect('carts', 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
         }
         $order_id = $this->projectsModel->lastId();
+        // saving donations
         foreach ($_SESSION['cart']['items']  as $item) {
             $data = [
-                'payment_method_id' => $_POST['payment_method'],
                 'amount' => $item['amount'],
                 'total' => ($item['amount'] * $item['quantity']),
                 'quantity' => $item['quantity'],
                 'donation_type' => $item['donation_type'],
-                'hash' => $hash,
-                'gift' => 0,
-                'gift_data' => '',
                 'project_id' => $item['project_id'],
-                'donor_id' => $donor,
                 'order_id' => $order_id,
                 'status' => 0,
             ];
-            $projectsName[] = $item['name'];
             //save donation data through saving method
             if (!$this->projectsModel->addDonation($data)) {
                 flashRedirect('carts', 'msg', 'حدث خطأ ما اثناء معالجة طلبك من فضلك حاول مره اخري', 'alert alert-danger');
@@ -433,13 +420,11 @@ class Projects extends Controller
         // send notification message
         $messaging = $this->model('Messaging');
         $sendData = [
-            'email' => true,
-            'sms' => false,
             'mailto' => $_POST['email'],
             'mobile' => $_POST['mobile'],
-            'identifier' => $data['order_identifier'],
+            'identifier' => $orderdata['order_identifier'],
             'total' => $_POST['total'],
-            'project' => implode(' , ', $projectsName),
+            'project' => implode(',', $projects),
             'donor' => $_POST['full_name'],
             'subject' => 'تم تسجيل تبرع جديد ',
             'msg' => "تم تسجيل تبرع جديد  :  <br/> بقيمة : " . $_POST['total'],
@@ -448,25 +433,17 @@ class Projects extends Controller
         $_SESSION['sendData'] = $sendData;
         $messaging->donationAdminNotify($sendData);
         // send message to donor 
-        $sendData['subject'] = 'تم استلام طلب تبرعكم  ';
-        $sendData['mailto'] = $_POST['email'];
-        $sendData['msg'] = "<p style='text-align: center;'>" . $_POST['full_name'] . " <br>
-                            تم استلام طلبكم رقم :  : " . $data['order_identifier'] . " 
-                            في مشروع :  " . implode(' , ', $projectsName) . "
-                            بقيمة : " . $_POST['total'] . " ريال 
-                            وجاري مراجعة الطلب لتأكيد العملية <br>
-                            شكرا جزيلاً لكم ..
-                            جمعية نماء الأهلية بمنطقة مكة المكرمة .. </p>";
         $messaging->donationDonorNotify($sendData);
         //empty cart clear session 
         unset($_SESSION['cart']);
+        isset($_POST['email']) ? $customerEmail = $_POST['email'] : $customerEmail = 'namaa@namaa.sa';
         if ($_POST['payment_method'] == 3) { //payment with payfort
             require_once APPROOT . '/helpers/PayfortIntegration.php';
             $objFort = new PayfortIntegration();
             $objFort->amount = $_POST['total'];
             $objFort->projectUrlPath = SITEFOLDER . '/projects';
             $objFort->itemName = 'Cart Donation';
-            $objFort->customerEmail = 'namaa@namaa.sa';
+            $objFort->customerEmail = $customerEmail;
             $request = $objFort->processRequest('creditcard');
             $redirectUrl = 'https://checkout.payfort.com/FortAPI/paymentPage';
             echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";

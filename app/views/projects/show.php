@@ -309,7 +309,7 @@
             <div class="modal-body">
             </div>
             <div class="p-2 border-top">
-                <a href="/carts" class="btn btn-primary">عرض السلة</a>
+                <a href="<?php root('carts') ?>" class="btn btn-primary">عرض السلة</a>
                 <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
             </div>
 

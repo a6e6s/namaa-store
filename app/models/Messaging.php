@@ -42,7 +42,7 @@ class Messaging extends ModelAdmin
             $message = str_replace('[[identifier]]', $member->donor_identifier, $message); // replace name string with user name
             $message = str_replace('[[total]]', $member->total, $message); // replace name string with user name
             $message = str_replace('[[project]]', $member->project, $message); // replace name string with user name
-            $result = sendSMS($sms->sms_username, $sms->sms_password, $message, $mobile, $sms->sender_name, $sms->gateurl);
+            sendSMS($sms->sms_username, $sms->sms_password, $message, $mobile, $sms->sender_name, $sms->gateurl);
         }
     }
 
@@ -71,19 +71,9 @@ class Messaging extends ModelAdmin
      */
     public function donationAdminNotify($data)
     {
-        if ($data['email']) { // if message through Email
-            $emailSettings = $this->getSettings('email'); // load email setting 
-            $email = json_decode($emailSettings->value);
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: ' . $email->sending_name . '<' . $email->sending_email . '>' . "\r\n";
-            $headers .= 'Cc: ' . $email->sending_email . '' . "\r\n";
-            $message = str_replace('[[name]]', $data['donor'], $data['msg']); // replace name string with user name
-            $message = str_replace('[[identifier]]', $data['identifier'], $message); // replace name string with user name
-            $message = str_replace('[[total]]', $data['total'], $message); // replace name string with user name
-            $message = nl2br(str_replace('[[project]]', $data['project'], $message)); // replace name string with user name
-            mail($email->donation_email, $data['subject'], $message, $headers); // sending Email
-        }
+        $emailSettings = $this->getSettings('email'); // load email setting 
+        $email = json_decode($emailSettings->value);
+        // $this->Email($email->donation_email, $data['subject'], nl2br($data['msg'])); // sending Email
     }
 
     /**
@@ -95,54 +85,42 @@ class Messaging extends ModelAdmin
     public function donationDonorNotify($data)
     {
         if (!empty($data['mailto'])) { // if message through Email
-            $emailSettings = $this->getSettings('email'); // load email setting 
-            $email = json_decode($emailSettings->value);
-            $headers = "MIME-Version: 1.0" . "\r\n";
-            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-            $headers .= 'From: ' . $email->sending_name . '<' . $email->sending_email . '>' . "\r\n";
-            $headers .= 'Cc: ' . $email->sending_email . '' . "\r\n";
-            $message = str_replace('[[name]]', $data['donor'], $data['msg']); // replace name string with user name
-            $message = str_replace('[[identifier]]', $data['identifier'], $message); // replace name string with user name
-            $message = str_replace('[[total]]', $data['total'], $message); // replace name string with user name
-            $message = nl2br(str_replace('[[project]]', $data['project'], $message)); // replace name string with user name
-            mail($data['mailto'], $data['subject'], $message, $headers); // sending Email
+            $msg_option = json_decode($this->getSettings('notifications')->value);
+            if ($msg_option->inform_enabled) {
+                $msg = str_replace('[[name]]', $data['donor'], $msg_option->inform_msg); // replace name string with user name
+                $msg = str_replace('[[identifier]]', $data['identifier'], $msg); // replace identifier string with identifier
+                $msg = str_replace('[[total]]', $data['total'], $msg); // replace total string with order total
+                $msg = str_replace('[[project]]', $data['project'], $msg); // replace project string with project name
+                $this->Email($data['mailto'], $msg_option->inform_subject, nl2br($msg)); // sending Email
+            }
         }
     }
 
-/**
- * send Email and SMS Confirmation
- *
- * @param [array] $data
- * @return void
- */
+    /**
+     * send Email and SMS Confirmation
+     *
+     * @param [array] $data
+     * @return void
+     */
     public function sendConfirmation($data)
     {
-        if (is_array($data['project'])) { // check if the project from cart or direct donation 
+        $msg_option = json_decode($this->getSettings('notifications')->value);
+        if ($msg_option->confirm_enabled) {
             // prepar EMAIL MSG
-            $data['msg'] =  $data['donor'] . "
-                            تم تأكيد طلبكم رقم :" . $data['identifier'] . "
-                            بمبلغ :" . $data['total'] . " ريال 
-                            في مشروع :" . implode(' , ', $data['project']) . "
-                            بارك الله فيكم ونفعنا وأياكم وجعله في ميزان حسناتكم ";
-            $data['subject'] = "تم تأكيد طلبكم رقم " . $data['identifier'];
-            // prepare SMS message
-            $data['msgsms'] =  $data['donor'] . "
-                            تم تأكيد طلبكم رقم :" . $data['identifier'] . "
-                            بمبلغ :" . $data['total'] . " ريال 
-                            بارك الله فيكم ونفعنا وأياكم وجعله في ميزان حسناتكم ";
-            // send SMS
-            $this->SMS($data['mobile'], $data['msgsms']);
-        } else { //direct donation
-            $data['msg'] =  $data['donor'] . "
-                            تم تأكيد طلبكم رقم :" . $data['identifier'] . "
-                            بمبلغ :" . $data['total'] . " ريال 
-                            في مشروع  :" . $data['project'] . "
-                            بارك الله فيكم ونفعنا وأياكم وجعله في ميزان حسناتكم ";
-            $data['subject'] = "تم تأكيد طلبكم رقم " . $data['identifier'];
-            // send SMS
-            $this->SMS($data['mobile'], $data['msg']);
+            $msg = str_replace('[[name]]', $data['donor'], $msg_option->confirm_msg); // replace name string with user name
+            $msg = str_replace('[[identifier]]', $data['identifier'], $msg); // replace identifier string with identifier
+            $msg = str_replace('[[total]]', $data['total'], $msg); // replace total string with order total
+            $msg = str_replace('[[project]]', $data['project'], $msg); // replace project string with project name
+            // send email
+            if (!empty($data['mailto'])) $this->Email($data['mailto'],  $msg_option->confirm_subject, $msg);
         }
-        // send email
-        if (!empty($data['mailto'])) $this->Email($data['mailto'], $data['subject'], "<p style='text-align: right;'>" . $data['msg'] . " </p>");
+        if ($msg_option->confirm_sms) {
+            $smsmsg = str_replace('[[name]]', $data['donor'], $msg_option->confirm_sms_msg); // replace name string with user name
+            $smsmsg = str_replace('[[identifier]]', $data['identifier'], $smsmsg); // replace identifier string with identifier
+            $smsmsg = str_replace('[[total]]', $data['total'], $smsmsg); // replace total string with order total
+            $smsmsg = str_replace('[[project]]', $data['project'], $smsmsg); // replace project string with project name
+            // send SMS
+            $this->SMS($data['mobile'], $smsmsg);
+        }
     }
 }

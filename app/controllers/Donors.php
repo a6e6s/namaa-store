@@ -15,8 +15,7 @@ class Donors extends Controller
     public function index($start = 1, $perpage = 100)
     {
         if (!$_SESSION['login']) {
-            flashRedirect('donors/login' , 'msg', 'عذرا يجب تسجيل الدخول اولا  ', 'alert alert-danger');
-
+            flashRedirect('donors/login', 'msg', 'عذرا يجب تسجيل الدخول اولا  ', 'alert alert-danger');
         }
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
@@ -38,6 +37,7 @@ class Donors extends Controller
      */
     public function login()
     {
+        if (isset($_SESSION['login'])) redirect('donors', true);
         $data = [
             'pageTitle' => 'تسجيل دخول متبرع : ' . SITENAME,
             'pagesLinks' => $this->donorModel->getMenu(),
@@ -51,7 +51,6 @@ class Donors extends Controller
     public function logout()
     {
         unset($_SESSION['login']);
-        flashRedirect('donors/login' , 'msg', 'تم تسجيل الخروج بنجاح  ', 'alert alert-info');
-
+        flashRedirect('donors/login', 'msg', 'تم تسجيل الخروج بنجاح  ', 'alert alert-info');
     }
 }

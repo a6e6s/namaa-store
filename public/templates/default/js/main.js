@@ -219,3 +219,50 @@ $("#addToCart").click(function (event) {
     });
   }
 });
+
+
+// check activation code
+$(".product .card .cart-add").click(function (event) {
+  // Stop form from submitting normally
+  event.preventDefault();
+  // Get some values from the form:
+  var $form = $(this).parent().parent().parent(),
+    quantity = $form.find("input[name='quantity']").val(),
+    donation_type = $form.find(".active").find("input[name='donation_type']").val(),
+    amount = $form.find("input[name='amount']").val(),
+    project_id = $form.find("input[name='project_id']").val(),
+    url =  $form.find("input[name='url']").val(),
+    formValidation = true;
+  // validate cart requirments
+  if ($.trim(quantity).length < 1 || quantity == 0) {
+    // validat quantity
+    alert(' يجب ان تكون الكمية اكبر من صفر ');
+    formValidation = false;
+  }
+  if ($.trim(amount).length < 1 || amount == 0) {
+    // validat amount
+    alert('يجب ان تكون قيمة التبرع اكبر من صفر');
+    formValidation = false;
+  }
+  if (formValidation == true) {
+    //prosess with the request
+    $.post(url, {
+      donation_type: donation_type,
+      amount: amount,
+      project_id: project_id,
+      quantity: quantity,
+    }).done(function (data) {
+      var data = JSON.parse(data);
+      if (data.status == "success") {
+        // adding success
+        $("#alertModal").modal("show");
+        $("#alertModal .modal-body").html(data.msg);
+        $(".cart-num, .cart-total").html(data.total);
+      } else {
+        // adding failed
+        $("#alertModal").modal("show");
+        $("#alertModal .modal-body").html(data.msg);
+      }
+    });
+  }
+});

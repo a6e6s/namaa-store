@@ -153,9 +153,11 @@ class Donor extends Model
      */
     public function getDonationsByMobail($mobile)
     {
-        $query = 'SELECT ds.*, projects.name as project, payment_methods.title as payment_method FROM  donations ds, donors, projects, payment_methods 
-                  WHERE ds.donor_id = donors.donor_id AND payment_methods.payment_id = ds.payment_method_id AND projects.project_id = ds.project_id AND donors.mobile = :mobile 
-                  AND ds.status <> 2 ORDER BY ds.create_date DESC';
+        $query = 'SELECT orders.*, payment_methods.title as payment_method FROM  orders, donors, payment_methods 
+                  WHERE orders.donor_id = donors.donor_id 
+                  AND payment_methods.payment_id = orders.payment_method_id 
+                  AND donors.mobile = :mobile 
+                  AND orders.status <> 2 ORDER BY orders.create_date DESC';
         $this->db->query($query);
         // bind values
         $this->db->bind(':mobile', $mobile);

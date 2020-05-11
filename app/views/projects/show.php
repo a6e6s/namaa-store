@@ -251,7 +251,7 @@
             <h3 class="my-4 text-center h5"><i class="icofont-stylish-right"></i> تصدق بالنشر ولك الأجر فالدال على الخير كفاعله<i class="icofont-stylish-left"></i></h3>
             <!-- code activation modal -->
             <div id="addcode" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addcode-title" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button class="close m-0 p-0" data-dismiss="modal" aria-label="Close">
@@ -303,7 +303,7 @@
     </div>
 </section>
 <!-- alertModal -->
-<div class="modal" id="alertModal">
+<div class="modal fade" id="alertModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">

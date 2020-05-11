@@ -65,8 +65,8 @@
                                             }
                                             break;
                                         case 'open':
-                                            echo 'قم بكتابة المبلغ المراد التبرع به 
-                                                    <input type="hidden" name="donation_type" value="مفتوح">';
+                                            echo '<label class="active">قم بكتابة المبلغ المراد التبرع به 
+                                                    <input type="hidden" name="donation_type" value="مفتوح"></label>';
                                             break;
                                         case 'unit':
                                             foreach ($donation_type->value as $value) {
@@ -117,11 +117,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer bg-primary mt-1">
+                        <div class="card-footer cart-footer bg-primary mt-1">
                             <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                                 <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
                                 <?php if ($project->enable_cart) : ?>
-                                    <button class="card-text float-left btn btn-sm " name="projectCategories" value="<?php echo $data['category']->category_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                    <button class="cart-add" name="projectCategories" value="<?php echo $data['category']->category_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                    <input type="number" name="quantity" min="1" value="1" required id="quantity" class="col-2 py-0 px-0 float-left">
+                                    <input type="hidden" name="url" value="<?php echo URLROOT . '/carts/ajaxAdd'; ?>">
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -141,6 +143,20 @@
             <?php echo ($data['category']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '"> العودة الي الرئيسية</a></div>' : ''; ?>
         </div>
     </section>
+    <!-- alertModal -->
+    <div class="modal fade" id="alertModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
+                <div class="modal-body pt-0">
+                </div>
+                <div class="p-2 border-top">
+                    <a href="<?php root('carts') ?>" class="btn btn-primary">عرض السلة</a>
+                    <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end products -->
 </div>
 <?php require APPROOT . '/app/views/inc/footer.php'; ?>

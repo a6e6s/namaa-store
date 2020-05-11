@@ -14,10 +14,8 @@
                         <thead class="thead-inverse">
                             <tr>
                                 <th class="column-title">معرف التبرع </th>
-                                <th class="column-title">القيمة </th>
                                 <th class="column-title">العدد </th>
                                 <th class="column-title">الاجمالي </th>
-                                <th class="column-title">النوع </th>
                                 <th class="column-title">المشروع </th>
                                 <th class="column-title">وسيلة التبرع </th>
                                 <th class="column-title">تاريخ التبرع </th>
@@ -43,12 +41,10 @@
                                         break;
                                 }
                                 echo "<tr>
-                                        <td>$donation->donation_identifier</td>
-                                        <td>$donation->amount</td>
+                                        <td>$donation->order_identifier</td>
                                         <td>$donation->quantity</td>
                                         <td>$donation->total</td>
-                                        <td>$donation->donation_type</td>
-                                        <td>$donation->project</td>
+                                        <td>$donation->projects</td>
                                         <td>$donation->payment_method</td>
                                         <td>" . date('Y/ m/ d | H:i a', $donation->modified_date) . "</td>
                                         <td>$donation->status</td>

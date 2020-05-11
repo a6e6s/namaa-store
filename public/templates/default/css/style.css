@@ -252,6 +252,7 @@ div.scrollmenu {
 ::-webkit-scrollbar-thumb {
     background: #ddd; 
   }
-  .cart-footer .cart-icon{float: left;font-size: 13px; margin-right: 5px; padding: 5px;border-radius: 3px;background: #fff;border: 1px; }
-  .cart-footer .cart-icon i{font-size: 18px; float: left;}
-  .cart-footer .cart-icon:hover{background: #5a6268; color: #fff; cursor: pointer;}
+  .cart-footer .cart-add{float: left;font-size: 13px; margin-right: 5px; padding: 5px;border-radius: 3px;background: #fff;border: 1px; }
+  .cart-footer .cart-add i{font-size: 18px; float: left;}
+  .cart-footer .cart-add:hover{background: #5a6268; color: #fff; cursor: pointer;}
+  .modal{top: 25%;}

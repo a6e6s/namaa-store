@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <?php echo empty($data['contact_settings']->map) ? '' : '<iframe class="rounded-circle" width="100%" src="' . $data['contact_settings']->map . '" height="450px" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>'; ?>
+            <?php echo empty($data['contact_settings']->map) ? '' : '<iframe class="rounded" width="100%" src="' . $data['contact_settings']->map . '" height="450px" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>'; ?>
         </div>
         <div class="col-12 border-top pt-3 mt-5">
             <div class="">

@@ -29,7 +29,7 @@
                                 <button class="btn btn-primary btn-lg m-2 px-5" name="login" type="submit" data-toggle="modal" data-target="#sendcode">ارسال </button>
                             </form>
                             <div id="" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sendcode-title" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button class="close m-0 p-0" data-dismiss="modal" aria-label="Close">

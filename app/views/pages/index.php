@@ -93,8 +93,8 @@
                                                     }
                                                     break;
                                                 case 'open':
-                                                    echo 'قم بكتابة المبلغ المراد التبرع به 
-                                                    <input type="hidden" name="donation_type" value="مفتوح">';
+                                                    echo '<label class="active"> قم بكتابة المبلغ المراد التبرع به 
+                                                    <input type="hidden" name="donation_type" value="مفتوح"></label>';
                                                     break;
                                                 case 'unit':
                                                     foreach ($donation_type->value as $value) {
@@ -149,8 +149,9 @@
                                     <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                                         <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
                                         <?php if ($project->enable_cart) : ?>
-                                            <button class="cart-icon " name="index" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                            <button class="cart-add " name="index" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
                                             <input type="number" name="quantity" min="1" value="1" required id="quantity" class="col-2 py-0 px-0 float-left">
+                                            <input type="hidden" name="url" value="<?php echo URLROOT . '/carts/ajaxAdd'; ?>">
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -197,6 +198,20 @@
                     </div>
                 </div>
             </section>
+            <!-- alertModal -->
+            <div class="modal fade" id="alertModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                            <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
+                        <div class="modal-body pt-0">
+                        </div>
+                        <div class="p-2 border-top">
+                            <a href="<?php root('carts') ?>" class="btn btn-primary">عرض السلة</a>
+                            <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-12 text-center my-2 p-0">
                 <?php
                 if (!empty($data['theme_settings']->categories_image)) {
@@ -230,7 +245,6 @@
             // if user select from units or fixed or share donation
             $('.d-value').change(function() {
                 var amount = $(this).attr('id');
-                // alert(amount);
                 // $(this).parent().next().chiled().val(this.value)
                 $(this).parent().parent().children('.amt').val(amount);
             });

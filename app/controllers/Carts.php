@@ -66,7 +66,7 @@ class Carts extends Controller
             $project = $this->cartModel->getSingle('name, project_id', ['project_id' => $_POST['project_id']], 'projects');
             $this->cartModel->add($project, $_POST['quantity']);
             $data = [
-                'msg' => '<div class="text-center">  تم اضافة المشروع بنجاح   </div> ',
+                'msg' => '<div class="text-center py-3">  تم اضافة المشروع الي سلة التبرع  بنجاح   </div> ',
                 'status' => 'success',
                 'total' => $_SESSION['cart']['totalQty']
             ];

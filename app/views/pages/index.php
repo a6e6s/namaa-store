@@ -145,11 +145,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer bg-primary mt-1">
+                                <div class="card-footer cart-footer bg-primary mt-1">
                                     <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
                                         <a href="<?php echo URLROOT . '/projects/show/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
                                         <?php if ($project->enable_cart) : ?>
-                                            <button class="card-text float-left btn btn-sm p-1" name="index" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                            <button class="cart-icon " name="index" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
                                             <input type="number" name="quantity" min="1" value="1" required id="quantity" class="col-2 py-0 px-0 float-left">
                                         <?php endif; ?>
                                     </div>

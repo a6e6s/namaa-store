@@ -52,7 +52,7 @@ class ProjectCategory extends Model
      */
     public function getProductsByCategory($id, $start, $perpage)
     {
-        return $this->getFromTable('projects pj', 'pj.*,(SELECT SUM(total) FROM donations WHERE pj.project_id =donations.project_id AND status = 1 LIMIT 1 ) as total ', ['category_id' => $id, 'status' => 1], $start, $perpage);
+        return $this->getFromTable('projects pj', 'pj.*,(SELECT SUM(total) FROM donations WHERE pj.project_id = donations.project_id AND status = 1 LIMIT 1 ) as total ', ['category_id' => $id, 'status' => 1, 'hidden' => 0], $start, $perpage);
     }
 
     /**
@@ -63,7 +63,7 @@ class ProjectCategory extends Model
      */
     public function projectsCount($id)
     {
-        return $this->countAll(['category_id' => $id, 'status' => 1], 'projects');
+        return $this->countAll(['category_id' => $id, 'status' => 1, 'hidden' => 0], 'projects');
     }
 
     /**

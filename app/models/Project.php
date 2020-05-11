@@ -51,7 +51,7 @@ class Project extends Model
      */
     public function moreProjects($category_id)
     {
-        return $this->get('name , project_id, secondary_image', ['category_id' => $category_id, 'status' => 1]);
+        return $this->get('name , project_id, secondary_image', ['category_id' => $category_id, 'status' => 1, 'hidden' => 0]);
     }
 
     /**
@@ -79,7 +79,7 @@ class Project extends Model
      */
     public function projectsCount($id)
     {
-        return $this->countAll(['project_id' => $id, 'status' => 1], 'projects');
+        return $this->countAll(['project_id' => $id, 'status' => 1, 'hidden' => 0], 'projects');
     }
 
     /**

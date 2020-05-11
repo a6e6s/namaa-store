@@ -52,9 +52,10 @@ class Tag extends Model
      */
     public function getProductsByTag($id, $start, $perpage)
     {
-        $query = 'SELECT pj.*, project_tags.tag_id, project_tags.name,(SELECT SUM(total) FROM donations WHERE pj.project_id =donations.project_id AND status = 1 LIMIT 1 ) as total
+        $query = 'SELECT pj.*, project_tags.tag_id, project_tags.name,
+        (SELECT SUM(total) FROM donations WHERE pj.project_id =donations.project_id AND status = 1 LIMIT 1 ) as total 
          FROM `projects` pj ,tags_projects,project_tags 
-        WHERE tags_projects.tag_id = :tag_id AND pj.project_id = tags_projects.project_id AND project_tags.tag_id = tags_projects.tag_id  LIMIT ' . $start . ' ,' . $perpage;
+        WHERE tags_projects.tag_id = :tag_id AND pj.project_id = tags_projects.project_id AND project_tags.tag_id = tags_projects.tag_id AND pj.hidden = 0  LIMIT ' . $start . ' ,' . $perpage;
         $this->db->query($query);
         $this->db->bind(':tag_id', $id);
 
@@ -69,7 +70,7 @@ class Tag extends Model
      */
     public function projectsCount($id)
     {
-        return $this->countAll(['status' => 1], 'projects');
+        return $this->countAll(['status' => 1, 'hidden' => 0], 'projects');
     }
 
     /**

@@ -19,7 +19,7 @@ class Dashboard extends ControllerAdmin
 
     public function __construct()
     {
-        $this->donationModel = $this->model('Donation');
+        $this->orderModel = $this->model('Order');
     }
 
     /**
@@ -29,11 +29,11 @@ class Dashboard extends ControllerAdmin
     {
         $data = [
             'header' => '',
-            'donationCount' => $this->donationModel->countAll('WHERE status = 0','')->count,
-            'donorCount' => $this->donationModel->countAll('','','donors')->count,
-            'contactsCount' => $this->donationModel->countAll('WHERE status = 1','','contacts')->count,
-            'projectsCount' => $this->donationModel->countAll('','','projects')->count,
-            'donations' => $this->donationModel->getAll('SELECT amount, total, quantity, create_date FROM donations WHERE status = 1 AND create_date <= ' . time() . ' AND create_date >= ' . (time() - 2592000)),
+            'orderCount' => $this->orderModel->countAll('WHERE status = 0','')->count,
+            'donorCount' => $this->orderModel->countAll('','','donors')->count,
+            'contactsCount' => $this->orderModel->countAll('WHERE status = 1','','contacts')->count,
+            'projectsCount' => $this->orderModel->countAll('','','projects')->count,
+            'orders' => $this->orderModel->getAll('SELECT total, quantity, create_date FROM orders WHERE status = 1 AND create_date <= ' . time() . ' AND create_date >= ' . (time() - 2592000)),
             'title' => 'لوحة التحكم',
             'footer' => ''
         ];

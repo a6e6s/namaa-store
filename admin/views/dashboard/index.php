@@ -37,9 +37,9 @@ require ADMINROOT . '/views/inc/header.php';
             <div class="tile-stats bg-blue">
                 <div class="icon"><i class="glyphicon glyphicon-gift white"></i>
                 </div>
-                <div class="count"><?php echo $data['donationCount']; ?></div>
+                <div class="count"><?php echo $data['orderCount']; ?></div>
                 <h3 class=" white">تبرع جديد</h3>
-                <p class="tiles text-right"><a class="white" href="<?php echo ADMINURL; ?>/donations">عرض المزيد</a></p>
+                <p class="tiles text-right"><a class="white" href="<?php echo ADMINURL; ?>/orders">عرض المزيد</a></p>
             </div>
         </div>
 
@@ -88,7 +88,7 @@ require ADMINROOT . '/views/inc/header.php';
 
         </div>
         <?php
-        foreach ($data['donations'] as $donation) {
+        foreach ($data['orders'] as $donation) {
             $date[] = date('Y-m-d', $donation->create_date);
         }
         $repeats = array_count_values($date);

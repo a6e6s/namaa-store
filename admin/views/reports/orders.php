@@ -20,7 +20,7 @@ require ADMINROOT . '/views/inc/header.php';
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('donation_msg'); ?>
+    <?php flash('order_msg'); ?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['page_title']; ?> <small>عرض محتوي التقرير </small></h3>
@@ -40,7 +40,6 @@ require ADMINROOT . '/views/inc/header.php';
                         <th>معرف التبرع </th>
                         <th> اسم المتبرع </th>
                         <th>القيمة</th>
-                        <th>الكمية</th>
                         <th>الاجمالي</th>
                         <th>وسيلة الدفع</th>
                         <th>تأكيد الدفع</th>
@@ -54,31 +53,30 @@ require ADMINROOT . '/views/inc/header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data['donation'] as $donation) : ?>
+                    <?php foreach ($data['orders'] as $order) : ?>
                         <tr class="even pointer">
-                            <td><?php echo $donation->name; ?></td>
-                            <td><?php echo $donation->donation_identifier; ?></td>
-                            <td><?php echo $donation->full_name; ?></td>
-                            <td><?php echo $donation->amount; ?></td>
-                            <td><?php echo $donation->quantity; ?></td>
-                            <td><?php echo $donation->total; ?></td>
-                            <td><?php echo $donation->title; ?></td>
-                            <td><?php if (!empty($donation->banktransferproof)) { ?>
-                            <a class="btn btn-success" target="blank" href="<?php echo URLROOT . "/media/files/banktransfer/".$donation->banktransferproof; ?>">تحميل</a><?php } ?></td>
+                            <td><?php echo $order->projects; ?></td>
+                            <td><?php echo $order->order_identifier; ?></td>
+                            <td><?php echo $order->donor; ?></td>
+                            <td><?php echo $order->quantity; ?></td>
+                            <td><?php echo $order->total; ?></td>
+                            <td><?php echo $order->payment_method; ?></td>
+                            <td><?php if (!empty($order->banktransferproof)) { ?>
+                            <a class="btn btn-success" target="blank" href="<?php echo URLROOT . "/media/files/banktransfer/".$order->banktransferproof; ?>">تحميل</a><?php } ?></td>
                             <?php
-                            if (!empty($donation->meta)) {
-                                $meta = json_decode($donation->meta);
+                            if (!empty($order->meta)) {
+                                $meta = json_decode($order->meta);
                                 echo '<td>' . $meta->response_message . '</td>';
                                 echo '<td>' . $meta->merchant_reference . '</td>';
                             } else {
                                 echo "<td></td><td></td>";
                             }
                             ?>
-                            <td><?php echo ($donation->gift) ? "نعم" : "لا"; ?></td>
-                            <td><?php echo $donation->statuses; ?></td>
-                            <td><?php echo ($donation->status) ? "مؤكد" : "غير مؤكد";; ?></td>
-                            <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->create_date); ?></td>
-                            <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $donation->modified_date); ?></td>
+                            <td><?php echo ($order->gift) ? "نعم" : "لا"; ?></td>
+                            <td><?php echo $order->status_name; ?></td>
+                            <td><?php echo ($order->status) ? "مؤكد" : "غير مؤكد";; ?></td>
+                            <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $order->create_date); ?></td>
+                            <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $order->modified_date); ?></td>
 
                         </tr>
                     <?php endforeach; ?>

@@ -18,16 +18,16 @@ class Reports extends ControllerAdmin
 {
 
     private $donationModel;
-    // private $donationModel;
+    private $orderModel;
 
     public function __construct()
     {
         $this->donationModel = $this->model('Donation');
-        // $this->donationModel = $this->model('Contact');
+        $this->orderModel = $this->model('Order');
     }
 
     /**
-     * loading index view with latest donations
+     * loading index view with latest orders
      */
     public function index()
     {
@@ -52,64 +52,99 @@ class Reports extends ControllerAdmin
     {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        if (!in_array($id, ['donations', 'donors', 'contacts']) || !isset($_POST)) {
+        if (!in_array($id, ['orders', 'donors', 'contacts']) || !isset($_POST)) {
             flash('report_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
             redirect('reports');
         }
-        if ($id == 'donations') {
+        if ($id == 'orders') {
             // build query
-            $project_exp = '';
-            $statuses_exp = '';
-            $payment_exp = '';
-            $status_exp = '';
-            $gift_exp = '';
-            $amount_exp_from = '';
-            $amount_exp_to = '';
-            $donors_exp = '';
-            $date_exp_from = '';
-            $date_exp_to = '';
-            if (isset($_POST['projects'])) {
-                $project_exp = ' AND ds.project_id IN (' . implode(',', $_POST['projects']) . ') ';
+            // get orders
+            $cond = 'WHERE ord.status <> 2 AND donors.donor_id = ord.donor_id AND ord.payment_method_id = payment_methods.payment_id';
+            $bind = [];
+            // date search
+            if (!empty($_POST['search']['date_from'])) {
+                $cond .= ' AND ord.create_date >= :date_from ';
+                $bind[':date_from'] = strtotime($_POST['search']['date_from']);
             }
-            (!empty($_POST['statuses'])) ? $statuses_exp = ' AND ds.status_id = ' .  $_POST['statuses'] . ' ' : '';
-            if (!empty($_POST['payment_methods'])) {
-                $payment_exp = ' AND ds.payment_method_id =' . $_POST['payment_methods'] . ' ';
+            if (!empty($_POST['search']['date_to'])) {
+                $cond .= ' AND ord.create_date <= :date_to ';
+                $bind[':date_to'] = strtotime($_POST['search']['date_to']) + 86400;
             }
-            if ($_POST['status'] !== '') {
-                $status_exp = ' AND ds.status =' . $_POST['status'] . ' ';
+            // total search
+            if (!empty($_POST['search']['total_from'])) {
+                $cond .= ' AND ord.total >= :total_from ';
+                $bind[':total_from'] = $_POST['search']['total_from'];
             }
-            if ($_POST['gift'] !== '') {
-                $gift_exp = ' AND ds.gift =' . $_POST['gift'] . ' ';
+            if (!empty($_POST['search']['total_to'])) {
+                $cond .= ' AND ord.total <= :total_to ';
+                $bind[':total_to'] = $_POST['search']['total_to'];
             }
-            if ($_POST['donor'] !== '') {
-                $donors_exp = ' AND dr.full_name LIKE "%' . $_POST['donor'] . '%" ';
+            // order_identifier search
+            if (!empty($_POST['search']['order_identifier'])) {
+                $cond .= ' AND ord.order_identifier LIKE  :order_identifier ';
+                $bind[':order_identifier'] = '%' . $_POST['search']['order_identifier'] . '%';
             }
-            if ($_POST['amount_from'] !== '') {
-                $amount_exp_from = ' AND ds.amount >= ' . $_POST['amount_from'] . ' ';
+            // mobile search
+            if (!empty($_POST['search']['mobile'])) {
+                $cond .= ' AND donors.mobile LIKE  :mobile ';
+                $bind[':mobile'] = '%' . $_POST['search']['mobile'] . '%';
             }
-            if ($_POST['amount_to'] !== '') {
-                $amount_exp_to = ' AND ds.amount <= ' . $_POST['amount_to'] . ' ';
+            // full_name search
+            if (!empty($_POST['search']['full_name'])) {
+                $cond .= ' AND donors.full_name LIKE  :full_name ';
+                $bind[':full_name'] = '%' . $_POST['search']['full_name'] . '%';
             }
-            if ($_POST['date_from'] !== '') {
-                $amount_exp_from = ' AND ds.create_date >= ' . strtotime($_POST['date_from']) . ' ';
+            // status search
+            if (!empty($_POST['search']['status'])) {
+                if ($_POST['search']['status'] == 5) $_POST['search']['status'] = 0;
+                $cond .= ' AND ord.status =  :status ';
+                $bind[':status'] =  $_POST['search']['status'];
             }
-            if ($_POST['date_to'] !== '') {
-                $amount_exp_to = ' AND ds.create_date <= ' . strtotime($_POST['date_to']) . ' ';
+            // custom status search
+            if (!empty($_POST['search']['status_id'])) {
+                $status_ids = array_filter($_POST['search']['status_id']);
+                $cond .= ' AND ord.status_id  in (' . strIncRepeat(':status_id', count($status_ids)) . ')';
+                foreach ($status_ids as $key => $status) {
+                    if (!empty($status)) {
+                        $bind[':status_id' . $key] = $status;
+                    }
+                }
+            }
+            // payment_method search
+            if (!empty($_POST['search']['payment_method'])) {
+                $payment_methods = array_filter($_POST['search']['payment_method']);
+                $cond .= ' AND ord.payment_method_id  in ('  . strIncRepeat(':payment_method', count($payment_methods)) . ')';
+                foreach ($payment_methods as $key => $payment_method) {
+                    if (!empty($payment_method)) {
+                        $bind[':payment_method' . $key] = $payment_method;
+                    }
+                }
+            }
+            // projects search 
+            if (!empty($_POST['search']['projects'])) {
+                $projects = array_filter($_POST['search']['projects']);
+                $cond .= ' AND ord.projects_id REGEXP '  . rtrim(strIncRepeat(':projects_id', count($projects), "|"), "|") . '';
+                foreach ($projects as $key => $project) {
+                    if (!empty($project)) {
+                        $bind[':projects_id' . $key] = "($project)";
+                    }
+                }
+            }
+            // result count
+            if (!empty($_POST['search']['limit'])) {
+                $limit = ' LIMIT 0 , :perpage ';
+                $bindLimit[':perpage'] = (int) $_POST['search']['limit'];;
+            } else {
+                $limit = '';
+                $bindLimit = '';
             }
 
-            $query = 'SELECT ds.*, dr.full_name, pm.title, pj.name,
-            (SELECT name FROM  statuses WHERE ds.status_id = statuses.status_id) AS statuses
-         FROM donations ds,projects pj,donors dr,payment_methods pm
-         WHERE ds.donor_id= dr.donor_id
-         AND ds.payment_method_id = pm.payment_id
-         AND ds.project_id = pj.project_id' . $project_exp . $payment_exp . $status_exp . $gift_exp . $amount_exp_from . $amount_exp_to . $donors_exp . $date_exp_from . $date_exp_to . $statuses_exp;
-
-            $donation = $this->donationModel->getAll($query);
+            $orders = $this->orderModel->getOrders($cond, $bind, $limit, $bindLimit);
             $data = [
                 'page_title' => 'التقارير',
-                'donation' => $donation,
+                'orders' => $orders,
             ];
-            $this->view('reports/donations', $data);
+            $this->view('reports/orders', $data);
         } elseif ($id == 'donors') {
             // build query
             $status_exp = '';

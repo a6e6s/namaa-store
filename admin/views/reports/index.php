@@ -39,70 +39,69 @@ require ADMINROOT . '/views/inc/header.php';
                     <span> تقارير التبرعات </span>
                 </div>
                 <div id="collapseZero" class="collapse in card-body" aria-labelledby="headingZero">
-                    <form action="<?php echo ADMINURL ?>/reports/show/donations" method="post" class="row">
-                        <div class="form-group col-xs-12 ">
-                            <label for="donor" class="">اسم المتبرع </label>
-                            <input class="form-control" type="text" name="donor" placeholder="المتبرع">
+                    <form action="<?php echo ADMINURL ?>/reports/show/orders" method="post" class="row">
+                        <div class="form-group col-lg-6 col-xs-12">معرف التبرع
+                            <input class="form-control" type="search" placeholder="بحث بالمعرف" name="search[order_identifier]">
                         </div>
-                        <div class="form-group col-xs-12">
-                            <label class="control-label">المشروعات</label>
-                            <select class="form-control select2" donations copy copy name="projects[]" multiple="multiple" data-placeholder="اختار المشروعات" style="width: 100%;">
-                                <?php foreach ($data['projects'] as $project) {
-                                    echo '<option value="' . $project->project_id . '" >' . $project->name . '</option>';
-                                } ?>
-                            </select>
+                        <div class="form-group col-lg-6 col-xs-12">اسم المتبرع
+                            <input class="form-control" type="search" placeholder="بحث بالمتبرع" name="search[full_name]">
                         </div>
-                        <div class="form-group col-xs-6">
-                            <label class="control-label">الحالة</label>
-                            <select class="form-control" name="statuses" data-placeholder="اختار الحالة المناسبة" style="width: 100%;">
-                            <option value="">اختار حالة التبرع</option>
-                                <?php foreach ($data['statuses'] as $statuses) {
-                                    echo '<option value="' . $statuses->status_id . '" >' . $statuses->name . '</option>';
-                                } ?>
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-6 col-xs-12">
-                            <label for="payment_methods">وسيلة الدفع</label>
-                            <select id="payment_methods" class="form-control" name="payment_methods">
-                                <option value="">اختار وسيلة الدفع</option>
-                                <?php foreach ($data['paymentMethods'] as $method) {
-                                    echo '<option value="' . $method->payment_id . '" >' . $method->title . '</option>';
-                                } ?>
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-6 col-xs-12">
-                            <label for="status">حالة التبرع</label>
-                            <select id="status" class="form-control " name="status">
-                                <option value="">اختار حالة التبرع</option>
-                                <option value="1">مؤكد</option>
-                                <option value="0">غير مؤكد</option>
-                                <option value="2">محذوف</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-6 col-xs-12">
-                            <label for="gift">مهدي خيريا</label>
-                            <select id="gift" class="form-control " name="gift">
-                                <option value="">اختار حالة الاهداء</option>
-                                <option value="1">نعم</option>
-                                <option value="0"> لا</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-6 col-xs-12 ">
-                            <label for="amount" class="">قيمة التبرع </label>
-                            <div class="form-inline row">
-                                <input class="form-control" type="text" name="amount_from" placeholder="من">
-                                <input class="form-control" type="text" name="amount_to" placeholder="الي">
+                        <div class="form-group col-lg-6 col-xs-12">الجوال <input class="form-control" type="search" placeholder="بحث بالجوال" name="search[mobile]"></div>
+                        <div class="form-group col-lg-6 col-xs-12">المشروع
+                            <div class="dropdown ">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle btn-default form-control"> المشروع <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <?php foreach ($data['projects'] as $key => $project) {
+                                        echo '<li><label class="btn-default"><input class="flat" name="search[projects][]"';
+                                        echo ' type="checkbox" value="' . $project->project_id . '" > ' . $project->name . ' </label></li>';
+                                    } ?>
+                                </ul>
                             </div>
                         </div>
-                        <div class="form-group col-lg-6 col-xs-12 ">
-                            <label for="amount" class="">تاريخ التبرع </label>
-                            <div class="form-inline">
-                                من : <input class="form-control " type="date" name="date_from" placeholder="من">
-                                الي: <input class="form-control " type="date" name="date_to" placeholder="الي">
+                        <div class="form-group col-lg-6 col-xs-12">وسيلة التبرع <br>
+                            <div class="dropdown ">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle btn-default form-control"> وسيلة التبرع <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <?php foreach ($data['paymentMethods'] as $pm) {
+                                        echo '<li><label class="btn-default"><input class="flat" name="search[payment_method][]"';
+                                        echo ' type="checkbox" value="' . $pm->payment_id . '" > ' . $pm->title . ' </label></li>';
+                                    } ?>
+                                </ul>
                             </div>
                         </div>
+                        <div class="form-group col-lg-6 col-xs-12">الحالات المخصصة
+                            <div class="dropdown ">
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle  btn-default form-control"> الحالة <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <?php foreach ($data['statuses'] as $status) {
+                                        echo '<li><label class="btn-default"><input class="flat" name="search[status_id][]" type="checkbox"';
+                                        echo ' value="' . $status->status_id . '"> ' . $status->name . ' </label></li>';
+                                    } ?>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-6 col-xs-12">القيمة <br>
+                            <input class="" type="search" placeholder="من" name="search[total_from]">
+                            <input class="" type="search" placeholder="الي" name="search[total_to]">
+                        </div>
+                        <div class="form-group col-lg-6 col-xs-12">تاريخ التبرع <br>
+                            <input type="date" placeholder=" من" name="search[date_from]" class="">
+                            <input type="date" placeholder=" الي" name="search[date_to]" class="">
+                        </div>
+                        <div class="form-group col-lg-6 col-xs-12 no-link last"><span class="nobr">بحث بالحالة</span><br>
+                            <select class=" form-control" name="search[status]">
+                                <option value=""></option>
+                                <option value="1">مؤكد </option>
+                                <option value="5"> غير مؤكد </option>
+                                <option value="3"> في الانتظار </option>
+                                <option value="4">ملغاه </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-6 col-xs-12">عدد النتائج <br>
+                            <input class="form-control" type="number" placeholder="عدد النتائج" name="search[limit]">
+                        </div>  
                         <div class="col-xs-12">
-                            <button type="submit" name="donations" class="btn btn-success">عرض <i class="fa fa-eye"> </i></button>
+                            <button type="submit" name="orders" class="btn btn-success">عرض <i class="fa fa-eye"> </i></button>
                         </div>
                     </form>
                 </div>

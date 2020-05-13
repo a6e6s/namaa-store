@@ -56,12 +56,13 @@ class PaymentMethod extends ModelAdmin
      */
     public function addPaymentMethod($data)
     {
-        $this->db->query('INSERT INTO payment_methods( title, content, image, status, modified_date, create_date)'
-            . ' VALUES (:title, :content, :image, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO payment_methods( title, content, image, cart_show, status, modified_date, create_date)'
+            . ' VALUES (:title, :content, :image, :cart_show, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':content', $data['content']);
         $this->db->bind(':image', $data['image']);
+        $this->db->bind(':cart_show', $data['cart_show']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':create_date', time());
         $this->db->bind(':modified_date', time());
@@ -76,7 +77,7 @@ class PaymentMethod extends ModelAdmin
 
     public function updatePaymentMethod($data)
     {
-        $query = 'UPDATE payment_methods SET title = :title, content = :content, meta = :meta, status = :status, modified_date = :modified_date';
+        $query = 'UPDATE payment_methods SET title = :title, content = :content, meta = :meta, cart_show = :cart_show, status = :status, modified_date = :modified_date';
         (empty($data['image'])) ? null : $query .= ', image = :image';
         $query .= ' WHERE payment_id = :payment_id';
         $this->db->query($query);
@@ -85,6 +86,7 @@ class PaymentMethod extends ModelAdmin
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':meta', $data['meta']);
         $this->db->bind(':content', $data['content']);
+        $this->db->bind(':cart_show', $data['cart_show']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':modified_date', time());
         empty($data['image']) ? null : $this->db->bind(':image', $data['image']);

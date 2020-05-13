@@ -50,7 +50,6 @@ class PaymentMethods extends ControllerAdmin
                             flash('paymentmethod_msg', 'لم يتم الحذف', 'alert alert-danger');
                         }
                     }
-
                 }
 
                 redirect('paymentmethods');
@@ -134,6 +133,7 @@ class PaymentMethods extends ControllerAdmin
                 'content' => $content,
                 'image' => '',
                 'status' => '',
+                'cart_show' => trim($_POST['cart_show']),
                 'status_error' => '',
                 'image_error' => '',
             ];
@@ -175,6 +175,7 @@ class PaymentMethods extends ControllerAdmin
                 'title' => '',
                 'content' => '',
                 'image' => '',
+                'cart_show' => 0,
                 'status' => 0,
                 'title_error' => '',
                 'status_error' => '',
@@ -198,7 +199,7 @@ class PaymentMethods extends ControllerAdmin
             $content = $this->paymentModel->cleanHTML($_POST['content']);
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-        // var_dump(json_decode(json_encode($_POST['meta']),true)); die();
+            // var_dump(json_decode(json_encode($_POST['meta']),true)); die();
             $data = [
                 'payment_id' => $id,
                 'page_title' => 'وسائل الدفع',
@@ -206,6 +207,7 @@ class PaymentMethods extends ControllerAdmin
                 'title' => trim($_POST['title']),
                 'content' => $content,
                 'image' => '',
+                'cart_show' => trim($_POST['cart_show']),
                 'status' => '',
                 'status_error' => '',
                 'image_error' => '',
@@ -229,7 +231,7 @@ class PaymentMethods extends ControllerAdmin
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
-        //             mack sue there is no errors
+            //             mack sue there is no errors
             if (empty($data['status_error']) && empty($data['image_error'])) {
                 //validated
                 if ($this->paymentModel->updatePaymentMethod($data)) {
@@ -256,6 +258,7 @@ class PaymentMethods extends ControllerAdmin
                 'meta' => json_decode($paymentmethod->meta, true),
                 'content' => $paymentmethod->content,
                 'image' => $paymentmethod->image,
+                'cart_show' => $paymentmethod->cart_show,
                 'status' => $paymentmethod->status,
                 'title_error' => '',
                 'status_error' => '',
@@ -296,7 +299,6 @@ class PaymentMethods extends ControllerAdmin
             } else {
                 flash('paymentmethod_msg', 'لم يتم الحذف', 'alert alert-danger');
             }
-
         }
 
         redirect('paymentmethods');
@@ -329,5 +331,4 @@ class PaymentMethods extends ControllerAdmin
         }
         redirect('paymentmethods');
     }
-
 }

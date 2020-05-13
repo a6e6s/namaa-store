@@ -27,7 +27,7 @@ require ADMINROOT . '/views/inc/header.php';
     <?php flash('page_msg'); ?>
     <div class="page-title">
         <div class="title_right">
-            <h3><?php echo $data['page_title']; ?> <small>اضافة  وسيلة دفع جديدة </small></h3>
+            <h3><?php echo $data['page_title']; ?> <small>اضافة وسيلة دفع جديدة </small></h3>
         </div>
         <div class="title_left">
             <a href="<?php echo ADMINURL; ?>/paymentmethods" class="btn btn-success pull-left">عودة <i class="fa fa-reply"></i></a>
@@ -39,7 +39,7 @@ require ADMINROOT . '/views/inc/header.php';
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
 
-            <form action="<?php echo ADMINURL . '/paymentmethods/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
+            <form action="<?php echo ADMINURL . '/paymentmethods/add'; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="form-group">
                     <label class="control-label" for="pageTitle">عنوان وسيلة الدفع : </label>
                     <div class="has-feedback">
@@ -60,9 +60,20 @@ require ADMINROOT . '/views/inc/header.php';
                     <div class="help-block"><?php echo $data['image_error']; ?></div>
                 </div>
                 <div class="form-group col-md-12">
-                    <label class="control-label">المحتوي  : </label>
+                    <label class="control-label">المحتوي : </label>
                     <div class="row">
                         <textarea name="content" id="ckeditor" class="ckeditor form-control"><?php echo ($data['content']); ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-xs-12">
+                    <label class="control-label">اتاحة وسيلة الدفع داخل سلة الشراء :</label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['cart_show'] == 1) ? 'checked' : ''; ?> value="1" name="cart_show"> منشور
+                        </label>
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['cart_show'] == '0') ? 'checked' : ''; ?> value="0" name="cart_show"> غير منشور
+                        </label>
                     </div>
                 </div>
                 <div class="form-group col-xs-12 <?php echo (!empty($data['status_error'])) ? 'has-error' : ''; ?>">
@@ -78,9 +89,9 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                    <button type="submit" name="submit" class="btn btn-success">أضف  
+                    <button type="submit" name="submit" class="btn btn-success">أضف
                         <i class="fa fa-save"> </i></button>
-                    <button type="reset" class="btn btn-danger">مسح 
+                    <button type="reset" class="btn btn-danger">مسح
                         <i class="fa fa-trash "> </i></button>
                 </div>
 

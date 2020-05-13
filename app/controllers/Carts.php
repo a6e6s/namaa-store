@@ -15,7 +15,7 @@ class Carts extends Controller
             'site_settings' => json_decode($this->cartModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->cartModel->getSettings('contact')->value),
             'pagesLinks' => $this->cartModel->getMenu(),
-            'payment_methods' => $this->cartModel->getFromTable('payment_methods', '*', ['status' => 1]),
+            'payment_methods' => $this->cartModel->getFromTable('payment_methods', '*', ['status' => 1, 'cart_show' => 1]),
             'pageTitle' => 'الرئيسية: ' . SITENAME,
         ];
         $this->view('cart/index', $data);

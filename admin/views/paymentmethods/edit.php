@@ -24,7 +24,7 @@ require ADMINROOT . '/views/inc/header.php';
 
 <div class="right_col" role="main">
     <div class="clearfix"></div>
-    <?php flash('paymentmethod_msg');?>
+    <?php flash('paymentmethod_msg'); ?>
     <div class="page-title">
         <div class="title_right">
             <h3><?php echo $data['page_title']; ?> <small>التعديل علي وسيلة الدفع </small></h3>
@@ -39,7 +39,7 @@ require ADMINROOT . '/views/inc/header.php';
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
 
-            <form action="<?php echo ADMINURL . '/paymentmethods/edit/' . $data['payment_id']; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8" >
+            <form action="<?php echo ADMINURL . '/paymentmethods/edit/' . $data['payment_id']; ?>" method="post" enctype="multipart/form-data" accept-charset="utf-8">
                 <div class="form-group">
                     <label class="control-label" for="pageTitle">عنوان وسيلة الدفع : </label>
                     <div class="has-feedback">
@@ -59,76 +59,87 @@ require ADMINROOT . '/views/inc/header.php';
                     </div>
                     <div class="help-block"><?php echo $data['image_error']; ?></div>
                 </div>
-            <?php if ($data['payment_id'] == 1): ?>
-                <div class="form-group col-md-12">
-                    <label class="control-label">الحسابات البنكية   : </label>
-                    <table class="table table-striped jambo_table text-center">
-                        <thead>
-                            <tr class="headings  text-center">
-                                <th class="">اسم البنك  </th>
-                                <th class="">نوع الحساب </th>
-                                <th class="">IBAN </th>
-                                <th class="">رابط البنك </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="items">
-                        <?php
-if (!empty($data['meta'])) {
-    $x = 1;
-    foreach ($data['meta'] as $bank) {
-        echo '<tr class="">
+                <?php if ($data['payment_id'] == 1) : ?>
+                    <div class="form-group col-md-12">
+                        <label class="control-label">الحسابات البنكية : </label>
+                        <table class="table table-striped jambo_table text-center">
+                            <thead>
+                                <tr class="headings  text-center">
+                                    <th class="">اسم البنك </th>
+                                    <th class="">نوع الحساب </th>
+                                    <th class="">IBAN </th>
+                                    <th class="">رابط البنك </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="items">
+                                <?php
+                                if (!empty($data['meta'])) {
+                                    $x = 1;
+                                    foreach ($data['meta'] as $bank) {
+                                        echo '<tr class="">
                                         <td class="form-group"><input class="form-control" value = "' . $bank['bankname'] . '" type="text" name="meta[bank' . $x . '][bankname]"></td>
                                         <td class="form-group"><input class="form-control" value = "' . $bank['account_type'] . '"  type="text" name="meta[bank' . $x . '][account_type]"></td>
                                         <td class="form-group"><input class="form-control" value = "' . $bank['iban'] . '"  type="text" name="meta[bank' . $x . '][iban]"></td>
                                         <td class="form-group"><input class="form-control" value = "' . $bank['url'] . '"  type="text" name="meta[bank' . $x . '][url]"></td>
                                         <td><a href="#" class="remove_field"><i class="fa fa-times"></a></td>
                                     </tr>';
-        $x++;
-    }
-}
-?>
-                        </tbody>
-                    </table>
-                    <button type="button" class="add_field_button btn btn-dark">اضافة حساب جديد</button>
-                </div>
-            <?php endif;?>
-            <?php if ($data['payment_id'] == 2): ?>
-                <div class="form-group col-md-12">
-                    <label class="control-label">الفروع   : </label>
-                    <table class="table table-striped jambo_table text-center">
-                        <thead>
-                            <tr class="headings  text-center">
-                                <th class="">اسم الفرع  </th>
-                                <th class="">العنوان </th>
-                                <th class="">رابط العنوان علي خرائط جوجل </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="items">
-                        <?php
-                        if (!empty($data['meta'])) {
-                            $x = 1;
-                            foreach ($data['meta'] as $branch) {
-                                echo '<tr class="">
+                                        $x++;
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add_field_button btn btn-dark">اضافة حساب جديد</button>
+                    </div>
+                <?php endif; ?>
+                <?php if ($data['payment_id'] == 2) : ?>
+                    <div class="form-group col-md-12">
+                        <label class="control-label">الفروع : </label>
+                        <table class="table table-striped jambo_table text-center">
+                            <thead>
+                                <tr class="headings  text-center">
+                                    <th class="">اسم الفرع </th>
+                                    <th class="">العنوان </th>
+                                    <th class="">رابط العنوان علي خرائط جوجل </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="items">
+                                <?php
+                                if (!empty($data['meta'])) {
+                                    $x = 1;
+                                    foreach ($data['meta'] as $branch) {
+                                        echo '<tr class="">
                                             <td class="form-group"><input class="form-control" value = "' . $branch['branchname'] . '" type="text" name="meta[branch' . $x . '][branchname]"></td>
                                             <td class="form-group"><input class="form-control" value = "' . $branch['address'] . '"  type="text" name="meta[branch' . $x . '][address]"></td>
                                             <td class="form-group"><input class="form-control" value = "' . $branch['url'] . '"  type="text" name="meta[branch' . $x . '][url]"></td>
                                             <td><a href="#" class="remove_field"><i class="fa fa-times"></a></td>
                                         </tr>';
-                                $x++;
-                            }
-                        }
-                        ?>
-                        </tbody>
-                    </table>
-                    <button type="button" class="add_field2 btn btn-dark">اضافة حساب جديد</button>
-                </div>
-            <?php endif;?>
+                                        $x++;
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                        <button type="button" class="add_field2 btn btn-dark">اضافة حساب جديد</button>
+                    </div>
+                <?php endif; ?>
                 <div class="form-group col-md-12">
-                    <label class="control-label">المحتوي  : </label>
+                    <label class="control-label">المحتوي : </label>
                     <div class="row">
                         <textarea name="content" id="ckeditor" class="ckeditor form-control"><?php echo ($data['content']); ?></textarea>
+                    </div>
+                </div>
+                <div class="form-group col-xs-12">
+                    <label class="control-label">اتاحة وسيلة الدفع داخل سلة الشراء :</label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['cart_show'] == 1) ? 'checked' : ''; ?> value="1" name="cart_show"> منشور
+                        </label>
+                        <label>
+                            <input type="radio" class="flat" <?php echo ($data['cart_show'] == '0') ? 'checked' : ''; ?> value="0" name="cart_show"> غير منشور
+                        </label>
                     </div>
                 </div>
                 <div class="form-group col-xs-12 <?php echo (!empty($data['status_error'])) ? 'has-error' : ''; ?>">

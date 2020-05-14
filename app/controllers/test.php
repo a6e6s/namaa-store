@@ -71,4 +71,10 @@ class test extends Controller
             echo 'donation_msg'. 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger';
         }
     }
+
+    
+    public function migrate()
+    {
+        $query = 'SELECT * FROM donationsx';
+    }
 }

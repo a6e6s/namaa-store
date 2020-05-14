@@ -260,20 +260,25 @@ class Orders extends ControllerAdmin
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // featch order
+            if (!$order = $this->orderModel->getOrderById($id)) {
+                flash('order_msg', 'هناك خطأ ما هذه الصفحة غير موجوده او ربما اتبعت رابط خاطيء ', 'alert alert-danger');
+                redirect('orders');
+            }
 
             $data = [
+                'order' => $order,
+                'donations' => $this->orderModel->getDonationsByOrderId($id),
+                'banktransferproof' => $order->banktransferproof,
                 'order_id' => $id,
                 'page_title' => ' الطلبات',
                 'order_identifier' => trim($_POST['order_identifier']),
-                'total' => $_POST['total'],
                 'total' => $_POST['total'],
                 'quantity' => $_POST['quantity'],
                 'status_id' => $_POST['status_id'],
                 'payment_method_id' => trim($_POST['payment_method_id']),
                 'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE status <> 2 '),
-                'banktransferproof' => '',
                 'statusesList' => $this->orderModel->statusesList(),
-                'projects' => $_POST['projects'],
                 'statuses' => '',
                 'status' => '',
                 'payment_method_id_error' => '',
@@ -287,10 +292,9 @@ class Orders extends ControllerAdmin
 
             // validate banktransferproof
             if ($_FILES['banktransferproof']['error'] != 4) { // no file has uploaded 
-                $image = $this->donationModel->validateImage('banktransferproof', ADMINROOT . '/../media/files/banktransfer/');
+                $image = $this->orderModel->validateImage('banktransferproof', ADMINROOT . '/../media/files/banktransfer/');
                 ($image[0]) ? $data['banktransferproof'] = $image[1] : $data['banktransferproof_error'] = $image[1];
             }
-
             // validate status
             if (isset($_POST['status'])) {
                 $data['status'] = trim($_POST['status']);

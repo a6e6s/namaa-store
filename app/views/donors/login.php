@@ -11,7 +11,7 @@
                     <?php echo 'تسجيل دخول متبرع'; ?>
                 </h3>
             </div>
-            <div class="col-6 p-5 ">
+            <div class="col-lg-6 col-sm-12 py-5 ">
 
                 <div class="card text-center mb-5">
                     <div class="card-header bg-primary text-light">

@@ -55,10 +55,10 @@ class Project extends ModelAdmin
      */
     public function addProject($data)
     {
-        $this->db->query('INSERT INTO projects( name, alias, project_number, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, modified_date, create_date,enable_cart,
+        $this->db->query('INSERT INTO projects( name, alias, project_number, description, image, arrangement, background_image, background_color, featured, back_home, meta_keywords, meta_description, status, finished, modified_date, create_date,enable_cart,
          mobile_confirmation, gift, donation_type, target_price, target_unit, unit_price, payment_methods, fake_target, hidden, thanks_message, advertising_code, header_code, whatsapp, mobile, end_date, start_date, category_id, secondary_image, sms_msg
         )'
-            . ' VALUES (:name, :alias, :project_number, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :modified_date, :create_date, :enable_cart,
+            . ' VALUES (:name, :alias, :project_number, :description, :image, :arrangement, :background_image, :background_color, :featured, :back_home, :meta_keywords, :meta_description, :status, :finished, :modified_date, :create_date, :enable_cart,
          :mobile_confirmation, :gift, :donation_type, :target_price, :target_unit, :unit_price, :payment_methods, :fake_target, :hidden, :thanks_message, :advertising_code, :header_code, :whatsapp, :mobile, :end_date, :start_date, :category_id, :secondary_image, :sms_msg
         )');
 
@@ -95,6 +95,7 @@ class Project extends ModelAdmin
         $this->db->bind(':back_home', $data['back_home']);
         $this->db->bind(':meta_keywords', $data['meta_keywords']);
         $this->db->bind(':meta_description', $data['meta_description']);
+        $this->db->bind(':finished', $data['finished']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':create_date', time());
         $this->db->bind(':modified_date', time());
@@ -118,7 +119,7 @@ class Project extends ModelAdmin
         alias = :alias, enable_cart = :enable_cart, gift = :gift, mobile_confirmation = :mobile_confirmation, donation_type = :donation_type, target_price = :target_price,unit_price = :unit_price, 
         target_unit = :target_unit, payment_methods = :payment_methods, fake_target = :fake_target, hidden = :hidden, thanks_message = :thanks_message, advertising_code = :advertising_code, 
         header_code = :header_code, whatsapp = :whatsapp, mobile = :mobile, end_date = :end_date, start_date = :start_date, category_id = :category_id, sms_msg = :sms_msg, 
-        background_color =:background_color, featured=:featured, meta_description = :meta_description, status = :status, modified_date = :modified_date';
+        background_color =:background_color, featured=:featured, meta_description = :meta_description, status = :status, finished = :finished, modified_date = :modified_date';
 
         (empty($data['background_image'])) ? null : $query .= ', background_image = :background_image';
         (empty($data['secondary_image'])) ? null : $query .= ', secondary_image = :secondary_image';
@@ -138,6 +139,7 @@ class Project extends ModelAdmin
         $this->db->bind(':featured', $data['featured']);
         $this->db->bind(':meta_keywords', $data['meta_keywords']);
         $this->db->bind(':meta_description', $data['meta_description']);
+        $this->db->bind(':finished', $data['finished']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':modified_date', time());
         $this->db->bind(':enable_cart', $data['enable_cart']);

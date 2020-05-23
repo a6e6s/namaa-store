@@ -253,39 +253,31 @@ require ADMINROOT . '/views/inc/header.php';
                                 <input type="date" class="form-control date" name="end_date" value="<?php echo $data['end_date']; ?>" placeholder="تاريخ ايقاف النشر">
                             </div>
                             <div class="form-group">
-                                <label class="control-label">نشر كا مميز :</label>
                                 <div class="radio">
-                                    <label>
-                                        <input type="radio" class="flat" <?php echo ($data['featured'] == 1) ? 'checked' : ''; ?> value="1" name="featured"> نعم
-                                    </label>
-                                    <label>
-                                        <input type="radio" class="flat" <?php echo ($data['featured'] == 0) ? 'checked' : ''; ?> value="0" name="featured"> لا
-                                    </label>
-                                    <span class="help-block"></span>
+                                    <label class="control-label">نشر كا مميز :</label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['featured'] == 1) ? 'checked' : ''; ?> value="1" name="featured"> نعم</label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['featured'] == 0) ? 'checked' : ''; ?> value="0" name="featured"> لا</label>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">نشر كا مخفي :</label>
                                 <div class="radio">
-                                    <label>
-                                        <input type="radio" class="flat" <?php echo ($data['hidden'] == 1) ? 'checked' : ''; ?> value="1" name="hidden"> نعم
-                                    </label>
-                                    <label>
-                                        <input type="radio" class="flat" <?php echo ($data['hidden'] == 0) ? 'checked' : ''; ?> value="0" name="hidden"> لا
-                                    </label>
-                                    <span class="help-block"></span>
+                                    <label class="control-label">نشر كا مخفي :</label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['hidden'] == 1) ? 'checked' : ''; ?> value="1" name="hidden"> نعم</label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['hidden'] == 0) ? 'checked' : ''; ?> value="0" name="hidden"> لا</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label class="control-label">اغلاق التبرع :</label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['finished'] == 1) ? 'checked' : ''; ?> value="1" name="finished"> اغلاق </label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['finished'] == 0) ? 'checked' : ''; ?> value="0" name="finished"> فتح </label>
                                 </div>
                             </div>
                             <div class="form-grou">
-                                <label class="control-label">اظهار زر العودة الي الرئيسية :</label>
                                 <div class="radio">
-                                    <label>
-                                        <input type="radio" class="flat" <?php echo ($data['back_home'] == 1) ? 'checked' : ''; ?> value="1" name="back_home"> نعم
-                                    </label>
-                                    <label>
-                                        <input type="radio" class="flat" <?php echo ($data['back_home'] == 0) ? 'checked' : ''; ?> value="0" name="back_home"> لا
-                                    </label>
-                                    <span class="help-block"></span>
+                                    <label class="control-label">اظهار زر العودة الي الرئيسية :</label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['back_home'] == 1) ? 'checked' : ''; ?> value="1" name="back_home"> نعم</label>
+                                    <label><input type="radio" class="flat" <?php echo ($data['back_home'] == 0) ? 'checked' : ''; ?> value="0" name="back_home"> لا</label>
                                 </div>
                             </div>
                         </div>

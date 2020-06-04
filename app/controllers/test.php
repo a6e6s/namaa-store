@@ -6,10 +6,7 @@ class test extends Controller
     public function index()
     {
 
-        echo  date("h:i:sa") ;
-
-
-
+        echo  date("h:i:sa");
     }
     public function respond()
     {
@@ -66,15 +63,12 @@ class test extends Controller
         $message = 'this is test sending message'; // replace name string with user name
         $result = mail('a6e6s1@gmail.com', 'check if server sending mail', $message, $headers); // sending Email
         if ($result) {
-            echo 'donation_msg'. 'تم الارسال بنجاح   ';
+            echo 'donation_msg' . 'تم الارسال بنجاح   ';
         } else {
-            echo 'donation_msg'. 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger';
+            echo 'donation_msg' . 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger';
         }
     }
 
-    
-    public function migrate()
-    {
-        $query = 'SELECT * FROM donationsx';
-    }
+
+
 }

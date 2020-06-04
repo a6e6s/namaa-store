@@ -26,14 +26,14 @@
 function uploadImage($field_name = null, $path = 'media/', $max_size = 5000000, $check_image = true, $random_name = true)
 {
 
-//Config Section
+    //Config Section
     //Set max file size in bytes
     //Set default file extension whitelist
     $whitelist_ext = array('jpeg', 'jpg', 'png', 'gif', 'pdf');
-//Set default file type whitelist
+    //Set default file type whitelist
     $whitelist_type = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf');
 
-//The Validation
+    //The Validation
     // Create an array to hold any output
     $out['error'] = [];
 
@@ -49,37 +49,37 @@ function uploadImage($field_name = null, $path = 'media/', $max_size = 5000000, 
         return $out;
     }
 
-//Make sure that there is a file
+    //Make sure that there is a file
     if ((!empty($_FILES[$field_name])) && ($_FILES[$field_name]['error'] == 0)) {
 
-// Get filename
+        // Get filename
         $file_info = pathinfo($_FILES[$field_name]['name']);
         $name = $file_info['filename'];
         $ext = $file_info['extension'];
 
-//Check file has the right extension
+        //Check file has the right extension
         if (!in_array($ext, $whitelist_ext)) {
             $out['error'][] = "امتداد غير مدعوم";
         }
 
-//Check that the file is of the right type
+        //Check that the file is of the right type
         if (!in_array($_FILES[$field_name]["type"], $whitelist_type)) {
             $out['error'][] = "نوع الملف غير مدعوم";
         }
 
-//Check that the file is not too big
+        //Check that the file is not too big
         if ($_FILES[$field_name]["size"] > $max_size) {
             $out['error'][] = "حجم الملف اكبر من اللازم";
         }
 
-//If $check image is set as true
+        //If $check image is set as true
         if ($check_image) {
             if (!getimagesize($_FILES[$field_name]['tmp_name'])) {
                 $out['error'][] = "الملف المرفوع ليس صورة";
             }
         }
 
-//Create full filename including path
+        //Create full filename including path
         // Generate random filename
         $tmp = '_' . substr(md5(mt_rand()), 0, 5);
         if ($random_name) {
@@ -101,7 +101,7 @@ function uploadImage($field_name = null, $path = 'media/', $max_size = 5000000, 
             }
         }
 
-//Check if file already exists on server
+        //Check if file already exists on server
         if (file_exists($path . $newname)) {
             $out['error'][] = "A file with this name already exists";
         }
@@ -164,6 +164,15 @@ function createThumbnail($src, $dest, $targetWidth, $targetHeight = null)
 
     // get the type of the image
     // we need the type to determine the correct loader
+    if (!function_exists('exif_imagetype')) {
+        function exif_imagetype($filename)
+        {
+            if ((list($width, $height, $type, $attr) = getimagesize($filename)) !== false) {
+                return $type;
+            }
+            return false;
+        }
+    }
     $type = exif_imagetype($src);
 
     // if no valid type or no handler found -> exit
@@ -232,9 +241,14 @@ function createThumbnail($src, $dest, $targetWidth, $targetHeight = null)
     imagecopyresampled(
         $thumbnail,
         $image,
-        0, 0, 0, 0,
-        $targetWidth, $targetHeight,
-        $width, $height
+        0,
+        0,
+        0,
+        0,
+        $targetWidth,
+        $targetHeight,
+        $width,
+        $height
     );
 
     // 3. Save the $thumbnail to disk

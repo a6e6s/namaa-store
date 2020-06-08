@@ -174,8 +174,8 @@ class Projects extends ControllerAdmin
                 'header_code' => trim($_POST['header_code']),
                 'whatsapp' => trim($_POST['whatsapp']),
                 'mobile' => trim($_POST['mobile']),
-                'end_date' => trim($_POST['end_date']),
-                'start_date' => trim($_POST['start_date']),
+                'end_date' => strtotime($_POST['end_date']),
+                'start_date' => strtotime($_POST['start_date']),
                 'category_id' => trim($_POST['category_id']),
                 'categories' => $categories,
                 'tags' => $_POST['tags'],
@@ -211,10 +211,10 @@ class Projects extends ControllerAdmin
             //validate project number
             $this->projectModel->itemExistAPI($_POST['project_number']) ?: $data['project_number_error'] = 'هذا الرقم غير متوافق مع برنامج AX';
             //validate category
-            !empty($data['category_id']) ?:
+            !empty($data['category_id']) ?: $data['category_id_error'] = 'يجب اختيار القسم الخاص بالمشروع';
 
-                // validate payment methods
-                empty($_POST['payment_methods']) ? $data['payment_methods_error'] = 'يجب اختيار وسيلة دفع واحدة علي الأقل' : $data['payment_methods'] = $_POST['payment_methods'];
+            // validate payment methods
+            empty($_POST['payment_methods']) ? $data['payment_methods_error'] = 'يجب اختيار وسيلة دفع واحدة علي الأقل' : $data['payment_methods'] = $_POST['payment_methods'];
 
             // validate secondary image
             $image = $this->projectModel->validateImage('secondary_image');
@@ -224,6 +224,9 @@ class Projects extends ControllerAdmin
             $image = $this->projectModel->validateImage('background_image');
             ($image[0]) ? $data['background_image'] = $image[1] : $data['background_image_error'] = $image[1];
 
+            // validate start and end date
+            if ($data['end_date'] < 0 || $data['end_date'] > 2147483648) $data['end_date'] = 0;
+            if ($data['start_date'] < 0 || $data['start_date'] > 2147483648) $data['start_date'] = 0;
             // validate status
             if (isset($_POST['status'])) {
                 $data['status'] = trim($_POST['status']);
@@ -276,8 +279,8 @@ class Projects extends ControllerAdmin
                 'header_code' => '',
                 'whatsapp' => '',
                 'mobile' => '',
-                'end_date' => 0,
-                'start_date' => 0,
+                'end_date' => 2147483647 ,
+                'start_date' => time(),
                 'category_id' => '',
                 'categories' => $categories,
                 'tags' => [],
@@ -349,8 +352,8 @@ class Projects extends ControllerAdmin
                 'header_code' => trim($_POST['header_code']),
                 'whatsapp' => trim($_POST['whatsapp']),
                 'mobile' => trim($_POST['mobile']),
-                'end_date' => trim($_POST['end_date']),
-                'start_date' => trim($_POST['start_date']),
+                'end_date' => strtotime($_POST['end_date']),
+                'start_date' => strtotime($_POST['start_date']),
                 'category_id' => trim($_POST['category_id']),
                 'categories' => $categories,
                 // 'tags' => $this->projectModel->tagsListByProject($id),
@@ -374,7 +377,6 @@ class Projects extends ControllerAdmin
                 'background_image_error' => '',
                 'status_error' => '',
             ];
-
             // validate name
             !(empty($data['name'])) ?: $data['name_error'] = 'هذا الحقل مطلوب';
             //validate donation type
@@ -398,6 +400,9 @@ class Projects extends ControllerAdmin
                 $image = $this->projectModel->validateImage('secondary_image');
                 ($image[0]) ? $data['secondary_image'] = $image[1] : $data['secondary_image_error'] = $image[1];
             }
+            // validate start and end date
+            if ($data['end_date'] < 0 || $data['end_date'] > 2147483648) $data['end_date'] = 0;
+            if ($data['start_date'] < 0 || $data['start_date'] > 2147483648) $data['start_date'] = 0;
             // validate background image
             if ($_FILES['background_image']['error'] != 4) { // no file has uploaded
                 $image = $this->projectModel->validateImage('background_image');
@@ -410,7 +415,8 @@ class Projects extends ControllerAdmin
             if ($data['status'] == '') {
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
-            //mack sue there is no errors
+
+            //make sue there is no errors
             if (
                 empty($data['status_error']) && empty($data['name_error']) && empty($data['background_image_error']) && empty($data['donation_type_error'])
                 && empty($data['category_id_error']) && empty($data['payment_methods_error']) && empty($data['secondary_image_error']) && empty($data['project_number_error'])

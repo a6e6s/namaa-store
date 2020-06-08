@@ -246,11 +246,11 @@ require ADMINROOT . '/views/inc/header.php';
                             </div>
                             <div class="form-group">
                                 <label>تاريخ بدأ النشر : </label>
-                                <input type="date" class="form-control" name="start_date" value="<?php echo $data['start_date']; ?>" placeholder="تاريخ بدأ النشر ">
+                                <input type="date" class="form-control" name="start_date" value="<?php echo date("Y-m-d", $data['start_date']); ?>" placeholder="تاريخ بدأ النشر ">
                             </div>
                             <div class="form-group">
                                 <label>تاريخ ايقاف النشر : </label>
-                                <input type="date" class="form-control date" name="end_date" value="<?php echo $data['end_date']; ?>" placeholder="تاريخ ايقاف النشر">
+                                <input type="date" class="form-control date" name="end_date" value="<?php echo date("Y-m-d", $data['end_date']); ?>" placeholder="تاريخ ايقاف النشر">
                             </div>
                             <div class="form-group">
                                 <div class="radio">

@@ -80,8 +80,8 @@ class Project extends ModelAdmin
         $this->db->bind(':header_code', $data['header_code']);
         $this->db->bind(':whatsapp', $data['whatsapp']);
         $this->db->bind(':mobile', $data['mobile']);
-        $this->db->bind(':end_date', strtotime($data['end_date']));
-        $this->db->bind(':start_date', strtotime($data['start_date']));
+        $this->db->bind(':end_date', $data['end_date']);
+        $this->db->bind(':start_date', $data['start_date']);
         $this->db->bind(':category_id', $data['category_id']);
         $this->db->bind(':secondary_image', $data['secondary_image']);
         $this->db->bind(':name', $data['name']);
@@ -158,8 +158,8 @@ class Project extends ModelAdmin
         $this->db->bind(':header_code', $data['header_code']);
         $this->db->bind(':whatsapp', $data['whatsapp']);
         $this->db->bind(':mobile', $data['mobile']);
-        $this->db->bind(':end_date', strtotime($data['end_date']));
-        $this->db->bind(':start_date', strtotime($data['start_date']));
+        $this->db->bind(':end_date', $data['end_date']);
+        $this->db->bind(':start_date', $data['start_date']);
         $this->db->bind(':category_id', $data['category_id']);
         empty($data['background_image']) ? null : $this->db->bind(':background_image', $data['background_image']);
         empty($data['secondary_image']) ? null : $this->db->bind(':secondary_image', $data['secondary_image']);

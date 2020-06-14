@@ -37,8 +37,9 @@ class Api extends Model
         //  WHERE donations.status <> 2 AND projects.project_id = donations.project_id AND donations.donor_id = donors.donor_id ORDER BY donations.create_date LIMIT ' . $start . ' , ' . $count
         // );
         return $this->queryResult(
-            'SELECT donations.* FROM donations, donors, projects
-         WHERE donations.status <> 2 AND projects.project_id = donations.project_id AND donations.donor_id = donors.donor_id ORDER BY donations.create_date LIMIT ' . $start . ' , ' . $count
+            'SELECT donations.*,orders.order_identifier as `order`, projects.name as project FROM donations  ,projects, orders, donors
+            WHERE donations.status <> 2 AND projects.project_id = donations.project_id AND orders.donor_id = donors.donor_id 
+            ORDER BY donations.create_date LIMIT ' . $start . ' , ' . $count
         );
     }
 

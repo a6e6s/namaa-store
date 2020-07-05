@@ -251,7 +251,7 @@ class Model
      * get Settings
      *
      * @param  mixed $type
-     * @return void
+     * @return object
      */
     public function getSettings($type = null)
     {

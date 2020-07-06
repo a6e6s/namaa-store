@@ -33,7 +33,9 @@ class Apis extends Controller
                 if ($auth['authorized']) {
                     isset($_POST['start']) ? $start = (int) $_POST['start'] : $start = 0;
                     isset($_POST['count']) ? $count = (int) $_POST['count'] : $count = 20;
-                    $donations = $this->apiModel->getDonations($start, $count);
+                    isset($_POST['status']) ? $status = ' AND donations.status =' . (int) $_POST['status'] : $status = '';
+
+                    $donations = $this->apiModel->getDonations($start, $count, $status);
                     $data = [
                         'status' => 'success',
                         'code' => 100,
@@ -63,7 +65,7 @@ class Apis extends Controller
         }
         echo json_encode($data);
     }
-        /**
+    /**
      * donation API 
      *
      * @return json
@@ -78,7 +80,8 @@ class Apis extends Controller
                 if ($auth['authorized']) {
                     isset($_POST['start']) ? $start = (int) $_POST['start'] : $start = 0;
                     isset($_POST['count']) ? $count = (int) $_POST['count'] : $count = 20;
-                    $donations = $this->apiModel->getOrders($start, $count);
+                    isset($_POST['status']) ? $status = ' AND ord.status =' . (int) $_POST['status'] : $status = '';
+                    $donations = $this->apiModel->getOrders($start, $count, $status);
                     $data = [
                         'status' => 'success',
                         'code' => 100,

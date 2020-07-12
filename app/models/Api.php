@@ -28,13 +28,14 @@ class Api extends Model
      * @param integer $count
      * @return object
      */
-    public function getDonations($start = 0, $count = 20, $status)
+    public function getDonations($start = 0, $count = 20, $status, $donation_id, $project_id, $order_id, $API_status)
     {
         return $this->queryResult(
             'SELECT donations.*,orders.order_identifier as `order`, projects.name as project,
              from_unixtime(donations.create_date) as create_date, from_unixtime(donations.modified_date) as modified_date 
              FROM donations  ,projects, orders, donors
-             WHERE donations.status <> 2 ' . $status . ' AND projects.project_id = donations.project_id AND orders.donor_id = donors.donor_id 
+             WHERE donations.status <> 2 ' . $status . ' ' . $donation_id . ' ' . $project_id . ' ' . $order_id . ' ' . $API_status . ' 
+                AND projects.project_id = donations.project_id AND orders.donor_id = donors.donor_id AND orders.order_id = donations.order_id
              ORDER BY donations.create_date LIMIT ' . $start . ' , ' . $count
         );
     }
@@ -46,14 +47,17 @@ class Api extends Model
      * @param integer $count
      * @return object
      */
-    public function getOrders($start = 0, $count = 20)
+    public function getOrders($start = 0, $count = 20, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method)
     {
         return $this->queryResult(
             'SELECT ord.*, CONCAT("' . MEDIAURL . '/../files/banktransfer/", `banktransferproof`) as banktransferproof,
              payment_methods.title as payment_method, donors.full_name as donor, donors.mobile,
-             from_unixtime(ord.create_date) as create_date, from_unixtime(ord.modified_date) as modified_date
-             FROM orders ord , donors,payment_methods 
-             WHERE ord.status <> 2 AND ' . $status . ' donors.donor_id = ord.donor_id AND ord.payment_method_id = payment_methods.payment_id
+             from_unixtime(ord.create_date) as create_date, from_unixtime(ord.modified_date) as modified_date,
+             (SELECT statuses.name FROM statuses WHERE statuses.status_id = ord.status_id ) as custom_status,
+             ord.status_id as custom_status_id
+             FROM orders ord , donors, payment_methods 
+             WHERE ord.status <> 2 ' . $status . ' ' . $order_identifier . ' ' . $order_id . ' ' . $API_status . ' ' . $custom_status_id . ' ' . $payment_method . ' AND
+              donors.donor_id = ord.donor_id AND ord.payment_method_id = payment_methods.payment_id 
              ORDER BY ord.create_date LIMIT ' . $start . ' , ' . $count
         );
     }

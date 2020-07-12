@@ -33,13 +33,19 @@ class Apis extends Controller
                 if ($auth['authorized']) {
                     isset($_POST['start']) ? $start = (int) $_POST['start'] : $start = 0;
                     isset($_POST['count']) ? $count = (int) $_POST['count'] : $count = 20;
-                    isset($_POST['status']) ? $status = ' AND donations.status =' . (int) $_POST['status'] : $status = '';
+                    // isset($_POST['status']) ? $status = ' AND donations.status =' . (int) $_POST['status'] : $status = '';
+                    $status = '';
+                    isset($_POST['donation_id']) ? $donation_id = ' AND donations.donation_id =' . (int) $_POST['donation_id'] : $donation_id = '';
+                    isset($_POST['project_id']) ? $project_id = ' AND donations.project_id =' . (int) $_POST['project_id'] : $project_id = '';
+                    isset($_POST['order_id']) ? $order_id = ' AND donations.order_id =' . (int) $_POST['order_id'] : $order_id = '';
+                    isset($_POST['API_status']) ? $API_status = ' AND donations.API_status ="' . $_POST['API_status'] . '"' : $API_status = '';
 
-                    $donations = $this->apiModel->getDonations($start, $count, $status);
+                    $donations = $this->apiModel->getDonations($start, $count, $status, $donation_id, $project_id, $order_id, $API_status);
                     $data = [
                         'status' => 'success',
                         'code' => 100,
                         'msg' => 'Successfully connected',
+                        'count' => count($donations),
                         'donations' => $donations,
                     ];
                 } else { // wrong user or key
@@ -65,8 +71,9 @@ class Apis extends Controller
         }
         echo json_encode($data);
     }
+
     /**
-     * donation API 
+     * Order API 
      *
      * @return json
      */
@@ -81,12 +88,69 @@ class Apis extends Controller
                     isset($_POST['start']) ? $start = (int) $_POST['start'] : $start = 0;
                     isset($_POST['count']) ? $count = (int) $_POST['count'] : $count = 20;
                     isset($_POST['status']) ? $status = ' AND ord.status =' . (int) $_POST['status'] : $status = '';
-                    $donations = $this->apiModel->getOrders($start, $count, $status);
+                    isset($_POST['order_identifier']) ? $order_identifier = ' AND ord.order_identifier =' . (int) $_POST['order_identifier'] : $order_identifier = '';
+                    isset($_POST['order_id']) ? $order_id = ' AND ord.order_id =' . (int) $_POST['order_id'] : $order_id = '';
+                    isset($_POST['custom_status_id']) ? $custom_status_id = ' AND ord.status_id =' . (int) $_POST['custom_status_id'] : $custom_status_id = '';
+                    isset($_POST['API_status']) ? $API_status = ' AND ord.API_status ="' . $_POST['API_status'] . '"' : $API_status = '';
+                    isset($_POST['payment_method']) ? $payment_method = ' AND ord.payment_method_id =' . (int) $_POST['payment_method'] : $payment_method = '';
+
+                    // load orders
+                    $orders = $this->apiModel->getOrders($start, $count, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method);
                     $data = [
                         'status' => 'success',
                         'code' => 100,
                         'msg' => 'Successfully connected',
-                        'donations' => $donations,
+                        'orders' => $orders,
+                    ];
+                } else { // wrong user or key
+                    $data = [
+                        'status' => 'error',
+                        'code' => 102,
+                        'msg' => 'Wrong Credential check user and API key',
+                    ];
+                }
+            } else { // API not enabled
+                $data = [
+                    'status' => 'error',
+                    'code' => 103,
+                    'msg' => 'API not enabled',
+                ];
+            }
+        } else { // no credential
+            $data = [
+                'status' => 'error',
+                'code' => 101,
+                'msg' => 'Invalid Credential',
+            ];
+        }
+        echo json_encode($data);
+    }
+
+
+    public function orderupdate(Type $var = null)
+    {        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        if (isset($_POST['api_key']) && isset($_POST['api_user'])) { // check if credential is sent
+            $auth = $this->apiModel->auth($_POST['api_user'], $_POST['api_key']); // load API settings
+            if ($auth['enable']) {
+                //validate credential
+                if ($auth['authorized']) {
+                    isset($_POST['start']) ? $start = (int) $_POST['start'] : $start = 0;
+                    isset($_POST['count']) ? $count = (int) $_POST['count'] : $count = 20;
+                    isset($_POST['status']) ? $status = ' AND ord.status =' . (int) $_POST['status'] : $status = '';
+                    isset($_POST['order_identifier']) ? $order_identifier = ' AND ord.order_identifier =' . (int) $_POST['order_identifier'] : $order_identifier = '';
+                    isset($_POST['order_id']) ? $order_id = ' AND ord.order_id =' . (int) $_POST['order_id'] : $order_id = '';
+                    isset($_POST['custom_status_id']) ? $custom_status_id = ' AND ord.status_id =' . (int) $_POST['custom_status_id'] : $custom_status_id = '';
+                    isset($_POST['API_status']) ? $API_status = ' AND ord.API_status ="' . $_POST['API_status'] . '"' : $API_status = '';
+                    isset($_POST['payment_method']) ? $payment_method = ' AND ord.payment_method_id =' . (int) $_POST['payment_method'] : $payment_method = '';
+
+                    // update orders
+                    $orders = $this->apiModel->updatetOrders($start, $count, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method);
+                    $data = [
+                        'status' => 'success',
+                        'code' => 100,
+                        'msg' => 'Successfully connected',
+                        'API_status' => $API_status,
+                        'orders' => $orders,
                     ];
                 } else { // wrong user or key
                     $data = [

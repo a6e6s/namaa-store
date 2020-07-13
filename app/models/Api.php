@@ -61,6 +61,22 @@ class Api extends Model
              ORDER BY ord.create_date LIMIT ' . $start . ' , ' . $count
         );
     }
+
+    public function updatetOrders($filters, $set_status)
+    {
+        $cond = '';
+        foreach ($filters as $key => $value) {
+            $cond .= " AND $key = :$key";
+        }
+        $query = 'UPDATE orders SET API_status = :API_status WHERE orders.status <> 2 ' . $cond;
+        $this->db->query($query);
+        $this->db->bind(':API_status', $set_status);
+        foreach ($filters as $key => $value) {
+            $this->db->bind(":".$key, $value);
+        }
+        $this->db->excute();
+        return $this->db->rowCount();
+    }
     /**
      * check user API authintcation 
      *

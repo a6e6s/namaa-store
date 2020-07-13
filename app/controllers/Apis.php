@@ -135,15 +135,27 @@ class Apis extends Controller
             if ($auth['enable']) {
                 //validate credential
                 if ($auth['authorized']) {
-                    isset($_POST['status']) ? $status = ' AND ord.status =' . (int) $_POST['status'] : $status = '';
-                    isset($_POST['order_identifier']) ? $order_identifier = ' AND ord.order_identifier =' . (int) $_POST['order_identifier'] : $order_identifier = '';
-                    isset($_POST['order_id']) ? $order_id = ' AND ord.order_id =' . (int) $_POST['order_id'] : $order_id = '';
-                    isset($_POST['custom_status_id']) ? $custom_status_id = ' AND ord.status_id =' . (int) $_POST['custom_status_id'] : $custom_status_id = '';
-                    isset($_POST['API_status']) ? $API_status = ' AND ord.API_status ="' . $_POST['API_status'] . '"' : $API_status = '';
-                    isset($_POST['payment_method']) ? $payment_method = ' AND ord.payment_method_id =' . (int) $_POST['payment_method'] : $payment_method = '';
-
+                    $filter=[];
+                    isset($_POST['status']) ?           $filter['status'] =  (int) $_POST['status']                       : '';
+                    isset($_POST['order_identifier']) ? $filter['order_identifier'] =  (int) $_POST['order_identifier']   : '';
+                    isset($_POST['order_id']) ?         $filter['order_id'] =  (int) $_POST['order_id']                   : '';
+                    isset($_POST['custom_status_id']) ? $filter['status_id'] =  (int) $_POST['custom_status_id']          : '';
+                    isset($_POST['API_status']) ?       $filter['API_status'] =  $_POST['API_status'] . '"'               : '';
+                    isset($_POST['payment_method']) ?   $filter['payment_method_id'] = (int) $_POST['payment_method']        : '';
+                    $orders = false;
+                    if (isset($_POST['set_status'])) {
+                        switch ($_POST['set_status']) {
+                            case 'read':
+                                $orders = $this->apiModel->updatetOrders($filter, 'read');
+                                break;
+                            case 'unread':
+                                $orders = $this->apiModel->updatetOrders($filter, 'unread');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     // update orders
-                    $orders = $this->apiModel->updatetOrders($status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method);
                     if ($orders) {
                         $msg = 'Successfully updated' . $orders . 'record';
                     } else {
@@ -153,7 +165,6 @@ class Apis extends Controller
                         'status' => 'success',
                         'code' => 100,
                         'msg' => $msg,
-                        'API_status' => $API_status,
                         'orders' => $orders,
                     ];
                 } else { // wrong user or key

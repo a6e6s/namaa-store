@@ -127,15 +127,14 @@ class Apis extends Controller
     }
 
 
-    public function orderupdate(Type $var = null)
-    {        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    public function orderupdate()
+    {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         if (isset($_POST['api_key']) && isset($_POST['api_user'])) { // check if credential is sent
             $auth = $this->apiModel->auth($_POST['api_user'], $_POST['api_key']); // load API settings
             if ($auth['enable']) {
                 //validate credential
                 if ($auth['authorized']) {
-                    isset($_POST['start']) ? $start = (int) $_POST['start'] : $start = 0;
-                    isset($_POST['count']) ? $count = (int) $_POST['count'] : $count = 20;
                     isset($_POST['status']) ? $status = ' AND ord.status =' . (int) $_POST['status'] : $status = '';
                     isset($_POST['order_identifier']) ? $order_identifier = ' AND ord.order_identifier =' . (int) $_POST['order_identifier'] : $order_identifier = '';
                     isset($_POST['order_id']) ? $order_id = ' AND ord.order_id =' . (int) $_POST['order_id'] : $order_id = '';
@@ -144,11 +143,16 @@ class Apis extends Controller
                     isset($_POST['payment_method']) ? $payment_method = ' AND ord.payment_method_id =' . (int) $_POST['payment_method'] : $payment_method = '';
 
                     // update orders
-                    $orders = $this->apiModel->updatetOrders($start, $count, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method);
+                    $orders = $this->apiModel->updatetOrders($status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method);
+                    if ($orders) {
+                        $msg = 'Successfully updated' . $orders . 'record';
+                    } else {
+                        $msg = 'there are an error will trying update please try again later';
+                    }
                     $data = [
                         'status' => 'success',
                         'code' => 100,
-                        'msg' => 'Successfully connected',
+                        'msg' => $msg,
                         'API_status' => $API_status,
                         'orders' => $orders,
                     ];

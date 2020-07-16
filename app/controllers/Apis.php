@@ -157,9 +157,9 @@ class Apis extends Controller
                     }
                     // update orders
                     if ($orders) {
-                        $msg = 'Successfully updated' . $orders . 'record';
+                        $msg = 'Successfully updated ' . $orders . ' record';
                     } else {
-                        $msg = 'there are an error will trying update please try again later';
+                        $msg = 'Not updated there are an error or ther is nothing to update. please try again later';
                     }
                     $data = [
                         'status' => 'success',

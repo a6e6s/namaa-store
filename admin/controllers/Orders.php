@@ -312,9 +312,9 @@ class Orders extends ControllerAdmin
                 if ($this->orderModel->updateOrder($data)) {
                     //update donations publishing status after updating the order
                     if ($data['status'] == 1) {
-                        $this->orderModel->publishDonations($_POST['record'], 'order_id');
+                        $this->orderModel->publishDonations([$id], 'order_id');
                     } else {
-                        $this->orderModel->unpublishDonations($_POST['record'], 'order_id');
+                        $this->orderModel->unpublishDonations([$id], 'order_id');
                     }
                     flash('order_msg', 'تم التعديل بنجاح');
                     isset($_POST['save']) ? redirect('orders/edit/' . $id) : redirect('orders');

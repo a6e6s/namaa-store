@@ -329,4 +329,54 @@ class Order extends ModelAdmin
         $results = $this->db->resultSet();
         return $results;
     }
+
+    /**
+     * change donations status accourding to order
+     *
+     * @param [array] $ids
+     * @param [string] $where
+     * @return void
+     */
+    public function publishDonations($ids, $where)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($ids); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE donations SET status = 1 WHERE ' . $where . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($ids as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+    /**
+     * change donations status accourding to order
+     * @param Array $ids
+     * @param string colomn id
+     * @return boolean or row count
+     */
+    public function unpublishDonations($ids, $where)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($ids); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE donations SET status = 0 WHERE ' . $where . ' IN (' . implode(',', $id_num) . ')');
+        //loop through the bind function to bind all the IDs
+        foreach ($ids as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
 }

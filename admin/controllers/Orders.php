@@ -132,6 +132,8 @@ class Orders extends ControllerAdmin
             if (isset($_POST['publish'])) {
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->orderModel->publishById($_POST['record'], 'order_id')) {
+                        //update donations publishing status after updating the order
+                        $this->orderModel->publishDonations($_POST['record'], 'order_id');
                         flash('order_msg', 'تم تأكيد  ' . $row_num . ' بنجاح');
                     } else {
                         flash('order_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
@@ -145,6 +147,8 @@ class Orders extends ControllerAdmin
             if (isset($_POST['unpublish'])) {
                 if (isset($_POST['record'])) {
                     if ($row_num = $this->orderModel->unpublishById($_POST['record'], 'order_id')) {
+                        //update donations publishing status after updating the order
+                        $this->orderModel->unpublishDonations($_POST['record'], 'order_id');
                         flash('order_msg', 'تم الغاء تأكيد  ' . $row_num . ' بنجاح');
                     } else {
                         flash('order_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
@@ -306,6 +310,12 @@ class Orders extends ControllerAdmin
             if (empty($data['status_error']) && empty($data['payment_method_id_error']) && empty($data['banktransferproof_error'])) {
                 //validated
                 if ($this->orderModel->updateOrder($data)) {
+                    //update donations publishing status after updating the order
+                    if ($data['status'] == 1) {
+                        $this->orderModel->publishDonations($_POST['record'], 'order_id');
+                    } else {
+                        $this->orderModel->unpublishDonations($_POST['record'], 'order_id');
+                    }
                     flash('order_msg', 'تم التعديل بنجاح');
                     isset($_POST['save']) ? redirect('orders/edit/' . $id) : redirect('orders');
                 } else {

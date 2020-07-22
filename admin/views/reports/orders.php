@@ -39,6 +39,7 @@ require ADMINROOT . '/views/inc/header.php';
                         <th>اسم المشروع</th>
                         <th>معرف التبرع </th>
                         <th> اسم المتبرع </th>
+                        <th> رقم الجوال </th>
                         <th>القيمة</th>
                         <th>الاجمالي</th>
                         <th>وسيلة الدفع</th>
@@ -58,6 +59,7 @@ require ADMINROOT . '/views/inc/header.php';
                             <td><?php echo $order->projects; ?></td>
                             <td><?php echo $order->order_identifier; ?></td>
                             <td><?php echo $order->donor; ?></td>
+                            <td><?php echo $order->mobile; ?></td>
                             <td><?php echo $order->quantity; ?></td>
                             <td><?php echo $order->total; ?></td>
                             <td><?php echo $order->payment_method; ?></td>

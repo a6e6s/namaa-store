@@ -48,6 +48,12 @@ require ADMINROOT . '/views/inc/header.php';
                         <span class="help-block"></span>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label" for="payment_key">كود وسيلة الدفع : </label>
+                    <div class="has-feedback">
+                        <input type="text" id="payment_key" class="form-control" name="payment_key" placeholder="كود وسيلة الدفع" value="<?php echo $data['payment_key']; ?>">
+                    </div>
+                </div>
                 <div class="form-group <?php echo (!empty($data['image_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label" for="imageUpload">صورة وسيلة الدفع : </label>
                     <div class="has-feedback input-group">

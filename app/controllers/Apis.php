@@ -33,8 +33,7 @@ class Apis extends Controller
                 if ($auth['authorized']) {
                     isset($_POST['start']) ? $start = (int) $_POST['start'] : $start = 0;
                     isset($_POST['count']) ? $count = (int) $_POST['count'] : $count = 20;
-                    // isset($_POST['status']) ? $status = ' AND donations.status =' . (int) $_POST['status'] : $status = '';
-                    $status = '';
+                    isset($_POST['status']) ? $status = ' AND donations.status =' . (int) $_POST['status'] : $status = '';
                     isset($_POST['donation_id']) ? $donation_id = ' AND donations.donation_id =' . (int) $_POST['donation_id'] : $donation_id = '';
                     isset($_POST['project_id']) ? $project_id = ' AND donations.project_id =' . (int) $_POST['project_id'] : $project_id = '';
                     isset($_POST['order_id']) ? $order_id = ' AND donations.order_id =' . (int) $_POST['order_id'] : $order_id = '';

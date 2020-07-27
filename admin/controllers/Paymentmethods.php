@@ -132,6 +132,7 @@ class PaymentMethods extends ControllerAdmin
                 'title' => trim($_POST['title']),
                 'content' => $content,
                 'image' => '',
+                'payment_key' => '',
                 'status' => '',
                 'cart_show' => trim($_POST['cart_show']),
                 'status_error' => '',
@@ -148,6 +149,10 @@ class PaymentMethods extends ControllerAdmin
                         $data['image_error'] = implode(',', $image['error']);
                     }
                 }
+            }
+            // adding payment key
+            if (isset($_POST['payment_key'])) {
+                $data['payment_key'] = trim($_POST['payment_key']);
             }
             // validate status
             if (isset($_POST['status'])) {
@@ -174,6 +179,7 @@ class PaymentMethods extends ControllerAdmin
                 'page_title' => 'وسائل الدفع',
                 'title' => '',
                 'content' => '',
+                'payment_key' => '',
                 'image' => '',
                 'cart_show' => 0,
                 'status' => 0,
@@ -206,6 +212,7 @@ class PaymentMethods extends ControllerAdmin
                 'meta' => json_encode($_POST['meta']),
                 'title' => trim($_POST['title']),
                 'content' => $content,
+                'payment_key' => '',
                 'image' => '',
                 'cart_show' => trim($_POST['cart_show']),
                 'status' => '',
@@ -213,6 +220,10 @@ class PaymentMethods extends ControllerAdmin
                 'image_error' => '',
             ];
 
+            // adding payment key
+            if (isset($_POST['payment_key'])) {
+                $data['payment_key'] = trim($_POST['payment_key']);
+            }
             // validate image
             if (!empty($_FILES['image'])) {
                 $image = uploadImage('image', ADMINROOT . '/../media/images/', 5000000, true);
@@ -257,6 +268,7 @@ class PaymentMethods extends ControllerAdmin
                 'title' => $paymentmethod->title,
                 'meta' => json_decode($paymentmethod->meta, true),
                 'content' => $paymentmethod->content,
+                'payment_key' => $paymentmethod->payment_key,
                 'image' => $paymentmethod->image,
                 'cart_show' => $paymentmethod->cart_show,
                 'status' => $paymentmethod->status,

@@ -48,6 +48,15 @@ require ADMINROOT . '/views/inc/header.php';
                         <span class="help-block"></span>
                     </div>
                 </div>
+                
+                <?php if ($data['payment_id'] != 1) : ?>
+                <div class="form-group">
+                    <label class="control-label" for="payment_key">كود وسيلة الدفع : </label>
+                    <div class="has-feedback">
+                        <input type="text" id="payment_key" class="form-control" name="payment_key" placeholder="كود وسيلة الدفع" value="<?php echo $data['payment_key']; ?>">
+                    </div>
+                </div>                
+                <?php endif; ?>
                 <div class="form-group <?php echo (!empty($data['image_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label" for="imageUpload">ايقونة وسيلة الدفع : </label>
                     <div class="has-feedback input-group">
@@ -68,6 +77,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     <th class="">اسم البنك </th>
                                     <th class="">نوع الحساب </th>
                                     <th class="">IBAN </th>
+                                    <th class="">Payment key </th>
                                     <th class="">رابط البنك </th>
                                     <th></th>
                                 </tr>
@@ -81,6 +91,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <td class="form-group"><input class="form-control" value = "' . $bank['bankname'] . '" type="text" name="meta[bank' . $x . '][bankname]"></td>
                                         <td class="form-group"><input class="form-control" value = "' . $bank['account_type'] . '"  type="text" name="meta[bank' . $x . '][account_type]"></td>
                                         <td class="form-group"><input class="form-control" value = "' . $bank['iban'] . '"  type="text" name="meta[bank' . $x . '][iban]"></td>
+                                        <td class="form-group"><input class="form-control" value = "' . $bank['payment_key'] . '"  type="text" name="meta[bank' . $x . '][payment_key]"></td>
                                         <td class="form-group"><input class="form-control" value = "' . $bank['url'] . '"  type="text" name="meta[bank' . $x . '][url]"></td>
                                         <td><a href="#" class="remove_field"><i class="fa fa-times"></a></td>
                                     </tr>';

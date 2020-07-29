@@ -99,6 +99,7 @@ class Apis extends Controller
                         'status' => 'success',
                         'code' => 100,
                         'msg' => 'Successfully connected',
+                        'count'=> count($orders),
                         'orders' => $orders,
                     ];
                 } else { // wrong user or key

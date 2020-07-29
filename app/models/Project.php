@@ -97,6 +97,17 @@ class Project extends Model
     }
 
     /**
+     * get payment key by its id
+     *
+     * @param int $payment_id
+     * @return object
+     */
+    public function getPaymentKey($payment_id)
+    {
+        return $results = $this->getWhereInTable('payment_methods', 'payment_id', [$payment_id]);
+    }
+
+    /**
      * get Donation By Hash code
      *
      * @param  mixed $hash
@@ -117,12 +128,13 @@ class Project extends Model
      */
     public function updateOrderHash($data)
     {
-        $query = 'UPDATE orders SET banktransferproof = :banktransferproof, hash = NULL, modified_date = :modified_date';
+        $query = 'UPDATE orders SET banktransferproof = :banktransferproof, payment_method_key = :payment_method_key, hash = NULL, modified_date = :modified_date';
 
         $query .= ' WHERE hash = :hash';
         $this->db->query($query);
         // binding values
         $this->db->bind(':banktransferproof', $data['image']);
+        $this->db->bind(':payment_method_key', $data['payment_key']);
         $this->db->bind(':hash', $data['hash']->hash);
         $this->db->bind(':modified_date', time());
         // excute
@@ -180,8 +192,8 @@ class Project extends Model
 
     public function addOrder($data)
     {
-        $this->db->query('INSERT INTO orders (order_identifier, projects, total, quantity, gift, gift_data, payment_method_id, hash, projects_id, donor_id, status, modified_date, create_date)'
-            . ' VALUES (:order_identifier, :projects, :total, :quantity, :gift, :gift_data, :payment_method_id, :hash, :projects_id, :donor_id, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO orders (order_identifier, projects, total, quantity, gift, gift_data, payment_method_id, payment_method_key, hash, projects_id, donor_id, status, modified_date, create_date)'
+            . ' VALUES (:order_identifier, :projects, :total, :quantity, :gift, :gift_data, :payment_method_id, :payment_method_key, :hash, :projects_id, :donor_id, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':order_identifier', $data['order_identifier']);
         $this->db->bind(':gift', $data['gift']);
@@ -191,6 +203,7 @@ class Project extends Model
         $this->db->bind(':quantity', $data['quantity']);
         $this->db->bind(':hash', $data['hash']);
         $this->db->bind(':payment_method_id', $data['payment_method_id']);
+        $this->db->bind(':payment_method_key', $data['payment_method_key']);
         $this->db->bind(':projects_id', $data['projects_id']);
         $this->db->bind(':donor_id', $data['donor_id']);
         $this->db->bind(':status', $data['status']);

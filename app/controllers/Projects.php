@@ -124,7 +124,6 @@ class Projects extends Controller
         if (!isset($_POST['gift']['enable'])) {
             $_POST['gift']['enable'] = 0;
         }
-
         //saving donor data
         if (empty($_POST['project_id']) || empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['amount']) || empty($_POST['total']) || empty($_POST['quantity'])) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
@@ -161,6 +160,7 @@ class Projects extends Controller
             'total' => $_POST['total'],
             'quantity' => $_POST['quantity'],
             'payment_method_id' => $_POST['payment_method'],
+            'payment_method_key' => $this->projectsModel->getPaymentKey($_POST['payment_method'])[0]->payment_key,
             'hash' => $hash,
             'gift' => $_POST['gift']['enable'],
             'gift_data' => json_encode($_POST['gift']),
@@ -281,6 +281,8 @@ class Projects extends Controller
                 'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
                 'image' => '',
                 'image_error' => '',
+                'payment_key' => $_POST['payment_key'],
+                'payment_key_error' => '',
                 'hash' => $hash,
             ];
             // validate image
@@ -294,10 +296,14 @@ class Projects extends Controller
                     }
                 }
             } else {
-                $data['image_error'] = flash('msg', $data['image_error'], 'alert alert-danger');
+                $data['image_error'] = 'يجب ارفاق صورة التحويل';
+            }
+            // validate payment_key
+            if (empty($data['payment_key'])) {
+                $data['payment_key_error'] = 'من فضلك قم بأختيار البنك المحول اليه';
             }
             //save image to order
-            if (empty($data['image_error'])) {
+            if (empty($data['image_error']) && empty($data['payment_key_error'])) {
                 //validated
                 if ($this->projectsModel->updateOrderHash($data)) { //update donation proof file and hash
                     flashRedirect('', 'msg', ' تم استلام طلبك بنجاح وجاري مراجعته', 'alert alert-success');
@@ -314,6 +320,7 @@ class Projects extends Controller
                 'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
                 'image' => '',
                 'image_error' => '',
+                'payment_key_error' => '',
                 'hash' => $hash,
             ];
         }
@@ -388,6 +395,7 @@ class Projects extends Controller
             'total' => $_POST['total'],
             'quantity' => $_SESSION['cart']['totalQty'],
             'payment_method_id' => $_POST['payment_method'],
+            'payment_method_key' => $this->projectsModel->getPaymentKey($_POST['payment_method'])[0]->payment_key,
             'hash' => $hash,
             'gift' => 0,
             'gift_data' => '',

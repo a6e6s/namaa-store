@@ -72,7 +72,7 @@ class Api extends Model
         $this->db->query($query);
         $this->db->bind(':API_status', $set_status);
         foreach ($filters as $key => $value) {
-            $this->db->bind(":".$key, $value);
+            $this->db->bind(":" . $key, $value);
         }
         $this->db->excute();
         return $this->db->rowCount();
@@ -93,5 +93,15 @@ class Api extends Model
         } else {
             return ['enable' => $api_settings->api_enable, 'authorized' => false];
         }
+    }
+    /**
+     * get donations by order is
+     *
+     * @param int $order_id
+     * @return object
+     */
+    public function getDonationByOrderId($order_id)
+    {
+        return $this->queryResult('SELECT donations.*, projects.project_number AS AX_ID FROM donations, projects WHERE projects.project_id = donations.project_id AND  order_id = ' . $order_id);
     }
 }

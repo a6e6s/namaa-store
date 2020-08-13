@@ -95,12 +95,40 @@ class Apis extends Controller
 
                     // load orders
                     $orders = $this->apiModel->getOrders($start, $count, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method);
+                    $newOrders = [];
+                    foreach ($orders as $order) {
+                        $newOrders[]["order_id"] = $order->order_id;
+                        $newOrders[]["order_identifier"] = $order->order_identifier;
+                        $newOrders[]["quantity"] = $order->quantity;
+                        $newOrders[]["total"] = $order->total;
+                        $newOrders[]["payment_method_id"] = $order->payment_method_id;
+                        $newOrders[]["payment_method_key"] = $order->payment_method_key;
+                        $newOrders[]["hash"] = $order->hash;
+                        $newOrders[]["banktransferproof"] = $order->banktransferproof;
+                        $newOrders[]["gift"] = $order->gift;
+                        $newOrders[]["gift_data"] = $order->gift_data;
+                        $newOrders[]["meta"] = $order->meta;
+                        $newOrders[]["projects"] = $order->projects;
+                        $newOrders[]["projects_id"] = $order->projects_id;
+                        $newOrders[]["donor_id"] = $order->donor_id;
+                        $newOrders[]["API_status"] = $order->API_status;
+                        $newOrders[]["status_id"] = $order->status_id;
+                        $newOrders[]["status"] = $order->status;
+                        $newOrders[]["modified_date"] = $order->modified_date;
+                        $newOrders[]["create_date"] = $order->create_date;
+                        $newOrders[]["payment_method"] = $order->payment_method;
+                        $newOrders[]["donor"] = $order->donor;
+                        $newOrders[]["mobile"] = $order->mobile;
+                        $newOrders[]["custom_status"] = $order->custom_status;
+                        $newOrders[]["custom_status_id"] = $order->custom_status_id;
+                        $newOrders[]['donations'] = $this->apiModel->getDonationByOrderId($order->order_id);
+                    }
                     $data = [
                         'status' => 'success',
                         'code' => 100,
                         'msg' => 'Successfully connected',
-                        'count'=> count($orders),
-                        'orders' => $orders,
+                        'count' => count($orders),
+                        'orders' => $newOrders,
                     ];
                 } else { // wrong user or key
                     $data = [
@@ -123,6 +151,7 @@ class Apis extends Controller
                 'msg' => 'Invalid Credential',
             ];
         }
+        // echo str_replace('"||','', str_replace('||"',"\n",json_encode($data)));
         echo json_encode($data);
     }
 
@@ -135,7 +164,7 @@ class Apis extends Controller
             if ($auth['enable']) {
                 //validate credential
                 if ($auth['authorized']) {
-                    $filter=[];
+                    $filter = [];
                     isset($_POST['status']) ?           $filter['status'] =  (int) $_POST['status']                       : '';
                     isset($_POST['order_identifier']) ? $filter['order_identifier'] =  (int) $_POST['order_identifier']   : '';
                     isset($_POST['order_id']) ?         $filter['order_id'] =  (int) $_POST['order_id']                   : '';

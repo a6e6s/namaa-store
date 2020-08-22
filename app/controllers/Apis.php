@@ -98,6 +98,7 @@ class Apis extends Controller
                     $newOrders = [];
                     foreach ($orders as $index => $order) {
                         $newOrders[$index] = $order;
+                        $newOrders[$index]->meta = json_decode($order->meta);
                         $newOrders[$index]->donations = $this->apiModel->getDonationByOrderId($order->order_id);
                     }
                     $data = [

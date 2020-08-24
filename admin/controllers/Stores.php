@@ -37,7 +37,6 @@ class Stores extends ControllerAdmin
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
             //handling Delete
             if (isset($_POST['delete'])) {
                 if (isset($_POST['record'])) {
@@ -50,7 +49,6 @@ class Stores extends ControllerAdmin
 
                 redirect('stores');
             }
-
             //handling Publish
             if (isset($_POST['publish'])) {
                 if (isset($_POST['record'])) {
@@ -109,7 +107,7 @@ class Stores extends ControllerAdmin
             'recordsCount' => $recordsCount->count,
             'footer' => '',
         ];
-        $this->view('store/index', $data);
+        $this->view('stores/index', $data);
     }
 
     /**
@@ -189,11 +187,11 @@ class Stores extends ControllerAdmin
                 }
             } else {
                 //load the view with error
-                $this->view('store/add', $data);
+                $this->view('stores/add', $data);
             }
         } else {
             $data = [
-                'page_title' => 'وسوم المشروعات',
+                'page_title' => 'المتاجر الفرعية',
                 'alias' => '',
                 'name' => '',
                 'user' => '',
@@ -221,7 +219,7 @@ class Stores extends ControllerAdmin
         }
 
         //loading the add store view
-        $this->view('store/add', $data);
+        $this->view('stores/add', $data);
     }
 
     /**
@@ -305,7 +303,7 @@ class Stores extends ControllerAdmin
                 }
             } else {
                 //load the view with error
-                $this->view('store/edit', $data);
+                $this->view('stores/edit', $data);
             }
         } else {
             // featch store
@@ -317,7 +315,7 @@ class Stores extends ControllerAdmin
             $data = [
                 'page_title' => 'المتاجر الفرعية',
                 'store_id' => $id,
-                'page_title' => 'وسوم المشروعات',
+                'page_title' => 'المتاجر الفرعية',
                 'alias' => $store->alias,
                 'name' => $store->name,
                 'user' => $store->user,
@@ -341,7 +339,7 @@ class Stores extends ControllerAdmin
                 'status_error' => '',
                 'background_image_error' => '',
             ];
-            $this->view('store/edit', $data);
+            $this->view('stores/edit', $data);
         }
     }
 
@@ -359,7 +357,7 @@ class Stores extends ControllerAdmin
             'page_title' => 'المتاجر الفرعية',
             'store' => $store,
         ];
-        $this->view('store/show', $data);
+        $this->view('stores/show', $data);
     }
 
     /**
@@ -402,5 +400,98 @@ class Stores extends ControllerAdmin
             flash('store_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
         }
         redirect('stores');
+    }
+
+    /**
+     * adding project to store 
+     *
+     * @param [int] $store_id
+     * @return void
+     */
+    public function addprojects($store_id = null)
+    {
+        if (isset($store_id)) :
+            // sanitize POST array
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            //handling Delete
+            if (isset($_POST['add'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->storeModel->addProjectToStore($_POST['record'], $store_id)) {
+                        flash('store_msg', 'تم ادراج  ' . $row_num . ' مشروعات بنجاح ');
+                    }
+                }
+
+                redirect('stores');
+            }
+            //get all records for current project
+            $projects = $this->storeModel->getProjects(' WHERE project_id NOT IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')');
+
+            $data = [
+                'header' => '',
+                'title' => 'المشروعات',
+                'projects' => $projects,
+                'footer' => '',
+            ];
+            $this->view('stores/addprojects', $data);
+        else :
+            flash('store_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+            redirect('stores');
+        endif;
+    }
+
+    /**
+     * redirect to orders with store id 
+     *
+     * @param [int] $store_id
+     * @return void
+     */
+    public function orders($store_id = null)
+    {
+        if (isset($store_id)) :
+            echo "<html xmlns='http://www.w3.org/1999/xhtml'>\n<head></head>\n<body>\n";
+            echo "<form action='" . ADMINURL . "/orders' method='post' name='frm'>\n";
+            echo "\t<input type='hidden' name='search[store_id][]' value='" . $store_id . "'>\n";
+            echo '<input type="hidden" name="search[submit]" value="بحـث" />';
+            echo "\t<script type='text/javascript'>\n";
+            echo "\t\tdocument.frm.submit();\n";
+            echo "\t</script>\n";
+            echo "</form>\n</body>\n</html>";
+        else :
+            flash('store_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+            redirect('stores');
+        endif;
+    }
+
+    public function projects($store_id = null)
+    {
+        if (isset($store_id)) :
+            // sanitize POST array
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            //handling Delete
+            if (isset($_POST['add'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->storeModel->addProjectToStore($_POST['record'], $store_id)) {
+                        flash('store_msg', 'تم ادراج  ' . $row_num . ' مشروعات بنجاح ');
+                    }
+                }
+
+                redirect('stores');
+            }
+            //get all records for current project
+            $projects = $this->storeModel->getStoreProjects($store_id);
+
+            $data = [
+                'header' => '',
+                'title' => 'المشروعات',
+                'projects' => $projects,
+                'footer' => '',
+            ];
+            $this->view('stores/projects', $data);
+        else :
+            flash('store_msg', 'هناك خطأ ما يرجي المحاولة لاحقا', 'alert alert-danger');
+            redirect('stores');
+        endif;
     }
 }

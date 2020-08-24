@@ -72,6 +72,18 @@ require ADMINROOT . '/views/inc/header.php';
                                         </ul>
                                     </div>
                                 </th>
+                                <th class="column-title">المعرض <br>
+                                    <div class="dropdown check-list">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle btn-default"> المعرض <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach ($data['stores'] as $store) {
+                                                echo '<li><label class="btn-default"><input class="flat" name="search[store_id][]"';
+                                                if (isset($_SESSION['search']['store_id'])) echo in_array($store->store_id, $_SESSION['search']['store_id']) ? 'checked' : null;
+                                                echo ' type="checkbox" value="' . $store->store_id . '" > ' . $store->name . ' </label></li>';
+                                            } ?>
+                                        </ul>
+                                    </div>
+                                </th>
                                 <th class="column-title">بيانات الإهداء </th>
                                 <th class="column-title">تأكيد التحويل </th>
                                 <th class="column-title">تفاصيل Payfort </th>
@@ -138,6 +150,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="ltr"><?php echo $order->mobile; ?></td>
                                     <td><?php echo $order->projects; ?></td>
                                     <td><?php echo $order->payment_method; ?></td>
+                                    <td><?php echo $order->store; ?></td>
                                     <td>
                                         <?php if ($order->gift) { ?>
                                             <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#gift<?php echo $order->order_id; ?>">تفاصيل</button>
@@ -199,7 +212,7 @@ require ADMINROOT . '/views/inc/header.php';
                                     </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $order->create_date); ?></td>
                                     <td><?php echo $order->status_name; ?></td>
-                                    <td class="form-group w200" colspan="2">
+                                    <td class="form-group w200" colspan="3">
                                         <?php
                                         if (!$order->status) {
                                             echo '<a class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير مؤكد"><i class="fa fa-ban"></i></a>';
@@ -231,7 +244,7 @@ require ADMINROOT . '/views/inc/header.php';
                                         <option value="1000" <?php echo ($data['perpage'] == 1000) ? 'selected' : null; ?>>1000 </option>
                                     </select>
                                 </th>
-                                <th class="column-title" colspan="2"> </th>
+                                <th class="column-title" colspan="3"> </th>
                                 <th class="column-title no-link last"></th>
                             </tr>
                         </tbody>

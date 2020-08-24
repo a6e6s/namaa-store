@@ -87,7 +87,7 @@ function sendSMS($username, $password, $messageContent, $mobileNumber, $senderna
 }
 
 /**
- * Undocumented function
+ * repeat string using seprator with incrising value
  *
  * @param string $var
  * @param integer $count

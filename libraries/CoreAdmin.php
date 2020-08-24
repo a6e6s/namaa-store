@@ -18,32 +18,34 @@
  * create URL & Loads Core controller
  * @example URL format -/controller/method/params
  */
-class CoreAdmin {
+class CoreAdmin
+{
 
     protected $currentController = 'Dashboard';
     protected $currentMethod = 'index';
     protected $parms = [];
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->hasPermissions();
         $url = $this->getUrl();
 
-//look in controller fot the controller existing and instantiat it
+        //look in controller fot the controller existing and instantiat it
         if (file_exists('../admin/controllers/' . ucfirst($url[0]) . '.php')) {
             $this->currentController = ucwords($url[0]);
-//unset 0 index
+            //unset 0 index
             unset($url[0]);
         }
-//require the controller
+        //require the controller
         require_once '../admin/controllers/' . $this->currentController . '.php';
-//init controller
+        //init controller
         $this->currentController = new $this->currentController;
 
-//looking for the method exist in the current controller and loading it as a page
-//checking second part of the url
+        //looking for the method exist in the current controller and loading it as a page
+        //checking second part of the url
         if (isset($url[1])) {
-// check if method exist
+            // check if method exist
             if (method_exists($this->currentController, $url[1])) {
                 $this->currentMethod = $url[1];
             }
@@ -51,9 +53,9 @@ class CoreAdmin {
         }
 
 
-//get params
+        //get params
         $this->parms = $url ? array_values($url) : [];
-//call a callback with array of params
+        //call a callback with array of params
         call_user_func_array([$this->currentController, $this->currentMethod], $this->parms);
     }
 
@@ -62,8 +64,9 @@ class CoreAdmin {
      * @return string url
      * 
      */
-    public function getUrl() {
-        $url [0]= $this->currentController;
+    public function getUrl()
+    {
+        $url[0] = $this->currentController;
         if (isset($_GET['url'])) {
             $url = rtrim($_GET['url'], '/');
             $url = filter_var($url, FILTER_SANITIZE_URL);
@@ -76,7 +79,8 @@ class CoreAdmin {
      * check for user premession before accessing or trigger any action
      * 
      */
-    public function hasPermissions() {
+    public function hasPermissions()
+    {
         $url = $this->getUrl();
         //prepare controller and methoud
         isset($url[0]) ? $controller = strtolower($url[0]) : $controller = 'dashboard';
@@ -88,7 +92,8 @@ class CoreAdmin {
             isset($_POST['publish']) ? $method = 'status' : '';
             isset($_POST['unpublish']) ? $method = 'status' : '';
         }
-        $status = [ 'publish', 'unpublish', 'featured', 'unfeatured', 'arrangement','send'];
+        //custom status not one of the global
+        $status = ['publish', 'unpublish', 'featured', 'unfeatured', 'arrangement', 'send', 'orders', 'projects', 'addprojects'];
         in_array($method, $status) ? $method = 'status' : '';
         // check if user logged in
         if (isset($_SESSION['user'])) {
@@ -135,5 +140,4 @@ class CoreAdmin {
             redirect('users/login');
         }
     }
-
 }

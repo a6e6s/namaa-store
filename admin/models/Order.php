@@ -34,10 +34,11 @@ class Order extends ModelAdmin
      */
     public function getOrders($cond = '', $bind = '', $limit = '', $bindLimit)
     {
-        $query = 'SELECT ord.*, payment_methods.title as payment_method, donors.full_name as donor, donors.mobile,
-        (select name from statuses where ord.status_id = statuses.status_id) as status_name
+        $query = 'SELECT ord.*, payment_methods.title AS payment_method, donors.full_name AS donor, donors.mobile,
+        (SELECT name FROM statuses WHERE ord.status_id = statuses.status_id) AS status_name,
+        (SELECT name FROM stores WHERE ord.store_id = stores.store_id) AS store
         -- ,(select GROUP_CONCAT( DISTINCT projects.name SEPARATOR " , ") from projects, donations where ord.order_id = donations.order_id AND donations.project_id = projects.project_id) as projects
-        FROM orders ord , donors,payment_methods ' . $cond . ' ORDER BY ord.create_date DESC ';
+        FROM orders ord , donors, payment_methods ' . $cond . ' ORDER BY ord.create_date DESC ';
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }
 
@@ -71,7 +72,7 @@ class Order extends ModelAdmin
      * @param type $cond
      * @return type
      */
-    public function allOrdersCount($cond = '', $bind = '')
+    public function allOrdersCount($cond = '', $bind = [])
     {
         $query = 'SELECT count(*) as count FROM ' . $this->table . ' ord ' . $cond;
         $this->db->query($query);
@@ -128,9 +129,9 @@ class Order extends ModelAdmin
     }
 
     /**
-     * get list of orders categories
+     * get list of projects
      * @param string $cond
-     * @return object categories list
+     * @return object projects list
      */
     public function projectsList($cond = '')
     {
@@ -139,11 +140,23 @@ class Order extends ModelAdmin
         $results = $this->db->resultSet();
         return $results;
     }
+    /**
+     * get list of stores
+     * @param string $cond
+     * @return object stores list
+     */
+    public function stores($cond = '')
+    {
+        $query = 'SELECT store_id, name FROM stores  ' . $cond . ' ORDER BY create_date DESC ';
+        $this->db->query($query);
+        $results = $this->db->resultSet();
+        return $results;
+    }
 
     /**
-     * get list of orders categories
+     * get list of statuses List
      * @param string $cond
-     * @return object categories list
+     * @return object statuses list
      */
     public function statusesList($cond = '')
     {

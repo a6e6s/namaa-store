@@ -154,4 +154,57 @@ class Store extends ModelAdmin
         $row = (array) $this->db->single();
         return count($row) < 2 ? $row : false;
     }
+
+    /**
+     * get all projects from datatbase
+     *
+     * @param  string $cond
+     *
+     * @return object projects data
+     */
+    public function getProjects($cond = '')
+    {
+        $query = 'SELECT * FROM projects ' . $cond . ' ORDER BY projects.create_date DESC ';
+        return $this->getAll($query);
+    }
+
+    /**
+     * add Project To Store
+     *
+     * @param [array] $projects
+     * @param [int] $store_id
+     * @return void
+     */
+    public function addProjectToStore($projects, $store_id)
+    {
+        $count = 0;
+        foreach ($projects as $project_id) {
+            $this->db->query('INSERT INTO stores_projects ( store_id, project_id, status, modified_date, create_date) VALUES (:store_id, :project_id, :status, :modified_date, :create_date)');
+            // binding values
+            $this->db->bind(':store_id', $store_id);
+            $this->db->bind(':project_id', $project_id);
+            $this->db->bind(':status', 0);
+            $this->db->bind(':create_date', time());
+            $this->db->bind(':modified_date', time());
+            // excute
+            if ($this->db->excute()) {
+                $count++;
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * get all projects from datatbase
+     *
+     * @param  string $cond
+     *
+     * @return object projects data
+     */
+    public function getStoreProjects($store_id = '')
+    {
+        $query = 'SELECT pj.name, pj.project_number, sps.* FROM projects pj, stores_projects sps WHERE pj.project_id NOT IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')'
+         . ' AND sps.project_id = pj.project_id ORDER BY sps.create_date DESC ';
+        return $this->getAll($query);
+    }
 }

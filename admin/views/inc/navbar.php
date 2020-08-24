@@ -54,6 +54,12 @@
                             <li><a href="<?php echo ADMINURL; ?>/statuses">حالات التبرع </a></li>
                         </ul>
                     </li>
+                    <li><a><i class="glyphicon glyphicon-shopping-cart "></i> المتاجر الفرعية <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="<?php echo ADMINURL; ?>/stores">قائمة المتاجر</a></li>
+                            <li><a href="<?php echo ADMINURL; ?>/stores/add">اضافة متجر </a></li>
+                        </ul>
+                    </li>
                     <li><a><i class="fa fa-gears"></i> الإعدادات <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="<?php echo ADMINURL; ?>/paymentmethods">وسائل الدفع </a></li>

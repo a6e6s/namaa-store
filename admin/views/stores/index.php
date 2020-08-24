@@ -64,7 +64,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">اسم المتجر </th>
                                 <th class="column-title">اسم الموظف </th>
                                 <th class="column-title"> عرض الطلبات </th>
-                                <th class="column-title"> ادارة المنتجات </th>
+                                <th class="column-title"> ادارة المشروعات </th>
                                 <th class="column-title">تاريخ الانشاء </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span>
@@ -84,11 +84,14 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class="a-center ">
                                         <input type="checkbox" class="records flat" name="record[]" value="<?php echo $store->store_id; ?>">
                                     </td>
-                                    <td class=" "><?php echo empty($store->employee_image) ? '<img width="32" src="' . MEDIAURL . '/../thumbs/default.jpg" />': '<img width="32" src="' . MEDIAURL . '/../thumbs/' . $store->employee_image . '" />'; ?></td>
+                                    <td class=" "><?php echo empty($store->employee_image) ? '<img width="32" src="' . MEDIAURL . '/../thumbs/default.jpg" />' : '<img width="32" src="' . MEDIAURL . '/../thumbs/' . $store->employee_image . '" />'; ?></td>
                                     <td class=" "><?php echo $store->name; ?></td>
                                     <td class=" "><?php echo $store->employee_name; ?></td>
-                                    <td class=" "><a class="btn btn-xs btn-success" href="<?php echo ADMINURL . '/show/' . $store->store_id; ?>/orders">الطلبات</a></td>
-                                    <td class=" "><a class="btn btn-xs btn-success" href="<?php echo ADMINURL . '/edit/' . $store->store_id; ?>/projects">المشروعات</a></td>
+                                    <td class=" "><a class="btn btn-xs btn-success" href="<?php echo ADMINURL . '/stores/orders/' . $store->store_id; ?>/">الطلبات</a></td>
+                                    <td class=" ">
+                                        <a class="btn btn-xs btn-success" href="<?php echo ADMINURL . '/stores/projects/' . $store->store_id; ?>/">عرض</a>
+                                        <a class="btn btn-xs btn-primary" href="<?php echo ADMINURL . '/stores/addprojects/' . $store->store_id; ?>/">اضافة</a>
+                                    </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $store->create_date); ?></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $store->modified_date); ?></td>
                                     <td class="form-group">

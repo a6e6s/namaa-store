@@ -30,7 +30,7 @@ class Orders extends ControllerAdmin
     public function index($current = '', $perpage = 50)
     {
         // get orders
-        $cond = 'WHERE ord.status <> 2 AND donors.donor_id = ord.donor_id AND ord.payment_method_id = payment_methods.payment_id';
+        $cond = 'WHERE ord.status <> 2 AND donors.donor_id = ord.donor_id AND ord.payment_method_id = payment_methods.payment_id ';
         $bind = [];
         //check user action if the form has submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -88,6 +88,16 @@ class Orders extends ControllerAdmin
                         }
                     }
                 }
+                // Stores search
+                if (!empty($_POST['search']['store_id'])) {
+                    $stores = array_filter($_POST['search']['store_id']);
+                    $cond .= ' AND ord.store_id  in (' . strIncRepeat(':store_id', count($stores)) . ')';
+                    foreach ($stores as $key => $store) {
+                        if (!empty($store)) {
+                            $bind[':store_id' . $key] = $store;
+                        }
+                    }
+                }
                 // payment_method search
                 if (!empty($_POST['search']['payment_method'])) {
                     $payment_methods = array_filter($_POST['search']['payment_method']);
@@ -114,6 +124,7 @@ class Orders extends ControllerAdmin
                 //store status and payment method for saving search attribute 
                 if (isset($_POST['search']['payment_method'])) $_SESSION['search']['payment_method'] = $_POST['search']['payment_method'];
                 if (isset($_POST['search']['status_id'])) $_SESSION['search']['status_id'] = $_POST['search']['status_id'];
+                if (isset($_POST['search']['store_id'])) $_SESSION['search']['store_id'] = $_POST['search']['store_id'];
             } elseif (isset($_POST['search']['clearSearch'])) {
                 unset($_SESSION['search']);
             }
@@ -245,6 +256,7 @@ class Orders extends ControllerAdmin
             'header' => '',
             'title' => 'الطلبات',
             'statuses' => $this->orderModel->statusesList(' WHERE status = 1'),
+            'stores' => $this->orderModel->stores(),
             'paymentMethodsList' => $this->orderModel->paymentMethodsList(' WHERE status <> 2 '),
             'projects' => $this->orderModel->projectsList(' WHERE status = 1'),
             'orders' => $orders,

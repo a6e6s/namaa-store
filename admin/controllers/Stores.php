@@ -468,16 +468,32 @@ class Stores extends ControllerAdmin
         if (isset($store_id)) :
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            //handling Delete
-            if (isset($_POST['add'])) {
+            //handling publish
+            if (isset($_POST['publish'])) {
                 if (isset($_POST['record'])) {
-                    if ($row_num = $this->storeModel->addProjectToStore($_POST['record'], $store_id)) {
-                        flash('store_msg', 'تم ادراج  ' . $row_num . ' مشروعات بنجاح ');
+                    if ($row_num = $this->storeModel->publishProjectToStore($_POST['record'], $store_id)) {
+                        flash('store_msg', 'تم نشر  ' . $row_num . ' مشروع بنجاح ');
                     }
                 }
-
-                redirect('stores');
+                // redirect('stores/projects/' . $store_id);
+            }
+            //handling unpublish
+            if (isset($_POST['unpublish'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->storeModel->unpublishProjectToStore($_POST['record'], $store_id)) {
+                        flash('store_msg', 'تم تعليق نشر  ' . $row_num . ' مشروع بنجاح ');
+                    }
+                }
+                redirect('stores/projects/' . $store_id);
+            }
+            //handling delete
+            if (isset($_POST['delete'])) {
+                if (isset($_POST['record'])) {
+                    if ($row_num = $this->storeModel->deleteProjectFromStore($_POST['record'], $store_id)) {
+                        flash('store_msg', 'تم حذف  ' . $row_num . ' مشروع بنجاح ');
+                    }
+                }
+                redirect('stores/projects/' . $store_id);
             }
             //get all records for current project
             $projects = $this->storeModel->getStoreProjects($store_id);

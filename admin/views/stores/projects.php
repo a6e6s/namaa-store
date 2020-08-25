@@ -18,9 +18,7 @@ $data['header'] = '';
 
 require ADMINROOT . '/views/inc/header.php';
 ?>
-
 <!-- page content -->
-
 <div class="right_col" role="main">
     <div class="clearfix"></div>
     <div class="msg"><?php flash('project_msg'); ?></div>
@@ -45,6 +43,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 </th>
                                 <th class="column-title">اسم المشروع </th>
                                 <th class="column-title">رقم المشروع </th>
+                                <th class="column-title">وصف المشروع </th>
                                 <th class="column-title">الحالة </th>
                                 <th class="column-title">تاريخ الانشاء </th>
                                 <th class="bulk-actions" colspan="10">
@@ -63,28 +62,26 @@ require ADMINROOT . '/views/inc/header.php';
                                     </td>
                                     <td><?php echo $project->name; ?></td>
                                     <td><?php echo $project->project_number; ?></td>
+                                    <td><?php echo mb_substr(strip_tags($project->description), 0, 70); ?></td>
                                     <td>
                                         <?php
                                         if (!$project->status) {
-                                            echo '<a href="' . ADMINURL . '/stores/projects/publish/' . $project->project_id . '" class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير منشور">غير منشور</a>';
-                                        } elseif ($store->status == 1) {
-                                            echo '<a href="' . ADMINURL . '/stores/projects/unpublish/' . $project->project_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور">منشور</a>';
+                                            echo '<button class="btn btn-xs btn-warning" type="button" data-toggle="tooltip" data-original-title="غير منشور">غير منشور</button>';
+                                        } elseif ($project->status == 1) {
+                                            echo '<button class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور">منشور</button>';
                                         }
                                         ?>
                                     </td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $project->create_date); ?></td>
                                 </tr>
                             <?php endforeach; ?>
-
-
+                            <tr>
+                                <td class="text-center" colspan="6"><?php echo count($data['projects']); ?></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-
-
-
             </form>
-
         </div>
     </div>
 </div>

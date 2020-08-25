@@ -195,6 +195,88 @@ class Store extends ModelAdmin
     }
 
     /**
+     * publish Project To Store
+     *
+     * @param [array] $projects
+     * @param [int] $store_id
+     * @return int
+     */
+    public function publishProjectToStore($projects, $store_id)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($projects); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE stores_projects SET status = 1 WHERE store_id = :store_id AND project_id IN (' . implode(',', $id_num) . ')');
+        $this->db->bind(':store_id', $store_id);
+        //loop through the bind function to bind all the IDs
+        foreach ($projects as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * unpublish Project To Store
+     *
+     * @param [array] $projects
+     * @param [int] $store_id
+     * @return int
+     */
+    public function unpublishProjectToStore($projects, $store_id)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($projects); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('UPDATE stores_projects SET status = 0 WHERE store_id = :store_id AND project_id IN (' . implode(',', $id_num) . ')');
+        $this->db->bind(':store_id', $store_id);
+        //loop through the bind function to bind all the IDs
+        foreach ($projects as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+    
+
+    /**
+     * delete Project From Store
+     *
+     * @param [array] $projects
+     * @param [int] $store_id
+     * @return int
+     */
+    public function deleteProjectFromStore($projects, $store_id)
+    {
+        //get the id in PDO form @Example :id1,id2
+        for ($index = 1; $index <= count($projects); $index++) {
+            $id_num[] = ":id" . $index;
+        }
+        //setting the query
+        $this->db->query('DELETE FROM stores_projects WHERE store_id = :store_id AND project_id IN (' . implode(',', $id_num) . ')');
+        $this->db->bind(':store_id', $store_id);
+        //loop through the bind function to bind all the IDs
+        foreach ($projects as $key => $id) {
+            $this->db->bind(':id' . ($key + 1), $id);
+        }
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * get all projects from datatbase
      *
      * @param  string $cond
@@ -203,8 +285,9 @@ class Store extends ModelAdmin
      */
     public function getStoreProjects($store_id = '')
     {
-        $query = 'SELECT pj.name, pj.project_number, sps.* FROM projects pj, stores_projects sps WHERE pj.project_id NOT IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')'
-         . ' AND sps.project_id = pj.project_id ORDER BY sps.create_date DESC ';
+        $query = 'SELECT pj.name, pj.project_number, pj.description, sps.* FROM projects pj, stores_projects sps 
+        WHERE pj.project_id IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')
+         AND sps.project_id = pj.project_id AND sps.store_id = ' . $store_id . '  ORDER BY sps.create_date DESC ';
         return $this->getAll($query);
     }
 }

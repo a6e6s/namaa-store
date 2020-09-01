@@ -51,7 +51,7 @@ class Api extends Model
     {
         return $this->queryResult(
             'SELECT ord.*, CONCAT("' . MEDIAURL . '/../files/banktransfer/", `banktransferproof`) as banktransferproof,
-             payment_methods.title as payment_method, donors.full_name as donor, donors.mobile,
+             payment_methods.title as payment_method,payment_methods.payment_key, donors.full_name as donor, donors.mobile,
              from_unixtime(ord.create_date) as create_date, from_unixtime(ord.modified_date) as modified_date,
              (SELECT statuses.name FROM statuses WHERE statuses.status_id = ord.status_id ) as custom_status,
              ord.status_id as custom_status_id

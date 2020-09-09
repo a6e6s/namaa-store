@@ -64,7 +64,7 @@ class Carts extends Controller
         } else {
             // load project data
             $project = $this->cartModel->getSingle('name, project_id', ['project_id' => $_POST['project_id']], 'projects');
-            $this->cartModel->add($project, $_POST['quantity']);
+            $this->cartModel->add($project, $_POST['quantity'], $_POST['store_id']);
             $data = [
                 'msg' => '<div class="text-center py-3">  تم اضافة المشروع الي سلة التبرع  بنجاح   </div> ',
                 'status' => 'success',
@@ -95,7 +95,8 @@ class Carts extends Controller
     public function removeAll()
     {
         unset($_SESSION['cart']);
-        flashRedirect('', 'msg', 'تم افراغ محتويات السلة بنجاح ');
+        ($_SESSION['store']) ? $home = 'store/' . $_SESSION['store']['alias'] : $home = '';
+        flashRedirect($home, 'msg', 'تم افراغ محتويات السلة بنجاح ');
     }
 
     /**

@@ -79,7 +79,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
                 </nav>
             </div>
             <div class="col-5 col-md-7">
-                <a href="<?php echo URLROOT; ?>" class="logo float-right">
+                <a href="<?php echo isset($_SESSION['store']) ? URLROOT . '/store/' . $_SESSION['store']['alias'] : URLROOT; ?>" class="logo float-right">
                     <img src="<?php echo empty($data['site_settings']->logo) ? '/' : MEDIAURL . '/' . $data['site_settings']->logo; ?>" height="60" alt="Namaa logo" class="img-fluid">
                 </a>
             </div>
@@ -87,18 +87,18 @@ For more information about the author , see <http://www.ahmedx.com/>.
                 <div class="user float-left">
                     <div class="nav">
                         <li class="nav-item">
-                            <a title="Profile" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT ."/donors/login"; ?>"><i class="icofont-user"></i></a>
+                            <a title="Profile" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT . "/donors/login"; ?>"><i class="icofont-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="<?php echo URLROOT ."/carts"; ?>">
-                             <span class="cart-num d-sm-block d-lg-none"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : ''; ?></span>
-                             <i class="icofont-cart cart-icon "></i> 
-                            <span class="d-none d-sm-inline">السلة (<span class="cart-total"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?></span>) منتج</span>
-                         </a>
+                            <a class="nav-link text-dark" href="<?php echo URLROOT . "/carts"; ?>">
+                                <span class="cart-num d-sm-block d-lg-none"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : ''; ?></span>
+                                <i class="icofont-cart cart-icon "></i>
+                                <span class="d-none d-sm-inline">السلة (<span class="cart-total"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?></span>) منتج</span>
+                            </a>
                         </li>
                     </div>
                 </div>
             </div>
-            <?php require APPROOT . '/app/views/inc/navbar.php';?>
+            <?php require APPROOT . '/app/views/inc/navbar.php'; ?>
         </section>
         <!--- carousel  Start --->

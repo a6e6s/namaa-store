@@ -173,6 +173,7 @@ $("#addToCart").click(function (event) {
     donation_type = $form.find("input[class='donation_type_name']").val(),
     amount = $form.find("input[name='amount']").val(),
     project_id = $form.find("input[name='project_id']").val(),
+    store_id = $form.find("input[name='store_id']").val(),
     url = $(this).attr("href"),
     formValidation = true;
   // validate cart requirments
@@ -203,6 +204,7 @@ $("#addToCart").click(function (event) {
       donation_type: donation_type,
       amount: amount,
       project_id: project_id,
+      store_id: store_id,
       quantity: quantity,
     }).done(function (data) {
       var data = JSON.parse(data);
@@ -231,6 +233,7 @@ $(".product .card .cart-add").click(function (event) {
     donation_type = $form.find(".active").find("input[name='donation_type']").val(),
     amount = $form.find("input[name='amount']").val(),
     project_id = $form.find("input[name='project_id']").val(),
+    store_id = $form.find("input[name='store_id']").val(),
     url =  $form.find("input[name='url']").val(),
     formValidation = true;
   // validate cart requirments
@@ -250,6 +253,7 @@ $(".product .card .cart-add").click(function (event) {
       donation_type: donation_type,
       amount: amount,
       project_id: project_id,
+      store_id: store_id,
       quantity: quantity,
     }).done(function (data) {
       var data = JSON.parse(data);

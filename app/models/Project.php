@@ -192,8 +192,8 @@ class Project extends Model
 
     public function addOrder($data)
     {
-        $this->db->query('INSERT INTO orders (order_identifier, projects, total, quantity, gift, gift_data, payment_method_id, payment_method_key, hash, projects_id, donor_id, status, modified_date, create_date)'
-            . ' VALUES (:order_identifier, :projects, :total, :quantity, :gift, :gift_data, :payment_method_id, :payment_method_key, :hash, :projects_id, :donor_id, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO orders (order_identifier, projects, total, quantity, gift, gift_data, payment_method_id, payment_method_key, hash, projects_id, donor_id, store_id, status, modified_date, create_date)'
+            . ' VALUES (:order_identifier, :projects, :total, :quantity, :gift, :gift_data, :payment_method_id, :payment_method_key, :hash, :projects_id, :donor_id, :store_id, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':order_identifier', $data['order_identifier']);
         $this->db->bind(':gift', $data['gift']);
@@ -206,6 +206,7 @@ class Project extends Model
         $this->db->bind(':payment_method_key', $data['payment_method_key']);
         $this->db->bind(':projects_id', $data['projects_id']);
         $this->db->bind(':donor_id', $data['donor_id']);
+        $this->db->bind(':store_id', $data['store_id']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':create_date', time());
         $this->db->bind(':modified_date', time());

@@ -108,7 +108,6 @@ class Projects extends Controller
     {
         //filtter post data
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
         //get project details
         $project = $this->projectsModel->getProjectById($_POST['project_id']);
         //redirect if no project
@@ -153,6 +152,7 @@ class Projects extends Controller
         $hash = sha1(time() . rand(999, 999999));
         $_SESSION['donation']['hash'] = $hash; // saving donation hash into session
         $_SESSION['donation']['msg'] = $project->thanks_message;
+        isset($_POST['store_id']) ? $store_id =  $_POST['store_id'] : $store_id = null;
         //save donation data through saving method
         //saving order
         $data = [
@@ -167,6 +167,7 @@ class Projects extends Controller
             'projects' => $project->name,
             'projects_id' => "($project->project_id)",
             'donor_id' => $donor,
+            'store_id' => $store_id,
             'status' => 0,
         ];
         $savingOrder = $this->projectsModel->addOrder($data);
@@ -389,6 +390,7 @@ class Projects extends Controller
             $projects[] = $item['name'];
             $projects_id[] = "(" . $item['project_id'] . ")";
         }
+        isset($_POST['store_id']) ? $store_id =  $_POST['store_id'] : $store_id = null;
         //saving order
         $orderdata = [
             'order_identifier' => $order_identifier,
@@ -401,6 +403,7 @@ class Projects extends Controller
             'gift_data' => '',
             'projects_id' => implode(',', $projects_id),
             'projects' => implode(',', $projects),
+            'store_id' => $store_id,
             'donor_id' => $donor,
             'status' => 0,
         ];

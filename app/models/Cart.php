@@ -52,7 +52,7 @@ class Cart extends Model
         $_SESSION['cart']['totalQty'] = $totalQty;
         $_SESSION['cart'][$project->project_id] = $item;
     }
-    public function add($project, $quantity =1)
+    public function add($project, $quantity = 1, $store_id = null)
     {
         $item = [
             'name' => $project->name,
@@ -80,6 +80,7 @@ class Cart extends Model
             $_SESSION['cart']['totalQty'] = $totalQty;
             $_SESSION['cart']['items'][] = $item;
         }
+        $_SESSION['cart']['store_id'] = $store_id;
     }
     /**
      * remove item from the cart

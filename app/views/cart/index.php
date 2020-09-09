@@ -36,6 +36,7 @@
                     } else {
                         echo '<div class="alert alert-primary text-center" role="alert"> لا يوجد منتجات في السلة  </div>';
                     }
+
                     ?>
                 </tbody>
                 <tfoot>
@@ -75,6 +76,7 @@
                         <div class="col-sm-10">
                             <input type="hidden" name="mobile_confirmed" value="no" id="mobile-confirmed">
                             <input type="hidden" name="total" value="<?php echo $total; ?>" id="total">
+                            <input type="hidden" name="store_id" value="<?php echo isset($_SESSION['store']) ? $_SESSION['store']['store_id'] : ''; ?>" id="store_id">
                             <input type="text" class="form-control" name="full_name" id="full-name" data-inputmask-regex="^[\u0621-\u064Aa-zA-Z\-_\s]+$" placeholder="الاسم بالكامل">
                         </div>
                     </div>

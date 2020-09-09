@@ -73,6 +73,7 @@
                                     ?>
                                     <input placeholder="القيمة" min="1" type="number" class="amt col-4 rounded-lg" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
                                     <input type="hidden" name="project_id" value="<?php echo $project->project_id; ?>">
+                                    <input type="hidden" name="store_id" value="<?php echo $data['store']->store_id; ?>">
                                 </div>
                             <?php endif; ?>
                             <div class="p-2">
@@ -108,9 +109,11 @@
                         </div>
                         <div class="card-footer cart-footer bg-primary mt-1">
                             <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
-                                <a href="<?php echo URLROOT . '/store/project/' . $project->project_id . '-' . $project->alias; ?>" class="card-text"><i class="icofont-files-stack"></i> التفاصيل</a>
+                                <a href="<?php echo URLROOT . '/store/project/' . $project->project_id . '/' . $data['store']->store_id . '-' . $project->alias; ?>" class="card-text">
+                                    <i class="icofont-files-stack"></i> التفاصيل
+                                </a>
                                 <?php if ($project->enable_cart) : ?>
-                                    <button class="cart-add" name="projectCategories" value="<?php echo $data['store']->store_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                    <button class="cart-add" name="projectCategories" value="<?php echo  $project->category_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
                                     <input type="number" name="quantity" min="1" value="1" required id="quantity" class="col-2 py-0 px-0 float-left">
                                     <input type="hidden" name="url" value="<?php echo URLROOT . '/carts/ajaxAdd'; ?>">
                                 <?php endif; ?>

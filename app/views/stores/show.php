@@ -90,6 +90,7 @@
                             <label for="full-name" class="col-sm-2 col-form-label">الاسم بالكامل</label>
                             <div class="col-sm-10">
                                 <input type="hidden" name="mobile_confirmed" value="no" id="mobile-confirmed">
+                                <input type="hidden" name="store_id" value="<?php echo (int) $data['store_id']; ?>">
                                 <input type="hidden" name="project_id" value="<?php echo $data['project']->project_id; ?>" id="project_id">
                                 <input type="text" class="form-control" name="full_name" id="full-name" data-inputmask-regex="^[\u0621-\u064Aa-zA-Z\-_\s]+$" placeholder="الاسم بالكامل">
                             </div>
@@ -265,7 +266,6 @@
                                     <div class="msg"></div>
                                     <input class="form-control" name="code" type="text" placeholder="code" aria-label="code">
                                     <input class="btn btn-success mt-2" name="verify" type="submit" value="تفعيل">
-                                    <input class="btn btn-success mt-2" name="store_id" type="submit" value="<?php echo(int) $data['store_id']; ?>">
                                     <input class="btn btn-danger mt-2 float-left" name="verify" type="submit" data-dismiss="modal" value="غلق">
                                 </form>
                             </div>

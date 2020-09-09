@@ -37,6 +37,8 @@ class Store extends Controller
         empty($perpage) ? $perpage = 100 : '';
 
         ($store = $this->storeModel->getStoreById($alias)) ?: flashRedirect('index', 'msg', ' هذا المتجر غير موجود او ربما تم حذفه ');
+        $_SESSION['store'] = ['store_id' => $store->store_id, 'alias' => $store->alias];
+
         $data = [
             'store' => $store,
             'pagesLinks' => $this->storeModel->getMenu(),
@@ -66,6 +68,11 @@ class Store extends Controller
         $id = (int) $id;
         empty($id) || empty($store_id) ? redirect('', true) : null;
         ($project = $this->projectsModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا المشروع غير موجود او ربما تم حذفه ');
+        $store = $this->storeModel->getBy(['store_id' => $store_id, 'status' => 1]);
+
+        // dd($store);
+        $_SESSION['store'] = ['store_id' => $store->store_id, 'alias' => $store->alias];
+
         $data = [
             'store_id' => $store_id,
             'project' => $project,

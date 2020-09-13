@@ -102,7 +102,7 @@ require ADMINROOT . '/views/inc/header.php';
                                             echo '<a href="' . ADMINURL . '/stores/unpublish/' . $store->store_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور"><i class="fa fa-check"></i></a>';
                                         }
                                         ?>
-                                        <a href="<?php echo ADMINURL . '/stores/show/' . $store->store_id; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
+                                        <a href="<?php echo URLROOT . '/store/' . $store->alias; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
                                         <a href="<?php echo ADMINURL . '/stores/edit/' . $store->store_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
                                         <a href="<?php echo ADMINURL . '/stores/delete/' . $store->store_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
                                     </td>

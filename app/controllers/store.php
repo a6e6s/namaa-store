@@ -10,7 +10,7 @@ class Store extends Controller
     public function __construct()
     {
         $this->storeModel = $this->model('Stores');
-        $this->projectsModel = $this->model('project');
+        $this->projectsModel = $this->model('Project');
         $this->meta = new Meta;
     }
 

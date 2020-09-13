@@ -425,7 +425,7 @@ class Stores extends ControllerAdmin
                 redirect('stores');
             }
             //get all records for current project
-            $projects = $this->storeModel->getProjects(' WHERE project_id NOT IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')');
+            $projects = $this->storeModel->getProjects(' WHERE status <> 2 AND project_id NOT IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')');
 
             $data = [
                 'header' => '',

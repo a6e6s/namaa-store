@@ -286,7 +286,7 @@ class Store extends ModelAdmin
     public function getStoreProjects($store_id = '')
     {
         $query = 'SELECT pj.name, pj.project_number, pj.description, sps.* FROM projects pj, stores_projects sps 
-        WHERE pj.project_id IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')
+        WHERE pj.status <> 2 AND pj.project_id IN (SELECT project_id FROM stores_projects WHERE store_id = ' . $store_id . ')
          AND sps.project_id = pj.project_id AND sps.store_id = ' . $store_id . '  ORDER BY sps.create_date DESC ';
         return $this->getAll($query);
     }

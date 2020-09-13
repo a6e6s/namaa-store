@@ -67,7 +67,7 @@ class Store extends Controller
     {
         $id = (int) $id;
         empty($id) || empty($store_id) ? redirect('', true) : null;
-        ($project = $this->projectsModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا المشروع غير موجود او ربما تم حذفه ');
+        ($project = $this->storeModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا المشروع غير موجود او ربما تم حذفه ');
         $store = $this->storeModel->getBy(['store_id' => $store_id, 'status' => 1]);
 
         // dd($store);

@@ -44,6 +44,17 @@ class Stores extends Model
     }
 
     /**
+     * getProjectsById
+     *
+     * @param  mixed $id
+     *
+     * @return object project
+     */
+    public function getProjectById($id)
+    {
+        return $this->getSingle('*', ['project_id' => $id], 'projects');
+    }
+    /**
      * get Products By Store
      *
      * @param  int  $id
@@ -55,7 +66,7 @@ class Stores extends Model
         $query = 'SELECT pj.*,sps.store_id, 
         (SELECT SUM(donations.total) FROM donations, orders WHERE donations.order_id = orders.order_id AND orders.store_id = :store_id AND pj.project_id = donations.project_id AND donations.status = 1 LIMIT 1 ) as total 
          FROM `projects` pj ,stores_projects sps
-        WHERE pj.project_id = sps.project_id AND sps.store_id =:store_id AND pj.status =1 AND pj.start_date <= ' . time() . ' AND pj.end_date >= ' . time() . ' AND pj.hidden = 0  LIMIT :start, :perpage';
+        WHERE pj.project_id = sps.project_id AND sps.store_id =:store_id AND sps.status =1 AND pj.start_date <= ' . time() . ' AND pj.end_date >= ' . time() . ' AND pj.hidden = 0  LIMIT :start, :perpage';
         $this->db->query($query);
         $this->db->bind(':store_id', $id);
         $this->db->bind(':start', $start);
@@ -72,7 +83,7 @@ class Stores extends Model
     public function projectsCount($id)
     {
         $query = 'SELECT count(*) as count FROM `projects` pj ,stores_projects sps
-        WHERE pj.project_id = sps.project_id AND sps.store_id =:store_id AND pj.status =1 AND pj.start_date <= ' . time() . ' AND pj.end_date >= ' . time() . ' AND pj.hidden = 0';
+        WHERE pj.project_id = sps.project_id AND sps.store_id =:store_id AND sps.status =1 AND pj.start_date <= ' . time() . ' AND pj.end_date >= ' . time() . ' AND pj.hidden = 0';
         $this->db->query($query);
         $this->db->bind(':store_id', $id);
 

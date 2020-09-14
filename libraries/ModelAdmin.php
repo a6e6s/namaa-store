@@ -143,7 +143,7 @@ class ModelAdmin
      * @param  string $id
      * @param  string $where
      *
-     * @return void
+     * @return Object
      */
     public function getById($id, $where)
     {

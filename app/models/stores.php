@@ -112,4 +112,31 @@ class Stores extends Model
     {
         return $this->get('*', ['status' => 1, 'parent_id' => 0], $start, $perpage);
     }
+
+    /**
+     * check if user exist
+     *
+     * @param [string] $username
+     * @return void
+     */
+    public function findUser($username)
+    {
+        return $this->getBy(['user' => $username]);
+    }
+    /**
+     * check login details
+     *
+     * @param [string] $user
+     * @param [string] $password
+     * @return void
+     */
+    public function login($user, $password)
+    {
+        return $this->getBy(['password' => $password]);
+    }
+
+    public function getOrdersByStoreId($id)
+    {
+        return $this->getFromTable('orders', '*', ['store_id' => $id]);
+    }
 }

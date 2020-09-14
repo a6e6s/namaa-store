@@ -13,7 +13,11 @@ class Store extends Controller
         $this->projectsModel = $this->model('Project');
         $this->meta = new Meta;
     }
-
+    /**
+     * redirect with alias to load shorter store URL
+     *
+     * @return void
+     */
     public function index()
     {
         $explo = str_replace('store/', '', $_GET['url']);
@@ -70,7 +74,6 @@ class Store extends Controller
         ($project = $this->storeModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا المشروع غير موجود او ربما تم حذفه ');
         $store = $this->storeModel->getBy(['store_id' => $store_id, 'status' => 1]);
 
-        // dd($store);
         $_SESSION['store'] = ['store_id' => $store->store_id, 'alias' => $store->alias];
 
         $data = [
@@ -93,5 +96,91 @@ class Store extends Controller
         $this->meta->image = MEDIAURL . '/' . $project->secondary_image;
         $this->meta->background = $project->background_color . " url(' " . MEDIAURL . '/' . $project->background_image . "')";
         $this->view('stores/show', $data);
+    }
+
+    /**
+     * login store admin by id
+     *
+     * @param  int $id
+     *
+     * @return view
+     */
+    public function login()
+    {
+        if (isset($_SESSION['storelogin'])) redirect('store/orders', true); // check if user already logged in
+        //check for post
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            //init data
+            $data = [
+                'username' => trim($_POST['username']),
+                'password' => trim($_POST['password']),
+                'username_error' => '',
+                'password_error' => '',
+                'pageTitle' => 'تسجيل دخول مدير المتجر  : ' . SITENAME,
+                'pagesLinks' => $this->storeModel->getMenu(),
+                'site_settings' => json_decode($this->storeModel->getSettings('site')->value),
+                'contact_settings' => json_decode($this->storeModel->getSettings('contact')->value),
+            ];
+
+            if (empty($data['username'])) { //validate user
+                $data['username_error'] = 'لا يمكن ترك حقل المستخدم خاليا ';
+            } elseif (!$user = $this->storeModel->findUser($data['username'])) {
+                $data['username_error'] = 'هذ المستخدم ليس مسجل لدينا';
+            }
+
+            if (empty($data['password'])) { //validate password
+                $data['password_error'] = 'لا يمكن ترك حقل كلمة المرور خاليا';
+            }
+            if (empty($data['username_error']) && empty($data['password_error'])) {
+                // validated
+
+                if (password_verify($data['password'], $user->password)) { //check and login user
+                    // dd($user);
+                    //create session and setup the user premissions
+                    $_SESSION['storelogin'] = $user;
+                    // redirect user to orders
+                    redirect('store/orders', true);
+                } else {
+                    $data['password_error'] = 'كلمة المرور غير صحيحة';
+                }
+            }
+        } else {
+            $data = [
+                'username' => '',
+                'password' => '',
+                'username_error' => '',
+                'password_error' => '',
+                'pageTitle' => 'تسجيل دخول مدير المتجر  : ' . SITENAME,
+                'pagesLinks' => $this->storeModel->getMenu(),
+                'site_settings' => json_decode($this->storeModel->getSettings('site')->value),
+                'contact_settings' => json_decode($this->storeModel->getSettings('contact')->value),
+            ];
+        }
+
+        $this->view('stores/login', $data);
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['storelogin']);
+        flashRedirect('store/login', 'msg', 'تم تسجيل الخروج بنجاح  ', 'alert alert-info');
+    }
+    /**
+     * view store orders
+     *
+     * @return view
+     */
+    public function orders()
+    {
+        $data = [
+            'pageTitle' => 'عرض سجل التبرعات  : ' . SITENAME,
+            'orders' => $this->storeModel->getOrdersByStoreId($_SESSION['storelogin']->store_id),
+            'pagesLinks' => $this->storeModel->getMenu(),
+            'site_settings' => json_decode($this->storeModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->storeModel->getSettings('contact')->value),
+
+        ];
+        $this->view('stores/orders', $data);
     }
 }

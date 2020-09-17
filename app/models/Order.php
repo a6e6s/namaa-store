@@ -35,9 +35,7 @@ class Order extends ModelAdmin
     public function getOrders($cond = '', $bind = '', $limit = '', $bindLimit)
     {
         $query = 'SELECT ord.*, payment_methods.title AS payment_method, donors.full_name AS donor, donors.mobile,
-        (SELECT name FROM statuses WHERE ord.status_id = statuses.status_id) AS status_name,
-        (SELECT name FROM stores WHERE ord.store_id = stores.store_id) AS store
-        -- ,(select GROUP_CONCAT( DISTINCT projects.name SEPARATOR " , ") from projects, donations where ord.order_id = donations.order_id AND donations.project_id = projects.project_id) as projects
+        (SELECT name FROM statuses WHERE ord.status_id = statuses.status_id) AS status_name 
         FROM orders ord , donors, payment_methods ' . $cond . ' ORDER BY ord.create_date DESC ';
         return $this->getAll($query, $bind, $limit, $bindLimit);
     }

@@ -100,6 +100,7 @@ class Apis extends Controller
                         $newOrders[$index] = $order;
                         $newOrders[$index]->meta = json_decode($order->meta);
                         $newOrders[$index]->donations = $this->apiModel->getDonationByOrderId($order->order_id);
+                        $newOrders[$index]->store_id = $this->apiModel->getStore($order->store_id);
                     }
                     $data = [
                         'status' => 'success',

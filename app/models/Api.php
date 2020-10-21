@@ -104,4 +104,18 @@ class Api extends Model
     {
         return $this->queryResult('SELECT donations.*, projects.project_number AS AX_ID FROM donations, projects WHERE projects.project_id = donations.project_id AND  order_id = ' . $order_id);
     }
+    
+    /**
+     * get Store by id 
+     *
+     * @param int $store_id
+     * @return object
+     */
+    public function getStore($store_id)
+    {
+        if (!$store_id) {
+            $store_id = 0;
+        }
+        return $this->queryResult('SELECT * FROM stores WHERE store_id = ' . $store_id);
+    }
 }

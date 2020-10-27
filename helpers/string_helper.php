@@ -144,3 +144,39 @@ function cleanSearchVar($var)
         return str_replace('%', '', $_SESSION['search']['bind'][":$var"]);
     }
 }
+
+
+function imgWrite($source, $text, $outputPath, $x = 800, $y = 800)
+{
+    // header('Content-type: image/jpeg');
+    $is_arabic = preg_match('/\p{Arabic}/u', $text);
+    if ($is_arabic) {
+        require(APPROOT . '/helpers/arabic/Arabic.php');
+        $Arabic = new I18N_Arabic('Glyphs');
+
+        $text = $Arabic->utf8Glyphs($text);
+
+        // Set Path to Font File
+        $font_path = APPROOT . '/public/templates/default/css/fonts/Droid.ttf';
+    } else {
+
+        $font_path = APPROOT . '/public/templates/default/css/fonts/cairo.ttf';
+    }
+
+    // Create Image From Existing File
+    $jpg_image = imagecreatefromjpeg($source);
+
+    // Allocate A Color For The Text
+    $white = imagecolorallocate($jpg_image, 255, 255, 255);
+    $black = imagecolorallocate($jpg_image, 0, 0, 0);
+
+    if (imagettftext($jpg_image, 12, 0, $x, $y, $black, $font_path, $text)) {
+
+        // Send Image to Browser
+        imagejpeg($jpg_image, $outputPath);
+
+        // Clear Memory
+        imagedestroy($jpg_image);
+        return $outputPath;
+    }
+}

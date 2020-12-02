@@ -22,7 +22,7 @@ class Store extends Controller
      */
     public function index()
     {
-        $explo = str_replace('store/', '', $_GET['url']);
+        $explo = str_replace('store/', '', $_GET['url']);//getting alias from URL
         $explo = explode('/', $explo);
         call_user_func_array(['Store', 'store'], $explo);
     }

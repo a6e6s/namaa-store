@@ -4,7 +4,7 @@
     <div class="card" style="">
         <div class="row no-gutters">
             <div class="col-md-5" style="background: #868e96;">
-                <img src="<?php echo (empty($data['store']->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->image; ?>" class="card-img-top h-100" alt="...">
+                <img src="<?php echo (empty($data['store']->employee_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->employee_image; ?>" class="card-img-top h-100" alt="...">
             </div>
             <div class="col-md-7">
                 <div class="card-body">
@@ -20,7 +20,7 @@
             <div class="col">
                 <h3 class="text-center">
                     <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-1">
-                    المنتجات</h3>
+                    المشروعات</h3>
             </div>
         </div>
         <div class="row">

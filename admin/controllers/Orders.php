@@ -127,6 +127,7 @@ class Orders extends ControllerAdmin
                 if (isset($_POST['search']['store_id'])) $_SESSION['search']['store_id'] = $_POST['search']['store_id'];
             } elseif (isset($_POST['search']['clearSearch'])) {
                 unset($_SESSION['search']);
+                $cond .= ' AND ord.store_id IS NULL ';
             }
             //handling Delete
             if (isset($_POST['delete'])) {
@@ -228,6 +229,8 @@ class Orders extends ControllerAdmin
                 redirect('orders');
             }
         } else {
+            $cond .= ' AND ord.store_id IS NULL ';
+
             if (isset($_SESSION['search']['bind'])) {
                 $cond = $_SESSION['search']['cond'];
                 $bind = $_SESSION['search']['bind'];

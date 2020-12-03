@@ -31,7 +31,7 @@
         </a>
     </div>
 
-    <div class="row m-0" style="background:<?php echo "#" . $data['theme_settings']->background_color . " url(" . MEDIAURL . "/" . $data['theme_settings']->background_image; ?>" )>
+    <div class="row m-0" style="background:<?php echo "#" . $data['theme_settings']->background_color . " url(" . MEDIAURL . "/" . $data['theme_settings']->background_image; ?>" >
         <div class="container">
             <div class="col-12 text-center my-2 p-0">
                 <?php
@@ -202,7 +202,7 @@
             <div class="modal fade" id="alertModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                            <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
+                        <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
                         <div class="modal-body pt-0">
                         </div>
                         <div class="p-2 border-top">
@@ -227,7 +227,8 @@
                     if (!empty($data['theme_settings']->categories_image2_url)) $img = '<a href="' . $data['theme_settings']->categories_image2_url . ' ">' . $img . '</a>';
                     echo $img;
                 }
-                ?></div>
+                ?>
+            </div>
             <div class="col-12 text-center my-2 p-0">
                 <?php
                 if (!empty($data['theme_settings']->categories_image3)) {
@@ -235,7 +236,8 @@
                     if (!empty($data['theme_settings']->categories_image3_url)) $img = '<a href="' . $data['theme_settings']->categories_image3_url . ' ">' . $img . '</a>';
                     echo $img;
                 }
-                ?></div>
+                ?>
+            </div>
         <?php endif; ?>
         <!-- end Categories -->
         </div>

@@ -56,9 +56,10 @@ class Store extends ModelAdmin
      */
     public function addStore($data)
     {
-        $this->db->query('INSERT INTO stores( 
-                alias, name, user, password, employee_name, employee_image, employee_number, details, background_color, background_image, meta_keywords, meta_description, status, modified_date, create_date)'
-            . ' VALUES (:alias, :name, :user, :password, :employee_name, :employee_image, :employee_number, :details, :background_color, :background_image, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
+        $this->db->query('INSERT INTO stores( alias, name, user, password, employee_name, employee_image, employee_number, job, location, mobile, whatsapp,
+         details, background_color, background_image, meta_keywords, meta_description, status, modified_date, create_date)'
+            . ' VALUES (:alias, :name, :user, :password, :employee_name, :employee_image, :employee_number, :job, :location, :mobile, :whatsapp,
+             :details, :background_color, :background_image, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':alias', $data['alias']);
         $this->db->bind(':name', $data['name']);
@@ -67,6 +68,10 @@ class Store extends ModelAdmin
         $this->db->bind(':employee_name', $data['employee_name']);
         $this->db->bind(':employee_image', $data['employee_image']);
         $this->db->bind(':employee_number', $data['employee_number']);
+        $this->db->bind(':job', $data['job']);
+        $this->db->bind(':location', $data['location']);
+        $this->db->bind(':mobile', $data['mobile']);
+        $this->db->bind(':whatsapp', $data['whatsapp']);
         $this->db->bind(':details', $data['details']);
         $this->db->bind(':background_image', $data['background_image']);
         $this->db->bind(':background_color', $data['background_color']);
@@ -86,8 +91,9 @@ class Store extends ModelAdmin
 
     public function updateStore($data)
     {
-        $query = 'UPDATE stores SET alias =:alias, name = :name, user = :user, employee_name = :employee_name, employee_number = :employee_number,
-         details = :details, background_color =:background_color, meta_keywords = :meta_keywords, meta_description = :meta_description, status = :status, modified_date = :modified_date';
+        $query = 'UPDATE stores SET alias =:alias, name = :name, user = :user, employee_name = :employee_name, employee_number = :employee_number, job = :job,
+         location = :location, mobile = :mobile, whatsapp = :whatsapp, details = :details, background_color =:background_color, meta_keywords = :meta_keywords,
+          meta_description = :meta_description, status = :status, modified_date = :modified_date';
         (empty($data['employee_image'])) ? null : $query .= ', employee_image = :employee_image';
         (empty($data['password'])) ? null : $query .= ', password = :password';
         (empty($data['background_image'])) ? null : $query .= ', background_image = :background_image';
@@ -100,6 +106,10 @@ class Store extends ModelAdmin
         $this->db->bind(':user', $data['user']);
         $this->db->bind(':employee_name', $data['employee_name']);
         $this->db->bind(':employee_number', $data['employee_number']);
+        $this->db->bind(':job', $data['job']);
+        $this->db->bind(':location', $data['location']);
+        $this->db->bind(':mobile', $data['mobile']);
+        $this->db->bind(':whatsapp', $data['whatsapp']);
         $this->db->bind(':details', $data['details']);
         $this->db->bind(':background_color', $data['background_color']);
         $this->db->bind(':meta_keywords', $data['meta_keywords']);
@@ -247,7 +257,7 @@ class Store extends ModelAdmin
             return false;
         }
     }
-    
+
 
     /**
      * delete Project From Store
@@ -275,7 +285,7 @@ class Store extends ModelAdmin
             return false;
         }
     }
-    
+
     /**
      * get all projects from datatbase
      *

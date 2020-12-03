@@ -47,7 +47,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th width="36px"></th>
                                 <th class=""><input type="search" class="form-control" placeholder="بحث بالعنوان" name="search[name]" value=""></th>
                                 <th class=""><input type="search" class="form-control" placeholder="بحث بالموظف" name="search[employee_name]" value=""></th>
-                                <th class="" colspan="4"></th>
+                                <th class="" colspan="3"></th>
                                 <th width="175px">
                                     <select class="form-control" name="search[status]">
                                         <option value=""></option>
@@ -64,12 +64,12 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th class="column-title">اسم المتجر </th>
                                 <th class="column-title">اسم الموظف </th>
                                 <th class="column-title"> عرض الطلبات </th>
-                                <th class="column-title"> ادارة المشروعات </th>
+                                <!-- <th class="column-title"> ادارة المشروعات </th> -->
                                 <th class="column-title">تاريخ الانشاء </th>
                                 <th class="column-title">آخر تحديث </th>
                                 <th class="column-title no-link last"><span class="nobr">اجراءات</span>
                                 </th>
-                                <th class="bulk-actions" colspan="8">
+                                <th class="bulk-actions" colspan="7">
                                     <span> تنفيذ علي الكل :</span>
                                     <input type="submit" name="publish" value="Publish" class="btn btn-success btn-xs" />
                                     <input type="submit" name="unpublish" value="Unpublish" class="btn btn-warning btn-xs" />
@@ -88,10 +88,10 @@ require ADMINROOT . '/views/inc/header.php';
                                     <td class=" "><?php echo $store->name; ?></td>
                                     <td class=" "><?php echo $store->employee_name; ?></td>
                                     <td class=" "><a class="btn btn-xs btn-success" href="<?php echo ADMINURL . '/stores/orders/' . $store->store_id; ?>/">الطلبات</a></td>
-                                    <td class=" ">
+                                    <!-- <td class=" ">
                                         <a class="btn btn-xs btn-success" href="<?php echo ADMINURL . '/stores/projects/' . $store->store_id; ?>/">عرض</a>
                                         <a class="btn btn-xs btn-primary" href="<?php echo ADMINURL . '/stores/addprojects/' . $store->store_id; ?>/">اضافة</a>
-                                    </td>
+                                    </td> -->
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $store->create_date); ?></td>
                                     <td class="ltr"><?php echo date('Y/ m/ d | H:i a', $store->modified_date); ?></td>
                                     <td class="form-group">
@@ -102,7 +102,7 @@ require ADMINROOT . '/views/inc/header.php';
                                             echo '<a href="' . ADMINURL . '/stores/unpublish/' . $store->store_id . '" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" data-original-title="منشور"><i class="fa fa-check"></i></a>';
                                         }
                                         ?>
-                                        <a href="<?php echo URLROOT . '/store/' . $store->alias; ?>" class="btn btn-xs btn-success" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
+                                        <a href="<?php echo URLROOT . '/store/' . $store->alias; ?>" class="btn btn-xs btn-success" target="blank" data-placement="top" data-toggle="tooltip" data-original-title="عرض"><i class="fa fa-eye"></i></a>
                                         <a href="<?php echo ADMINURL . '/stores/edit/' . $store->store_id; ?>" class="btn btn-xs btn-primary" data-placement="top" data-toggle="tooltip" data-original-title="تعديل"><i class="fa fa-edit"></i></a>
                                         <a href="<?php echo ADMINURL . '/stores/delete/' . $store->store_id; ?>" class="btn btn-xs btn-danger" data-placement="top" data-toggle="tooltip" data-original-title="حذف" onclick="return confirm('Are you sure?') ? true : false"><i class="fa fa-trash-o"></i></a>
                                     </td>
@@ -113,7 +113,7 @@ require ADMINROOT . '/views/inc/header.php';
                                 <th></th>
                                 <th></th>
                                 <th class="column-title"> العدد الكلي : <?php echo $data['recordsCount']; ?> </th>
-                                <th class="column-title" colspan="4"> عرض
+                                <th class="column-title" colspan="3"> عرض
                                     <select name="perpage" onchange="if (this.value)
                                                 window.location.href = '<?php echo ADMINURL . '/stores/index/' . $data['current']; ?>' + '/' + this.value">
                                         <option value="10" <?php echo ($data['perpage'] == 10) ? 'selected' : null; ?>>10 </option>

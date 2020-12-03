@@ -7,12 +7,15 @@ class Store extends Controller
     private $storeModel;
     private $projectsModel;
     private $orderModel;
+    private $pagesModel;
 
     public function __construct()
     {
         $this->storeModel = $this->model('Stores');
         $this->projectsModel = $this->model('Project');
         $this->orderModel = $this->model('Order');
+        $this->tagModel = $this->model('Tag');
+        $this->pagesModel = $this->model('Page');
         $this->meta = new Meta;
     }
     /**
@@ -48,9 +51,13 @@ class Store extends Controller
         $data = [
             'store' => $store,
             'pagesLinks' => $this->storeModel->getMenu(),
-            'site_settings' => json_decode($this->storeModel->getSettings('site')->value),
-            'contact_settings' => json_decode($this->storeModel->getSettings('contact')->value),
-            'projects' => $this->storeModel->getProjectsByStore($store->store_id, $start, $perpage),
+            'projects' => $this->pagesModel->getProjects(),
+            'tags' => $this->pagesModel->getProjectsTags('tag_id, name, alias'),
+            'seo_settings' => json_decode($this->pagesModel->getSettings('seo')->value),
+            'site_settings' => json_decode($this->pagesModel->getSettings('site')->value),
+            'theme_settings' => json_decode($this->pagesModel->getSettings('theme')->value),
+            'contact_settings' => json_decode($this->pagesModel->getSettings('contact')->value),
+            'project_categories' => $this->pagesModel->getProjectCategories('category_id, name, description, image', ['status' => 1, 'featured' => 1]),
             'pagination' => generatePagination($this->storeModel->projectsCount($store->store_id)->count, $start, $perpage, 4, URLROOT, '/Store/' . $store->store_id),
         ];
         $data['pageTitle'] = $data['store']->name . "  " . SITENAME;
@@ -403,5 +410,42 @@ class Store extends Controller
             'footer' => '',
         ];
         $this->view('stores/orders', $data);
+    }
+
+    
+    /**
+     * show tag by id
+     *
+     * @param  int $id
+     *
+     * @return view
+     */
+    public function tags($id = '',$alias, $start = 0, $perpage = 100)
+    {
+        ($store = $this->storeModel->getStoreById($alias)) ?: flashRedirect('index', 'msg', ' هذا المتجر غير موجود او ربما تم حذفه ');
+        $_SESSION['store'] = ['store_id' => $store->store_id, 'alias' => $store->alias];
+
+        $start = (int) $start;
+        $perpage = (int) $perpage;
+        empty($id) ? redirect('tags', true) : null;
+        empty($start) ? $start = 0 : '';
+        empty($perpage) ? $perpage = 100 : '';
+        ($tag = $this->tagModel->getTagById($id)) ?: flashRedirect('index', 'msg', ' هذا الوسم غير موجود او ربما تم حذفه ');
+        $data = [
+            'tag' => $tag,
+            'store' => $store,
+            'pagesLinks' => $this->tagModel->getMenu(),
+            'site_settings' => json_decode($this->tagModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->tagModel->getSettings('contact')->value),
+            'projects' => $this->tagModel->getProductsByTag($id, $start, $perpage),
+            'pagination' => generatePagination($this->tagModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/tags/show/' . $id),
+        ];
+        $data['pageTitle'] = $data['tag']->name . "  " . SITENAME;
+        $this->meta->title = $data['tag']->name;
+        $this->meta->keywords = $data['tag']->meta_keywords;
+        $this->meta->description = $data['tag']->meta_description;
+        $this->meta->image = MEDIAURL . '/' . $data['tag']->image;
+
+        $this->view('stores/tags', $data);
     }
 }

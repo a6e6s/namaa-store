@@ -1,10 +1,7 @@
 <?php require APPROOT . '/app/views/inc/store-header.php'; ?>
 <?php flash('msg'); ?>
-</div>
-<div class="row m-0" style="background-color:<?php echo "" . $data['store']->background_color . ";background-image: url(" . MEDIAURL . "/" . $data['store']->background_image; ?>">
-
-    <div class="container page">
-        <div class="card">
+<div class="container page">
+    <div class="card">
             <div class="row no-gutters">
                 <div class="col-12 bg-primary">
                     <h1 class="card-title text-primary text-light text-center pt-4" style="margin-right:150px !important"><?php echo $data['store']->name; ?></h1>
@@ -22,32 +19,21 @@
                 </div>
             </div>
         </div>
-        <!--- Products Start --->
-        <section id="products">
-            <div class="row mt-4 ">
-                <div class="col">
-                    <h3 class="text-center">
-                        <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-1">
-                        <?php echo $data['site_settings']->project_text; ?></h3>
-                </div>
+    <!--- Products Start --->
+    <section id="products">
+        <div class="row mt-4 ">
+            <div class="col">
+                <h3 class="text-center">
+                    <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-1">
+                    <?php echo $data['tag']->name; ?></h3>
             </div>
-            <div class="row">
-                <?php if ($data['site_settings']->enableTages) { ?>
-                    <div class="col-12 ">
-
-                        <div class="scrollmenu">
-                            <?php
-                            foreach ($data['tags'] as $tag) {
-                                echo '<a class="" href="' . URLROOT . '/store/tags/' . $tag->tag_id . '/' . $data['store']->alias . '">' . $tag->name . '</a>';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                <?php }
-                echo (count($data['projects']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذا المتجر </p>' : '';
-                foreach ($data['projects'] as $project) :
-                ?>
-                    <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
+        </div>
+        <div class="row">
+            <?php
+            echo (count($data['projects']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذه الفئة</p>' : '';
+            foreach ($data['projects'] as $project) :
+            ?>
+                 <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
                         <form class="card" method="post" action="<?php echo URLROOT . '/carts/add/'; ?>">
                             <a href="<?php echo URLROOT . '/store/project/' . $project->project_id . '/' . $data['store']->store_id . '-' . $project->alias; ?>" class="">
                                 <img class="card-img-top" src="<?php echo (empty($project->secondary_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->secondary_image; ?>" alt="<?php echo $project->name; ?>">
@@ -140,37 +126,40 @@
                             </div>
                         </form>
                     </div> <!-- end product -->
-                <?php endforeach; ?>
+            <?php endforeach; ?>
 
-            </div>
-            <div class="row ">
-                <nav class="col-md-6 col-12 offset-md-3 mt-5">
-                    <ul class="pagination nav nav-bar ">
-                        <?php echo $data['pagination']; ?>
-                    </ul>
-                </nav>
-            </div>
-        </section>
-        <!-- alertModal -->
-        <div class="modal fade" id="alertModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
-                    <div class="modal-body pt-0">
-                    </div>
-                    <div class="p-2 border-top">
-                        <a href="<?php root('carts') ?>" class="btn btn-primary">عرض السلة</a>
-                        <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
-                    </div>
+        </div>
+        <div class="row ">
+            <nav class="col-md-6 col-12 offset-md-3 mt-5">
+                <ul class="pagination nav nav-bar ">
+                    <?php echo $data['pagination']; ?>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="row ">
+            <?php echo ($data['tag']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '"> العودة الي الرئيسية</a></div>' : ''; ?>
+        </div>
+    </section>
+    <!-- alertModal -->
+    <div class="modal fade" id="alertModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
+                <div class="modal-body pt-0">
+                </div>
+                <div class="p-2 border-top">
+                    <a href="<?php root('carts') ?>" class="btn btn-primary">عرض السلة</a>
+                    <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
                 </div>
             </div>
         </div>
-        <!-- end products -->
     </div>
+    <!-- end products -->
 </div>
 <?php require APPROOT . '/app/views/inc/footer.php'; ?>
 <script>
-    //submitting amount value
+    //submitting amount value 
     // if user select from units or fixed or share donation
     $('.d-value').change(function() {
         var amount = $(this).attr('id');

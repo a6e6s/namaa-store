@@ -54,6 +54,7 @@ class Carts extends Controller
     public function ajaxAdd()
     {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        if (!isset($_POST['store_id'])) $_POST['store_id'] = null;
         if (!$_POST) {
             flashRedirect('', 'msg', 'هناك خطأ ما : ربما اتبعت رابط خاطئ', 'alert alert-danger');
         }
@@ -71,7 +72,6 @@ class Carts extends Controller
                 'status' => 'success',
                 'total' => $_SESSION['cart']['totalQty']
             ];
-            // flash('msg', ' تم اضافة المشروع بنجاح <a href="' . URLROOT . '/carts"> عرص السلة </a> ', 'alert alert-success');
         }
         echo json_encode($data);
     }

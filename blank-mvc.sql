@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 01, 2020 at 12:30 PM
+-- Generation Time: Dec 08, 2020 at 08:24 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `donations` (
   `create_date` int(10) DEFAULT NULL,
   PRIMARY KEY (`donation_id`),
   KEY `project_id` (`project_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=167 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donations`
@@ -219,7 +219,23 @@ INSERT INTO `donations` (`donation_id`, `amount`, `total`, `quantity`, `donation
 (147, 2, 2, 1, 'مفتوح', 44, 12, 'unread', 0, 1595947131, 1595947131),
 (148, 450, 450, 1, 'اضحية', 45, 1, 'unread', 1, 1596031343, 1596031343),
 (149, 111, 111, 1, 'كسوة فرد', 46, 4, 'unread', 1, 1596625952, 1596625952),
-(150, 111, 111, 1, 'كسوة فرد', 47, 4, 'unread', 0, 1598876677, 1598876677);
+(150, 111, 111, 1, 'كسوة فرد', 47, 4, 'unread', 0, 1598876677, 1598876677),
+(151, 50, 50, 1, 'قيمة ثابته', 48, 16, 'unread', 1, 1599047948, 1599047948),
+(152, 50, 100, 2, '50 ريال', 48, 16, 'unread', 1, 1599047948, 1599047948),
+(153, 50, 50, 1, 'قيمة ثابته', 48, 15, 'unread', 1, 1599047948, 1599047948),
+(154, 50, 50, 1, '50 ريال', 49, 15, 'unread', 1, 1599048059, 1599048059),
+(155, 50, 50, 1, 'قيمة ثابته', 50, 16, 'unread', 1, 1599052321, 1599052321),
+(156, 50, 50, 1, 'قيمة ثابته', 51, 16, 'unread', 1, 1599652042, 1599652042),
+(157, 50, 50, 1, 'قيمة ثابته', 52, 16, 'unread', 1, 1600089249, 1600089249),
+(158, 50, 50, 1, 'قيمة ثابته', 53, 15, 'unread', 1, 1600089426, 1600089426),
+(159, 50, 50, 1, 'قيمة ثابته', 53, 16, 'unread', 1, 1600089426, 1600089426),
+(160, 400, 400, 1, 'فدية', 54, 1, 'unread', 0, 1600350105, 1600350105),
+(161, 50, 50, 1, 'قيمة ثابته', 55, 15, 'unread', 0, 1602753610, 1602753610),
+(162, 10, 10, 1, 'مفتوح', 56, 17, 'unread', 0, 1602753693, 1602753693),
+(163, 50, 50, 1, '50 ريال', 57, 15, 'unread', 0, 1603700597, 1603700597),
+(164, 50, 50, 1, '50 ريال', 58, 15, 'unread', 0, 1603700680, 1603700680),
+(165, 50, 50, 1, '50 ريال', 59, 15, 'unread', 0, 1603702077, 1603702077),
+(166, 50, 50, 1, 'قيمة ثابته', 60, 16, 'unread', 0, 1607002694, 1607002694);
 
 -- --------------------------------------------------------
 
@@ -238,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `donors` (
   `modified_date` int(10) DEFAULT NULL,
   `create_date` int(10) DEFAULT NULL,
   PRIMARY KEY (`donor_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `donors`
@@ -262,7 +278,8 @@ INSERT INTO `donors` (`donor_id`, `mobile`, `full_name`, `email`, `mobile_confir
 (15, '+966 05 9776775', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'yes', 0, 1585930195, 1585930195),
 (16, '+966 50 5977677', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'yes', 1, 1586353337, 1586353337),
 (17, '+966597767751', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'yes', 1, 1586807632, 1586723071),
-(18, '+966505977677', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'yes', 1, 1586859538, 1586859538);
+(18, '+966505977677', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'yes', 1, 1586859538, 1586859538),
+(19, '0596659776', 'Ahmed Elmahdy', 'a6e6s1@gmail.com', 'no', 0, 1602753693, 1602753693);
 
 -- --------------------------------------------------------
 
@@ -351,7 +368,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `donor_id` (`donor_id`),
   KEY `payment_method_id` (`payment_method_id`),
   KEY `store_id` (`store_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `orders`
@@ -391,7 +408,7 @@ INSERT INTO `orders` (`order_id`, `order_identifier`, `total`, `quantity`, `paym
 (31, 1009044497, 633, 7, 3, NULL, '8938b62cea26343f0d6adb2d7c64d3967e972a6a', NULL, 0, '', NULL, 'الحالات الطارئة4,كفارة اليمين..,كسوة الشتاء,كفارة اليمين..', '(4),(3),(2),(14)', 12, NULL, 'read', 0, 4, 1589044497, 1589044497),
 (32, 1009044640, 633, 7, 3, NULL, '507abdc16cb219aa9a34250d0309109edba75ddc', NULL, 0, '', NULL, 'الحالات الطارئة4,كفارة اليمين..,كسوة الشتاء,كفارة اليمين..', '(4),(3),(2),(14)', 12, NULL, 'read', 0, 0, 1589044640, 1589044640),
 (33, 1009045295, 633, 7, 3, NULL, NULL, NULL, 0, '', '{\"amount\":\"63300\",\"response_code\":\"00072\",\"signature\":\"8958e9d201f67359b54357d45a975b85140944d77a10b2d19f5bf22d957a7506\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1345624056\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 'الحالات الطارئة4,كفارة اليمين..,كسوة الشتاء,كفارة اليمين..', '(4),(3),(2),(14)', 12, NULL, 'read', 0, 3, 1589046020, 1589045295),
-(34, 1009049845, 272, 2, 1, NULL, NULL, 'image_76301.jpg', 0, '', NULL, 'كفارة اليمين..,ضضضضضضضضضضضض', '(3),(10)', 12, NULL, 'read', 4, 0, 1589059226, 1589049845),
+(34, 1009049845, 272, 2, 1, NULL, NULL, 'image_76301.jpg', 0, '', NULL, 'كفارة اليمين..,ضضضضضضضضضضضض', '(3),(10)', 12, 1, 'read', 4, 0, 1589059226, 1589049845),
 (35, 1009229462, 472, 8, 3, NULL, NULL, NULL, 0, '', '{\"amount\":\"47200\",\"response_code\":\"00072\",\"signature\":\"666f2aeb17a13456dfa90a4cf356acce282b616e33001c9e9eb70ca8de210328\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1863532910\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 'كفارة اليمين..,كسوة الشتاء,كفارة اليمين..,الحالات الطارئة4,كفارة اليمين..', '(15),(2),(15),(4),(3)', 12, NULL, 'read', 0, 0, 1589229474, 1589229462),
 (36, 1009235647, 824, 13, 1, NULL, NULL, 'image_77339.jpg', 0, '', NULL, 'الحالات الطارئة4,الحالات الطارئة4,كفارة اليمين..,كسوة الشتاء,ضضضضضضضضضضضض', '(4),(4),(14),(2),(10)', 18, NULL, 'read', 0, 0, 1589235655, 1589235647),
 (37, 1009321635, 111, 1, 3, NULL, NULL, NULL, 0, '', '{\"amount\":\"11100\",\"response_code\":\"00072\",\"signature\":\"355a61b18d36cda634bce7f2886312a54532df7d10d7358fb27496c1fbc3bcd8\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1203257855\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 'الحالات الطارئة4', '(4)', 18, NULL, 'read', 0, 0, 1589321644, 1589321635),
@@ -404,7 +421,20 @@ INSERT INTO `orders` (`order_id`, `order_identifier`, `total`, `quantity`, `paym
 (44, 1015947131, 2, 1, 4, 'payOnRecive', '21e398c08416a49883dcfa6e021cfe78cbcfaa20', NULL, 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, 'اقسام المشروعات اضافة قسم جديد', '(12)', 10, NULL, 'unread', 0, 0, 1595947131, 1595947131),
 (45, 1016031343, 450, 1, 1, 'rajhi', NULL, NULL, 0, '', NULL, 'حالة طارئة    17', '(1)', 10, 4, 'unread', 0, 1, 1596031354, 1596031343),
 (46, 1016625952, 111, 1, 1, 'rajhi', NULL, 'image_d1a8b.jpg', 0, '', NULL, 'الحالات الطارئة4', '(4)', 10, 4, 'unread', 0, 1, 1596625990, 1596625952),
-(47, 1018876677, 111, 1, 1, 'rajhi', NULL, 'image_6f84b.jpg', 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, 'الحالات الطارئة4', '(4)', 10, NULL, 'unread', 0, 0, 1598876688, 1598876677);
+(47, 1018876677, 111, 1, 1, 'rajhi', NULL, 'image_6f84b.jpg', 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, 'الحالات الطارئة4', '(4)', 10, NULL, 'unread', 0, 0, 1598876688, 1598876677),
+(48, 1019047948, 200, 4, 3, 'visa', NULL, NULL, 0, '', '{\"amount\":\"20000\",\"response_code\":\"00072\",\"signature\":\"15d07eb577a99fd75cf19ae70b4c2d6dfa248530a4207c97377ac7057ce1753d\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1381090343\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 'كفارة اليمين..,كفارة اليمين..,كفارة اليمين..', '(16),(16),(15)', 10, NULL, 'unread', 0, 1, 1599047955, 1599047948),
+(49, 1019048059, 50, 1, 1, 'rajhi', NULL, 'image_f4a8c.jpg', 0, '{\"enable\":\"0\",\"giver_name\":\"\",\"giver_number\":\"\",\"giver_group\":\"\"}', NULL, 'كفارة اليمين..', '(15)', 10, 1, 'unread', 0, 1, 1599048077, 1599048059),
+(50, 1019052321, 50, 1, 1, 'ahly', NULL, 'image_c18dd.jpg', 0, '', NULL, 'كفارة اليمين..', '(16)', 10, 1, 'unread', 0, 1, 1599052334, 1599052321),
+(51, 1019652042, 50, 1, 3, 'visa', NULL, NULL, 0, '', '{\"amount\":\"5000\",\"response_code\":\"00072\",\"signature\":\"5dbd25584f5d5fb7053a972cbf05456d4ca2125d70120049140ac0b0ece447d3\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"1541846400\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 'كفارة اليمين..', '(16)', 10, 4, 'unread', 0, 1, 1599652060, 1599652042),
+(52, 1020089249, 50, 1, 2, 'branch', '533457dcdf1ca609e3d3f4c7b8eff81b28b2c896', NULL, 0, '', NULL, 'كفارة اليمين..', '(16)', 10, 5, 'unread', 0, 1, 1600089249, 1600089249),
+(53, 1020089426, 100, 2, 2, 'branch', 'bacc797af66c9396e439a882fdafc74e3386bb31', NULL, 0, '', NULL, 'كفارة اليمين..,كفارة اليمين..', '(15),(16)', 10, 5, 'unread', 4, 1, 1600089426, 1600089426),
+(54, 1020350105, 400, 1, 1, 'rajhi', NULL, 'image_ecc51.jpg', 0, '', NULL, 'حالة طارئة    17', '(1)', 10, 2, 'updated', 4, 0, 1600350747, 1600350105),
+(55, 1022753610, 50, 1, 2, 'branch', 'e05f4458cb74d4aa6975526ee86766dc89d99a48', NULL, 0, '', NULL, 'كفارة اليمين..', '(15)', 10, 5, 'unread', 0, 0, 1602753610, 1602753610),
+(56, 1022753693, 10, 1, 3, 'visa', NULL, NULL, 0, '{\"enable\":0}', '{\"amount\":\"1000\",\"response_code\":\"00072\",\"signature\":\"b496571bdd921593636a67d2d1c2ada4b15e452506436f1332c89a4ae9534eb4\",\"command\":\"PURCHASE\",\"response_message\":\"\\u062a\\u0645 \\u0625\\u0644\\u063a\\u0627\\u0621 \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\u0645\\u0646 \\u0642\\u0628\\u0644 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645\",\"merchant_reference\":\"421234012\",\"customer_email\":\"test@payfort.com\",\"currency\":\"SAR\",\"status\":\"00\"}', 'كفارة اليمين1', '(17)', 19, 5, 'unread', 0, 0, 1602753698, 1602753693),
+(57, 1023700597, 50, 1, 4, 'payOnRecive', '2eb6aa2127a2b8dc6515bf11dff246788e6520bd', NULL, 1, '{\"enable\":\"1\",\"giver_name\":\"\\u0627\\u062d\\u0645\\u062f \\u0627\\u0644\\u0645\\u0647\\u062f\\u064a \\u0633\\u0627\\u0645\\u064a \\u0627\\u0644\\u0645\\u0646\\u0634\\u0627\\u0648\\u064a\",\"giver_number\":\"0596655555\",\"giver_group\":\"\\u0627\\u0644\\u064a \\u0627\\u0645\\u064a\",\"card\":\"omy.jpg\"}', NULL, 'كفارة اليمين..', '(15)', 10, NULL, 'unread', 0, 0, 1603700597, 1603700597),
+(58, 1023700680, 50, 1, 4, 'payOnRecive', '7b8841bef3c2dcc54ae4600147b182f14e2e500d', NULL, 1, '{\"enable\":\"1\",\"giver_name\":\"\\u0627\\u062d\\u0645\\u062f \\u0627\\u0644\\u0645\\u0647\\u062f\\u064a \\u0633\\u0627\\u0645\\u064a \\u0627\\u0644\\u0645\\u0646\\u0634\\u0627\\u0648\\u064a\",\"giver_number\":\"0596655555\",\"giver_group\":\"\\u0627\\u0644\\u064a \\u0627\\u0645\\u064a\",\"card\":\"C:\\\\wamp\\\\www\\\\Blank-MVC\\/media\\/images\\/gifts\\/874820img_.jpg\"}', NULL, 'كفارة اليمين..', '(15)', 10, NULL, 'unread', 0, 0, 1603700680, 1603700680),
+(59, 1023702077, 50, 1, 4, 'payOnRecive', 'f5bfb38a7012b20a924327cec95ae4dff735119a', NULL, 1, '{\"enable\":\"1\",\"giver_name\":\"\\u0627\\u062d\\u0645\\u062f \\u0627\\u0644\\u0645\\u0647\\u062f\\u064a \\u0633\\u0627\\u0645\\u064a \\u0627\\u0644\\u0645\\u0646\\u0634\\u0627\\u0648\\u064a\",\"giver_number\":\"0596655555\",\"giver_group\":\"\\u0627\\u0644\\u064a \\u0627\\u0645\\u064a\",\"card\":\"\\/gifts\\/img_394274.jpg\"}', NULL, 'كفارة اليمين..', '(15)', 10, NULL, 'unread', 0, 0, 1603702077, 1603702077),
+(60, 1027002694, 50, 1, 1, 'ahly', NULL, 'image_e01b9.jpg', 0, '', NULL, 'كفارة اليمين..', '(16)', 10, 5, 'unread', 0, 0, 1607002738, 1607002694);
 
 -- --------------------------------------------------------
 
@@ -651,14 +681,14 @@ CREATE TABLE IF NOT EXISTS `settings` (
 --
 
 INSERT INTO `settings` (`setting_id`, `title`, `alias`, `value`, `create_date`, `modified_date`) VALUES
-(1, 'الاعدادات العامة', 'site', '{\"title\":\"\\u062c\\u0645\\u0639\\u064a\\u0629 \\u0646\\u0645\\u0627\\u0621 \\u0627\\u0644\\u0623\\u0647\\u0644\\u064a\\u0629 \\u0628\\u0645\\u0646\\u0637\\u0642\\u0629 \\u0645\\u0643\\u0629 \\u0627\\u0644\\u0645\\u0643\\u0631\\u0645\\u0629\",\"logo\":\"namaa-logo.png\",\"header_code\":\"\",\"footer_code\":\"\",\"show_banner\":\"1\",\"mobile_validation\":\"0\",\"show_projects\":\"1\",\"project_text\":\"\\u0645\\u0634\\u0631\\u0648\\u0639\\u0627\\u062a \\u0648\\u0628\\u0631\\u0627\\u0645\\u062c \\u062e\\u064a\\u0631\\u064a\\u0629 \",\"enableTages\":\"1\",\"show_categories\":\"1\",\"category_text\":\"\\u0627\\u0644\\u0627\\u0642\\u0633\\u0627\\u0645 \",\"show_bottom\":\"1\",\"show_footer\":\"1\",\"bootom\":\"<p style=\\\"text-align:center;\\\"><img alt=\\\"\\\" class=\\\"img-fluid\\\" src=\\\"https:\\/\\/7ololnet.com\\/namaa\\/media\\/images\\/1111111111.png\\\" \\/><\\/p>\\r\\n\"}', 1583845973, 1589234381),
+(1, 'الاعدادات العامة', 'site', '{\"title\":\"\\u062c\\u0645\\u0639\\u064a\\u0629 \\u0646\\u0645\\u0627\\u0621 \\u0627\\u0644\\u0623\\u0647\\u0644\\u064a\\u0629 \\u0628\\u0645\\u0646\\u0637\\u0642\\u0629 \\u0645\\u0643\\u0629 \\u0627\\u0644\\u0645\\u0643\\u0631\\u0645\\u0629\",\"logo\":\"namaa-logo.png\",\"header_code\":\"\",\"footer_code\":\"\",\"show_banner\":\"1\",\"mobile_validation\":\"0\",\"show_projects\":\"1\",\"project_text\":\"\\u0645\\u0634\\u0631\\u0648\\u0639\\u0627\\u062a \\u0648\\u0628\\u0631\\u0627\\u0645\\u062c \\u062e\\u064a\\u0631\\u064a\\u0629 \",\"enableTages\":\"1\",\"show_categories\":\"1\",\"category_text\":\"\\u0627\\u0644\\u0627\\u0642\\u0633\\u0627\\u0645 \",\"show_bottom\":\"1\",\"show_footer\":\"1\",\"bootom\":null}', 1583845973, 1607436979),
 (2, 'اعدادات بيانات التواصل', 'contact', '{\"phone\":\"0597767751\",\"phone2\":\"0597767751\",\"mobile\":\"0597767751\",\"mobile2\":\"0597767751\",\"fax\":\"0597767751\",\"address\":\"\\u062c\\u062f\\u0629 \\u062d\\u064a \\u0627\\u0644\\u0646\\u0639\\u064a\\u0645\",\"email\":\"namaa@namaa.sa\",\"map\":\"https:\\/\\/www.google.com\\/maps\\/embed?pb=!1m13!1m8!1m3!1d3710.8054150744156!2d39.1637415!3d21.5544626!3m2!1i1024!2i768!4f13.1!3m2!1m1!2sNamaa!5e0!3m2!1sar!2ssa!4v1583928833064!5m2!1sar!2ssa\"}', 1583845973, 1586350008),
 (3, 'اعدادات الارشفة', 'seo', '{\"meta_keywords\":\"\",\"meta_description\":\"\"}', 1583845973, 1583916715),
 (4, 'اعدادات مواقع التواصل الاجتماعي', 'social', '{\"facebook\":\"\",\"twitter\":\"\",\"instagram\":\"\",\"linkedin\":\"\",\"youtube\":\"\"}', 1583845973, 1584360023),
 (5, 'اعدادات البريد الالكتروني', 'email', '{\"contacts_email\":\"\",\"donation_email\":\"donation@namaa.com\",\"sending_email\":\"donation@namaa.com\",\"sending_name\":\"\\u0645\\u062a\\u062c\\u0631 \\u0646\\u0645\\u0627\\u0621 \\u0627\\u0644\\u062e\\u064a\\u0631\\u064a\"}', 1583845973, 1588985382),
 (6, 'اعدادات رسائل SMS', 'sms', '{\"gateurl\":\"http:\\/\\/www.oursms.net\\/api\\/sendsms.php\",\"sms_username\":\"namaa\",\"sender_name\":\"Namaa.sa\",\"sms_password\":\"147147\",\"smsenabled\":\"0\"}', 1583845973, 1595338690),
-(7, 'اعدادات التصميم', 'theme', '{\"background_color\":\"\",\"background_image\":\"\",\"banner_image\":\"BB01.jpg\",\"banner_image_url\":\"#1\",\"projects_image\":\"BB02.jpg\",\"projects_image_url\":\"#2\",\"categories_image\":\"BB03.jpg\",\"categories_image_url\":\"#3\",\"categories_image2\":\"BB01.jpg\",\"categories_image2_url\":\"#4\",\"categories_image3\":\"BB02.jpg\",\"categories_image3_url\":\"#5\",\"bootom\":null}', 1583845975, 1585570246),
-(8, 'الاهداء الخيري', 'gift', '{\"rowrowrowrowrowrowrowrow2\":{\"name\":\"qweqweqw\",\"image\":\"section.png\"},\"rowrowrowrowrowrowrowrow3\":{\"name\":\"2342\",\"image\":\"image_05acc.png\"},\"rowrow3\":{\"name\":\"\\u0627\\u0644\\u064a \\u0635\\u062f\\u0633\\u0642\\u0633\",\"image\":\"[&#34;thuma6e_2.png&#34;,&#34;thuma6e.png&#34;,&#34;skyscraper-scaled.jpg&#34;,&#34;section.png&#34;,&#34;image_37ae5.jpg&#34;,&#34;image_07bdc.jpg&#34;,&#34;91ddb8751920595dfde2515820730482.gif&#34;,&#34;345.png&#34;]\"},\"row4\":{\"name\":\"\\u0627\\u0633\\u0645 \\u0627\\u0644\\u0641\\u0626\\u0629 :\",\"image\":\"[&#34;345.png&#34;,&#34;111.png&#34;]\"}}', 1583845971, 1585938109),
+(7, 'اعدادات التصميم', 'theme', '{\"background_color\":\"\",\"primary_color\":\"\",\"background_image\":\"\",\"banner_image\":\"BB01.jpg\",\"banner_image_url\":\"#1\",\"projects_image\":\"BB02.jpg\",\"projects_image_url\":\"#2\",\"categories_image\":\"BB03.jpg\",\"categories_image_url\":\"#3\",\"categories_image2\":\"BB01.jpg\",\"categories_image2_url\":\"#4\",\"categories_image3\":\"BB02.jpg\",\"categories_image3_url\":\"#5\"}', 1583845975, 1607430405),
+(8, 'الاهداء الخيري', 'gift', '{\"rowrowrowrowrowrowrowrowrow2\":{\"name\":\"qweqweqw\",\"image\":\"section.png\"},\"rowrowrowrowrowrowrowrowrow3\":{\"name\":\"2342\",\"image\":\"image_05acc.png\"},\"rowrowrow3\":{\"name\":\"\\u0627\\u0644\\u064a \\u0635\\u062f\\u0633\\u0642\\u0633\",\"image\":\"[&#34;thuma6e_2.png&#34;,&#34;thuma6e.png&#34;,&#34;skyscraper-scaled.jpg&#34;,&#34;section.png&#34;,&#34;image_37ae5.jpg&#34;,&#34;image_07bdc.jpg&#34;,&#34;91ddb8751920595dfde2515820730482.gif&#34;,&#34;345.png&#34;]\"},\"rowrow4\":{\"name\":\"\\u0627\\u0644\\u064a \\u0627\\u0645\\u064a\",\"image\":\"omy.jpg\"}}', 1583845971, 1603697846),
 (9, 'اعدادات الواجهة البرمجية API', 'api', '{\"api_user\":\"tarek\",\"api_key\":\"T@r3k2020\",\"api_enable\":\"1\"}', 1582972955, 1586997149),
 (10, 'اعدادات التنبيهات', 'notifications', '{\"confirm_enabled\":\"0\",\"confirm_subject\":\"\\u0645\\u062a\\u062c\\u0631 \\u0646\\u0645\\u0627\\u0621 \\u0627\\u0644\\u062e\\u064a\\u0631\\u064a : \\u062a\\u0623\\u0643\\u064a\\u062f \\u0627\\u0644\\u0637\\u0644\\u0628\",\"confirm_msg\":\"[[name]]\\r\\n \\u062a\\u0645 \\u062a\\u0623\\u0643\\u064a\\u062f \\u0637\\u0644\\u0628\\u0643\\u0645 \\u0631\\u0642\\u0645 [[identifier]] \\r\\n\\u0628\\u0645\\u0628\\u0644\\u063a [[total]] \\u0631\\u064a\\u0627\\u0644 \\r\\n\\u0641\\u064a \\u0645\\u0634\\u0631\\u0648\\u0639 [[project]] \\r\\n\\u0628\\u0627\\u0631\\u0643 \\u0627\\u0644\\u0644\\u0647 \\u0641\\u064a\\u0643\\u0645 \\u0648\\u0646\\u0641\\u0639\\u0646\\u0627 \\u0648\\u0623\\u064a\\u0627\\u0643\\u0645 \\u0648\\u062c\\u0639\\u0644\\u0647 \\u0641\\u064a \\u0645\\u064a\\u0632\\u0627\\u0646 \\u062d\\u0633\\u0646\\u0627\\u062a\\u0643\\u0645 \\r\\n\\u0643\\u0644 \\u0639\\u0627\\u0645 \\u0648\\u0627\\u0646\\u062a\\u0645 \\u0628\\u062e\\u064a\\u0631 \\u060c\\u060c\",\"inform_enabled\":\"0\",\"inform_subject\":\"\\u062a\\u0645 \\u0627\\u0633\\u062a\\u0644\\u0627\\u0645 \\u0637\\u0644\\u0628 \\u062a\\u0628\\u0631\\u0639\\u0643\\u0645\",\"inform_msg\":\"[[name]]\\r\\n  \\u062a\\u0645 \\u0627\\u0633\\u062a\\u0644\\u0627\\u0645 \\u0637\\u0644\\u0628\\u0643\\u0645 \\u0631\\u0642\\u0645 : [[identifier]]\\r\\n\\u0628\\u0645\\u0634\\u0631\\u0648\\u0639 : [[project]]\\r\\n\\u0628\\u0642\\u064a\\u0645\\u0629 : [[total]]  \\u0648\\u062c\\u0627\\u0631\\u064a \\u0645\\u0631\\u0627\\u062c\\u0639\\u0629 \\u0627\\u0644\\u0637\\u0644\\u0628 \\u0644\\u062a\\u0623\\u0643\\u064a\\u062f \\u0627\\u0644\\u0639\\u0645\\u0644\\u064a\\u0629 \\r\\n\\u0634\\u0643\\u0631\\u0627 \\u062c\\u0632\\u064a\\u0644\\u0627\\u064b \\u0644\\u0643\\u0645 ..\\r\\n\\u062c\\u0645\\u0639\\u064a\\u0629 \\u0646\\u0645\\u0627\\u0621 \\u0627\\u0644\\u0623\\u0647\\u0644\\u064a\\u0629 \\u0628\\u0645\\u0646\\u0637\\u0642\\u0629 \\u0645\\u0643\\u0629 \\u0627\\u0644\\u0645\\u0643\\u0631\\u0645\\u0629 ..\\r\\n\",\"confirm_sms\":\"0\",\"confirm_sms_msg\":\"[[name]]\\r\\n \\u062a\\u0645 \\u062a\\u0623\\u0643\\u064a\\u062f \\u0637\\u0644\\u0628\\u0643\\u0645 \\u0631\\u0642\\u0645 [[identifier]] \\r\\n\\u0628\\u0645\\u0628\\u0644\\u063a [[total]] \\u0631\\u064a\\u0627\\u0644 \\r\\n\\u0641\\u064a \\u0645\\u0634\\u0631\\u0648\\u0639 [[project]] \\r\\n\\u0628\\u0627\\u0631\\u0643 \\u0627\\u0644\\u0644\\u0647 \\u0641\\u064a\\u0643\\u0645 \\u0648\\u0646\\u0641\\u0639\\u0646\\u0627 \\u0648\\u0623\\u064a\\u0627\\u0643\\u0645 \\u0648\\u062c\\u0639\\u0644\\u0647 \\u0641\\u064a \\u0645\\u064a\\u0632\\u0627\\u0646 \\u062d\\u0633\\u0646\\u0627\\u062a\\u0643\\u0645 \\r\\n\\u0643\\u0644 \\u0639\\u0627\\u0645 \\u0648\\u0627\\u0646\\u062a\\u0645 \\u0628\\u062e\\u064a\\u0631 \\u060c\\u060c\"}', 1583845973, 1598179148);
 
@@ -737,6 +767,10 @@ CREATE TABLE IF NOT EXISTS `stores` (
   `employee_name` varchar(50) NOT NULL,
   `employee_image` varchar(255) NOT NULL,
   `employee_number` varchar(50) NOT NULL,
+  `job` varchar(100) DEFAULT NULL,
+  `mobile` varchar(15) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `whatsapp` varchar(20) DEFAULT NULL,
   `details` text DEFAULT NULL,
   `background_color` varchar(30) DEFAULT NULL,
   `background_image` varchar(255) DEFAULT NULL,
@@ -747,17 +781,20 @@ CREATE TABLE IF NOT EXISTS `stores` (
   `create_date` int(10) DEFAULT NULL,
   PRIMARY KEY (`store_id`),
   UNIQUE KEY `alias` (`alias`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `stores`
 --
 
-INSERT INTO `stores` (`store_id`, `alias`, `name`, `user`, `password`, `employee_name`, `employee_image`, `employee_number`, `details`, `background_color`, `background_image`, `meta_keywords`, `meta_description`, `status`, `modified_date`, `create_date`) VALUES
-(1, 'elsharafya', 'الشرفية', 'ahmed', '$2y$10$VOtbbUO.tWi7BxNMuRmNhOXrobJGfocceS.G.vfInKQXTXp7x2eaO', 'Ahmed', 'default.jpg', '111', 'المملكة العربية السعودية\r\nجدة\r\nشارع الأمير محمد بن عبد العزيز ( التحلية )\r\nالهاتف:0552360000\r\nساعات العمل: من 8 - 4 من الأحد الي الخميس', '', NULL, '', '', 1, 1598444724, NULL),
-(2, 'متجر_نماء_فرع_المحمدية', 'متجر نماء فرع المحمدية', 'a6e6s', '$2y$10$i/vrWLmAIvzQQVqiWtEOfumxF4syiJEAytXSF4Z0w0hbrLTLHDbLm', 'احمد المهدي', 'default.jpg', '1264885', '', '', 'No file was uploaded', '', '', 1, 1598264639, 1597843302),
-(3, 'متجر_نماء_فرع_حائل', 'متجر نماء فرع حائل', 'a6e6s1-gmail-com', '$2y$10$Ol3KjJcz6guoNit4G3XlYOSQ7VWViDYrYDzOuK7JA0nr8GZoTALfe', 'احمد المهدي', 'default.jpg', '111', 'https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4', 'rgba(83,70,255,1)', 'image_45eb9.jpg', '', '', 1, 1598264622, 1597914532),
-(4, 'شرفية', 'متجر نماء فرع الشرفية', 'a6e6s1-gmail-com', '$2y$10$/317fuBnDiHZiTkxZ4/BjuhdV8XkAKVW4b9MAiywcEofTplJC6Mwm', 'احمد المهدي', 'default.jpg', '1264885', '', '', 'No file was uploaded', '', '', 1, 1598448129, 1597931258);
+INSERT INTO `stores` (`store_id`, `alias`, `name`, `user`, `password`, `employee_name`, `employee_image`, `employee_number`, `job`, `mobile`, `location`, `whatsapp`, `details`, `background_color`, `background_image`, `meta_keywords`, `meta_description`, `status`, `modified_date`, `create_date`) VALUES
+(1, 'elsharafya', 'الشرفية', 'ahmed', '$2y$10$VOtbbUO.tWi7BxNMuRmNhOXrobJGfocceS.G.vfInKQXTXp7x2eaO', 'Ahmed', 'default.jpg', '111', NULL, NULL, NULL, NULL, 'المملكة العربية السعودية\r\nجدة\r\nشارع الأمير محمد بن عبد العزيز ( التحلية )\r\nالهاتف:0552360000\r\nساعات العمل: من 8 - 4 من الأحد الي الخميس', '', NULL, '', '', 1, 1598444724, NULL),
+(2, 'a6e6s', 'متجر نماء فرع المحمدية', 'a6e6s', '$2y$10$7qBLAYZoq2k9j6Wa7LRMkuuPZHYmYmalTd7jmMPd3vu20IzgR5k3.', 'احمد المهدي', 'default.jpg', '1264885', NULL, NULL, NULL, NULL, '', '', 'No file was uploaded', '', '', 1, 1600350082, 1597843302),
+(3, 'متجر_نماء_فرع_حائل', 'متجر نماء فرع حائل', 'a6e6s1-gmail-com', '$2y$10$Ol3KjJcz6guoNit4G3XlYOSQ7VWViDYrYDzOuK7JA0nr8GZoTALfe', 'احمد المهدي', 'default.jpg', '111', NULL, NULL, NULL, NULL, 'https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4https://www.youtube.com/watch?v=P1HhTi4JYQ4', 'rgba(83,70,255,1)', 'image_45eb9.jpg', '', '', 1, 1598264622, 1597914532),
+(4, 'شرفية', 'متجر نماء فرع الشرفية', 'a6e6s1-gmail-com', '$2y$10$/317fuBnDiHZiTkxZ4/BjuhdV8XkAKVW4b9MAiywcEofTplJC6Mwm', 'احمد المهدي', 'default.jpg', '1264885', NULL, NULL, NULL, NULL, '', '', 'No file was uploaded', '', '', 1, 1598448129, 1597931258),
+(5, 'admin', 'admin', 'admin', '$2y$10$N2LkzetawWqG3rsIDcv1mu0.OAu.lvzDfjYzPL.UgAPiy7ALPWYum', 'admin', 'image_8bd49.jpg', 'admin', 'مدير الفرع', '+966550597767', 'public_html/wp-content/plugins', '0597767751', 'ddddddddddddddddddd\r\nddddddddddddddddddddd\r\ndddddddddddddd', '', 'No file was uploaded', '', '', 1, 1606996878, 1600087363),
+(6, 'Ahmed_Elmahdy', 'Ahmed Elmahdy', 'a6e6s1-gmail-com', '$2y$10$fqjZYE7TQGOrf/GomzDTpeLYEQRdKw6G/K9HMpNO3j86v2jYnY1HS', 'احمد المهدي', 'image_eda15.jpg', '1264885', 'مدير الفرع', '0597767751', 'public_html/wp-content/plugins', '00966597767751', 'Tips to stay focused and finish your hobby project\r\nPodcast 292: Goodbye to Flash, we’ll see you in Rust', '', 'No file was uploaded', '', '', 1, 1607261149, 1606976162),
+(7, '2Ahmed_Elmahdy', '2Ahmed Elmahdy', 'a6e6s1-gmail-com', '$2y$10$N3CfVACBTrSFjdpFQxU8q.1t9DR8TIwKEJ8pIVD.JoOF6PGs5dpSG', 'احمد المهدي', 'image_119c3.jpg', '111', '', '', '', '', '', 'rgba(255,107,88,1)', 'image_c8d84.jpg', '', '', 1, 1606999500, 1606976294);
 
 -- --------------------------------------------------------
 
@@ -776,7 +813,7 @@ CREATE TABLE IF NOT EXISTS `stores_projects` (
   PRIMARY KEY (`stores_projects_id`),
   KEY `tag_id` (`store_id`),
   KEY `project_id` (`project_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `stores_projects`
@@ -817,7 +854,28 @@ INSERT INTO `stores_projects` (`stores_projects_id`, `store_id`, `project_id`, `
 (59, 1, 4, 0, 1598444053, 1598444053),
 (60, 1, 3, 0, 1598444053, 1598444053),
 (61, 1, 2, 0, 1598444054, 1598444054),
-(62, 1, 1, 0, 1598444054, 1598444054);
+(62, 1, 1, 0, 1598444054, 1598444054),
+(63, 5, 21, 1, 1600089220, 1600089220),
+(64, 5, 20, 1, 1600089220, 1600089220),
+(65, 5, 19, 1, 1600089220, 1600089220),
+(66, 5, 18, 1, 1600089220, 1600089220),
+(67, 5, 17, 1, 1600089220, 1600089220),
+(68, 5, 16, 1, 1600089220, 1600089220),
+(69, 5, 15, 1, 1600089220, 1600089220),
+(70, 5, 14, 1, 1600089220, 1600089220),
+(71, 5, 13, 1, 1600089220, 1600089220),
+(72, 5, 12, 1, 1600089220, 1600089220),
+(73, 5, 11, 1, 1600089220, 1600089220),
+(74, 5, 10, 1, 1600089220, 1600089220),
+(75, 5, 9, 1, 1600089220, 1600089220),
+(76, 5, 8, 1, 1600089220, 1600089220),
+(77, 5, 7, 1, 1600089220, 1600089220),
+(78, 5, 6, 1, 1600089220, 1600089220),
+(79, 5, 5, 1, 1600089220, 1600089220),
+(80, 5, 4, 1, 1600089220, 1600089220),
+(81, 5, 3, 1, 1600089220, 1600089220),
+(82, 5, 2, 1, 1600089220, 1600089220),
+(83, 5, 1, 1, 1600089220, 1600089220);
 
 -- --------------------------------------------------------
 
@@ -941,7 +999,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `mobile`, `image`, `bio`, `activation_code`, `request_password_time`, `group_id`, `login_date`, `status`, `modified_date`, `create_date`) VALUES
-(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1597672893, 1, 1574344167, 1543831099),
+(22, 'احمد المهدي', 'a6e6s1@gmail.com', '$2y$10$veHBsCh4q39J.k0MPGKfDuHhraBWnyQmnhoBVRIA1rZyL.eLAp61a', '597767751', 'thuma6e.png', '', '98783', 0, 1, 1606995394, 1, 1574344167, 1543831099),
 (23, 'Monyb Younos', 'munybe@gmail.com', '$2y$10$Raf3iUVZJPQr4//YEBuypO.fWDuSWTRZPDmCa7.Ta84v21ZFWl056', '0597767751', 'سيسش شسيشسي سيسش ضصث  غعغف عفغ.png', '', NULL, NULL, 3, NULL, 1, 1584428774, 1572786123);
 
 --

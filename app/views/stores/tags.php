@@ -2,23 +2,36 @@
 <?php flash('msg'); ?>
 <div class="container page">
     <div class="card">
-            <div class="row no-gutters">
-                <div class="col-12 bg-primary">
-                    <h1 class="card-title text-primary text-light text-center pt-4" style="margin-right:150px !important"><?php echo $data['store']->name; ?></h1>
-                </div>
+        <div class="row no-gutters">
+            <div class="col-12 bg-primary">
+                <h1 class="card-title text-primary text-light text-center pt-4" style="margin-right:150px !important"><?php echo $data['store']->name; ?></h1>
             </div>
-            <div class="row p-3">
-                <div class="col-3" style="margin-top:-50px !important">
-                    <img src="<?php echo (empty($data['store']->employee_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->employee_image; ?>" class="img-thumbnail rounded-circle " alt="...">
-                </div>
-                <div class="col-9">
-                    <div class="card-body">
-                        <p class="card-text"><?php echo nl2br($data['store']->details); ?></p>
-
-                    </div>
+        </div>
+        <div class="row p-3">
+            <div class="col-3" style="margin-top:-50px !important">
+                <img src="<?php echo (empty($data['store']->employee_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->employee_image; ?>" class="img-thumbnail rounded-circle " alt="...">
+            </div>
+            <div class="col-9">
+                <div class="card-body">
+                    <h5><label class="text-primary"><?php echo $data['store']->employee_name . ' : ' . $data['store']->job; ?></label></h5>
+                    <?php
+                    if (!empty($data['store']->details)) {
+                        echo '<p class="card-text">' . nl2br($data['store']->details) . '</p>';
+                    }
+                    if (!empty($data['store']->mobile)) {
+                        echo '<p class="mr-4"><a href="tel:' . ($data['store']->mobile) . '"> <i class="icofont-phone icofont-lg"></i> <span class=""> رقم الجوال </span>:' . ($data['store']->mobile) . '</a></p>';
+                    }
+                    if (!empty($data['store']->whatsapp)) {
+                        echo '<p class="mr-4"><a class="text-success" href="https://wa.me/' . $data['store']->whatsapp . '"><i class="icofont-whatsapp icofont-lg"> </i><span class=""> رقم الواتس </span> :' . ($data['store']->whatsapp) . '</a></p>';
+                    }
+                    if (!empty($data['store']->location)) {
+                        echo '<p class="mr-4"><a class="text-dark" href="' . ($data['store']->location) . '" target="_blank"><i class="icofont-map icofont-lg"></i> <span class=""> العنوان </span> </a></p>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
+    </div>
     <!--- Products Start --->
     <section id="products">
         <div class="row mt-4 ">
@@ -33,99 +46,99 @@
             echo (count($data['projects']) < 1) ? '<p class="text-center col-12 pb-5 my-5">لا يوجد منتجات تابعة لهذه الفئة</p>' : '';
             foreach ($data['projects'] as $project) :
             ?>
-                 <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
-                        <form class="card" method="post" action="<?php echo URLROOT . '/carts/add/'; ?>">
-                            <a href="<?php echo URLROOT . '/store/project/' . $project->project_id . '/' . $data['store']->store_id . '-' . $project->alias; ?>" class="">
-                                <img class="card-img-top" src="<?php echo (empty($project->secondary_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->secondary_image; ?>" alt="<?php echo $project->name; ?>">
-                            </a>
-                            <div class="body-card m-2">
-                                <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 85); ?></p>
-                            </div>
-                            <div class="p-2 amount-select">
-                                <?php
-                                empty($project->fake_target) ? $target = $project->collected_traget : $target = $project->fake_target;
-                                ($project->target_price) ?: $project->target_price = 1;
-                                if ($project->enable_cart) :
-                                    $donation_type = json_decode($project->donation_type);
-                                ?>
-                                    <div class="my-2 btn-group-toggle" data-toggle="buttons">
-                                        <?php
-                                        switch ($donation_type->type) {
-                                            case 'share':
-                                                foreach ($donation_type->value as $value) {
-                                                    echo '<label class="btn btn-secondary btn-sm m-1">
+                <div class="product col-12 col-xl-4 col-md-6 mt-3 wow zoomIn">
+                    <form class="card" method="post" action="<?php echo URLROOT . '/carts/add/'; ?>">
+                        <a href="<?php echo URLROOT . '/store/project/' . $project->project_id . '/' . $data['store']->store_id . '-' . $project->alias; ?>" class="">
+                            <img class="card-img-top" src="<?php echo (empty($project->secondary_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $project->secondary_image; ?>" alt="<?php echo $project->name; ?>">
+                        </a>
+                        <div class="body-card m-2">
+                            <p class="card-text"><?php echo mb_substr(strip_tags($project->description), 0, 85); ?></p>
+                        </div>
+                        <div class="p-2 amount-select">
+                            <?php
+                            empty($project->fake_target) ? $target = $project->collected_traget : $target = $project->fake_target;
+                            ($project->target_price) ?: $project->target_price = 1;
+                            if ($project->enable_cart) :
+                                $donation_type = json_decode($project->donation_type);
+                            ?>
+                                <div class="my-2 btn-group-toggle" data-toggle="buttons">
+                                    <?php
+                                    switch ($donation_type->type) {
+                                        case 'share':
+                                            foreach ($donation_type->value as $value) {
+                                                echo '<label class="btn btn-secondary btn-sm m-1">
 			                                                            <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
 			                                                        </label>';
-                                                }
-                                                break;
-                                            case 'open':
-                                                echo '<label class="active">قم بكتابة المبلغ المراد التبرع به
+                                            }
+                                            break;
+                                        case 'open':
+                                            echo '<label class="active">قم بكتابة المبلغ المراد التبرع به
                                                                                                             <input type="hidden" name="donation_type" value="مفتوح"></label>';
-                                                break;
-                                            case 'unit':
-                                                foreach ($donation_type->value as $value) {
-                                                    echo '<label class="btn btn-secondary btn-sm m-1">
+                                            break;
+                                        case 'unit':
+                                            foreach ($donation_type->value as $value) {
+                                                echo '<label class="btn btn-secondary btn-sm m-1">
                                                                                                                     <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
                                                                                                                 </label>';
-                                                }
-                                                break;
-                                            case 'fixed':
-                                                echo '<label class="btn btn-secondary btn-sm m-1">
+                                            }
+                                            break;
+                                        case 'fixed':
+                                            echo '<label class="btn btn-secondary btn-sm m-1">
 			                                                        <input type="radio" value ="قيمة ثابته" name="donation_type" required class="d-value" id="' . $donation_type->value . '"> ' . $donation_type->value . ' ريال
 			                                                    </label>';
-                                                break;
-                                        }
-                                        ?>
-                                        <input placeholder="القيمة" min="1" type="number" class="amt col-4 rounded-lg" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
-                                        <input type="hidden" name="project_id" value="<?php echo $project->project_id; ?>">
-                                        <input type="hidden" name="store_id" value="<?php echo $data['store']->store_id; ?>">
-                                    </div>
-                                <?php endif; ?>
-                                <div class="p-2">
-                                    <small class="m-0 pb-2">
-                                        تم جمع
-                                        <span class=" mx-1">
-                                            <?php
-                                            if (!empty($project->target_unit) && !empty($project->unit_price)) { // check if user set unit and unit price
-                                                echo empty($project->fake_target) ? $target = $project->total / $project->unit_price : $target = $project->fake_target;
-                                                echo " $project->target_unit ";
-                                            } else {
-                                                echo empty($project->fake_target) ? $target = (int) $project->total : $target = (int) $project->fake_target;
-                                                echo ' <i class="icofont-riyal"></i> ';
-                                            }
-                                            ($project->target_price) ?: $project->target_price = 1;
-                                            ?>
-                                        </span>
-                                    </small>
-                                    <small class=" pt-1 float-left"><span>المستهدف : </span>
-                                        <span><?php echo $project->target_price; ?></span>
-                                        <?php if (empty($project->target_unit)) {
-                                            echo '<i class="icofont-riyal"></i>';
+                                            break;
+                                    }
+                                    ?>
+                                    <input placeholder="القيمة" min="1" type="number" class="amt col-4 rounded-lg" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
+                                    <input type="hidden" name="project_id" value="<?php echo $project->project_id; ?>">
+                                    <input type="hidden" name="store_id" value="<?php echo $data['store']->store_id; ?>">
+                                </div>
+                            <?php endif; ?>
+                            <div class="p-2">
+                                <small class="m-0 pb-2">
+                                    تم جمع
+                                    <span class=" mx-1">
+                                        <?php
+                                        if (!empty($project->target_unit) && !empty($project->unit_price)) { // check if user set unit and unit price
+                                            echo empty($project->fake_target) ? $target = $project->total / $project->unit_price : $target = $project->fake_target;
+                                            echo " $project->target_unit ";
                                         } else {
-                                            echo $project->target_unit;
-                                        } ?>
-                                    </small>
-                                    <div class="progress my-1">
-                                        <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $project->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-                                            <?php echo ceil($target * 100 / $project->target_price); ?> %
-                                        </h6>
-                                    </div>
+                                            echo empty($project->fake_target) ? $target = (int) $project->total : $target = (int) $project->fake_target;
+                                            echo ' <i class="icofont-riyal"></i> ';
+                                        }
+                                        ($project->target_price) ?: $project->target_price = 1;
+                                        ?>
+                                    </span>
+                                </small>
+                                <small class=" pt-1 float-left"><span>المستهدف : </span>
+                                    <span><?php echo $project->target_price; ?></span>
+                                    <?php if (empty($project->target_unit)) {
+                                        echo '<i class="icofont-riyal"></i>';
+                                    } else {
+                                        echo $project->target_unit;
+                                    } ?>
+                                </small>
+                                <div class="progress my-1">
+                                    <h6 class="p-1 progress-bar progress-bar-striped bg-success" role="progressbar" style="width:<?php echo ceil($target * 100 / $project->target_price) . "%"; ?>" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+                                        <?php echo ceil($target * 100 / $project->target_price); ?> %
+                                    </h6>
                                 </div>
                             </div>
-                            <div class="card-footer cart-footer bg-primary mt-1">
-                                <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
-                                    <a href="<?php echo URLROOT . '/store/project/' . $project->project_id . '/' . $data['store']->store_id . '-' . $project->alias; ?>" class="card-text">
-                                        <i class="icofont-files-stack"></i> التفاصيل
-                                    </a>
-                                    <?php if ($project->enable_cart) : ?>
-                                        <button class="cart-add" name="projectCategories" value="<?php echo $project->category_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
-                                        <input type="number" name="quantity" min="1" value="1" required id="quantity" class="col-2 py-0 px-0 float-left">
-                                        <input type="hidden" name="url" value="<?php echo URLROOT . '/carts/ajaxAdd'; ?>">
-                                    <?php endif; ?>
-                                </div>
+                        </div>
+                        <div class="card-footer cart-footer bg-primary mt-1">
+                            <div class="<?php echo $project->enable_cart ?: 'text-center'; ?> ">
+                                <a href="<?php echo URLROOT . '/store/project/' . $project->project_id . '/' . $data['store']->store_id . '-' . $project->alias; ?>" class="card-text">
+                                    <i class="icofont-files-stack"></i> التفاصيل
+                                </a>
+                                <?php if ($project->enable_cart) : ?>
+                                    <button class="cart-add" name="projectCategories" value="<?php echo $project->category_id; ?>" type="submit"><i class="icofont-cart-alt"></i> اضف الي السلة</button>
+                                    <input type="number" name="quantity" min="1" value="1" required id="quantity" class="col-2 py-0 px-0 float-left">
+                                    <input type="hidden" name="url" value="<?php echo URLROOT . '/carts/ajaxAdd'; ?>">
+                                <?php endif; ?>
                             </div>
-                        </form>
-                    </div> <!-- end product -->
+                        </div>
+                    </form>
+                </div> <!-- end product -->
             <?php endforeach; ?>
 
         </div>
@@ -157,7 +170,7 @@
     </div>
     <!-- end products -->
 </div>
-<?php require APPROOT . '/app/views/inc/footer.php'; ?>
+<?php require APPROOT . '/app/views/inc/store-footer.php'; ?>
 <script>
     //submitting amount value 
     // if user select from units or fixed or share donation

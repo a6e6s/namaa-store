@@ -16,8 +16,21 @@
                 </div>
                 <div class="col-9">
                     <div class="card-body">
-                        <p class="card-text"><?php echo nl2br($data['store']->details); ?></p>
-
+                        <h5><label class="text-primary"><?php echo $data['store']->employee_name . ' : ' . $data['store']->job; ?></label></h5>
+                        <?php 
+                        if(!empty($data['store']->details)){
+                            echo '<p class="card-text">' . nl2br($data['store']->details) .'</p>';
+                        }
+                        if(!empty($data['store']->mobile)){
+                            echo '<p class="mr-4"><a href="tel:' . ($data['store']->mobile) .'"> <i class="icofont-phone icofont-lg"></i> <span class=""> رقم الجوال </span>:' . ($data['store']->mobile) .'</a></p>';
+                        }
+                        if(!empty($data['store']->whatsapp)){
+                            echo '<p class="mr-4"><a class="text-success" href="https://wa.me/' . $data['store']->whatsapp .'"><i class="icofont-whatsapp icofont-lg"> </i><span class=""> رقم الواتس </span> :' . ($data['store']->whatsapp) .'</a></p>';
+                        }
+                        if(!empty($data['store']->location)){
+                            echo '<p class="mr-4"><a class="text-dark" href="' . ($data['store']->location) .'" target="_blank"><i class="icofont-map icofont-lg"></i> <span class=""> العنوان </span> </a></p>';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -168,7 +181,7 @@
         <!-- end products -->
     </div>
 </div>
-<?php require APPROOT . '/app/views/inc/footer.php'; ?>
+<?php require APPROOT . '/app/views/inc/store-footer.php'; ?>
 <script>
     //submitting amount value
     // if user select from units or fixed or share donation

@@ -1,4 +1,35 @@
-<?php require APPROOT . '/app/views/inc/header.php'; ?>
+<?php require APPROOT . '/app/views/inc/store-header.php'; ?>
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-12 bg-primary">
+            <h1 class="card-title text-primary text-light text-center pt-4" style="margin-right:150px !important"><?php echo $data['store']->name; ?></h1>
+        </div>
+    </div>
+    <div class="row p-3">
+        <div class="col-3" style="margin-top:-50px !important">
+            <img src="<?php echo (empty($data['store']->employee_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->employee_image; ?>" class="img-thumbnail rounded-circle " alt="...">
+        </div>
+        <div class="col-9">
+            <div class="card-body">
+                <h5><label class="text-primary"><?php echo $data['store']->employee_name . ' : ' . $data['store']->job; ?></label></h5>
+                <?php
+                if (!empty($data['store']->details)) {
+                    echo '<p class="card-text">' . nl2br($data['store']->details) . '</p>';
+                }
+                if (!empty($data['store']->mobile)) {
+                    echo '<p class="mr-4"><a href="tel:' . ($data['store']->mobile) . '"> <i class="icofont-phone icofont-lg"></i> <span class=""> رقم الجوال </span>:' . ($data['store']->mobile) . '</a></p>';
+                }
+                if (!empty($data['store']->whatsapp)) {
+                    echo '<p class="mr-4"><a class="text-success" href="https://wa.me/' . $data['store']->whatsapp . '"><i class="icofont-whatsapp icofont-lg"> </i><span class=""> رقم الواتس </span> :' . ($data['store']->whatsapp) . '</a></p>';
+                }
+                if (!empty($data['store']->location)) {
+                    echo '<p class="mr-4"><a class="text-dark" href="' . ($data['store']->location) . '" target="_blank"><i class="icofont-map icofont-lg"></i> <span class=""> العنوان </span> </a></p>';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
 <!--- Product Start --->
 <section id="products">
     <div class="product mt-3 wow zoomIn">
@@ -279,9 +310,8 @@
                 <div class="addthis_inline_share_toolbox"></div>
             </div>
             <div class="row text-center mx-1 mt-4 ">
-                <?php echo ($data['project']->whatsapp) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-success icofont-whatsapp" href="https://wa.me/' . $data['project']->whatsapp . ' "> ' . $data['project']->whatsapp . ' </a></div>' : ''; ?>
-                <?php echo ($data['project']->mobile) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-primary icofont-phone" href="tel:' . $data['project']->mobile . '"> ' . $data['project']->mobile . '</a></div>' : ''; ?>
-                <?php echo ($data['project']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '"> العودة الي الرئيسية</a></div>' : ''; ?>
+                <?php echo ($data['store']->whatsapp) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-success icofont-whatsapp" href="https://wa.me/' . $data['store']->whatsapp . ' "> ' . $data['store']->whatsapp . ' </a></div>' : ''; ?>
+                <?php echo ($data['store']->mobile) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-primary icofont-phone" href="tel:' . $data['store']->mobile . '"> ' . $data['store']->mobile . '</a></div>' : ''; ?>
             </div>
         </div>
     </div>
@@ -307,7 +337,7 @@ $footer .= ' <script src="' . URLROOT . '/templates/default/js/jquery.inputmask.
 $footer .= ' <script>
                 $(":input").inputmask();
             </script>' . "\n\t";
-require APPROOT . '/app/views/inc/footer.php'; ?>
+require APPROOT . '/app/views/inc/store-footer.php'; ?>
 <script>
     // enable gift options
     $('.gift-values').addClass('d-none');

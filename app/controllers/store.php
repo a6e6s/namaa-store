@@ -87,6 +87,7 @@ class Store extends Controller
 
         $data = [
             'store_id' => $store_id,
+            'store' => $store,
             'project' => $project,
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->projectsModel->getSettings('contact')->value),

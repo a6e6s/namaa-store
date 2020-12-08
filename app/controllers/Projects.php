@@ -35,6 +35,7 @@ class Projects extends Controller
         ($project = $this->projectsModel->getProjectById($id)) ?: flashRedirect('index', 'msg', ' هذا القسم غير موجود او ربما تم حذفه ');
         $data = [
             'project' => $project,
+            'theme_settings' => json_decode($this->projectsModel->getSettings('theme')->value),
             'site_settings' => json_decode($this->projectsModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->projectsModel->getSettings('contact')->value),
             'gift_settings' => json_decode($this->projectsModel->getSettings('gift')->value),

@@ -61,6 +61,17 @@ For more information about the author , see <http://www.ahmedx.com/>.
     <!--- CSS style --->
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/templates/default/css/style.css">
     <?php echo isset($data['site_settings']->header_code) ? $data['site_settings']->header_code : ''; ?>
+    <style>
+        .bg-primary,
+        div.scrollmenu,
+        .btn-primary,
+        a.activate,
+        .footer-bottom {
+            background: #<?php echo isset($data['theme_settings']->primary_color) ? $data['theme_settings']->primary_color : ''; ?> !important;
+        }
+    </style>
+
+
 </head>
 
 <body style="background:<?php echo $this->meta->background; ?>;">

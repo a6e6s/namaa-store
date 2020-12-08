@@ -83,7 +83,7 @@
                     <div class="form-group row">
                         <label for="mobile" class="col-sm-2 col-form-label">رقم الجوال</label>
                         <div class="input-group col-sm-10 mobile-validate">
-                            <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '0599999999'">
+                            <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="0500000000" id="mobile" data-inputmask="'mask': '9999999999'">
                             <?php if ($data['site_settings']->mobile_validation) { ?>
                                 <div class="">
                                     <a class="input-group-text activate" data-toggle="modal" data-target="#addcode-x">ارسال </a>

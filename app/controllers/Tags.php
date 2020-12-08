@@ -35,6 +35,7 @@ class Tags extends Controller
         $data = [
             'tag' => $tag,
             'pagesLinks' => $this->tagModel->getMenu(),
+            'theme_settings' => json_decode($this->tagModel->getSettings('theme')->value),
             'site_settings' => json_decode($this->tagModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->tagModel->getSettings('contact')->value),
             'projects' => $this->tagModel->getProductsByTag($id, $start, $perpage),

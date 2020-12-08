@@ -1,35 +1,8 @@
-<?php require APPROOT . '/app/views/inc/store-header.php'; ?>
-<div class="card">
-    <div class="row no-gutters">
-        <div class="col-12 bg-primary">
-            <h1 class="card-title text-primary text-light text-center pt-4" style="margin-right:150px !important"><?php echo $data['store']->name; ?></h1>
-        </div>
-    </div>
-    <div class="row p-3">
-        <div class="col-3" style="margin-top:-50px !important">
-            <img src="<?php echo (empty($data['store']->employee_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->employee_image; ?>" class="img-thumbnail rounded-circle " alt="...">
-        </div>
-        <div class="col-9">
-            <div class="card-body">
-                <h5><label class="text-primary"><?php echo $data['store']->employee_name . ' : ' . $data['store']->job; ?></label></h5>
-                <?php
-                if (!empty($data['store']->details)) {
-                    echo '<p class="card-text">' . nl2br($data['store']->details) . '</p>';
-                }
-                if (!empty($data['store']->mobile)) {
-                    echo '<p class="mr-4"><a href="tel:' . ($data['store']->mobile) . '"> <i class="icofont-phone icofont-lg"></i> <span class=""> رقم الجوال </span>:' . ($data['store']->mobile) . '</a></p>';
-                }
-                if (!empty($data['store']->whatsapp)) {
-                    echo '<p class="mr-4"><a class="text-success" href="https://wa.me/' . $data['store']->whatsapp . '"><i class="icofont-whatsapp icofont-lg"> </i><span class=""> رقم الواتس </span> :' . ($data['store']->whatsapp) . '</a></p>';
-                }
-                if (!empty($data['store']->location)) {
-                    echo '<p class="mr-4"><a class="text-dark" href="' . ($data['store']->location) . '" target="_blank"><i class="icofont-map icofont-lg"></i> <span class=""> العنوان </span> </a></p>';
-                }
-                ?>
-            </div>
-        </div>
-    </div>
-</div>
+<?php 
+require APPROOT . '/app/views/inc/store-header.php';
+require APPROOT . '/app/views/inc/employee-card.php';
+?>
+
 <!--- Product Start --->
 <section id="products">
     <div class="product mt-3 wow zoomIn">
@@ -129,7 +102,7 @@
                         <div class="form-group row">
                             <label for="mobile" class="col-sm-2 col-form-label">رقم الجوال</label>
                             <div class="input-group col-sm-10 mobile-validate">
-                                <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '0599999999'">
+                                <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="0500000000" id="mobile" data-inputmask="'mask': '9999999999'">
                                 <?php if ($data['project']->mobile_confirmation == 1) : ?>
                                     <div class="">
                                         <a class="input-group-text activate" data-toggle="modal" data-target="#addcode-x">ارسال </a>
@@ -312,6 +285,9 @@
             <div class="row text-center mx-1 mt-4 ">
                 <?php echo ($data['store']->whatsapp) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-success icofont-whatsapp" href="https://wa.me/' . $data['store']->whatsapp . ' "> ' . $data['store']->whatsapp . ' </a></div>' : ''; ?>
                 <?php echo ($data['store']->mobile) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-primary icofont-phone" href="tel:' . $data['store']->mobile . '"> ' . $data['store']->mobile . '</a></div>' : ''; ?>
+            </div>
+            <div class="row ">
+                <?php echo ($data['project']->back_home) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '/store/' . $data['store']->alias . '"> العودة الي الرئيسية</a></div>' : ''; ?>
             </div>
         </div>
     </div>

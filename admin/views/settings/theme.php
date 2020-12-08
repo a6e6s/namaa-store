@@ -41,10 +41,16 @@ require ADMINROOT . '/views/inc/header.php';
                     <input type="text" id="settingTitle" class="form-control" name="title" placeholder="عنوان الاعداد" value="<?php echo $data['title']; ?>">
                 </div>
             </div>
-            <div class="form-group col-xs-11">
+            <div class="form-group col-xs-6">
                 <label class="control-label" for="settingTitle">لون الخلفية : </label>
                 <div class="has-feedback">
-                    <input type="text" class="form-control colorpicker" name="value[background_color]" placeholder="عنوان الموقع" value="<?php echo $data['value']->background_color; ?>">
+                    <input type="text" class="form-control colorpicker" name="value[background_color]" placeholder="لون الخلفية" value="<?php echo $data['value']->background_color; ?>">
+                </div>
+            </div>
+            <div class="form-group col-xs-6">
+                <label class="control-label" for="settingTitle">اللون الاساسي : </label>
+                <div class="has-feedback">
+                    <input type="text" class="form-control colorpicker" name="value[primary_color]" placeholder="اللون الاساسي" value="<?php echo $data['value']->primary_color; ?>">
                 </div>
             </div>
             <div class="form-group col-xs-12">

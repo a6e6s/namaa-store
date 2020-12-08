@@ -21,6 +21,7 @@ class Donors extends Controller
             'pageTitle' => 'الرئيسية: ' . SITENAME,
             'pagesLinks' => $this->donorModel->getMenu(),
             'donations' => $this->donorModel->getDonationsByMobail($_SESSION['login']),
+            'theme_settings' => json_decode($this->donorModel->getSettings('theme')->value),
             'site_settings' => json_decode($this->donorModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->donorModel->getSettings('contact')->value),
         ];

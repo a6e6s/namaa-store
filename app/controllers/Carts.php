@@ -12,6 +12,7 @@ class Carts extends Controller
     public function index()
     {
         $data = [
+            'theme_settings' => json_decode($this->cartModel->getSettings('theme')->value),
             'site_settings' => json_decode($this->cartModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->cartModel->getSettings('contact')->value),
             'pagesLinks' => $this->cartModel->getMenu(),

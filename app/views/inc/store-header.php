@@ -67,7 +67,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
         .btn-primary,
         a.activate,
         .footer-bottom {
-            background: #<?php echo isset($data['theme_settings']->primary_color) ? $data['theme_settings']->primary_color : ''; ?> !important;
+            background: <?php echo isset($data['theme_settings']->primary_color) ?  '#' . $data['theme_settings']->primary_color : ''; ?> !important;
         }
     </style>
 </head>

@@ -252,8 +252,11 @@ class Projects extends Controller
             'project_id' => $_SESSION['payment']['project_id'],
             'hash' => $_SESSION['donation']['hash'],
             'status' => $status,
-        ];
-        $this->projectsModel->updateOrderMeta($data); //update donation meta and set status
+        ]; 
+        // $status = 1;
+        //updating donation status in donation table
+        // $this->projectsModel->updateDonationStatus( $this->projectsModel->getOrderByHash($hash)->order_id, $status);
+        $this->projectsModel->updateOrderMeta($data); //update donation meta and set status on order table
         //send Email and SMS confirmation
         $messaging = $this->model('Messaging');
         if ($status == 1) $messaging->sendConfirmation($_SESSION['sendData']);

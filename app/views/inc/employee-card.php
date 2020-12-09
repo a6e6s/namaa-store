@@ -1,10 +1,10 @@
 <div class="card">
-    <div class="row no-gutters bg-primary">
-        <div class="col-sm-2 pr-3" style="margin:-10px 0 -30px 0">
+    <div class="row no-gutters bg-primary justify-content-center">
+        <div class="col-sm-2 pr-3 col-3" style="margin:-10px 0 -30px 0">
             <img src="<?php echo (empty($data['store']->employee_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->employee_image; ?>" class="img-thumbnail rounded-circle " alt="...">
         </div>
         <div class="col-sm-10 text-light text-center pt-5">
-            <h1 class="card-title "><?php echo $data['store']->name; ?></h1>
+            <h2 class="card-title "><?php echo $data['store']->name; ?></h2>
             <h5><label class=""><?php echo $data['store']->employee_name . ' : ' . $data['store']->job; ?></label></h5>
         </div>
     </div>

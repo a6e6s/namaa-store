@@ -147,9 +147,10 @@ class Project extends Model
     public function updateDonationStatus($order_id, $status)
     {
         $query = 'UPDATE donations SET status = :status, modified_date = :modified_date WHERE order_id = :order_id ';
+        $this->db->query($query);
         $this->db->bind(':status', $status);
-        $this->db->bind(':order_id', $order_id);
         $this->db->bind(':modified_date', time());
+        $this->db->bind(':order_id', $order_id);
         // excute
         if ($this->db->excute()) {
             return true;

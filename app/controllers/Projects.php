@@ -252,17 +252,16 @@ class Projects extends Controller
             'project_id' => $_SESSION['payment']['project_id'],
             'hash' => $_SESSION['donation']['hash'],
             'status' => $status,
-        ]; 
-        // $status = 1;
+        ];
         //updating donation status in donation table
-        // $this->projectsModel->updateDonationStatus( $this->projectsModel->getOrderByHash($hash)->order_id, $status);
+        $this->projectsModel->updateDonationStatus($this->projectsModel->getOrderByHash($_SESSION['donation']['hash'])->order_id, $status);
         $this->projectsModel->updateOrderMeta($data); //update donation meta and set status on order table
         //send Email and SMS confirmation
         $messaging = $this->model('Messaging');
         if ($status == 1) $messaging->sendConfirmation($_SESSION['sendData']);
         //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = ' شكرا لتبرعك لدي متجر نماء الخيري جاري التحقق من التبرع ' : null;
-        if (isset($_SESSION['payment']['project_id'])) {
+        if (isset($_SESSION['payment']['project_id']) ) {
             flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
         } else {
             flashRedirect('', 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
@@ -370,7 +369,7 @@ class Projects extends Controller
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         //saving donor data
         if (empty($_POST['full_name']) || empty($_POST['mobile']) || empty($_POST['total'])) {
-            flashRedirect('carts' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
+            flashRedirect('carts', 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
         } else {
             $_SESSION['payment'] = $_POST;
             //loading donor model
@@ -399,6 +398,8 @@ class Projects extends Controller
             $projects[] = $item['name'];
             $projects_id[] = "(" . $item['project_id'] . ")";
         }
+        // saving order project id
+        $_SESSION['payment']['project_id'] = null;
         isset($_POST['store_id']) ? $store_id =  $_POST['store_id'] : $store_id = null;
         //saving order
         $orderdata = [

@@ -38,7 +38,6 @@
                         </div>
                         <div class="p-2 amount-select">
                             <?php
-                            empty($project->fake_target) ? $target = $project->collected_traget : $target = $project->fake_target;
                             ($project->target_price) ?: $project->target_price = 1;
                             if ($project->enable_cart) :
                                 $donation_type = json_decode($project->donation_type);
@@ -81,10 +80,10 @@
                                     <span class=" mx-1">
                                         <?php
                                         if (!empty($project->target_unit) && !empty($project->unit_price)) { // check if user set unit and unit price
-                                            echo empty($project->fake_target) ? $target = $project->total / $project->unit_price : $target = $project->fake_target;
+                                            echo  $target = ($project->total / $project->unit_price) + $project->fake_target;
                                             echo  " $project->target_unit ";
                                         } else {
-                                            echo empty($project->fake_target) ? $target = (int) $project->total : $target = (int) $project->fake_target;
+                                            echo  $target = (int) $project->total + $project->fake_target;
                                             echo ' <i class="icofont-riyal"></i> ';
                                         }
                                         ($project->target_price) ?: $project->target_price = 1;

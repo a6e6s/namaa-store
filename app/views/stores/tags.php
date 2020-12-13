@@ -1,7 +1,7 @@
 <?php require APPROOT . '/app/views/inc/store-header.php'; ?>
 <?php flash('msg'); ?>
 <div class="container page">
-<?php require APPROOT . '/app/views/inc/employee-card.php'; ?>
+    <?php require APPROOT . '/app/views/inc/employee-card.php'; ?>
 
 
     <!--- Products Start --->
@@ -28,7 +28,6 @@
                         </div>
                         <div class="p-2 amount-select">
                             <?php
-                            empty($project->fake_target) ? $target = $project->collected_traget : $target = $project->fake_target;
                             ($project->target_price) ?: $project->target_price = 1;
                             if ($project->enable_cart) :
                                 $donation_type = json_decode($project->donation_type);
@@ -39,25 +38,25 @@
                                         case 'share':
                                             foreach ($donation_type->value as $value) {
                                                 echo '<label class="btn btn-secondary btn-sm m-1">
-			                                                            <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
-			                                                        </label>';
+                                                        <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
+                                                    </label>';
                                             }
                                             break;
                                         case 'open':
                                             echo '<label class="active">قم بكتابة المبلغ المراد التبرع به
-                                                                                                            <input type="hidden" name="donation_type" value="مفتوح"></label>';
+                                                    <input type="hidden" name="donation_type" value="مفتوح"></label>';
                                             break;
                                         case 'unit':
                                             foreach ($donation_type->value as $value) {
                                                 echo '<label class="btn btn-secondary btn-sm m-1">
-                                                                                                                    <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
-                                                                                                                </label>';
+                                                        <input type="radio" value ="' . $value->name . '" name="donation_type" required class="d-value" id="' . $value->value . '"> ' . $value->value . '
+                                                    </label>';
                                             }
                                             break;
                                         case 'fixed':
                                             echo '<label class="btn btn-secondary btn-sm m-1">
-			                                                        <input type="radio" value ="قيمة ثابته" name="donation_type" required class="d-value" id="' . $donation_type->value . '"> ' . $donation_type->value . ' ريال
-			                                                    </label>';
+                                                    <input type="radio" value ="قيمة ثابته" name="donation_type" required class="d-value" id="' . $donation_type->value . '"> ' . $donation_type->value . ' ريال
+                                                </label>';
                                             break;
                                     }
                                     ?>
@@ -72,10 +71,10 @@
                                     <span class=" mx-1">
                                         <?php
                                         if (!empty($project->target_unit) && !empty($project->unit_price)) { // check if user set unit and unit price
-                                            echo empty($project->fake_target) ? $target = $project->total / $project->unit_price : $target = $project->fake_target;
+                                            echo $target = ($project->total / $project->unit_price) + $project->fake_target;
                                             echo " $project->target_unit ";
                                         } else {
-                                            echo empty($project->fake_target) ? $target = (int) $project->total : $target = (int) $project->fake_target;
+                                            echo $target = (int) $project->total + $project->fake_target;
                                             echo ' <i class="icofont-riyal"></i> ';
                                         }
                                         ($project->target_price) ?: $project->target_price = 1;

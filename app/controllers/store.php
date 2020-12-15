@@ -274,17 +274,7 @@ class Store extends Controller
             } elseif (isset($_POST['search']['clearSearch'])) {
                 unset($_SESSION['search']);
             }
-            // //handling Delete
-            // if (isset($_POST['delete'])) {
-            //     if (isset($_POST['record'])) {
-            //         if ($row_num = $this->orderModel->deleteById($_POST['record'], 'order_id')) {
-            //             flash('order_msg', 'تم حذف ' . $row_num . ' بنجاح');
-            //         } else {
-            //             flash('order_msg', 'لم يتم الحذف', 'alert alert-danger');
-            //         }
-            //     }
-            //     redirect('store/orders',true);
-            // }
+
             //handling Publish
             if (isset($_POST['publish'])) {
                 if (isset($_POST['record'])) {

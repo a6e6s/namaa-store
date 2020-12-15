@@ -282,6 +282,28 @@ require APPROOT . '/app/views/inc/employee-card.php';
                 <!-- Go to www.addthis.com/dashboard to customize your tools -->
                 <div class="addthis_inline_share_toolbox"></div>
             </div>
+            <!-- more projects -->
+            <section id="categories">
+                <div class="row mt-2 px-2">
+                    <div class="col-12 wow zoomIn owl-carousel">
+                        <?php foreach ($data['moreprojects'] as $moreprojects) : ?>
+                            <div class="project">
+                                <a class="">
+                                    <img class="card-img-top rounded" src="<?php echo (empty($moreprojects->secondary_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $moreprojects->secondary_image; ?>" alt="<?php echo $moreprojects->name; ?>">
+                                    <div class="content p-1">
+                                        <h3 class="project-title mt-2"><?php echo $moreprojects->name; ?></h3>
+                                        <div class="text-center mt-2">
+                                            <a href="<?php echo URLROOT . '/store/project/' . $moreprojects->project_id . '/' . $data['store']->store_id . '-' . $moreprojects->name; ?>" class="btn btn-section mb-4"> <i class="icofont-paper"></i> التفاصيل</a>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+            <!-- end more projects -->
+
             <div class="row text-center mx-1 mt-4 ">
                 <?php echo ($data['store']->whatsapp) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-success icofont-whatsapp" href="https://wa.me/' . $data['store']->whatsapp . ' "> ' . $data['store']->whatsapp . ' </a></div>' : ''; ?>
                 <?php echo ($data['store']->mobile) ? '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-primary icofont-phone" href="tel:' . $data['store']->mobile . '"> ' . $data['store']->mobile . '</a></div>' : ''; ?>

@@ -1,7 +1,7 @@
 <?php require APPROOT . '/app/views/inc/header.php'; ?>
 <?php flash('msg'); ?>
 <div class="container page">
-    <div class="card" style="">
+    <div class="card">
         <div class="row no-gutters">
             <div class="col-md-5" style="background: #868e96;">
                 <img src="<?php echo (empty($data['category']->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['category']->image; ?>" class="card-img-top h-100" alt="...">

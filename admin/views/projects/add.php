@@ -52,6 +52,13 @@ require ADMINROOT . '/views/inc/header.php';
                         <span class="help-block"><?php echo $data['project_number_error']; ?></span>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="control-label" for="pageTitle">رقم المستفيد : </label>
+                    <div class="has-feedback">
+                        <input type="text" class="form-control" name="beneficiary" placeholder="رقم المستفيد" value="<?php echo $data['beneficiary']; ?>">
+                        <span class="fa fa-edit form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </div>
                 <div class="form-group <?php echo (!empty($data['category_id_error'])) ? 'has-error' : ''; ?>">
                     <label class="control-label">الاقسام</label>
                     <div class="has-feedback">

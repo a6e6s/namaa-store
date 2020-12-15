@@ -15,6 +15,7 @@ class Pages extends Controller
      */
     public function index()
     {
+        unset($_SESSION['store']);// unset store session
         $data = [
             'pageTitle' => 'الرئيسية: ' . SITENAME,
             'pagesLinks' => $this->pagesModel->getMenu(),

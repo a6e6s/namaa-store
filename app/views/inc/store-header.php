@@ -80,7 +80,7 @@ For more information about the author , see <http://www.ahmedx.com/>.
     </div>
     <div class="container">
         <section class="row py-2" id="top-bar">
-            <div class="col-5 col-md-7">
+            <div class="col-6 col-md-8">
                 <a href="<?php echo isset($_SESSION['store']) ? URLROOT . '/store/' . $_SESSION['store']['alias'] : URLROOT; ?>" class="logo float-right">
                     <img src="<?php echo empty($data['site_settings']->logo) ? '/' : MEDIAURL . '/' . $data['site_settings']->logo; ?>" height="60" alt="Namaa logo" class="img-fluid">
                 </a>
@@ -89,13 +89,15 @@ For more information about the author , see <http://www.ahmedx.com/>.
                 <div class="user float-left">
                     <div class="nav">
                         <li class="nav-item">
-                            <!-- <a title="Profile" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT . "/donors/login"; ?>"><i class="icofont-user"></i></a> -->
+                            <a title="الاقسام" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT . '/store/categories/' . $_SESSION['store']['alias'] ; ?>">
+                            <span class="">الاقسام</span>  
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="<?php echo URLROOT . "/carts"; ?>">
                                 <span class="cart-num d-sm-block d-lg-none"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : ''; ?></span>
                                 <i class="icofont-cart cart-icon "></i>
-                                <span class="d-none d-sm-inline">السلة (<span class="cart-total"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?></span>) منتج</span>
+                                <span class="d-none d-md-inline">السلة (<span class="cart-total"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?></span>) منتج</span>
                             </a>
                         </li>
                     </div>

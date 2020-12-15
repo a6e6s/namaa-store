@@ -5,6 +5,7 @@ class Store extends Controller
 
     public $meta;
     private $storeModel;
+    private $categoriesModel;
     private $projectsModel;
     private $orderModel;
     private $pagesModel;
@@ -12,6 +13,7 @@ class Store extends Controller
     public function __construct()
     {
         $this->storeModel = $this->model('Stores');
+        $this->categoriesModel = $this->model('ProjectCategory');
         $this->projectsModel = $this->model('Project');
         $this->orderModel = $this->model('Order');
         $this->tagModel = $this->model('Tag');
@@ -25,7 +27,7 @@ class Store extends Controller
      */
     public function index()
     {
-        $explo = str_replace('store/', '', $_GET['url']);//getting alias from URL
+        $explo = str_replace('store/', '', $_GET['url']); //getting alias from URL
         $explo = explode('/', $explo);
         call_user_func_array(['Store', 'store'], $explo);
     }
@@ -404,15 +406,17 @@ class Store extends Controller
         $this->view('stores/orders', $data);
     }
 
-    
+
     /**
-     * show tag by id
+     * view projects by tag
      *
-     * @param  int $id
-     *
+     * @param string $id tag id
+     * @param [type] $alias store alias
+     * @param integer $start
+     * @param integer $perpage
      * @return view
      */
-    public function tags($id = '',$alias, $start = 0, $perpage = 100)
+    public function tags($id = '', $alias, $start = 0, $perpage = 100)
     {
         ($store = $this->storeModel->getStoreById($alias)) ?: flashRedirect('index', 'msg', ' هذا المتجر غير موجود او ربما تم حذفه ');
         $_SESSION['store'] = ['store_id' => $store->store_id, 'alias' => $store->alias];
@@ -431,7 +435,7 @@ class Store extends Controller
             'site_settings' => json_decode($this->tagModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->tagModel->getSettings('contact')->value),
             'projects' => $this->tagModel->getProductsByTag($id, $start, $perpage),
-            'pagination' => generatePagination($this->tagModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/tags/show/' . $id),
+            'pagination' => generatePagination($this->tagModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/store/tags/' . $id . '/' . $alias),
         ];
         $data['pageTitle'] = $data['tag']->name . "  " . SITENAME;
         $this->meta->title = $data['tag']->name;
@@ -440,5 +444,71 @@ class Store extends Controller
         $this->meta->image = MEDIAURL . '/' . $data['tag']->image;
 
         $this->view('stores/tags', $data);
+    }
+
+
+    /**
+     * view projects by category
+     *
+     * @param string $id category id
+     * @param [type] $alias store alias
+     * @param integer $start
+     * @param integer $perpage
+     * @return view
+     */
+    public function category($id = '', $alias, $start = 0, $perpage = 100)
+    {
+        ($store = $this->storeModel->getStoreById($alias)) ?: flashRedirect('index', 'msg', ' هذا المتجر غير موجود او ربما تم حذفه ');
+        $_SESSION['store'] = ['store_id' => $store->store_id, 'alias' => $store->alias];
+
+        $start = (int) $start;
+        $perpage = (int) $perpage;
+        empty($id) ? redirect('category', true) : null;
+        empty($start) ? $start = 0 : '';
+        empty($perpage) ? $perpage = 100 : '';
+        ($category = $this->categoriesModel->getCategoryById($id)) ?: flashRedirect('index', 'msg', ' هذا الوسم غير موجود او ربما تم حذفه ');
+        $data = [
+            'category' => $category,
+            'store' => $store,
+            'subcategories' => $this->categoriesModel->getSubCategories($id),
+            'pagesLinks' => $this->categoriesModel->getMenu(),
+            'theme_settings' => json_decode($this->pagesModel->getSettings('theme')->value),
+            'site_settings' => json_decode($this->categoriesModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->categoriesModel->getSettings('contact')->value),
+            'projects' => $this->categoriesModel->getProductsByCategory($id, $start, $perpage),
+            'pagination' => generatePagination($this->categoriesModel->projectsCount($id)->count, $start, $perpage, 4, URLROOT, '/store/category/' . $id . '/' . $alias),
+        ];
+        $data['pageTitle'] = $data['category']->name . "  " . SITENAME;
+        $this->meta->title = $data['category']->name;
+        $this->meta->keywords = $data['category']->meta_keywords;
+        $this->meta->description = $data['category']->meta_description;
+        $this->meta->image = MEDIAURL . '/' . $data['category']->image;
+
+        $this->view('stores/category', $data);
+    }
+
+    public function categories($alias, $start = 1, $perpage = 100)
+    {
+        ($store = $this->storeModel->getStoreById($alias)) ?: flashRedirect('index', 'msg', ' هذا المتجر غير موجود او ربما تم حذفه ');
+        $_SESSION['store'] = ['store_id' => $store->store_id, 'alias' => $store->alias];
+        $start = (int) $start;
+        $perpage = (int) $perpage;
+        empty($start) ? $start = 0 : '';
+        empty($perpage) ? $perpage = 100 : '';
+        $categories = $this->categoriesModel->getCategories($start, $perpage);
+        $data = [
+            'pageTitle' => 'الرئيسية: ' . SITENAME,
+            'store' => $store,
+            'pagesLinks' => $this->categoriesModel->getMenu(),
+            'theme_settings' => json_decode($this->categoriesModel->getSettings('theme')->value),
+            'site_settings' => json_decode($this->categoriesModel->getSettings('site')->value),
+            'contact_settings' => json_decode($this->categoriesModel->getSettings('contact')->value),
+            'pagination' => generatePagination($this->categoriesModel->categoriesCount()->count, $start, $perpage, 4, URLROOT, '/store/categories/' . $alias),
+            'categories' => $categories,
+        ];
+
+        $this->meta->title = 'الاقسام';
+        $this->meta->description = 'اقسام التبرع الخيري';
+        $this->view('stores/categories', $data);
     }
 }

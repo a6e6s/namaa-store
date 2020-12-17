@@ -92,9 +92,11 @@ class Apis extends Controller
                     isset($_POST['custom_status_id']) ? $custom_status_id = ' AND ord.status_id =' . (int) $_POST['custom_status_id'] : $custom_status_id = '';
                     isset($_POST['API_status']) ? $API_status = ' AND ord.API_status ="' . $_POST['API_status'] . '"' : $API_status = '';
                     isset($_POST['payment_method']) ? $payment_method = ' AND ord.payment_method_id =' . (int) $_POST['payment_method'] : $payment_method = '';
+                    isset($_POST['store_id']) ? $store_id = ' AND ord.store_id =' . (int) $_POST['store_id'] : $store_id = '';
+
 
                     // load orders
-                    $orders = $this->apiModel->getOrders($start, $count, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method);
+                    $orders = $this->apiModel->getOrders($start, $count, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method, $store_id);
                     $newOrders = [];
                     foreach ($orders as $index => $order) {
                         $newOrders[$index] = $order;
@@ -134,7 +136,11 @@ class Apis extends Controller
         echo json_encode($data);
     }
 
-
+    /**
+     * update order status
+     *
+     * @return JSON
+     */
     public function orderupdate()
     {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -174,6 +180,47 @@ class Apis extends Controller
                         'code' => 100,
                         'msg' => $msg,
                         'orders' => $orders,
+                    ];
+                } else { // wrong user or key
+                    $data = [
+                        'status' => 'error',
+                        'code' => 102,
+                        'msg' => 'Wrong Credential check user and API key',
+                    ];
+                }
+            } else { // API not enabled
+                $data = [
+                    'status' => 'error',
+                    'code' => 103,
+                    'msg' => 'API not enabled',
+                ];
+            }
+        } else { // no credential
+            $data = [
+                'status' => 'error',
+                'code' => 101,
+                'msg' => 'Invalid Credential',
+            ];
+        }
+        echo json_encode($data);
+    }
+
+    public function stores()
+    {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        if (isset($_POST['api_key']) && isset($_POST['api_user'])) { // check if credential is sent
+            $auth = $this->apiModel->auth($_POST['api_user'], $_POST['api_key']); // load API settings
+            if ($auth['enable']) {
+                //validate credential
+                if ($auth['authorized']) {
+
+                    $stores = $this->apiModel->storesList('');
+                    $data = [
+                        'status' => 'success',
+                        'code' => 100,
+                        'msg' => 'Successfully connected',
+                        'count' => count($stores),
+                        'stores' => $stores,
                     ];
                 } else { // wrong user or key
                     $data = [

@@ -386,10 +386,13 @@ class Store extends Controller
             $limit = 'LIMIT  ' . (($current - 1) * $perpage) . ', :perpage';
             $bindLimit[':perpage'] = $perpage;
         }
+        ($store = $this->storeModel->getStoreById($_SESSION['storelogin']->alias)) ?: flashRedirect('index', 'msg', ' هذا المتجر غير موجود او ربما تم حذفه ');
+        $_SESSION['store']['alias'] = $_SESSION['storelogin']->alias;
         //get all records for current order
         $orders = $this->orderModel->getOrders($cond, $bind, $limit, $bindLimit);
         $data = [
             'pageTitle' => 'عرض سجل التبرعات  : ' . SITENAME,
+            'store' => $store,
             'pagesLinks' => $this->storeModel->getMenu(),
             'site_settings' => json_decode($this->storeModel->getSettings('site')->value),
             'contact_settings' => json_decode($this->storeModel->getSettings('contact')->value),
@@ -446,7 +449,6 @@ class Store extends Controller
         $this->view('stores/tags', $data);
     }
 
-
     /**
      * view projects by category
      *
@@ -486,7 +488,14 @@ class Store extends Controller
 
         $this->view('stores/category', $data);
     }
-
+    /**
+     * view list of categories
+     *
+     * @param string $alias
+     * @param integer $start
+     * @param integer $perpage
+     * @return view
+     */
     public function categories($alias, $start = 1, $perpage = 100)
     {
         ($store = $this->storeModel->getStoreById($alias)) ?: flashRedirect('index', 'msg', ' هذا المتجر غير موجود او ربما تم حذفه ');
@@ -510,5 +519,22 @@ class Store extends Controller
         $this->meta->title = 'الاقسام';
         $this->meta->description = 'اقسام التبرع الخيري';
         $this->view('stores/categories', $data);
+    }
+    /**
+     * change store password
+     *
+     * @return void
+     */
+    public function password()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // sanitize POST array
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            echo $this->storeModel->updatePassword($_POST['store_id'], $_POST['password']);
+            redirect('store/logout', true);
+        }else{
+            flash('order_msg', 'هناك خطأ ما لقد اتبعت رابط خاطيء', 'alert alert-danger');
+            redirect('store/orders', true);
+        }
     }
 }

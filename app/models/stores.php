@@ -121,7 +121,7 @@ class Stores extends Model
      */
     public function findUser($username)
     {
-        return $this->getBy(['user' => $username]);
+        return $this->getBy(['user' => $username, 'status' => 1]);
     }
     /**
      * check login details
@@ -134,9 +134,28 @@ class Stores extends Model
     {
         return $this->getBy(['password' => $password]);
     }
-
+    /**
+     * get orders by store id
+     *
+     * @param int $id
+     * @return object
+     */
     public function getOrdersByStoreId($id)
     {
         return $this->getFromTable('orders', '*', ['store_id' => $id]);
+    }
+
+    public function updatePassword($store_id, $password)
+    {
+        $this->db->query('UPDATE stores SET password = :password WHERE store_id = :store_id');
+        //loop through the bind function to bind all the IDs
+        $this->db->bind(':store_id', $store_id);
+        $this->db->bind(':password', password_hash($password, PASSWORD_DEFAULT));
+
+        if ($this->db->excute()) {
+            return $this->db->rowCount();
+        } else {
+            return false;
+        }
     }
 }

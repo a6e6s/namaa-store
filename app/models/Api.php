@@ -47,7 +47,7 @@ class Api extends Model
      * @param integer $count
      * @return object
      */
-    public function getOrders($start = 0, $count = 20, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method)
+    public function getOrders($start = 0, $count = 20, $status, $order_identifier, $order_id, $API_status, $custom_status_id, $payment_method, $store_id)
     {
         return $this->queryResult(
             'SELECT ord.*, CONCAT("' . MEDIAURL . '/../files/banktransfer/", `banktransferproof`) as banktransferproof,
@@ -56,7 +56,7 @@ class Api extends Model
              (SELECT statuses.name FROM statuses WHERE statuses.status_id = ord.status_id ) as custom_status,
              ord.status_id as custom_status_id
              FROM orders ord , donors, payment_methods 
-             WHERE ord.status <> 2 ' . $status . ' ' . $order_identifier . ' ' . $order_id . ' ' . $API_status . ' ' . $custom_status_id . ' ' . $payment_method . ' AND
+             WHERE ord.status <> 2 ' . $status . ' ' . $order_identifier . ' ' . $order_id . ' ' . $API_status . ' ' . $store_id . ' ' . $custom_status_id . ' ' . $payment_method . ' AND
               donors.donor_id = ord.donor_id AND ord.payment_method_id = payment_methods.payment_id 
              ORDER BY ord.create_date LIMIT ' . $start . ' , ' . $count
         );
@@ -104,7 +104,7 @@ class Api extends Model
     {
         return $this->queryResult('SELECT donations.*, projects.project_number AS AX_ID FROM donations, projects WHERE projects.project_id = donations.project_id AND  order_id = ' . $order_id);
     }
-    
+
     /**
      * get Store by id 
      *
@@ -116,6 +116,19 @@ class Api extends Model
         if (!$store_id) {
             $store_id = 0;
         }
-        return $this->queryResult('SELECT * FROM stores WHERE store_id = ' . $store_id);
+        $results = $this->queryResult('SELECT * FROM stores WHERE store_id = ' . $store_id);
+        if (count($results) > 0) {
+            return $results[0];
+        }
+    }
+    /**
+     * get list of stores
+     *
+     * @param string $cond
+     * @return object
+     */
+    public function storesList($cond)
+    {
+        return $this->queryResult('SELECT * FROM stores ' . $cond);
     }
 }

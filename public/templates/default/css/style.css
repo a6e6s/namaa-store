@@ -309,14 +309,14 @@ div.scrollmenu a:hover {
   .store-title {
     padding-top: 1rem;
   }
-  .store-title h2 {
-    padding-top: 0.15rem;
-    font-size: 1.5rem;
+  .store-title h3 {
+    padding-top: 0.05rem;
+    font-size: 1.2rem;
   }
   .store-title h5 {
-    font-size: 1rem;
+    font-size: .9rem;
   }
   .store-image {
-    margin: 0rem 0 -30px 0;
+    margin: 0rem 0 0px 0;
   }
 }

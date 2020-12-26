@@ -1,4 +1,10 @@
-<?php require APPROOT . '/app/views/inc/header.php'; ?>
+<?php
+if (isset($_SESSION['store'])) {
+    require APPROOT . '/app/views/inc/store-header.php';
+} else {
+    require APPROOT . '/app/views/inc/header.php';
+}
+?>
 <?php flash('msg'); ?>
 <div class="card cart">
     <div class="card-header text-center">

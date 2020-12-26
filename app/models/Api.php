@@ -102,7 +102,7 @@ class Api extends Model
      */
     public function getDonationByOrderId($order_id)
     {
-        return $this->queryResult('SELECT donations.*, projects.project_number AS AX_ID FROM donations, projects WHERE projects.project_id = donations.project_id AND  order_id = ' . $order_id);
+        return $this->queryResult('SELECT donations.*, projects.beneficiary, projects.project_number AS AX_ID FROM donations, projects WHERE projects.project_id = donations.project_id AND  order_id = ' . $order_id);
     }
 
     /**

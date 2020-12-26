@@ -119,11 +119,11 @@ class Projects extends Controller
             (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
         ) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
-        } else {
-            $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $_POST['gift']['giver_name'], APPROOT . MEDIAFOLDER . '/gifts/img_temp.jpg', 400, 240);
+        } else {//write giver name on image and save it temperary name
+            $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $_POST['gift']['giver_group'].' : '. $_POST['gift']['giver_name'], APPROOT . MEDIAFOLDER . '/gifts/img_temp.jpg', 650, 100);
             // savedImg
-            $_POST['gift']['card'] = '/gifts/img_' . rand(100000, 999999) . '.jpg';
-            imgWrite($output, $_POST['full_name'], APPROOT . MEDIAFOLDER . $_POST['gift']['card'], 690, 660);
+            $_POST['gift']['card'] = '/gifts/img_' . time() . '.jpg';
+            imgWrite($output, 'إهداء من / ' . $_POST['full_name'], APPROOT . MEDIAFOLDER . $_POST['gift']['card'], 800, 450);
         }
         // if gift are not enabled
         if (!isset($_POST['gift']['enable'])) {

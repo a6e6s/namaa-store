@@ -197,48 +197,49 @@
                     </div>
                 </div>
             </section>
-            <!-- alertModal -->
-            <div class="modal fade" id="alertModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
-                        <div class="modal-body pt-0">
-                        </div>
-                        <div class="p-2 border-top">
-                            <a href="<?php root('carts') ?>" class="btn btn-primary">عرض السلة</a>
-                            <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
-                        </div>
+        <?php endif; ?>
+        <!-- end Categories -->
+        <!-- alertModal -->
+        <div class="modal fade" id="alertModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <img src="<?php echo MEDIAURL . '/' . $data['site_settings']->logo; ?>" width="100px" class="" alt="التبرع">
+                    <div class="modal-body pt-0">
+                    </div>
+                    <div class="p-2 border-top">
+                        <a href="<?php root('carts') ?>" class="btn btn-primary">عرض السلة</a>
+                        <button type="button" class="btn btn-danger float-left" data-dismiss="modal">اغلاق</button>
                     </div>
                 </div>
             </div>
-            <div class="col-12 text-center my-2 p-0">
-                <?php
-                if (!empty($data['theme_settings']->categories_image)) {
-                    $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image . '" >';
-                    if (!empty($data['theme_settings']->categories_image_url)) $img = '<a href="' . $data['theme_settings']->categories_image_url . ' ">' . $img . '</a>';
-                    echo $img;
-                }
-                ?></div>
-            <div class="col-12 text-center my-2 p-0">
-                <?php
-                if (!empty($data['theme_settings']->categories_image2)) {
-                    $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image2 . '" >';
-                    if (!empty($data['theme_settings']->categories_image2_url)) $img = '<a href="' . $data['theme_settings']->categories_image2_url . ' ">' . $img . '</a>';
-                    echo $img;
-                }
-                ?>
-            </div>
-            <div class="col-12 text-center my-2 p-0">
-                <?php
-                if (!empty($data['theme_settings']->categories_image3)) {
-                    $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image3 . '" >';
-                    if (!empty($data['theme_settings']->categories_image3_url)) $img = '<a href="' . $data['theme_settings']->categories_image3_url . ' ">' . $img . '</a>';
-                    echo $img;
-                }
-                ?>
-            </div>
-        <?php endif; ?>
-        <!-- end Categories -->
+        </div>
+        <div class="col-12 text-center my-2 p-0">
+            <?php
+            if (!empty($data['theme_settings']->categories_image)) {
+                $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image . '" >';
+                if (!empty($data['theme_settings']->categories_image_url)) $img = '<a href="' . $data['theme_settings']->categories_image_url . ' ">' . $img . '</a>';
+                echo $img;
+            }
+            ?>
+        </div>
+        <div class="col-12 text-center my-2 p-0">
+            <?php
+            if (!empty($data['theme_settings']->categories_image2)) {
+                $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image2 . '" >';
+                if (!empty($data['theme_settings']->categories_image2_url)) $img = '<a href="' . $data['theme_settings']->categories_image2_url . ' ">' . $img . '</a>';
+                echo $img;
+            }
+            ?>
+        </div>
+        <div class="col-12 text-center my-2 p-0">
+            <?php
+            if (!empty($data['theme_settings']->categories_image3)) {
+                $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image3 . '" >';
+                if (!empty($data['theme_settings']->categories_image3_url)) $img = '<a href="' . $data['theme_settings']->categories_image3_url . ' ">' . $img . '</a>';
+                echo $img;
+            }
+            ?>
+        </div>
         </div>
         <?php require APPROOT . '/app/views/inc/footer.php'; ?>
         <script>

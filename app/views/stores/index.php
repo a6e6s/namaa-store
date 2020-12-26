@@ -131,6 +131,34 @@
                 </nav>
             </div>
         </section>
+        <!-- end products -->
+        <?php
+        if ($data['site_settings']->show_categories) : ?>
+            <!-- Categories -->
+            <section id="categories">
+                <div class="row m-3 justify-content-center ">
+                    <div class="col">
+                        <h2 class="text-center"> <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-2"><?php echo $data['site_settings']->category_text; ?></h2>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12 wow zoomIn owl-carousel">
+                        <?php foreach ($data['project_categories'] as $category) : ?>
+                            <div class="category">
+                                <img class="card-img-top rounded" src="<?php echo (empty($category->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $category->image; ?>" alt="<?php echo $category->name; ?>">
+                                <div class="content p-1">
+                                    <h3 class="category-title"><?php echo $category->name; ?></h3>
+                                    <p class="card-text"><?php echo mb_substr(strip_tags($category->description), 0, 120); ?></p>
+                                    <div class="text-center mt-2">
+                                        <a href="<?php echo URLROOT . '/store/category/' . $category->category_id . '/' . $data['store']->alias; ?>" class="btn btn-section mb-4"> <i class="icofont-paper"></i> التفاصيل</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+        <?php endif ?>
         <!-- alertModal -->
         <div class="modal fade" id="alertModal">
             <div class="modal-dialog">
@@ -145,7 +173,33 @@
                 </div>
             </div>
         </div>
-        <!-- end products -->
+        <div class="col-12 text-center my-2 p-0">
+            <?php
+            if (!empty($data['theme_settings']->categories_image)) {
+                $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image . '" >';
+                if (!empty($data['theme_settings']->categories_image_url)) $img = '<a href="' . $data['theme_settings']->categories_image_url . ' ">' . $img . '</a>';
+                echo $img;
+            }
+            ?>
+        </div>
+        <div class="col-12 text-center my-2 p-0">
+            <?php
+            if (!empty($data['theme_settings']->categories_image2)) {
+                $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image2 . '" >';
+                if (!empty($data['theme_settings']->categories_image2_url)) $img = '<a href="' . $data['theme_settings']->categories_image2_url . ' ">' . $img . '</a>';
+                echo $img;
+            }
+            ?>
+        </div>
+        <div class="col-12 text-center my-2 p-0">
+            <?php
+            if (!empty($data['theme_settings']->categories_image3)) {
+                $img = '<img class="img-fluid" src="' . MEDIAURL . "/" . $data['theme_settings']->categories_image3 . '" >';
+                if (!empty($data['theme_settings']->categories_image3_url)) $img = '<a href="' . $data['theme_settings']->categories_image3_url . ' ">' . $img . '</a>';
+                echo $img;
+            }
+            ?>
+        </div>
     </div>
 </div>
 <?php require APPROOT . '/app/views/inc/store-footer.php'; ?>

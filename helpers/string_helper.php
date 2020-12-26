@@ -151,7 +151,7 @@ function imgWrite($source, $text, $outputPath, $x = 800, $y = 800)
     // header('Content-type: image/jpeg');
     $is_arabic = preg_match('/\p{Arabic}/u', $text);
     if ($is_arabic) {
-        require(APPROOT . '/helpers/arabic/Arabic.php');
+        require_once(APPROOT . '/helpers/arabic/Arabic.php');
         $Arabic = new I18N_Arabic('Glyphs');
 
         $text = $Arabic->utf8Glyphs($text);

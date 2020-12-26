@@ -69,6 +69,44 @@ class test extends Controller
         }
     }
 
-
-
+    public function imgWrite()
+    {
+        if (isset($_POST['text'])) {
+            $lines = [
+                // ['x' => 100, 'y' => 100, 'text' => $_POST['text']],
+                ['x' => 100, 'y' => 200, 'text' => $_POST['text']]
+            ];
+            echo  '<img src ="' . str_replace(APPROOT, URLROOT, imgWrite(APPROOT . MEDIAFOLDER . '/default.jpg', $lines, APPROOT . MEDIAFOLDER . '/default2.jpg', 30, 'blue')) . '" />';
+        } else {
+            echo '<!doctype html>
+            <html lang="en">
+              <head>
+                <title>Title</title>
+                <!-- Required meta tags -->
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            
+                <!-- Bootstrap CSS -->
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+              </head>
+              <body>
+              <div class="row">
+                  <div class="col-6 offset-3">
+                  <p>Image write</p>
+                  <form method="post" class="card p-3">
+                  <div class="form-group ">
+                    <label for="">text to image</label>
+                    <textarea class="form-control" name="text" id="" rows="3"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  </form> 
+                  </div>
+              </div>
+              
+                <!-- Optional JavaScript -->
+                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+              </body>
+            </html>';
+        }
+    }
 }

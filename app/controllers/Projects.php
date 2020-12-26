@@ -119,10 +119,20 @@ class Projects extends Controller
             (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
         ) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
-        } else {//write giver name on image and save it temperary name
-            $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $_POST['gift']['giver_group'].' : '. $_POST['gift']['giver_name'], APPROOT . MEDIAFOLDER . '/gifts/img_temp.jpg', 650, 100);
+        } else { //write giver name on image and save it temperary name
+            // preparing text 
+            $x = strlen($_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']) * 6;
+            // dd($_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']);
+            $lines = [
+                ['x' => 750 - ($x/2), 'y' => 150, 'text' => $_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name'] ],
+                ['x' => 600, 'y' => 250, 'text' => $project->name],
+                ['x' => 500, 'y' => 450, 'text' => $_POST['full_name']],
+            ];
+
+            $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $lines, APPROOT . MEDIAFOLDER . '/gifts/img_' . time() . '.jpg', 22);
             // savedImg
-            $_POST['gift']['card'] = '/gifts/img_' . time() . '.jpg';
+            $_POST['gift']['card'] = trim(APPROOT . MEDIAFOLDER, $output);
+            dd($_POST['gift']);
             imgWrite($output, 'إهداء من / ' . $_POST['full_name'], APPROOT . MEDIAFOLDER . $_POST['gift']['card'], 800, 450);
         }
         // if gift are not enabled
@@ -261,7 +271,7 @@ class Projects extends Controller
         if ($status == 1) $messaging->sendConfirmation($_SESSION['sendData']);
         //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = ' شكرا لتبرعك لدي متجر نماء الخيري جاري التحقق من التبرع ' : null;
-        if (isset($_SESSION['payment']['project_id']) ) {
+        if (isset($_SESSION['payment']['project_id'])) {
             flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
         } else {
             flashRedirect('', 'msg', $_SESSION['donation']['msg'], 'alert alert-success');

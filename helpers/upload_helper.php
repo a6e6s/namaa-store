@@ -263,3 +263,41 @@ function createThumbnail($src, $dest, $targetWidth, $targetHeight = null)
         IMAGE_HANDLERS[$type]['quality']
     );
 }
+
+/**
+ * write text to existing image
+ *
+ * @param string $source path
+ * @param array $lines ['x', 'y', 'text']
+ * @param string $output Path
+ * @param integer $fontSize 
+ * @param string $color name (black, white, red, green, blue)
+ * @return string saved path
+ */
+function imgWrite($source, $lines, $outputPath, $fontSize= 12, $color = 'black')
+{
+    //load arabic liberray
+    require_once(APPROOT . '/helpers/arabic/Arabic.php');
+    $Arabic = new I18N_Arabic('Glyphs');
+    // Set Path to Font File
+    $font_path = APPROOT . '/public/templates/default/css/fonts/ae_AlHor.ttf';
+    // $font_path = APPROOT . '/public/templates/default/css/fonts/DejaVuSans.ttf';
+    // Create Image From Existing File
+    $jpg_image = imagecreatefromjpeg($source);
+    // Allocate A Color For The Text
+    $white = imagecolorallocate($jpg_image, 255, 255, 255);
+    $black = imagecolorallocate($jpg_image, 0, 0, 0);
+    $red = imagecolorallocate($jpg_image, 255, 0, 0);
+    $green = imagecolorallocate($jpg_image, 0, 255, 0);
+    $blue = imagecolorallocate($jpg_image, 0, 0, 255);
+    //loop through lines 
+    foreach ($lines as $line) {
+        $line['text'] = $Arabic->utf8Glyphs($line['text']);
+        imagettftext($jpg_image, $fontSize, 0, $line['x'], $line['y'], $$color, $font_path, $line['text']);
+    }
+    // save image
+    imagejpeg($jpg_image, $outputPath);
+    // Clear Memory
+    imagedestroy($jpg_image);
+    return $outputPath;
+}

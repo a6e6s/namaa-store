@@ -124,16 +124,14 @@ class Projects extends Controller
             $x = strlen($_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']) * 6;
             // dd($_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']);
             $lines = [
-                ['x' => 750 - ($x/2), 'y' => 150, 'text' => $_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name'] ],
-                ['x' => 600, 'y' => 250, 'text' => $project->name],
-                ['x' => 500, 'y' => 450, 'text' => $_POST['full_name']],
+                ['x' => 750 - ($x / 2), 'y' => 100, 'text' => $_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']],
+                ['x' => 620, 'y' => 280, 'text' => $project->name],
+                ['x' => 500, 'y' => 500, 'text' =>  " من : " . $_POST['full_name']],
             ];
 
-            $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $lines, APPROOT . MEDIAFOLDER . '/gifts/img_' . time() . '.jpg', 22);
+            $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $lines, APPROOT . MEDIAFOLDER . '/gifts/img_' . time() . '.jpg', 26);
             // savedImg
-            $_POST['gift']['card'] = trim(APPROOT . MEDIAFOLDER, $output);
-            dd($_POST['gift']);
-            imgWrite($output, 'إهداء من / ' . $_POST['full_name'], APPROOT . MEDIAFOLDER . $_POST['gift']['card'], 800, 450);
+            $_POST['gift']['card'] = str_replace(APPROOT . MEDIAFOLDER, '', $output);
         }
         // if gift are not enabled
         if (!isset($_POST['gift']['enable'])) {

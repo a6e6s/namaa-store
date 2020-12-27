@@ -39,6 +39,8 @@
                     <?php echo $data['pagination']; ?>
                 </ul>
             </nav>
+        </div><div class="row ">
+            <?php echo  '<div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="' . URLROOT . '/store/' . $data['store']->alias . '"> العودة الي الرئيسية</a></div>' ; ?>
         </div>
 
     </section>

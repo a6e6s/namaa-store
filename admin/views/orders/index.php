@@ -165,7 +165,7 @@ require ADMINROOT . '/views/inc/header.php';
                                                                 foreach ($gifts as $key => $value) {
                                                                     if ($key == 'enable') continue;
                                                                     if ($key == 'card') {
-                                                                        echo '<li class="h5">' . $key . " : <img width='200' src= '" . MEDIAURL . '/' . $value . "'></li>\n";
+                                                                        echo '<li class="h5">' . $key . " : <a target='blank' href='" . MEDIAURL . '' . $value . "'><img width='200' src= '" . MEDIAURL . '/' . $value . "'></a></li>\n";
                                                                     } else {
                                                                         echo '<li class="h5">' . $key . " : " . $value . "</li>\n";
                                                                     }

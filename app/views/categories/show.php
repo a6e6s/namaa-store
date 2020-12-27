@@ -31,7 +31,7 @@
             <div class="col">
                 <h3 class="text-center">
                     <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-1">
-                    المنتجات</h3>
+                    <?php echo $data['site_settings']->project_text; ?></h3>
             </div>
         </div>
         <div class="row">

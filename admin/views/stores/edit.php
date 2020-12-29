@@ -86,34 +86,41 @@ require ADMINROOT . '/views/inc/header.php';
                             <span class="help-block"><?php echo $data['employee_number_error']; ?></span>
                         </div>
                     </div>
-                <div class="col-md-6 col-xs-12 form-group">
-                    <label class="control-label" for="pageTitle">الدور الوظيفي : </label>
-                    <div class="has-feedback">
-                        <input type="text" class="form-control job" name="job" placeholder="الدور الوظيفي" value="<?php echo $data['job']; ?>">
-                        <span class="fa fa-user form-control-feedback" aria-hidden="true"></span>
+                    <div class="col-md-6 col-xs-12 form-group">
+                        <label class="control-label" for="pageTitle">القسم : </label>
+                        <div class="has-feedback">
+                            <input type="text" class="form-control department" name="department" placeholder="department" value="<?php echo $data['department']; ?>">
+                            <span class="fa fa-user form-control-feedback" aria-hidden="true"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-xs-12 form-group">
-                    <label class="control-label" for="pageTitle">رابط الموقع علي خرائط جوجل : </label>
-                    <div class="has-feedback">
-                        <input type="text" class="form-control location" name="location" placeholder="رابط الموقع علي خرائط جوجل" value="<?php echo $data['location']; ?>">
-                        <span class="fa fa-globe form-control-feedback" aria-hidden="true"></span>
+                    <div class="col-md-6 col-xs-12 form-group">
+                        <label class="control-label" for="pageTitle">الدور الوظيفي : </label>
+                        <div class="has-feedback">
+                            <input type="text" class="form-control job" name="job" placeholder="الدور الوظيفي" value="<?php echo $data['job']; ?>">
+                            <span class="fa fa-user form-control-feedback" aria-hidden="true"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-xs-12 form-group">
-                    <label class="control-label" for="pageTitle">رقم الجوال : </label>
-                    <div class="has-feedback">
-                        <input type="text" class="form-control mobile" name="mobile" placeholder="رقم الجوال" value="<?php echo $data['mobile']; ?>">
-                        <span class="fa fa-phone form-control-feedback" aria-hidden="true"></span>
+                    <div class="col-md-6 col-xs-12 form-group">
+                        <label class="control-label" for="pageTitle">رابط الموقع علي خرائط جوجل : </label>
+                        <div class="has-feedback">
+                            <input type="text" class="form-control location" name="location" placeholder="رابط الموقع علي خرائط جوجل" value="<?php echo $data['location']; ?>">
+                            <span class="fa fa-globe form-control-feedback" aria-hidden="true"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-xs-12 form-group">
-                    <label class="control-label" for="pageTitle">رقم WhatsApp : </label>
-                    <div class="has-feedback">
-                        <input type="text" class="form-control whatsapp" name="whatsapp" placeholder="رقم WhatsApp" value="<?php echo $data['whatsapp']; ?>">
-                        <span class="fa fa-whatsapp form-control-feedback" aria-hidden="true"></span>
+                    <div class="col-md-6 col-xs-12 form-group">
+                        <label class="control-label" for="pageTitle">رقم الجوال : </label>
+                        <div class="has-feedback">
+                            <input type="text" class="form-control mobile" name="mobile" placeholder="رقم الجوال" value="<?php echo $data['mobile']; ?>">
+                            <span class="fa fa-phone form-control-feedback" aria-hidden="true"></span>
+                        </div>
                     </div>
-                </div>
+                    <div class="col-md-6 col-xs-12 form-group">
+                        <label class="control-label" for="pageTitle">رقم WhatsApp : </label>
+                        <div class="has-feedback">
+                            <input type="text" class="form-control whatsapp" name="whatsapp" placeholder="رقم WhatsApp" value="<?php echo $data['whatsapp']; ?>">
+                            <span class="fa fa-whatsapp form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
                     <div class="form-group <?php echo (empty($data['employee_image_error'])) ?: 'has-error'; ?>">
                         <label class="control-label" for="imageUpload">صورة المستخدم : </label>
                         <div class="has-feedback input-group">

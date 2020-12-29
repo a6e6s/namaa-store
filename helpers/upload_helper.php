@@ -268,20 +268,21 @@ function createThumbnail($src, $dest, $targetWidth, $targetHeight = null)
  * write text to existing image
  *
  * @param string $source path
- * @param array $lines ['x', 'y', 'text']
+ * @param array $lines ['x', 'y', 'text', 'color', 'size', 'font']
  * @param string $output Path
  * @param integer $fontSize 
  * @param string $color name (black, white, red, green, blue)
  * @return string saved path
  */
-function imgWrite($source, $lines, $outputPath, $fontSize= 12, $color = 'black')
+function imgWrite($source, $lines, $outputPath, $size = 12, $color = 'black')
 {
     //load arabic liberray
     require_once(APPROOT . '/helpers/arabic/Arabic.php');
     $Arabic = new I18N_Arabic('Glyphs');
     // Set Path to Font File
-    $font_path = APPROOT . '/public/templates/default/css/fonts/ae_AlHor.ttf';
-    // $font_path = APPROOT . '/public/templates/default/css/fonts/DejaVuSans.ttf';
+    $font1 = APPROOT . '/public/templates/default/css/fonts/ae_AlHor.ttf';
+    $font2 = APPROOT . '/public/templates/default/css/fonts/DejaVuSans.ttf';
+
     // Create Image From Existing File
     $jpg_image = imagecreatefromjpeg($source);
     // Allocate A Color For The Text
@@ -293,7 +294,12 @@ function imgWrite($source, $lines, $outputPath, $fontSize= 12, $color = 'black')
     //loop through lines 
     foreach ($lines as $line) {
         $line['text'] = $Arabic->utf8Glyphs($line['text']);
-        imagettftext($jpg_image, $fontSize, 0, $line['x'], $line['y'], $$color, $font_path, $line['text']);
+        !isset($line['color']) ?: $color = $line['color']; //seting color if exist
+        isset($line['size']) ? $fontSize = $line['size'] : $fontSize = $size; //setting size if exist
+        isset($line['font']) ?  $font_path = $font2 :  $font_path = $font1; //setting font if exist
+        list($left,, $right) = imageftbbox($fontSize, 0, $font_path, $line['text']);
+        $width = $right - $left;
+        imagettftext($jpg_image, $fontSize, 0, $line['x'] - ($width / 2), $line['y'], $$color, $font_path, $line['text']);
     }
     // save image
     imagejpeg($jpg_image, $outputPath);

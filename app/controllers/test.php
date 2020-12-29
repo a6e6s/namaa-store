@@ -71,12 +71,23 @@ class test extends Controller
 
     public function imgWrite()
     {
-        if (isset($_POST['text'])) {
+        if (isset($_POST['submit'])) {
+            $text1 = $_POST['text1'];
+            $text2 = $_POST['text2'];
+            $text3 = $_POST['text3'];
+            // $text1Size = strlen($_POST['text1']) * 4;
+            // $text2Size = strlen($_POST['text2']) * 6;
+            // $text3Size = strlen($_POST['text3']) * 4;
+            // var_dump($text1Size);
+            // var_dump(imagefontwidth(40) * strlen($text3));
+            // var_dump($text3Size);
+            
             $lines = [
-                // ['x' => 100, 'y' => 100, 'text' => $_POST['text']],
-                ['x' => 100, 'y' => 200, 'text' => $_POST['text']]
+                ['x' => 690, 'y' => 130, 'text' => $text1, 'font' => true],
+                ['x' => 690, 'y' => 310, 'text' => $text2, 'size' => 40],
+                ['x' => 690, 'y' => 530, 'text' => $text3, 'font' => true],
             ];
-            echo  '<img src ="' . str_replace(APPROOT, URLROOT, imgWrite(APPROOT . MEDIAFOLDER . '/default.jpg', $lines, APPROOT . MEDIAFOLDER . '/default2.jpg', 30, 'blue')) . '" />';
+            echo  '<img src ="' . str_replace(APPROOT, URLROOT, imgWrite(APPROOT . MEDIAFOLDER . '/test.jpg', $lines, APPROOT . MEDIAFOLDER . '/default2.jpg', 20, 'white')) . '" />';
         } else {
             echo '<!doctype html>
             <html lang="en">
@@ -96,9 +107,11 @@ class test extends Controller
                   <form method="post" class="card p-3">
                   <div class="form-group ">
                     <label for="">text to image</label>
-                    <textarea class="form-control" name="text" id="" rows="3"></textarea>
+                    <input type="text" name="text1" class="form-control">
+                    <input type="text" name="text2" class="form-control">
+                    <input type="text" name="text3" class="form-control">
                   </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                   </form> 
                   </div>
               </div>

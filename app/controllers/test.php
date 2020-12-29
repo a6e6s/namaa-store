@@ -83,9 +83,9 @@ class test extends Controller
             // var_dump($text3Size);
             
             $lines = [
-                ['x' => 690, 'y' => 130, 'text' => $text1, 'font' => true],
+                ['x' => 690, 'y' => 130, 'text' => $text1],
                 ['x' => 690, 'y' => 310, 'text' => $text2, 'size' => 40],
-                ['x' => 690, 'y' => 530, 'text' => $text3, 'font' => true],
+                ['x' => 690, 'y' => 530, 'text' => $text3],
             ];
             echo  '<img src ="' . str_replace(APPROOT, URLROOT, imgWrite(APPROOT . MEDIAFOLDER . '/test.jpg', $lines, APPROOT . MEDIAFOLDER . '/default2.jpg', 20, 'white')) . '" />';
         } else {

@@ -73,7 +73,7 @@ class Messaging extends ModelAdmin
     {
         $emailSettings = $this->getSettings('email'); // load email setting 
         $email = json_decode($emailSettings->value);
-        // $this->Email($email->donation_email, $data['subject'], nl2br($data['msg'])); // sending Email
+        $this->Email($email->donation_email, $data['subject'], nl2br($data['msg'])); // sending Email
     }
 
     /**

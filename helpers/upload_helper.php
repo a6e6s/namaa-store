@@ -282,6 +282,7 @@ function imgWrite($source, $lines, $outputPath, $size = 12, $color = 'black')
     // Set Path to Font File
     $font1 = APPROOT . '/public/templates/default/css/fonts/ae_AlHor.ttf';
     $font2 = APPROOT . '/public/templates/default/css/fonts/DejaVuSans.ttf';
+    $font2 = APPROOT . '/public/templates/default/css/fonts/DejaVuSansCondensed.ttf';
 
     // Create Image From Existing File
     $jpg_image = imagecreatefromjpeg($source);

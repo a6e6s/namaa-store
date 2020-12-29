@@ -114,22 +114,24 @@ class Projects extends Controller
         //redirect if no project
         (!$project) ? flashRedirect('', 'msg', 'حدث خطأ ما ربما اتبعت رابط خاطيء ', 'alert alert-danger') : null;
         //validating gift options
-        if (
-            !empty($_POST['gift']['enable']) &&
+        if (//check if gift enable and any of the fields are empty
+            ($_POST['gift']['enable']) &&
             (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
         ) {
-            flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع البيانات بطريقة صحيحة ', 'alert alert-danger');
-        } else { //write giver name on image and save it temperary name
-            // preparing text 
-            $x = strlen($_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']) * 6;
-            $lines = [
-                ['x' => 690, 'y' => 130, 'text' => $_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name'], 'font' => true],
-                ['x' => 690, 'y' => 310, 'text' => $project->name, 'size' => 40],
-                ['x' => 690, 'y' => 530, 'text' => " من : " . $_POST['full_name'], 'font' => true],
-            ];
-            $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $lines, APPROOT . MEDIAFOLDER . '/gifts/img_' . time() . '.jpg', 20, 'white');
-            // savedImg
-            $_POST['gift']['card'] = str_replace(APPROOT . MEDIAFOLDER, '', $output);
+            flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع بيانات الأهداء بطريقة صحيحة ', 'alert alert-danger');
+        } else { 
+            if ($_POST['gift']['enable']) {
+                // preparing text 
+                $x = strlen($_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']) * 6;
+                $lines = [
+                    ['x' => 690, 'y' => 145, 'text' => $_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name'], 'font' => true],
+                    ['x' => 690, 'y' => 310, 'text' => $project->name, 'size' => 50, 'font' => true],
+                    ['x' => 690, 'y' => 530, 'text' => " من : " . $_POST['full_name'], 'font' => true],
+                ];
+                $output = imgWrite(APPROOT . MEDIAFOLDER . '/' . $_POST['gift']['card'], $lines, APPROOT . MEDIAFOLDER . '/gifts/img_' . time() . '.jpg', 20, 'white');
+                // saving card to database
+                $_POST['gift']['card'] = str_replace(APPROOT . MEDIAFOLDER, '', $output);
+            }
         }
         // if gift are not enabled
         if (!isset($_POST['gift']['enable'])) {

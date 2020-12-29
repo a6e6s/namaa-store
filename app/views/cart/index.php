@@ -127,8 +127,13 @@ if (isset($_SESSION['store'])) {
             <!-- end payment methods -->
         </div>
     </div>
-    <!-- <div class="card-footer">
-    </div> -->
+    <div class="row ">
+
+        <div class="col-md-6 mx-auto mt-2">
+            <a class="w-100 btn btn-lg btn-secondary icofont-home" href="<?php echo isset($_SESSION['store']) ? URLROOT . '/store/' . $_SESSION['store']['alias']: URLROOT ; ?>">
+                العودة الي الرئيسية</a>
+        </div>
+    </div>
 </div>
 </div>
 <?php

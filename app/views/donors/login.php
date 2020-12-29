@@ -8,7 +8,7 @@
             <div class="col-12">
                 <h3 class="text-center">
                     <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-1">
-                    <?php echo 'تسجيل دخول متبرع'; ?>
+                    <?php echo 'سجل التبرعات الشخصية '; ?>
                 </h3>
             </div>
             <div class="col-lg-6 col-sm-12 py-5 ">
@@ -24,7 +24,7 @@
                             <form action="<?php root('donors'); ?>/validate" method="post" id="login">
                                 <div class="msg"></div>
                                 <div class="form-group">
-                                    <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '+\\966599999999'">
+                                    <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '9999999999'">
                                 </div>
                                 <button class="btn btn-primary btn-lg m-2 px-5" name="login" type="submit" data-toggle="modal" data-target="#sendcode">ارسال </button>
                             </form>

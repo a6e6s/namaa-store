@@ -52,7 +52,6 @@ require ADMINROOT . '/views/inc/header.php';
                     <label class="control-label">الاقسام</label>
                     <div class="has-feedback">
                         <select name="parent_id" class="form-control">
-                            <option value="">اختار القسم </option>
                             <option value="0,0">قسم رئيسي </option>
                             <?php foreach ($data['categories'] as $category) : ?>
                                 <option value="<?php echo $category->category_id . ',' . $category->level; ?>" <?php echo ($category->category_id == $data['parent_id']) ? " selected " : ''; ?>>

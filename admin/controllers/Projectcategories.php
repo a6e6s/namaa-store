@@ -120,15 +120,12 @@ class ProjectCategories extends ControllerAdmin
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
             $data = [
                 'page_title' => 'الأقسام',
                 'name' => trim($_POST['name']),
                 'alias' => preg_replace("([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])", "-", $_POST['name']),
                 'description' => trim($_POST['description']),
                 'categories' => $this->projectcategoryModel->getProjectCategories('WHERE status <> 2 ', '', '', '', 'category_id, name, level, parent_id'),
-                'parent_id' => explode(',', $_POST['parent_id'])[0],
-                'level' =>  explode(',', $_POST['parent_id'])[1],
                 'image' => '',
                 'meta_keywords' => trim($_POST['meta_keywords']),
                 'meta_description' => trim($_POST['meta_description']),
@@ -147,6 +144,16 @@ class ProjectCategories extends ControllerAdmin
             // validate name
             if (empty($data['name'])) {
                 $data['name_error'] = 'هذا الحقل مطلوب';
+            }
+            // validate Subcategory
+            if (empty($_POST['parent_id'])) {
+                $data['parent_id_error'] = 'هذا الحقل مطلوب';
+                $data['parent_id'] = explode(',', $_POST['parent_id'])[0];
+                $data['level'] =  explode(',', $_POST['parent_id'])[1];
+
+            } else {
+                $data['parent_id'] = explode(',', $_POST['parent_id'])[0];
+                $data['level'] =  explode(',', $_POST['parent_id'])[1];
             }
             // validate image
             if (!empty($_FILES['image'])) {
@@ -178,7 +185,7 @@ class ProjectCategories extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             //             mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['image_error']) && empty($data['name_error']) && empty($data['background_image_error'])) {
+            if (empty($data['status_error']) && empty($data['image_error'])  && empty($data['parent_id_error']) && empty($data['name_error']) && empty($data['background_image_error'])) {
                 //validated
                 if ($this->projectcategoryModel->addProjectCategory($data)) {
                     flash('projectcategory_msg', 'تم الحفظ بنجاح');
@@ -236,8 +243,6 @@ class ProjectCategories extends ControllerAdmin
                 'name' => trim($_POST['name']),
                 'image' => '',
                 'categories' => $this->projectcategoryModel->getProjectCategories('WHERE status <> 2 ', '', '', '', 'category_id, name, level, parent_id'),
-                'parent_id' => explode(',', $_POST['parent_id'])[0],
-                'level' =>  explode(',', $_POST['parent_id'])[1],
                 'description' => trim($_POST['description']),
                 'meta_keywords' => trim($_POST['meta_keywords']),
                 'meta_description' => trim($_POST['meta_description']),
@@ -258,6 +263,16 @@ class ProjectCategories extends ControllerAdmin
             // validate name
             if (empty($data['name'])) {
                 $data['name_error'] = 'هذا الحقل مطلوب';
+            }
+            // validate Subcategory
+            if (empty($_POST['parent_id'])) {
+                $data['parent_id_error'] = 'هذا الحقل مطلوب';
+                $data['parent_id'] = explode(',', $_POST['parent_id'])[0];
+                $data['level'] =  explode(',', $_POST['parent_id'])[1];
+
+            } else {
+                $data['parent_id'] = explode(',', $_POST['parent_id'])[0];
+                $data['level'] =  explode(',', $_POST['parent_id'])[1];
             }
             // validate image
             if (!empty($_FILES['image'])) {
@@ -289,7 +304,7 @@ class ProjectCategories extends ControllerAdmin
                 $data['status_error'] = 'من فضلك اختار حالة النشر';
             }
             // mack sue there is no errors
-            if (empty($data['status_error']) && empty($data['image_error']) && empty($data['name_error']) && empty($data['background_image_error'])) {
+            if (empty($data['status_error'])  && empty($data['parent_id_error']) && empty($data['image_error']) && empty($data['name_error']) && empty($data['background_image_error'])) {
                 //validated
                 if ($this->projectcategoryModel->updateProjectCategory($data)) {
                     flash('projectcategory_msg', 'تم التعديل بنجاح');

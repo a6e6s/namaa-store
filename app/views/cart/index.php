@@ -42,7 +42,6 @@ if (isset($_SESSION['store'])) {
                     } else {
                         echo '<div class="alert alert-primary text-center" role="alert"> لا يوجد منتجات في السلة  </div>';
                     }
-
                     ?>
                 </tbody>
                 <tfoot>
@@ -59,24 +58,6 @@ if (isset($_SESSION['store'])) {
             <div class="border-top">
                 <div class="msg"></div>
                 <form method="post" action="<?php root('projects'); ?>/cartRedirect" id="pay">
-                    <h5 class="py-3">اختار وسيلة الدفع</h5>
-                    <div class="input-group col-sm-8 ">
-                        <div class=" btn-group-toggle" data-toggle="buttons">
-                            <?php
-                            foreach ($data['payment_methods'] as $payment_method) {
-                                echo '<label class="btn btn-primary  mt-2  mx-1">
-                                <input type="radio" value ="' . $payment_method->payment_id . '" name="payment_method" required class="payment_method"> ' . $payment_method->title . '
-                            </label>';
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <div class="form-group row mt-4">
-                        <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="email" placeholder="هام لاستقبال رسائل التأكيد">
-                        </div>
-                    </div>
                     <div class="form-group row mt-4">
                         <label for="full-name" class="col-sm-2 col-form-label">الاسم بالكامل</label>
                         <div class="col-sm-10">
@@ -96,6 +77,24 @@ if (isset($_SESSION['store'])) {
                                 </div>
                             <?php } ?>
 
+                        </div>
+                    </div>
+                    <div class="form-group row mt-4">
+                        <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="email" placeholder="هام لاستقبال رسائل التأكيد">
+                        </div>
+                    </div>
+                    <h5 class="py-3">اختار وسيلة الدفع</h5>
+                    <div class="input-group col-sm-8 ">
+                        <div class=" btn-group-toggle" data-toggle="buttons">
+                            <?php
+                            foreach ($data['payment_methods'] as $payment_method) {
+                                echo '<label class="btn btn-primary  mt-2  mx-1">
+                                <input type="radio" value ="' . $payment_method->payment_id . '" name="payment_method" required class="payment_method"> ' . $payment_method->title . '
+                            </label>';
+                            }
+                            ?>
                         </div>
                     </div>
                     <div class="form-group text-center">

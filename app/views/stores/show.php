@@ -84,12 +84,6 @@ require APPROOT . '/app/views/inc/employee-card.php';
                 <div class="pay-form p-5">
                     <div class="msg"><?php flash('msg'); ?></div>
                     <form method="post" action="<?php root('projects'); ?>/redirect" id="pay">
-                        <div class="form-group row mt-4">
-                            <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني </label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="email" placeholder="هام لاستقبال رسائل التأكيد ">
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <label for="full-name" class="col-sm-2 col-form-label">الاسم بالكامل</label>
                             <div class="col-sm-10">
@@ -110,19 +104,74 @@ require APPROOT . '/app/views/inc/employee-card.php';
                                 <?php endif; ?>
                             </div>
                         </div>
+                        <div class="form-group row mt-4">
+                            <label for="full-name" class="col-sm-2 col-form-label"> البريد الالكتروني </label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="email" placeholder="هام لاستقبال رسائل التأكيد ">
+                            </div>
+                        </div>
                         <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">وسيلة الدفع </label>
-                            <div class="input-group col-sm-8 ">
+                            <label for="" class="col-sm-2 col-form-label">خيارات التبرع </label>
+                            <?php
+                            $donation_type = json_decode($data['project']->donation_type);
+                            ?>
+                            <div class="input-group col-sm-8">
                                 <div class=" btn-group-toggle" data-toggle="buttons">
                                     <?php
-                                    foreach ($data['payment_methods'] as $payment_method) {
-                                        echo '<label class="btn btn-primary  mt-2  mx-1">
-                                                <input type="radio" value ="' . $payment_method->payment_id . '" name="payment_method" required class="payment_method"> ' . $payment_method->title . '
-                                            </label>';
+                                    switch ($donation_type->type) {
+                                        case 'share':
+                                            foreach ($donation_type->value as $value) {
+                                                echo '<label class="btn btn-secondary  m-1">
+                                                        <input type="radio" value ="' . $value->value . '" name="donation_type" required class="donation-value"> ' . $value->name . '
+                                                        <input type="hidden" name="donation_type" value="" class="donation_type_name">
+                                                    </label>';
+                                            }
+                                            break;
+                                        case 'open':
+                                            echo 'قم بكتابة المبلغ المراد التبرع به 
+                                            <input type="hidden" name="donation_type" value="مفتوح" class="donation_type_name">
+                                            ';
+                                            break;
+                                        case 'unit':
+                                            foreach ($donation_type->value as $value) {
+                                                echo '<label class="btn btn-secondary  m-1">
+                                                        <input type="radio" value ="' . $value->value . '" name="donation_type" class="donation-value"> ' . $value->name . '
+                                                        <input type="hidden" name="donation_type" value="" class="donation_type_name">
+                                                        </label>';
+                                            }
+                                            break;
+                                        case 'fixed':
+                                            echo '<label class="btn btn-secondary  m-1">
+                                                    <input type="radio" value ="' . $donation_type->value . '" name="donation_type" class="donation-value"> ' . $donation_type->value . ' ريال
+                                                        <input type="hidden" name="donation_type" value="قيمة ثابته" class="donation_type_name">
+                                                </label>';
+                                            break;
                                     }
                                     ?>
+                                    <span class="donation_type_error"></span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">القيمة : </label>
+                            <div class="input-group col-sm-2">
+                                <input placeholder="القيمة" min="1" type="number" class="form-control amount" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
+                            </div>
+                            <span class="amout_error"></span>
+                        </div>
+                        <div class="form-group row <?php echo ($donation_type->type == 'open') ? "d-none" : ""; ?>">
+                            <label for="" class="col-sm-2 col-form-label"> الكمية: </label>
+                            <div class="input-group col-sm-2">
+                                <input type="number" name="quantity" min="1" value="1" required id="quantity" class="form-control d-inline">
+                            </div>
+                            <span class="quantity_error"></span>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-2 col-form-label">القيمة الاجمالية: </label>
+                            <div class="input-group col-sm-2">
+                                <input type="number" readonly name="total" id="total" class="form-control d-inline">
+                            </div>
+                            <span class="total_error"></span>
                         </div>
                         <?php if ($data['project']->gift) : ?>
                             <div class="gift-options form-group row">
@@ -184,68 +233,20 @@ require APPROOT . '/app/views/inc/employee-card.php';
                             </div>
                         <?php endif; ?>
                         <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">قيمة التبرع </label>
-                            <?php
-                            $donation_type = json_decode($data['project']->donation_type);
-                            ?>
-                            <div class="input-group col-sm-8">
+                            <label for="" class="col-sm-2 col-form-label">وسيلة الدفع </label>
+                            <div class="input-group col-sm-8 ">
                                 <div class=" btn-group-toggle" data-toggle="buttons">
                                     <?php
-                                    switch ($donation_type->type) {
-                                        case 'share':
-                                            foreach ($donation_type->value as $value) {
-                                                echo '<label class="btn btn-secondary  m-1">
-                                                        <input type="radio" value ="' . $value->value . '" name="donation_type" required class="donation-value"> ' . $value->name . '
-                                                        <input type="hidden" name="donation_type" value="" class="donation_type_name">
-                                                    </label>';
-                                            }
-                                            break;
-                                        case 'open':
-                                            echo 'قم بكتابة المبلغ المراد التبرع به 
-                                            <input type="hidden" name="donation_type" value="مفتوح" class="donation_type_name">
-                                            ';
-                                            break;
-                                        case 'unit':
-                                            foreach ($donation_type->value as $value) {
-                                                echo '<label class="btn btn-secondary  m-1">
-                                                        <input type="radio" value ="' . $value->value . '" name="donation_type" class="donation-value"> ' . $value->name . '
-                                                        <input type="hidden" name="donation_type" value="" class="donation_type_name">
-                                                        </label>';
-                                            }
-                                            break;
-                                        case 'fixed':
-                                            echo '<label class="btn btn-secondary  m-1">
-                                                    <input type="radio" value ="' . $donation_type->value . '" name="donation_type" class="donation-value"> ' . $donation_type->value . ' ريال
-                                                        <input type="hidden" name="donation_type" value="قيمة ثابته" class="donation_type_name">
-                                                </label>';
-                                            break;
+                                    foreach ($data['payment_methods'] as $payment_method) {
+                                        echo '<label class="btn btn-primary  mt-2  mx-1">
+                                                <input type="radio" value ="' . $payment_method->payment_id . '" name="payment_method" required class="payment_method"> ' . $payment_method->title . '
+                                            </label>';
                                     }
                                     ?>
-                                    <span class="donation_type_error"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">قيمة الوحدة : </label>
-                            <div class="input-group col-sm-2">
-                                <input placeholder="القيمة" min="1" type="number" class="form-control amount" <?php echo ($donation_type->type == 'fixed' || $donation_type->type == 'share') ? 'readonly' : ''; ?> required name="amount">
-                            </div>
-                            <span class="amout_error"></span>
-                        </div>
-                        <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label"> الكمية: </label>
-                            <div class="input-group col-sm-2">
-                                <input type="number" name="quantity" min="1" value="1" required id="quantity" class="form-control d-inline">
-                            </div>
-                            <span class="quantity_error"></span>
-                        </div>
-                        <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label">القيمة الاجمالية: </label>
-                            <div class="input-group col-sm-2">
-                                <input type="number" readonly name="total" id="total" class="form-control d-inline">
-                            </div>
-                            <span class="total_error"></span>
-                        </div>
+
                         <div class="form-group text-center">
                             <button class="btn btn-primary btn-lg m-2 px-5" name="pay" type="submit">دفع <i class="icofont-riyal"></i> </button>
                             <?php if ($data['project']->enable_cart) : ?>

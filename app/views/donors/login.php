@@ -1,5 +1,10 @@
-<?php require APPROOT . '/app/views/inc/header.php'; ?>
-<?php flash('msg'); ?>
+<?php
+if (isset($_SESSION['store'])) {
+    require APPROOT . '/app/views/inc/store-header.php';
+} else {
+    require APPROOT . '/app/views/inc/header.php';
+};
+flash('msg'); ?>
 <div class="container page">
 
     <!--- Products Start --->
@@ -21,33 +26,33 @@
                         <p>تسجيل الدخول من خلال رقم الجوال</p>
                         <h4 class="card-title">رقم الجوال</h4>
                         <p class="card-text">
-                            <form action="<?php root('donors'); ?>/validate" method="post" id="login">
-                                <div class="msg"></div>
-                                <div class="form-group">
-                                    <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '9999999999'">
-                                </div>
-                                <button class="btn btn-primary btn-lg m-2 px-5" name="login" type="submit" data-toggle="modal" data-target="#sendcode">ارسال </button>
-                            </form>
-                            <div id="" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sendcode-title" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button class="close m-0 p-0" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            <h5 class="modal-title mx-auto" id="sendcode-title">كود التفعيل</h5>
-                                        </div>
-                                        <div class="msg"></div>
-                                        <div class="modal-body">
-                                            <form method="post" action="<?php root('projects'); ?>" id="active-code">
-                                                <input class="form-control" name="code" type="text" placeholder="code" aria-label="code">
-                                                <input class="btn btn-success mt-2 float-right" name="verify" type="submit" value="تأكيد">
-                                                <input class="btn btn-danger mt-2 float-left" name="verify" type="submit" data-dismiss="modal" value="غلق">
-                                            </form>
-                                        </div>
+                        <form action="<?php root('donors'); ?>/validate" method="post" id="login">
+                            <div class="msg"></div>
+                            <div class="form-group">
+                                <input dir="ltr" class="form-control" name="mobile" type="text" placeholder="Mobile num" id="mobile" data-inputmask="'mask': '9999999999'">
+                            </div>
+                            <button class="btn btn-primary btn-lg m-2 px-5" name="login" type="submit" data-toggle="modal" data-target="#sendcode">ارسال </button>
+                        </form>
+                        <div id="" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sendcode-title" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button class="close m-0 p-0" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h5 class="modal-title mx-auto" id="sendcode-title">كود التفعيل</h5>
+                                    </div>
+                                    <div class="msg"></div>
+                                    <div class="modal-body">
+                                        <form method="post" action="<?php root('projects'); ?>" id="active-code">
+                                            <input class="form-control" name="code" type="text" placeholder="code" aria-label="code">
+                                            <input class="btn btn-success mt-2 float-right" name="verify" type="submit" value="تأكيد">
+                                            <input class="btn btn-danger mt-2 float-left" name="verify" type="submit" data-dismiss="modal" value="غلق">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </p>
                     </div>
                 </div>

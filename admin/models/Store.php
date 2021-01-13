@@ -57,9 +57,9 @@ class Store extends ModelAdmin
     public function addStore($data)
     {
         $this->db->query('INSERT INTO stores( alias, name, user, password, employee_name, employee_image, employee_number, job, department, location, mobile, whatsapp,
-         details, background_color, background_image, meta_keywords, meta_description, status, modified_date, create_date)'
+                ax_store_number, details, background_color, background_image, meta_keywords, meta_description, status, modified_date, create_date)'
             . ' VALUES (:alias, :name, :user, :password, :employee_name, :employee_image, :employee_number, :job, :department, :location, :mobile, :whatsapp,
-             :details, :background_color, :background_image, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
+             :ax_store_number, :details, :background_color, :background_image, :meta_keywords, :meta_description, :status, :modified_date, :create_date)');
         // binding values
         $this->db->bind(':alias', $data['alias']);
         $this->db->bind(':name', $data['name']);
@@ -69,6 +69,7 @@ class Store extends ModelAdmin
         $this->db->bind(':employee_image', $data['employee_image']);
         $this->db->bind(':employee_number', $data['employee_number']);
         $this->db->bind(':job', $data['job']);
+        $this->db->bind(':ax_store_number', $data['ax_store_number']);
         $this->db->bind(':department', $data['department']);
         $this->db->bind(':location', $data['location']);
         $this->db->bind(':mobile', $data['mobile']);
@@ -94,7 +95,7 @@ class Store extends ModelAdmin
     {
         $query = 'UPDATE stores SET alias =:alias, name = :name, user = :user, employee_name = :employee_name, employee_number = :employee_number, job = :job, 
         department = :department, location = :location, mobile = :mobile, whatsapp = :whatsapp, details = :details, background_color =:background_color, 
-        meta_keywords = :meta_keywords, meta_description = :meta_description, status = :status, modified_date = :modified_date';
+        ax_store_number = :ax_store_number, meta_keywords = :meta_keywords, meta_description = :meta_description, status = :status, modified_date = :modified_date';
         (empty($data['employee_image'])) ? null : $query .= ', employee_image = :employee_image';
         (empty($data['password'])) ? null : $query .= ', password = :password';
         (empty($data['background_image'])) ? null : $query .= ', background_image = :background_image';
@@ -109,6 +110,7 @@ class Store extends ModelAdmin
         $this->db->bind(':employee_number', $data['employee_number']);
         $this->db->bind(':department', $data['department']);
         $this->db->bind(':job', $data['job']);
+        $this->db->bind(':ax_store_number', $data['ax_store_number']);
         $this->db->bind(':location', $data['location']);
         $this->db->bind(':mobile', $data['mobile']);
         $this->db->bind(':whatsapp', $data['whatsapp']);

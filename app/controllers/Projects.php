@@ -114,12 +114,12 @@ class Projects extends Controller
         //redirect if no project
         (!$project) ? flashRedirect('', 'msg', 'حدث خطأ ما ربما اتبعت رابط خاطيء ', 'alert alert-danger') : null;
         //validating gift options
-        if (//check if gift enable and any of the fields are empty
+        if ( //check if gift enable and any of the fields are empty
             ($_POST['gift']['enable']) &&
             (empty($_POST['gift']['giver_name']) || empty($_POST['gift']['giver_number']) || empty($_POST['gift']['giver_group']) || empty($_POST['gift']['card']))
         ) {
             flashRedirect('projects/show/' . $_POST['project_id'], 'msg', 'من فضلك تأكد من ملء جميع بيانات الأهداء بطريقة صحيحة ', 'alert alert-danger');
-        } else { 
+        } else {
             if ($_POST['gift']['enable']) {
                 // preparing text 
                 $x = strlen($_POST['gift']['giver_group'] . " : " . $_POST['gift']['giver_name']) * 6;
@@ -267,8 +267,13 @@ class Projects extends Controller
         //send Email and SMS confirmation
         $messaging = $this->model('Messaging');
         if ($status == 1) $messaging->sendConfirmation($_SESSION['sendData']);
-        //redirect to project
         empty($_SESSION['donation']['msg']) ? $_SESSION['donation']['msg'] = ' شكرا لتبرعك لدي متجر نماء الخيري جاري التحقق من التبرع ' : null;
+        //redirect to store if exist
+        if (isset($_SESSION['payment']['store_id'])) {
+            $store = $this->projectsModel->getSingle('*', ['store_id' => $_SESSION['payment']['store_id']], 'stores');
+            flashRedirect('store/' . $store->alias, 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
+        }
+        //redirect to project
         if (isset($_SESSION['payment']['project_id'])) {
             flashRedirect('projects/show/' . $_SESSION['payment']['project_id'], 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
         } else {
@@ -323,6 +328,11 @@ class Projects extends Controller
             if (empty($data['image_error']) && empty($data['payment_key_error'])) {
                 //validated
                 if ($this->projectsModel->updateOrderHash($data)) { //update donation proof file and hash
+                    //redirect to store if exist
+                    if (isset($_SESSION['payment']['store_id'])) {
+                        $store = $this->projectsModel->getSingle('*', ['store_id' => $_SESSION['payment']['store_id']], 'stores');
+                        flashRedirect('store/' . $store->alias, 'msg', $_SESSION['donation']['msg'], 'alert alert-success');
+                    }
                     flashRedirect('', 'msg', ' تم استلام طلبك بنجاح وجاري مراجعته', 'alert alert-success');
                 } else {
                     flash('msg', 'هناك خطأ ما حاول مرة اخري', 'alert alert-danger');

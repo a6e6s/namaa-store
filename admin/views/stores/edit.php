@@ -94,6 +94,13 @@ require ADMINROOT . '/views/inc/header.php';
                         </div>
                     </div>
                     <div class="col-md-6 col-xs-12 form-group">
+                        <label class="control-label" for="pageTitle">AX Store Number : </label>
+                        <div class="has-feedback">
+                            <input type="text" class="form-control ax_store_number" name="ax_store_number" placeholder="ax_store_number" value="<?php echo $data['ax_store_number']; ?>">
+                            <span class="fa fa-user form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-12 form-group">
                         <label class="control-label" for="pageTitle">الدور الوظيفي : </label>
                         <div class="has-feedback">
                             <input type="text" class="form-control job" name="job" placeholder="الدور الوظيفي" value="<?php echo $data['job']; ?>">

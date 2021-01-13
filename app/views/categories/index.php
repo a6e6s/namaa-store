@@ -40,7 +40,9 @@
                 </ul>
             </nav>
         </div>
-
+        <div class="row mb-1">
+            <div class="col-md-6 mx-auto mt-2"><a class="w-100 btn btn-lg btn-secondary icofont-home" href="<?php echo URLROOT; ?>"> العودة الي الرئيسية</a></div>
+        </div>
     </section>
     <!-- end Categories -->
     <?php require APPROOT . '/app/views/inc/footer.php'; ?>

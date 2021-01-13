@@ -98,7 +98,9 @@ For more information about the author , see <http://www.ahmedx.com/>.
                 <div class="user float-left">
                     <div class="nav">
                         <li class="nav-item">
-                            <a title="Profile" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT . "/donors/login"; ?>"><i class="icofont-user"></i></a>
+                            <a title="Profile" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT . "/donors/login"; ?>"><i class="icofont-user"></i>
+                            <span class="d-none d-sm-inline">سجل التبرعات </span>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="<?php echo URLROOT . "/carts"; ?>">

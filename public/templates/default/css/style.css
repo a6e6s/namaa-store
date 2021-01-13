@@ -320,3 +320,4 @@ div.scrollmenu a:hover {
     margin: 0rem 0 0px 0;
   }
 }
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle{background-color: #343a40;}

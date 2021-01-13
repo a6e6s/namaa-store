@@ -1,4 +1,4 @@
-<?php 
+<?php
 require APPROOT . '/app/views/inc/store-header.php';
 require APPROOT . '/app/views/inc/employee-card.php';
 ?>
@@ -174,7 +174,7 @@ require APPROOT . '/app/views/inc/employee-card.php';
                                                 $val = str_replace('&#34;', '', trim(trim($val, ']'), '['));
                                                 echo '<label class="btn btn-light group-img d-none" id="' . $key . '">
                                                     <input type="radio" value="' . $val . '" name="gift[card]" >
-                                                    <img width="100" src="' . MEDIAURL . "/" . $val . '" class="h-100 img-thumbnail">
+                                                    <img alt="lightbox" width="100" src="' . MEDIAURL . "/" . $val . '" class="h-100 img-thumbnail">
                                                   </label>';
                                             }
                                         }
@@ -328,6 +328,15 @@ require APPROOT . '/app/views/inc/employee-card.php';
         </div>
     </div>
 </div>
+<!-- card image popup Modal -->
+<div class="modal fade" id="popup">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 <!-- End product -->
 <?php
 $footer = ' <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-508116077910fef8"></script>' . "\n\t";
@@ -354,4 +363,11 @@ require APPROOT . '/app/views/inc/store-footer.php'; ?>
         $('.gift-values .group-img').addClass('d-none')
         $('.gift-values #' + group).removeClass('d-none')
     })
+    //loading gift card into lightbox 
+    $(document).on('click', '[alt="lightbox"]', function(event) {
+        event.preventDefault();
+        let imgSrc = event.target.currentSrc; //getting sorce
+        $("#popup .modal-body").html("<img width='100%' src ='" + imgSrc + "' />");
+        $("#popup").modal("show");
+    });
 </script>

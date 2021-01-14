@@ -11,27 +11,38 @@
                     <h2 class="card-title text-primary"><?php echo $data['category']->name; ?></h2>
                     <p class="card-text"><?php echo $data['category']->description; ?></p>
                 </div>
-                <?php if (count($data['subcategories']) > 0) : ?>
-                    <div class="col-12">
-                        <h5 class="text-secondary"> الاقسام الفرعية</h4>
-                            <?php
-                            foreach ($data['subcategories'] as $subcategories) {
-                                echo '<a class="btn badge-primary m-1" href="' . URLROOT . '/projectCategories/show/' . $subcategories->category_id . '">' . $subcategories->name . '</a>';
-                            }
-                            ?>
-                    </div>
-                <?php endif; ?>
 
             </div>
         </div>
     </div>
+    <!--- subcategories --->
+    <div class="row justify-content-center">
+        <?php if (count($data['subcategories']) > 0) : ?>
+            <div class="col-12">
+                <h4 class="text-secondary text-center p-3"><img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-1"> الاقسام الفرعية</h4>
+            </div>
+            <?php foreach ($data['subcategories'] as $subcategories) { ?>
+                <div class="col-lg-3  p-1">
+                    <div class="card">
+                        <a href="<?php echo URLROOT . '/projectCategories/show/' . $subcategories->category_id; ?>">
+                            <img class="card-img-top" src="<?php echo (empty($subcategories->image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $subcategories->image; ?>" alt="<?php echo $subcategories->name; ?>">
+                            <div class="card-body">
+                                <h6 class="card-title"><?php echo $subcategories->name; ?></h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            <?php  } ?>
+        <?php endif; ?>
+    </div><!--- end subcategories --->
     <!--- Products Start --->
     <section id="products">
         <div class="row mt-4 ">
             <div class="col">
                 <h3 class="text-center">
                     <img src="<?php echo URLROOT; ?>/templates/default/images/namaa-icon.png" alt="namaa-icon" class="ml-1">
-                    <?php echo $data['site_settings']->project_text; ?></h3>
+                    <?php echo $data['site_settings']->project_text; ?>
+                </h3>
             </div>
         </div>
         <div class="row">

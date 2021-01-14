@@ -1,4 +1,4 @@
-<div class="card">
+<!-- <div class="card">
     <div class="row no-gutters bg-primary">
         <div class="col-2 store-image">
             <img src="<?php echo (empty($data['store']->employee_image)) ? MEDIAURL . '/default.jpg' : MEDIAURL . '/' . $data['store']->employee_image; ?>" class="img-thumbnail rounded-circle " alt="...">
@@ -39,4 +39,4 @@
 
         </div>
     </div>
-</div>
+</div> -->

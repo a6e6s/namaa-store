@@ -99,14 +99,14 @@ For more information about the author , see <http://www.ahmedx.com/>.
                     <div class="nav">
                         <li class="nav-item">
                             <a title="Profile" class="nav-link text-dark border-left border-dark" href="<?php echo URLROOT . "/donors/login"; ?>"><i class="icofont-user"></i>
-                            <span class="d-none d-sm-inline">سجل التبرعات </span>
+                            <span class="d-none d-md-inline">سجل التبرعات </span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="<?php echo URLROOT . "/carts"; ?>">
-                                <span class="cart-num d-sm-block d-lg-none"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : ''; ?></span>
+                                <span class="cart-num d-md-block d-lg-none"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : ''; ?></span>
                                 <i class="icofont-cart cart-icon "></i>
-                                <span class="d-none d-sm-inline">السلة (<span class="cart-total"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?></span>) منتج</span>
+                                <span class="d-none d-md-inline">السلة (<span class="cart-total"><?php echo isset($_SESSION['cart']) ? $_SESSION['cart']['totalQty'] : 0; ?></span>) منتج</span>
                             </a>
                         </li>
                     </div>

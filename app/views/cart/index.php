@@ -63,7 +63,7 @@ if (isset($_SESSION['store'])) {
                         <div class="col-sm-10">
                             <input type="hidden" name="mobile_confirmed" value="no" id="mobile-confirmed">
                             <input type="hidden" name="total" value="<?php echo $total; ?>" id="total">
-                            <input type="hidden" name="store_id" value="<?php echo isset($_SESSION['store']) ? $_SESSION['store']['store_id'] : ''; ?>" id="store_id">
+                            <?php echo isset($_SESSION['store']) ? '<input type="hidden" name="store_id" value="' . $_SESSION['store']['store_id'] . '" id="store_id">' : '';  ?>
                             <input type="text" class="form-control" name="full_name" id="full-name" data-inputmask-regex="^[\u0621-\u064Aa-zA-Z\-_\s]+$" placeholder="الاسم بالكامل">
                         </div>
                     </div>
@@ -129,7 +129,7 @@ if (isset($_SESSION['store'])) {
     <div class="row ">
 
         <div class="col-md-6 mx-auto mt-2">
-            <a class="w-100 btn btn-lg btn-secondary icofont-home" href="<?php echo isset($_SESSION['store']) ? URLROOT . '/store/' . $_SESSION['store']['alias']: URLROOT ; ?>">
+            <a class="w-100 btn btn-lg btn-secondary icofont-home" href="<?php echo isset($_SESSION['store']) ? URLROOT . '/store/' . $_SESSION['store']['alias'] : URLROOT; ?>">
                 العودة الي الرئيسية</a>
         </div>
     </div>

@@ -101,6 +101,6 @@ class ProjectCategory extends Model
      */
     public function getSubCategories($id)
     {
-        return $this->get('category_id, name ', ['status' => 1, 'parent_id' => $id]);
+        return $this->get('category_id, name ,image ', ['status' => 1, 'parent_id' => $id]);
     }
 }

@@ -40,7 +40,7 @@
                                 <span class="h4 mx-1">
                                     <?php
                                     if (!empty($data['project']->target_unit) && !empty($data['project']->unit_price)) { // check if user set unit and unit price
-                                        echo  $target = ($data['collected_traget'] / $data['project']->unit_price) + $data['project']->fake_target;
+                                        echo  $target = ceil(($data['collected_traget'] / $data['project']->unit_price) + $data['project']->fake_target);
                                         echo  " " . $data['project']->target_unit;
                                     } else {
                                         echo  $target = $data['collected_traget'] + $data['project']->fake_target;

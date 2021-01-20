@@ -119,7 +119,7 @@
                                             <span class=" mx-1">
                                                 <?php
                                                 if (!empty($project->target_unit) && !empty($project->unit_price)) { // check if user set unit and unit price
-                                                    echo  $target = ($project->total / $project->unit_price) + $project->fake_target;
+                                                    echo  $target = ceil(($project->total / $project->unit_price) + $project->fake_target);
                                                     echo  " $project->target_unit ";
                                                 } else {
                                                     echo  $target = (int) $project->total + (int) $project->fake_target;
